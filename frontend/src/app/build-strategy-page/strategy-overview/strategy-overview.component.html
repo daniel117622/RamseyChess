@@ -1,1 +1,63 @@
-<p>strategy-overview works!</p>
+<div class="container text-center" style="text-align: center; width: 100%;">
+
+    <div *ngFor="let strat of strategy_card" class="col-12 strategy-detail mt-3 p-3 shadow-sm rounded">
+        <p><strong>Strategy name:</strong> {{ strat.name }}</p>
+        
+        <!-- Loop through each strategy in strategy_list -->
+        <ng-container *ngFor="let strategy of strat.strategy_list">
+            <!-- Evaluate Material Data Table -->
+            <ng-container *ngIf="strategy.collection === 'evaluate_material'">
+                <p><strong>Strategy type:</strong> Material Evaluation</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100 strategy-table">
+                        <thead>
+                            <tr>
+                                <th>Piece Type</th>
+                                <th>White</th>
+                                <th>Black</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let piece of objectEntries(strat.evaluate_material_data.whitePieces)">
+                                <tr>
+                                    <td class="capitalize">{{ piece.key }}</td>
+                                    <td>{{ piece.value }}</td>
+                                    <td>{{ getPieceValue(strat.evaluate_material_data.blackPieces, piece.key) || 'N/A' }}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+            
+            <!-- Evaluate Danger Data Table -->
+            <ng-container *ngIf="strategy.collection === 'evaluate_danger'">
+                <p><strong>Strategy type:</strong> Danger Evaluation</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100 strategy-table">
+                        <thead>
+                            <tr>
+                                <th>Evaluation</th>
+                                <th>White</th>
+                                <th>Black</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Attacked Pieces</strong></td>
+                                <td>{{ strat.evaluate_danger_data.whitePieces.attackedPieces }}</td>
+                                <td>{{ strat.evaluate_danger_data.blackPieces.attackedPieces }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hanging Pieces</strong></td>
+                                <td>{{ strat.evaluate_danger_data.whitePieces.hangingPieces }}</td>
+                                <td>{{ strat.evaluate_danger_data.blackPieces.hangingPieces }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+    
+</div>

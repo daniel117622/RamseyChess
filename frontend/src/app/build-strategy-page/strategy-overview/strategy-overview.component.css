@@ -1,0 +1,37 @@
+.strategy-detail {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+}
+
+.strategy-detail p {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #ffd092; /* Darker color for emphasis */
+}
+
+.strategy-table {
+    width: 100%;
+    background-color: #f5e0b7; /* Match container background */
+    color: #333; /* Dark text for readability */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.strategy-table th, .strategy-table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.strategy-table th {
+    background-color: #e8d3a0; /* Slightly darker carton color for the header */
+    color: #5c4a33; /* Darker header text */
+    font-weight: bold;
+    border-bottom: 2px dashed #8b7e66; /* Dashed header row border */
+}
+
+.strategy-table tbody tr {
+    border-bottom: 2px dashed #8b7e66; /* Dashed row separators */
+}
+
+.strategy-table tbody tr:nth-child(even) {
+    background-color: #f7e6c7; /* Lighter carton color for alternate rows */
+}

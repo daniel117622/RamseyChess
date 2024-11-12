@@ -17,6 +17,7 @@ interface ObjectId {
     owner: string | null;
     blackPieces: PieceValues;
     whitePieces: PieceValues;
+    type?: string
   }
   
   interface EvaluateDangerData {
@@ -31,6 +32,7 @@ interface ObjectId {
       attackedPieces: number;
     };
     owner: string | null;
+    type?: string
   }
   
   export interface StrategyCardData {

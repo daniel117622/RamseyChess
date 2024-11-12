@@ -1,0 +1,83 @@
+.material-table 
+{
+    width: 100%;
+    background-color: #f5e0b7; /* Carton-like background color */
+    color: #333; /* Dark text for readability */
+    border: 2px dashed #8b7e66; /* Dashed borders with a slightly darker carton color */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+    overflow: hidden;
+}
+
+.material-table th, .material-table td 
+{
+    padding: 12px;
+    text-align: center;
+    border-top: none; /* Remove default Bootstrap table borders */
+}
+
+.material-table th 
+{
+    background-color: #e8d3a0; /* Slightly darker carton color for the header */
+    color: #5c4a33; /* Darker text for header */
+    font-weight: bold;
+    border-bottom: 2px dashed #8b7e66; /* Dashed border between header and body */
+}
+
+.material-table tbody tr 
+{
+    border-bottom: 2px dashed #8b7e66; /* Dashed row separators */
+}
+
+.material-table tbody tr:nth-child(even) 
+{
+    background-color: #f7e6c7; /* Lighter carton color for alternate rows */
+}
+
+.material-table .asset-placeholder img 
+{
+    width: 75px;
+    height: 75px;
+}
+
+.piece-value-input 
+{
+    width: 80%;
+    padding: 8px;
+    border: 1px dashed #8b7e66; /* Dashed border for inputs */
+    border-radius: 4px;
+    background-color: #fff5e6; /* Light carton color for inputs */
+    color: #333; /* Dark text color */
+    text-align: center;
+    font-size: 1em;
+}
+
+.piece-value-input::placeholder 
+{
+    color: #8b7e66; /* Placeholder color matching dashed border */
+    opacity: 0.8;
+}
+
+.piece-container input 
+{
+    margin-top: 10px;
+    max-width: 220px;
+}
+
+.disclaimer-box {
+    border: 2px solid #ff9800;
+    background-color: #fff3e0;
+    padding: 15px;
+    border-radius: 3px;
+    font-size: 1.1em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #092810;
+}
+
+@media (max-width: 768px) { /* Adjust the width as needed */
+    .piece-value-input::placeholder {
+        color: transparent;
+    }
+}

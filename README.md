@@ -37,4 +37,4 @@ If you have any questions, feedback, or suggestions, we'd love to hear from you.
 Thank you for visiting the **RamseyChess**. Happy learning and happy playing!
 
 ## License
-All rights reserved. The content on the RamseyChess Blog is protected by copyright. You are not permitted to use, copy, modify, or distribute any part of this website or its contents without prior written consent. For permissions and inquiries, please contact dan5jul@hotmail.com.
+This program is licensed under the GNU Affero General Public License v3.0. For more information, see the LICENSE file or visit https://www.gnu.org/licenses/agpl-3.0.html.

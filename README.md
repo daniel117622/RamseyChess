@@ -29,12 +29,12 @@ To help you get started with building your own strategies, you can also play aga
 
 As the platform develops, more sophisticated bots will be introduced, including those that value closed positions and strategic movement restrictions.
 
-## License
-
-All content on the RamseyChess Blog is provided under the **Creative Commons Attribution-ShareAlike 4.0 International License**. Feel free to share, but please give appropriate credit and indicate if changes were made.
 
 ## Contact Us
 
-If you have any questions, feedback, or suggestions, we'd love to hear from you. Visit our [Contact page](https://ramseychess.net/contact) for more information.
+If you have any questions, feedback, or suggestions, we'd love to hear from you. Contact me at dan5jul@hotmail.com for more information.
 
-Thank you for visiting the **RamseyChess Blog**. Happy learning and happy playing!
+Thank you for visiting the **RamseyChess**. Happy learning and happy playing!
+
+## License
+All rights reserved. The content on the RamseyChess Blog is protected by copyright. You are not permitted to use, copy, modify, or distribute any part of this website or its contents without prior written consent. For permissions and inquiries, please contact dan5jul@hotmail.com.

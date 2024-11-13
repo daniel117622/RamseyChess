@@ -126,7 +126,7 @@ export class PlayBotsPageComponent implements OnInit {
   // Responsive board
   updateBoardSize(): number {
     const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-    this.boardSize = viewportWidth * 0.8 > 600 ? 600 : viewportWidth * 0.8;
+    this.boardSize = viewportWidth * 0.95 > 600 ? 600 : viewportWidth * 0.95;
     console.log(viewportWidth)
     return this.boardSize;
   }

@@ -100,3 +100,5 @@ venv.bak/
 
 # Ignore compiled files
 *.pyc
+
+elo-rankings/node_modules/

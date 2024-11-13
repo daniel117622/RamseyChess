@@ -1,12 +1,20 @@
-.hamburger-btn {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: white;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1000; /* Ensure it stays on top */
-  }
-  
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navmenu-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: #54683e; /* Background color to match the menu */
+}
+
+.content-wrapper {
+  flex: 1;
+  margin-top: 80px; /* Adjust this to match the height of your nav menu */
+  padding: 20px; /* Optional padding for page content */
+}

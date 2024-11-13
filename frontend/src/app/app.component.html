@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<!-- app.component.html -->
+<div class="app-wrapper">
+    <div class="navmenu-wrapper">
+      <app-navmenu></app-navmenu> <!-- Fixed navigation menu at the top -->
+    </div>
+  
+    <div class="content-wrapper">
+      <router-outlet></router-outlet> <!-- Dynamic routed content -->
+    </div>
+  </div>
+  

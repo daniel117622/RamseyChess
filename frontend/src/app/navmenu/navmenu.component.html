@@ -24,9 +24,6 @@
     <li class="nav-item">
       <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
     </li>
-    <li class="nav-item mobile-item" *ngIf="!(auth.isAuthenticated$ | async)">
-      <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
-    </li>
   </ul>
 
   <!-- Right side: Sign In / Register or Sign Out -->

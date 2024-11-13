@@ -28,7 +28,7 @@ export class NavMenuComponent implements OnInit {
   }
 
   private checkScreenSize(): void {
-    this.isSmallScreen = window.innerWidth <= 576;
+    this.isSmallScreen = window.innerWidth <= 768;
   }
 
   // Method to log out the user

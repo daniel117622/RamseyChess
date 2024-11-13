@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.model';
 import { PlayAiService } from '../../services/play-ai.service';
 import { ActivatedRoute } from '@angular/router';
@@ -33,6 +33,11 @@ export class PlayAiCardComponent implements OnInit {
         this.strategy_card = response;
       })
     }
+  }
+  ngAfterViewInit(): void 
+  {
+    this.updateBoardSize(); 
+    this.cdr.detectChanges(); 
   }
   requestMoveByAi() 
   {

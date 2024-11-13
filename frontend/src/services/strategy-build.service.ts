@@ -74,5 +74,10 @@ export class StrategyBuildService {
   {
     return this.buildable_strategy
   }
+
+  saveStrategy()
+  {
+    return 1
+  }
   
 }

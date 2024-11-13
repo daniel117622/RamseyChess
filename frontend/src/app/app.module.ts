@@ -21,7 +21,6 @@ import { ProfilePageComponent } from './profile-page/profile-page/profile-page.c
 import { BuildStrategyPageComponent } from './build-strategy-page/build-strategy-page/build-strategy-page.component';
 import { IntroductionComponent } from './build-strategy-page/introduction/introduction.component';
 import { MaterialFormComponent } from './build-strategy-page/material-form/material-form.component';
-import { DangerFormComponent } from './build-strategy-page/danger-form/danger-form.component';
 import { StrategyOverviewComponent } from './build-strategy-page/strategy-overview/strategy-overview.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confirm-popup.component';
@@ -43,7 +42,6 @@ import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confi
     BuildStrategyPageComponent,
     IntroductionComponent,
     MaterialFormComponent,
-    DangerFormComponent,
     StrategyOverviewComponent,
     ConfirmPopupComponent
   ],

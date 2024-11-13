@@ -38,7 +38,11 @@ export class PlayBotsPageComponent implements OnInit {
       }
     ); 
   }
-
+  ngAfterViewInit(): void 
+  {
+    this.updateBoardSize(); 
+    this.cdr.detectChanges(); 
+  }
   onMoveChange() {
     const fen = this.chessBoard.getFEN();
     this.currentFen = fen

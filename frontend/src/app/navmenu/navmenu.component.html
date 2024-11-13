@@ -11,7 +11,10 @@
   </button>
 
   <!-- Center: Navigation Items -->
-  <ul class="nav justify-content-center flex-grow-1 center-menu" [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}">
+  <ul
+    class="nav justify-content-center flex-grow-1 center-menu"
+    [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
+  >
     <li class="nav-item">
       <a href="/blog" class="nav-link mobile-hide">Blog</a>
     </li>
@@ -24,7 +27,7 @@
     <li class="nav-item">
       <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
     </li>
-    <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
+    <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
     </li>
     <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
@@ -32,6 +35,7 @@
       <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
+
 
   <!-- Right side: Sign In / Register or Sign Out -->
   <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important;">

@@ -1,60 +1,85 @@
-
 /* Menu de navegación */
 .my-container ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: center; /* Center items */
-    background-color:#54683e;
-    padding: 10px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #54683e;
+  padding: 10px;
+}
+
+.my-container ul li {
+  margin: 5px 10px;
+}
+
+.my-container ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+.my-container ul li a:hover {
+  background-color: #C2FE72;
+  color: black;
+}
+
+/* Logo styles */
+.logo-container {
+  display: inherit;
+  font-family: 'Times New Roman', Times, serif;
+}
+/* Mobile navbar toggle button */
+.navbar-toggler {
+  background-color: #C2FE72;
+  border: none;
+  color: black;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  display: none;
+  line-height: 36px;
+  margin-right: 20px;
+  border-radius: 3px;
+}
+
+/* Show the toggle button on small screens */
+@media (max-width: 768px) {
+  .navbar-toggler {
+      display: block;
   }
-  
-  .my-container ul li {
-    margin: 5px 10px; /* Added smaller margin to prevent cropping on smaller screens */
+  .nav-header{
+    background-color: #54683e;
   }
-  
-  .my-container ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 8px 15px; /* Adjusted padding for better visibility */
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-    display: block; /* Ensure each link is block-level to adjust alignment */
+  .mobile-hide{
+    display: none !important;
   }
-  
-  .my-container ul li a:hover {
-    background-color:  #C2FE72;
-    color:black;
-  }
-  
-  .logo-container
-  {
-    display: inherit;
-    font-family: 'Times New Roman', Times, serif;
+  .center-menu {
+    position: absolute;
+    top: 70px;
+    width: 100%;
+    z-index: 99999;
   }
 
-
-  /* Adjust styling for smaller screens */
-  @media (max-width: 768px) {
-    .my-container ul {
-      flex-direction: column; /* Stack menu items vertically on very small screens */
+  .my-container ul {
+      flex-direction: column;
       align-items: center;
-    }
-  
-    .my-container ul li {
-      margin-bottom: 10px;
-    }
-  
-    .my-container ul li a {
-      padding: 10px 20px; /* Increase padding for touch targets */
-      width: 100%; /* Make sure links expand to full width on smaller screens */
-      text-align: center; /* Center text */
-    }
-    .logo-container
-    {
-      display: none !important;
-    }
   }
+
+  /* Show the menu when open */
+  .my-container ul.d-flex {
+      display: flex;
+  }
+
+  /* Ensure links take full width on mobile */
+  .my-container ul li a {
+      width: 100%;
+      text-align: center;
+  }
+
+}

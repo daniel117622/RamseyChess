@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 })
 export class NavMenuComponent implements OnInit {
   isSmallScreen: boolean = false;
-  userData : User | null | undefined = null;
+  menuOpen: boolean = false;
+  userData: User | null | undefined = null;
 
   constructor(public auth: AuthService, private router: Router) {}
 
@@ -36,5 +37,7 @@ export class NavMenuComponent implements OnInit {
   }
 
 
-
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
 }

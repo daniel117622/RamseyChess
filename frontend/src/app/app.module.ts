@@ -23,6 +23,8 @@ import { IntroductionComponent } from './build-strategy-page/introduction/introd
 import { MaterialFormComponent } from './build-strategy-page/material-form/material-form.component';
 import { DangerFormComponent } from './build-strategy-page/danger-form/danger-form.component';
 import { StrategyOverviewComponent } from './build-strategy-page/strategy-overview/strategy-overview.component'
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confirm-popup.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { StrategyOverviewComponent } from './build-strategy-page/strategy-overvi
     IntroductionComponent,
     MaterialFormComponent,
     DangerFormComponent,
-    StrategyOverviewComponent
+    StrategyOverviewComponent,
+    ConfirmPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { StrategyOverviewComponent } from './build-strategy-page/strategy-overvi
         redirect_uri: window.location.origin
       }
     }),
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

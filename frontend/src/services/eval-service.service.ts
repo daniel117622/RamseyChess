@@ -2,22 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { NextMove } from 'src/models/next-move.model';
+import { MatevalModel } from 'src/models/mate-eval.model';
 
-interface ChessPieces {
-  pawn  : number;
-  knight: number;
-  bishop: number;
-  rook  : number;
-  queen : number;
-  king  : number;
-}
-
-interface MatevalModel {
-  name       : string;
-  whitePieces: ChessPieces;
-  blackPieces : ChessPieces;
-  owner      : string | null;
-}
 
 
 

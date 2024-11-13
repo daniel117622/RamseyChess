@@ -1,56 +1,24 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
+import { MatevalModel } from 'src/models/mate-eval.model';
 
-interface ObjectId {
-  $oid: string;
-}
-
-interface PieceValues {
-  pawn: number;
-  knight: number;
-  bishop: number;
-  rook: number;
-  queen: number;
-  king: number;
-}
-
-interface EvaluateMaterialData {
-  _id: ObjectId;
-  name: string;
-  owner: string | null;
-  blackPieces: PieceValues;
-  whitePieces: PieceValues;
-}
-
-interface EvaluateDangerData {
-  _id: ObjectId;
-  name: string;
-  whitePieces: {
-    hangingPieces: number;
-    attackedPieces: number;
-  };
-  blackPieces: {
-    hangingPieces: number;
-    attackedPieces: number;
-  };
-  owner: string | null;
-}
-
-interface Strategy {
+interface StrategyItem {
   collection: string;
-  strat_id: string;
+  [key: string]: any;  
 }
 
-export interface StrategyCardData {
-  _id: ObjectId;
-  name: string;
-  strategy_list: Strategy[];
-  wins: number;
+export interface BuildableStrategy {
+  name  : string;
+  wins  : number;
   losses: number;
-  elo: number;
-  evaluate_material_data: EvaluateMaterialData;
-  evaluate_danger_data: EvaluateDangerData;
+  elo   : number;
+  owner : string;
+  description: string;
+  strategy_list : StrategyItem[]
 }
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -58,55 +26,53 @@ export interface StrategyCardData {
 
 export class StrategyBuildService {
 
-  constructor() { }
-
-  getMockStrategy(): StrategyCardData[] {
-    return [
-      {
-        _id: { $oid: '1234567890abcdef12345678' },
-        name: 'Aggressive Play',
-        strategy_list: [
-          { collection: 'evaluate_material', strat_id: 'abc123' },
-          { collection: 'evaluate_danger', strat_id: 'def456' }
-        ],
-        wins: 20,
-        losses: 5,
-        elo: 1500,
-        evaluate_material_data: {
-          _id: { $oid: 'abcdef1234567890abcdef12' },
-          name: 'Material Evaluation',
-          owner: 'Player1',
-          blackPieces: {
-            pawn: 1,
-            knight: 3,
-            bishop: 3,
-            rook: 5,
-            queen: 9,
-            king: 1000
-          },
-          whitePieces: {
-            pawn: 1,
-            knight: 3,
-            bishop: 3,
-            rook: 5,
-            queen: 9,
-            king: 1000
-          }
-        },
-        evaluate_danger_data: {
-          _id: { $oid: 'fedcba0987654321fedcba09' },
-          name: 'Danger Evaluation',
-          whitePieces: {
-            hangingPieces: 2,
-            attackedPieces: 3
-          },
-          blackPieces: {
-            hangingPieces: 1,
-            attackedPieces: 4
-          },
-          owner: 'Player1'
-        }
-      }
-    ];
+  material_eval : MatevalModel = {
+    collection : "evaluate_material",
+    name : "insert name",
+    owner: null,
+    blackPieces : {
+      "pawn"  : -1,
+      "knight": -3,
+      "bishop": -3,
+      "rook"  : -5,
+      "queen" : -9,
+      "king"  : -20
+    },
+    whitePieces: {
+      "pawn"  : 1,
+      "knight": 3,
+      "bishop": 3,
+      "rook"  : 5,
+      "queen" : 9,
+      "king"  : 20
+    }
   }
+
+  buildable_strategy: BuildableStrategy = {
+    name: "default strategy",
+    wins: 0,
+    losses: 0,
+    elo: 1000,
+    owner: "",
+    description: "This is a default strategy description.",
+    strategy_list: [this.material_eval]
+  };
+
+  constructor( private http : HttpClient ) { }
+
+  getMatEval() : MatevalModel 
+  {
+    return this.material_eval
+  }
+
+  setMatEval(matEval : MatevalModel)
+  {
+    this.material_eval = matEval;
+  }
+
+  getFullStrategy() : BuildableStrategy
+  {
+    return this.buildable_strategy
+  }
+  
 }

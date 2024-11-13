@@ -1,24 +1,27 @@
-<!-- build-strategy-page.component.html -->
 <app-navmenu></app-navmenu>
 <div class="container" style="margin-top: 85px; min-height: 100vh;">
-    <div class="carousel-container">
-        <div class="carousel-card" [ngClass]="fadeClass" style="min-height: 500px;">
-            <h3 style="margin-bottom: 15px;">{{ steps[currentStep].title }}</h3>
-            <ng-container [ngSwitch]="steps[currentStep].component">
-                <app-introduction      *ngSwitchCase="'app-introduction'"></app-introduction>
-                <app-material-form     *ngSwitchCase="'app-material-form'"></app-material-form>
-                <app-danger-form       *ngSwitchCase="'app-danger-form'"></app-danger-form>
-                <app-strategy-overview *ngSwitchCase="'app-strategy-overview'"></app-strategy-overview>
-            </ng-container>
+  <div class="carousel-container">
+    <div class="carousel-card" [ngClass]="fadeClass" style="min-height: 500px;">
+      <h3 style="margin-bottom: 15px;">{{ steps[currentStep].title }}</h3>
+      <ng-container [ngSwitch]="steps[currentStep].component">
+        <app-introduction *ngSwitchCase="'app-introduction'"></app-introduction>
+        <app-material-form *ngSwitchCase="'app-material-form'"></app-material-form>
+        <app-danger-form *ngSwitchCase="'app-danger-form'"></app-danger-form>
+        
+        <!-- Pass sub to app-strategy-overview -->
+        <app-strategy-overview 
+          *ngSwitchCase="'app-strategy-overview'"
+          [sub]="this.sub">
+        </app-strategy-overview>
+        
+      </ng-container>
 
-        <div style="display: flex; justify-content: center; width: 100%;">
-            <div class="carousel-controls mt-4" style="width: 80%; display: flex; justify-content: space-between;">
-                <button (click)="previousStep()" [disabled]="currentStep === 0" class="arrow-btn">⬅</button>
-                <button (click)="nextStep()" [disabled]="currentStep === steps.length - 1" class="arrow-btn">➡</button>
-            </div>                
-        </div>
-        <!--END CONTROLS-->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div class="carousel-controls mt-4" style="width: 80%; display: flex; justify-content: space-between;">
+          <button (click)="previousStep()" [disabled]="currentStep === 0" class="arrow-btn">&larr;</button>
+          <button (click)="nextStep()" [disabled]="currentStep === steps.length - 1" class="arrow-btn">&rarr;</button>
+        </div>                
+      </div>
     </div>
-    <!-- END CARROUSEL -->
+  </div>
 </div>
-<!-- END WRAPPER -->

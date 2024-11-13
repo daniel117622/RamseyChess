@@ -1,63 +1,53 @@
 <div class="container text-center" style="text-align: center; width: 100%;">
-
-    <div *ngFor="let strat of strategy_card" class="col-12 strategy-detail mt-3 p-3 shadow-sm rounded">
-        <p><strong>Strategy name:</strong> {{ strat.name }}</p>
-        
-        <!-- Loop through each strategy in strategy_list -->
-        <ng-container *ngFor="let strategy of strat.strategy_list">
-            <!-- Evaluate Material Data Table -->
-            <ng-container *ngIf="strategy.collection === 'evaluate_material'">
-                <p><strong>Strategy type:</strong> Material Evaluation</p>
-                <div class="table-responsive">
-                    <table class="table table-bordered w-100 strategy-table">
-                        <thead>
-                            <tr>
-                                <th>Piece Type</th>
-                                <th>White</th>
-                                <th>Black</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let piece of objectEntries(strat.evaluate_material_data.whitePieces)">
-                                <tr>
-                                    <td class="capitalize">{{ piece.key }}</td>
-                                    <td>{{ piece.value }}</td>
-                                    <td>{{ getPieceValue(strat.evaluate_material_data.blackPieces, piece.key) || 'N/A' }}</td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
-                </div>
-            </ng-container>
-            
-            <!-- Evaluate Danger Data Table -->
-            <ng-container *ngIf="strategy.collection === 'evaluate_danger'">
-                <p><strong>Strategy type:</strong> Danger Evaluation</p>
-                <div class="table-responsive">
-                    <table class="table table-bordered w-100 strategy-table">
-                        <thead>
-                            <tr>
-                                <th>Evaluation</th>
-                                <th>White</th>
-                                <th>Black</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Attacked Pieces</strong></td>
-                                <td>{{ strat.evaluate_danger_data.whitePieces.attackedPieces }}</td>
-                                <td>{{ strat.evaluate_danger_data.blackPieces.attackedPieces }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Hanging Pieces</strong></td>
-                                <td>{{ strat.evaluate_danger_data.whitePieces.hangingPieces }}</td>
-                                <td>{{ strat.evaluate_danger_data.blackPieces.hangingPieces }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </ng-container>
+    <div *ngIf="strategy_card" class="col-12 strategy-detail mt-3 p-3 shadow-sm rounded">
+      
+      <!-- Editable Fields Group -->
+      <div class="editable-fields mb-4">
+        <p><strong>Strategy Name:</strong></p>
+        <input type="text" class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.name" placeholder="Enter strategy name" />
+  
+        <p><strong>Description:</strong></p>
+        <textarea class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.description" rows="3" placeholder="Enter strategy description"></textarea>
+      </div>
+  
+      <!-- Information Display Group -->
+      <div class="info-display mb-4">
+        <p><strong>Wins:</strong> {{ strategy_card.wins }}</p>
+        <p><strong>Losses:</strong> {{ strategy_card.losses }}</p>
+        <p><strong>ELO:</strong> {{ strategy_card.elo }}</p>
+        <p><strong>Owner:</strong> {{ strategy_card.owner }}</p>
+      </div>
+      
+      <!-- Strategy List Group -->
+      <div *ngFor="let strategy of strategy_card.strategy_list" class="strategy-list mb-4">
+        <ng-container *ngIf="strategy.collection === 'evaluate_material'">
+          <p><strong>Strategy Type:</strong> Material Evaluation</p>
+  
+          <!-- White and Black Pieces Table -->
+          <div class="table-responsive">
+            <table class="table table-bordered w-100 strategy-table">
+              <thead>
+                <tr>
+                  <th>Piece Type</th>
+                  <th>White</th>
+                  <th>Black</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let piece of objectEntries(strategy['whitePieces'])">
+                  <td class="capitalize">{{ piece.key }}</td>
+                  <td>{{ piece.value }}</td>
+                  <td>{{ getPieceValue(strategy['blackPieces'], piece.key) || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ng-container>
+      </div>
+  
+      <!-- Confirm Button -->
+      <button mat-button (click)="openConfirmPopup()">Open Confirm Popup</button>
+
     </div>
-    
-</div>
+  </div>
+  

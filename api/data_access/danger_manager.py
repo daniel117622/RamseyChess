@@ -19,7 +19,6 @@ class EvaluateDangerDoc:
     owner         : Optional[str] = None #UUID
     
 
-
 class EvaluateDangerManager():
     def __init__(self) -> None:
         self.docs = db.get_collection('evaluate_danger')

@@ -35,3 +35,15 @@
 .strategy-table tbody tr:nth-child(even) {
     background-color: #f7e6c7; /* Lighter carton color for alternate rows */
 }
+/* Custom styling for backdrop if needed */
+.custom-backdrop {
+    background: rgba(0, 0, 0, 0.6) !important; /* Darker overlay */
+  }
+  
+  /* Additional styling to ensure dialog is centered and responsive */
+  .mat-dialog-container {
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 95%; /* Ensures the dialog remains responsive on small screens */
+  }

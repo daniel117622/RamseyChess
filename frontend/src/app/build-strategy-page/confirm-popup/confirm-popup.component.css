@@ -1,0 +1,55 @@
+/* Backdrop Overlay */
+.custom-backdrop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    z-index: -1; /* Place behind dialog content */
+  }
+  
+  /* Dialog Content Styles */
+  .dialog-content {
+    padding: 20px;
+    color: black;
+    text-align: center;
+    background: white;
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Dialog Title */
+  .dialog-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Button Container */
+  .dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Button Styles */
+  .go-back-button, .confirm-button {
+    padding: 8px 16px;
+    font-size: 1em;
+  }
+  
+  .go-back-button {
+    color: #757575;
+  }
+  
+  .confirm-button {
+    color: white;
+    background-color: #3f51b5; /* Primary color */
+  }
+  
+  .confirm-button:hover {
+    background-color: #303f9f; /* Darker shade on hover */
+  }
+  

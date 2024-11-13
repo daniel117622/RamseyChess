@@ -11,14 +11,13 @@ export class BuildStrategyPageComponent {
   user$ = this.auth.user$;
   fade_animation_time : number = 400;
   fadeClass: string = 'fade-in';
-
+  sub: string = 'default_user';
   currentStep: number = 0;
 
   steps = 
   [
     { component: 'app-introduction', title: 'Introduction' },
     { component: 'app-material-form', title: 'Material Form' },
-    { component: 'app-danger-form', title: 'Danger Form' },
     { component: 'app-strategy-overview', title: 'Strategy Overview' }
   ];
 
@@ -46,11 +45,19 @@ export class BuildStrategyPageComponent {
 
   constructor(public auth: AuthService, private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void 
+  {
+    this.user$.subscribe((user) => {
+      if (user?.sub) {
+        this.sub = user.sub;
+      }
+    });
+  }
 
   private triggerFadeOut(callback: () => void) 
   {
     this.fadeClass = 'fade-out';
     setTimeout(callback, this.fade_animation_time); // Wait for the fade-out animation to complete
+    
   }
 }

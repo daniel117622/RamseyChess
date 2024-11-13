@@ -1,114 +1,116 @@
 <div class="container text-center" style="text-align: center; width: 100%;">
     <p class="disclaimer-box">
-        ⚠️ <strong>Disclaimer:</strong> Black pieces value refers to the opponent pieces during matches. <br><br>
-        You should place negative values on the enemy pieces so your bot tries to capture them.
+      ⚠️ <strong>Disclaimer:</strong> Black pieces value refers to the opponent pieces during matches. <br /><br />
+      You should place negative values on the enemy pieces so your bot tries to capture them.
     </p>
     <div class="table-responsive">
-        <table class="table material-table">
-            <thead>
-                <tr>
-                    <th>Your pieces</th>
-                    <th>Enemy pieces</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Pawn -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wp.svg" alt="White Pawn" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/bp.svg" alt="Black Pawn" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Knight -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wn.svg" alt="White Knight" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/bn.svg" alt="Black Knight" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Bishop -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wb.svg" alt="White Bishop" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/bb.svg" alt="Black Bishop" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Rook -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wr.svg" alt="White Rook" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/br.svg" alt="Black Rook" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Queen -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wq.svg" alt="White Queen" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/bq.svg" alt="Black Queen" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- King -->
-                <tr>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/wk.svg" alt="White King" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                    <td class="asset-placeholder">
-                        <div class="piece-container d-flex flex-column align-items-center">
-                            <img src="/assets/pieces/bk.svg" alt="Black King" class="img-fluid mb-2" width="75" height="75">
-                            <input type="number" class="piece-value-input form-control w-75" placeholder="Enter value">
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+      <table class="table material-table">
+        <thead>
+          <tr>
+            <th>Your Pieces</th>
+            <th>Enemy Pieces</th>
+          </tr>
+        </thead>
+        <tbody>
+  
+          <!-- Pawn -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wp.svg" alt="White Pawn" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.pawn" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/bp.svg" alt="Black Pawn" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.pawn" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Knight -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wn.svg" alt="White Knight" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.knight" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/bn.svg" alt="Black Knight" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.knight" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Bishop -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wb.svg" alt="White Bishop" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.bishop" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/bb.svg" alt="Black Bishop" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.bishop" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Rook -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wr.svg" alt="White Rook" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.rook" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/br.svg" alt="Black Rook" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.rook" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+  
+          <!-- Queen -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wq.svg" alt="White Queen" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.queen" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/bq.svg" alt="Black Queen" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.queen" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+  
+          <!-- King -->
+          <tr>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/wk.svg" alt="White King" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.whitePieces.king" placeholder="Enter value" />
+              </div>
+            </td>
+            <td class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <img src="/assets/pieces/bk.svg" alt="Black King" class="img-fluid mb-2" width="75" height="75" />
+                <input type="number" class="piece-value-input form-control w-75" [(ngModel)]="materialEval.blackPieces.king" placeholder="Enter value" />
+              </div>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
     </div>
-</div>
-
+  </div>
+  

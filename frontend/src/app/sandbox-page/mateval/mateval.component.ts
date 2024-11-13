@@ -1,22 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EvalService } from '../../../services/eval-service.service';
+import { MatevalModel } from 'src/models/mate-eval.model';
 
-interface ChessPieces {
-  pawn  : number;
-  knight: number;
-  bishop: number;
-  rook  : number;
-  queen : number;
-  king  : number;
-}
-
-interface MatevalModel {
-  name          : string;
-  whitePieces     : ChessPieces;
-  blackPieces: ChessPieces;
-  owner         : string | null;
-}
 
 @Component({
   selector: 'app-mat-eval',
@@ -44,7 +30,8 @@ export class MatevalComponent {
       queen : -9,
       king  : -20
     },
-    owner: null
+    owner: null,
+    collection: "evaluate_material"
   };
   bestMove : string | null = null
 

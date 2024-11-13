@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .navmenu-wrapper {
@@ -9,12 +10,21 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* Ensure it stays above other content */
-  background-color: #54683e; /* Background color to match the menu */
+  z-index: 1000;
+  background-color: #54683e;
 }
 
 .content-wrapper {
   flex: 1;
-  margin-top: 80px; /* Adjust this to match the height of your nav menu */
-  padding: 20px; /* Optional padding for page content */
+  margin-top: 80px;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    max-width: 100vw;
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
 }

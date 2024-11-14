@@ -53,10 +53,7 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Strategy ID</th>
                 <th>Strategy Name</th>
-                <th>Wins</th>
-                <th>Losses</th>
                 <th>Elo</th>
               </tr>
             </thead>
@@ -69,10 +66,7 @@
                     'black-selected': i === selectedBlackRowIndex
                   }"
                 >
-                  <td class="strategy-id">{{ strategy._id.$oid }}</td>
                   <td>{{ strategy.name }}</td>
-                  <td>{{ strategy.wins }}</td>
-                  <td>{{ strategy.losses }}</td>
                   <td>{{strategy.elo}}</td>
                 </tr>
               </tbody>              

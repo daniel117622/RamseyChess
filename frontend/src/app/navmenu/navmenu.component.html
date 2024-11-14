@@ -1,11 +1,15 @@
-<div class="my-container d-flex justify-content-between align-items-center nav-header" [ngClass]="{'fixed-top': !isSmallScreen}">
+<div
+  class="my-container d-flex justify-content-between align-items-center nav-header"
+  [ngClass]="{'fixed-top': !isSmallScreen}"
+>
   <!-- Left side: Icon -->
   <ul class="nav justify-content-center flex-grow-1 logo-container" style="flex-grow: 0 !important;">
     <li class="nav-item">
       <a [routerLink]="['/blog']" class="nav-link" style="text-wrap: nowrap;">Ramsey Chess</a>
     </li>
   </ul>
-   <!-- Mobile menu toggle button, only visible on mobile screens -->
+  
+  <!-- Mobile menu toggle button, only visible on mobile screens -->
   <button class="navbar-toggler d-block d-md-none" type="button" (click)="toggleMenu()">
     <span class="navbar-toggler-icon">☰</span>
   </button>
@@ -27,24 +31,25 @@
     <li class="nav-item">
       <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
     </li>
+    <!-- Show Sign In / Register on mobile view if not authenticated -->
     <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
     </li>
-    <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
+    <!-- Show Profile and email only on mobile view when authenticated -->
+    <li class="nav-item d-md-none d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
       <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red; margin-right: 8px;">X</a>
       <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 
-
-  <!-- Right side: Sign In / Register or Sign Out -->
+  <!-- Right side: Sign In / Register or Sign Out, shown only on desktop -->
   <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important;">
     <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
     </li>
+    <!-- Profile link with email hidden on desktop -->
     <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
       <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red; margin-right: 8px;">X</a>
-      <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 </div>

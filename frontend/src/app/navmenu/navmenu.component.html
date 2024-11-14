@@ -47,9 +47,9 @@
     <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
     </li>
-    <!-- Profile link with email hidden on desktop -->
+    <!-- Only show logout button on desktop without email -->
     <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
-      <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red; margin-right: 8px;">X</a>
+      <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red;">X</a>
     </li>
   </ul>
 </div>

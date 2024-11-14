@@ -37,7 +37,7 @@
     </li>
     <!-- Show Profile and email only on mobile view when authenticated -->
     <li class="nav-item d-md-none d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
-      <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red; margin-right: 8px;">X</a>
+      <a (click)="logout()" class="logout-icon">X</a>
       <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
@@ -49,7 +49,8 @@
     </li>
     <!-- Only show logout button on desktop without email -->
     <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
-      <a (click)="logout()" class="nav-link" style="cursor: pointer; color: red;">X</a>
+      <a (click)="logout()" class="logout-icon">X</a>
+      <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 </div>

@@ -83,3 +83,17 @@
   }
 
 }
+
+.logout-icon {
+  font-size: 1.2rem; /* Adjust size as needed */
+  color: #6c757d; /* Neutral color, consistent with bootstrap’s text-muted */
+  transition: color 0.3s ease; /* Smooth color transition */
+  margin-right: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.logout-icon:hover {
+  color: #dc3545; /* Subtle red color on hover */
+  text-decoration: underline;
+}

@@ -69,8 +69,7 @@ export class PlayAiService {
       if (Object.keys(nextMove).length === 0) {
         return {best_move : ''} as NextMove;
       }
-  
-      console.log('Next move fetched:', nextMove);
+
       return nextMove as NextMove;
     } catch (error) {
       if (error instanceof Error) {
@@ -80,4 +79,26 @@ export class PlayAiService {
       throw error; // Propagate other errors
     }
   }
+
+  postWinner(white_strategy: string, black_strategy: string, winner: string) 
+  {
+    return this.http.post<{ success: boolean, error: string }>('/api/post_winner', 
+      { 
+        white_strategy, 
+        black_strategy,
+        winner: winner
+      }).pipe(
+        tap((response) => 
+        {
+          if (response.success) 
+          {
+            console.log('Winner data successfully posted:', { white_strategy, black_strategy });
+          } 
+          else 
+          {
+            console.error('Failed to post winner data:', response.error);
+          }
+        })
+      );
+    }
 }

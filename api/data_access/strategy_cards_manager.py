@@ -56,5 +56,24 @@ class AiPremadeManager():
                 strat_doc = db[strategy["collection"]].find_one({"_id" : ObjectId(strategy["strat_id"])})
                 found_strats.append(strategy_doc)
         return found_strats
-
-            
+    
+    def updateElo(self, new_elo : int):
+        """
+        Updates a single document in the ai_premade_strats collection based on strat_id.
+        
+        Parameters:
+        - strat_id (str): The ObjectId of the strategy document to update.
+        - update_fields (Dict): The fields and their new values to update.
+        
+        Returns:
+        - result (Dict): The result of the update operation.
+        """
+        if self.current_doc:
+            filter = {"_id": self.current_doc["_id"]}
+            update = {"$set": {"elo": new_elo}}
+            result = self.docs.update_one(filter, update)
+            return {
+                "matched_count": result.matched_count,
+                "modified_count": result.modified_count
+            }
+                

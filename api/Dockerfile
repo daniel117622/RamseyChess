@@ -7,9 +7,15 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 COPY setup.py /app/setup.py
 
-# Install any dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install git and other dependencies
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
 
+# Upgrade pip
+RUN pip install --upgrade pip
+# Explicitly install requests to ensure it's available
+RUN pip install requests
 # Install your project as a package using setup.py
 RUN pip install -e .
 

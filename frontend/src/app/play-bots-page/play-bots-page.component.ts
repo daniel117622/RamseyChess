@@ -6,6 +6,7 @@ import { PlayAiService } from '../../services/play-ai.service';
 import { EvalService } from '../../services/eval-service.service';
 import { NextMove } from 'src/models/next-move.model';
 import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.model';
+import { Chess } from 'chess.js';
 
 @Component({
   selector: 'app-play-bots-page',
@@ -18,6 +19,7 @@ export class PlayBotsPageComponent implements OnInit {
   boardSize = 600
   isPlaying: boolean = false;
   numMoves: number = 1;
+  private _chess = new Chess();
 
   whiteStrategyId: string | null = null;
   blackStrategyId: string | null = null;
@@ -46,7 +48,6 @@ export class PlayBotsPageComponent implements OnInit {
   onMoveChange() {
     const fen = this.chessBoard.getFEN();
     this.currentFen = fen
-    console.log('Current FEN:', fen);
     this.eval_service.updateFen(this.currentFen);
   }
 
@@ -84,6 +85,34 @@ export class PlayBotsPageComponent implements OnInit {
       {
         this.chessBoard.move(res.best_move);
         this.currentFen = this.chessBoard.getFEN();
+
+        this._chess.load(this.currentFen)
+        console.log(this._chess.isCheckmate())
+        if (this._chess.isCheckmate())
+        {
+          const winner = currentTurn === 'w' ? whiteStrategy : blackStrategy;
+          console.log("Posting winner")
+          this.isPlaying = false;
+          this.play_ai.postWinner(whiteStrategy, blackStrategy, winner).subscribe(
+            (response) => 
+            {
+              if (response.success) 
+              {
+                console.log('Winner data successfully posted:', { whiteStrategy, blackStrategy });
+              } 
+              else 
+              {
+                console.error('Failed to post winner data:', response.error);
+              }
+            },
+            (error) => 
+            {
+              console.error('Error posting winner data:', error);
+            }
+          );
+          return;
+        } 
+
       } 
       else 
       {
@@ -121,6 +150,7 @@ export class PlayBotsPageComponent implements OnInit {
     }
   }
 
+  
 
 
   // Responsive board

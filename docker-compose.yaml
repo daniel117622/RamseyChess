@@ -45,6 +45,21 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`34.172.128.64`)"  # Use your IP address
       - "traefik.http.routers.frontend.entrypoints=websecure"
+      
+  elo-rankings:
+    build:
+      context: ./elo-rankings
+      dockerfile: DOCKERFILE  # Use the Dockerfile specified for elo-rankings
+    container_name: elo-rankings
+    ports:
+      - "3000:3000"  # Expose elo-rankings on port 3000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: always
+    environment:
+      - MONGO_URI=mongodb://34.172.128.64:27018/elo_rankings
 
+      
 volumes:
   traefik-certificates:

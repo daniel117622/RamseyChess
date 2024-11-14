@@ -1,3 +1,4 @@
+from data_access.elo_service import EloService
 from flask import Flask, request, jsonify
 import chess
 from flasgger import Swagger
@@ -214,10 +215,58 @@ def request_move_by_strategy():
   
   minimax = Minimax(evaluator=loaded_evaluators,depth=depth)
   best_move = minimax.find_best_move(board)
+  if best_move:
+    return jsonify({
+      "best_move" : best_move.uci(),
+    })
+  else:
+     return jsonify({})
   
-  return jsonify({
-    "best_move" : best_move.uci(),
-   })
+@app.route('/post_winner', methods=['POST'])
+def post_winner():
+    req = request.get_json()
+    white_strategy_id = req.get("white_strategy")
+    black_strategy_id = req.get("black_strategy")
+    winner            = req.get("winner")
+    # Access the ELO service
+    elo_service = EloService()
+    
+    # Register players by posting to the /players endpoint
+    elo_service.post("/players", {"name": white_strategy_id})
+    elo_service.post("/players", {"name": black_strategy_id})
+    
+    # Send request to the /game endpoint of elo-rankings
+    # Determine winner and loser based on the 'winner' input
+    result = elo_service.post("/game", {
+        "winner": white_strategy_id if winner == white_strategy_id else black_strategy_id,
+        "loser": black_strategy_id if winner == white_strategy_id else white_strategy_id
+    })
+    # Check if the request was successful
+    # Check if the game was resolved successfully
+    if result and result.get("message") == "game resolved":
+        white_strat = AiPremadeManager()
+        black_strat = AiPremadeManager()
+
+        white_strat.loadById(white_strategy_id)
+        black_strat.loadById(black_strategy_id)
+
+        # return jsonify(json.loads(json.dumps(result)))
+        # Update the Elo ratings of each strategy in the database
+        white_strat.updateElo(result["winner"]["elo"] if winner == white_strategy_id else result["loser"]["elo"])
+        black_strat.updateElo(result["loser"]["elo"]  if winner == white_strategy_id else result["winner"]["elo"])
+
+        return jsonify({
+            "success": True, 
+            "error": "none",
+            "winner": result["winner"],
+            "loser": result["loser"],
+            "deltaElo": result["deltaElo"],
+            "probability": result["probability"]
+        }), 200
+    else:
+        error_message = result.get("error", "Unable to update ELO rankings")
+        return jsonify({"success": False, "error": error_message}), 500
+  
 
 if __name__ == '__main__':
   app.run(debug=True)

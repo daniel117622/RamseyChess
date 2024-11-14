@@ -227,7 +227,8 @@ def post_winner():
     req = request.get_json()
     white_strategy_id = req.get("white_strategy")
     black_strategy_id = req.get("black_strategy")
-    winner            = req.get("winner")
+    winner = req.get("winner")
+    
     # Access the ELO service
     elo_service = EloService()
     
@@ -235,37 +236,64 @@ def post_winner():
     elo_service.post("/players", {"name": white_strategy_id})
     elo_service.post("/players", {"name": black_strategy_id})
     
-    # Send request to the /game endpoint of elo-rankings
-    # Determine winner and loser based on the 'winner' input
-    result = elo_service.post("/game", {
-        "winner": white_strategy_id if winner == white_strategy_id else black_strategy_id,
-        "loser": black_strategy_id if winner == white_strategy_id else white_strategy_id
-    })
-    # Check if the request was successful
-    # Check if the game was resolved successfully
-    if result and result.get("message") == "game resolved":
-        white_strat = AiPremadeManager()
-        black_strat = AiPremadeManager()
+    # Handle the draw or win/loss scenario
+    if winner == "":
+        # If it's a draw, call the /draw endpoint with both players
+        result = elo_service.post("/draw", {
+            "player1": white_strategy_id,
+            "player2": black_strategy_id
+        })
 
-        white_strat.loadById(white_strategy_id)
-        black_strat.loadById(black_strategy_id)
+        # Handle the Elo update for draws: both players' Elo is updated
+        if result and result.get("message") == "game resolved":
+            white_strat = AiPremadeManager()
+            black_strat = AiPremadeManager()
 
-        # return jsonify(json.loads(json.dumps(result)))
-        # Update the Elo ratings of each strategy in the database
-        white_strat.updateElo(result["winner"]["elo"] if winner == white_strategy_id else result["loser"]["elo"])
-        black_strat.updateElo(result["loser"]["elo"]  if winner == white_strategy_id else result["winner"]["elo"])
+            white_strat.loadById(white_strategy_id)
+            black_strat.loadById(black_strategy_id)
 
-        return jsonify({
-            "success": True, 
-            "error": "none",
-            "winner": result["winner"],
-            "loser": result["loser"],
-            "deltaElo": result["deltaElo"],
-            "probability": result["probability"]
-        }), 200
+            # Update Elo for both players in the draw case
+            white_strat.updateElo(result["players"][0]["elo"] if result["players"][0]["name"] == white_strategy_id else result["players"][1]["elo"])
+            black_strat.updateElo(result["players"][1]["elo"] if result["players"][0]["name"] == white_strategy_id else result["players"][0]["elo"])
+
+            return jsonify({
+                "success"    : True,
+                "error"      : "none",
+                "deltaElo"   : result["deltaElo"],
+                "probability": result["probability"]
+            }), 200
+
     else:
-        error_message = result.get("error", "Unable to update ELO rankings")
-        return jsonify({"success": False, "error": error_message}), 500
+        # Otherwise, it's a regular win/loss scenario
+        result = elo_service.post("/game", {
+            "winner": white_strategy_id if winner == white_strategy_id else black_strategy_id,
+            "loser": black_strategy_id if winner == white_strategy_id else white_strategy_id
+        })
+
+        # Check if the request was successful and if the game was resolved
+        if result and result.get("message") == "game resolved":
+            white_strat = AiPremadeManager()
+            black_strat = AiPremadeManager()
+
+            white_strat.loadById(white_strategy_id)
+            black_strat.loadById(black_strategy_id)
+
+            # Update Elo ratings for win/loss scenario
+            white_strat.updateElo(result["winner"]["elo"] if winner == white_strategy_id else result["loser"]["elo"])
+            black_strat.updateElo(result["loser"]["elo"]  if winner == white_strategy_id else result["winner"]["elo"])
+
+            return jsonify({
+                "success"    : True,
+                "error"      : "none",
+                "winner"     : result["winner"],
+                "loser"      : result["loser"],
+                "deltaElo"   : result["deltaElo"],
+                "probability": result["probability"]
+            }), 200
+
+    # If no valid result returned or game could not be resolved
+    error_message = result.get("error", "Unable to update ELO rankings")
+    return jsonify({"success": False, "error": error_message}), 500
   
 
 if __name__ == '__main__':

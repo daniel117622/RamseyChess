@@ -1,5 +1,6 @@
 const express = require('express')
 const api = require('./api')
+const { resolveDraw } = require('./elo');
 
 const app = express()
 app.use(express.json())
@@ -48,5 +49,15 @@ app.use((err, req, res, next) => {
 	}
 	return res.status(400).json(err)
 })
+
+app.post('/draw', async (req, res) => {
+    try {
+        const { player1, player2 } = req.body;
+        const result = await resolveDraw({ player1, player2 });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = app;

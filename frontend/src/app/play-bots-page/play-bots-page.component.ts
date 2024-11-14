@@ -7,6 +7,8 @@ import { EvalService } from '../../services/eval-service.service';
 import { NextMove } from 'src/models/next-move.model';
 import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.model';
 import { Chess } from 'chess.js';
+import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
+import { ResetPopupComponent } from './reset-popup/reset-popup.component';
 
 @Component({
   selector: 'app-play-bots-page',
@@ -16,6 +18,7 @@ import { Chess } from 'chess.js';
 export class PlayBotsPageComponent implements OnInit {
   @ViewChild('chessBoard') chessBoard!: NgxChessBoardComponent;
   currentFen : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  isGameOver: boolean = false;
   boardSize = 600
   isPlaying: boolean = false;
   numMoves: number = 1;
@@ -30,7 +33,12 @@ export class PlayBotsPageComponent implements OnInit {
   publicStrategies: StrategyCardData[] = []
 
 
-  constructor(private router: Router, private http: HttpClient, private play_ai : PlayAiService, private eval_service : EvalService ,private cdr: ChangeDetectorRef) {}
+  constructor(
+    private dialog: MatDialog,
+    private play_ai: PlayAiService,
+    private eval_service: EvalService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() : void 
   {
@@ -52,7 +60,7 @@ export class PlayBotsPageComponent implements OnInit {
   }
 
   async playTwoMoves()
-  {
+  { 
     this.isPlaying = true;
     for (let i = 0; i < 2; i++) 
     {
@@ -110,8 +118,34 @@ export class PlayBotsPageComponent implements OnInit {
               console.error('Error posting winner data:', error);
             }
           );
+          this.isPlaying = false;
+          this.openResetPopup(currentTurn === 'w' ? "White wins!" : "Black wins!"); // Call popup for win
           return;
         } 
+        if (this._chess.isDraw()) 
+        {
+          console.log("The game ended in a draw. No ELO scores will be changed.");
+          this.play_ai.postWinner(whiteStrategy, blackStrategy, "").subscribe(
+            (response) => 
+            {
+              if (response.success) 
+              {
+                console.log('Winner data successfully posted:', { whiteStrategy, blackStrategy });
+              } 
+              else 
+              {
+                console.error('Failed to post winner data:', response.error);
+              }
+            },
+            (error) => 
+            {
+              console.error('Error posting winner data:', error);
+            }
+          );
+          this.isPlaying = false;
+          this.openResetPopup("Its a draw!"); // Call popup for draw
+          return;
+        }
 
       } 
       else 
@@ -171,4 +205,34 @@ export class PlayBotsPageComponent implements OnInit {
     const fenParts = fen.split(' ');
     return fenParts[1] as 'w' | 'b';
   }
+
+  openResetPopup(gameResult: string): void 
+  {
+      const dialogRef = this.dialog.open(ResetPopupComponent, 
+      {
+          width: '400px',
+          hasBackdrop: true,
+          disableClose: true,
+          data: gameResult // Pass the game result here
+      });
+  
+      dialogRef.afterClosed().subscribe(result => 
+      {
+          if (result) 
+          {
+              console.log("User confirmed action in reset popup.");
+              this.chessBoard.reset(); 
+              this.currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
+          } 
+          else 
+          {
+              console.log("User canceled action in reset popup.");
+          }
+          setTimeout(() => 
+            {
+              this.isGameOver = true;
+            }, 1500)
+      });
+  }
+  
 }

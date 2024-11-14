@@ -1,0 +1,10 @@
+<div class="custom-backdrop-overlay"></div>
+<div class="dialog-content">
+  <h2 class="dialog-title">{{ game_result }}</h2> <!-- Display game result here -->
+  <p>Elo scores would be updated with that result</p>
+  
+  <div class="dialog-buttons">
+    <button mat-button (click)="onGoBack()">Go Back</button> <!-- Go Back button -->
+    <button mat-button color="primary" (click)="onConfirm()">Confirm</button> <!-- Confirm button -->
+  </div>
+</div>

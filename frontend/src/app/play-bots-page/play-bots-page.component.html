@@ -69,7 +69,7 @@
                     'black-selected': i === selectedBlackRowIndex
                   }"
                 >
-                  <td>{{ strategy._id.$oid }}</td>
+                  <td class="strategy-id">{{ strategy._id.$oid }}</td>
                   <td>{{ strategy.name }}</td>
                   <td>{{ strategy.wins }}</td>
                   <td>{{ strategy.losses }}</td>
@@ -82,21 +82,20 @@
 
         <!-- Additional Block of Text -->
         
-        <div 
-        class="text-block mt-5 p-4 fade-in" 
-        style="background-color: white;"
-      >
-        <h3 class="text-dark">Congratulations</h3>
-        <hr class="mt-2 mb-3" style="border-top: 2px solid #333;">
-        <p class="text-muted text-justify" style="text-align: justify;">
-          You successfully matched two strategies against each other. Feel free to try different
-          combinations or if you feel ready to create your own, jump in and create an account to
-          create your own strategies.
-        </p>
-        <div class="text-center mt-4">
-          <button class="btn btn-primary custom-button">Sign In to Create Your Own Strategies</button>
-        </div>
-      </div>
+        <ng-container *ngIf="isGameOver">
+          <div class="text-block mt-5 p-4 fade-in" style="background-color: white;">
+            <h3 class="text-dark">Congratulations</h3>
+            <hr class="mt-2 mb-3" style="border-top: 2px solid #333;">
+            <p class="text-muted text-justify" style="text-align: justify;">
+              You successfully matched two strategies against each other. Feel free to try different
+              combinations or if you feel ready to create your own, jump in and create an account to
+              create your own strategies.
+            </p>
+            <div class="text-center mt-4">
+              <button class="btn btn-primary custom-button" [routerLink]="['/sign-in']">Sign In to Create Your Own Strategies</button>
+            </div>
+          </div>
+        </ng-container>
 
       </div>
     </div>

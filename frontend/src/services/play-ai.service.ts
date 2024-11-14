@@ -82,6 +82,7 @@ export class PlayAiService {
 
   postWinner(white_strategy: string, black_strategy: string, winner: string) 
   {
+    // EMPTY STRING MEANS A DRAW
     return this.http.post<{ success: boolean, error: string }>('/api/post_winner', 
       { 
         white_strategy, 

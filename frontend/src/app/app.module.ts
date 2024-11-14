@@ -24,6 +24,7 @@ import { MaterialFormComponent } from './build-strategy-page/material-form/mater
 import { StrategyOverviewComponent } from './build-strategy-page/strategy-overview/strategy-overview.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confirm-popup.component';
+import { ResetPopupComponent } from './play-bots-page/reset-popup/reset-popup.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confi
     IntroductionComponent,
     MaterialFormComponent,
     StrategyOverviewComponent,
-    ConfirmPopupComponent
+    ConfirmPopupComponent,
+    ResetPopupComponent
   ],
   imports: [
     BrowserModule,

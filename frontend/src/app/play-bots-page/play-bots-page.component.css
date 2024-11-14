@@ -41,3 +41,10 @@ tr {
 .fade-in {
   animation: fadeIn 1s ease-in;
 }
+
+.strategy-id {
+  max-width: 115px; /* Set the maximum width as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

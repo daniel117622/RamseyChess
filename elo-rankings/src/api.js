@@ -3,6 +3,7 @@ const getDb = require('./get-db')
 const ajv = require('ajv')()
 const elo = require('./elo')
 
+
 async function getCollection(collection) {
 	const db = await getDb
 	return db.collection(collection)
@@ -253,6 +254,60 @@ const api = {
 			lowestElo: eloEntries[eloEntries.length-1],
 		}
 	},
+
+	resolveDraw : async function({ player1, player2 }) {
+		// Validation to ensure both players are provided
+		if (!player1 || !player2) {
+			throw new Error('Both player1 and player2 are required.');
+		}
+	
+		// Fetch player data from the database
+		const players = await getCollection('players');
+		const playerDocs = await players.find({ name: { $in: [player1, player2] } }).toArray();
+	
+		if (playerDocs.length !== 2) {
+			throw new Error('One or both players could not be found.');
+		}
+	
+		// Calculate the Elo rating delta for the draw
+		const date = new Date();
+		const averageElo = getAverageElo(playerDocs);
+		const delta = Math.round(elo(averageElo, averageElo) / 2);  // Elo adjustment for draw
+	
+		// Update Elo for both players
+		const updatePromises = playerDocs.map(doc => {
+			return players.updateOne(
+				{ _id: mongodb.ObjectID(doc._id) },
+				{
+					$inc: { elo: delta },
+					$set: { lastActivity: date }
+				}
+			);
+		});
+	
+		await Promise.all(updatePromises);
+	
+		// Log the draw game to history
+		const history = await getCollection('history');
+		await history.insertOne({
+			time: date,
+			players: playerDocs.map(doc => ({ name: doc.name, elo: doc.elo + delta })),
+			winners: [],
+			losers: [],
+			deltaElo: delta,
+			draw: true
+		});
+	
+		return {
+			message: 'Draw game resolved',
+			deltaElo: delta,
+			players: playerDocs.map(doc => ({
+				name: doc.name,
+				elo: doc.elo + delta
+			})),
+			probability: 0.5  // Draw probability
+		}
+	}
 }
 
 module.exports = api;

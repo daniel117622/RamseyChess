@@ -180,7 +180,28 @@ def get_private_strategies():
     return jsonify(my_strategies)     
       
 
+@profile_routes.route('/delete_private_strategies', methods=['POST'])
+def delete_private_strategies():
+    data = request.json
+    oauth_sub     = data.get("sub")
+    doc_delete_id = data.get("delete")
+
+    if not data or not doc_delete_id:
+        return jsonify({"error": "Request data missing"}), 400
+
+    if not oauth_sub:
+        return jsonify({"error": "User 'sub' not provided"}), 400
+
+    delete_manager = AiPremadeManager()
+    result = delete_manager.deleteStrategy(doc_delete_id)
+
+    if isinstance(result, dict) and result.get("error"):
+        return jsonify(result), 400
+
+    return jsonify({"success": "Deleted strategy"}), 200
      
+
+   
 
 
 

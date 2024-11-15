@@ -10,6 +10,9 @@ services:
       - ./mongodb_volume:/data/db
     restart: always
     command: ["--bind_ip", "0.0.0.0", "--port", "27017", "--replSet", "rs0"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -32,6 +35,7 @@ services:
       - FLASK_APP=server.py
       - FLASK_RUN_HOST=0.0.0.0
       - PYTHONPATH=/app
+      - MONGO_URI=mongodb://root:root@mongodb:27017/  # Add authentication to the MongoDB URI
 
   frontend:
     build:
@@ -58,9 +62,8 @@ services:
         condition: service_healthy
     restart: always
     environment:
-      - MONGO_URI=mongodb://34.172.128.64:27018/elo_rankings
+      - MONGO_URI=mongodb://root:root@mongodb:27017/elo_rankings  # Add authentication to the MongoDB URI
 
-      
 volumes:
   traefik-certificates:
 

@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:5.0  # Updated MongoDB image version
+    image: mongo:5.0
     container_name: mongodb
     ports:
       - "27018:27017"
     volumes:
       - ./mongodb_volume:/data/db
     restart: always
-    command: ["--bind_ip", "0.0.0.0", "--port", "27017", "--noauth"]  # Disable authentication
+    command: ["--bind_ip", "0.0.0.0", "--port", "27017", "--auth"]  # Enable authentication
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -18,10 +18,13 @@ services:
       start_period: 30s
     networks:
       - mynetwork
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
 
   ramsey-api:
     build:
-      context: ./api  # Adjust the path to where your Dockerfile is located
+      context: ./api
       dockerfile: Dockerfile
     container_name: ramsey-api
     ports:
@@ -34,45 +37,40 @@ services:
       - FLASK_APP=server.py
       - FLASK_RUN_HOST=0.0.0.0
       - PYTHONPATH=/app
-      - MONGO_URL=mongodb://mongodb:27018/?authSource=admin
+      - MONGO_URI=${MONGO_URI}  # Reference MONGO_URI from environment variable
     networks:
       - mynetwork
 
   frontend:
     build:
-      context: ./frontend  # Adjust the path to where your Angular frontend Dockerfile is located
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "80:4200"  # Internal port used by the frontend service
+      - "80:4200"
     restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`34.172.128.64`)"  # Use your IP address
-      - "traefik.http.routers.frontend.entrypoints=websecure"
     networks:
       - mynetwork
-      
+
   elo-rankings:
     build:
       context: ./elo-rankings
-      dockerfile: DOCKERFILE  # Use the Dockerfile specified for elo-rankings
+      dockerfile: DOCKERFILE
     container_name: elo-rankings
     ports:
-      - "3000:3000"  # Expose elo-rankings on port 3000
+      - "3000:3000"
     depends_on:
       mongodb:
         condition: service_healthy
     restart: always
     environment:
-      - MONGO_URI=mongodb://mongodb/elo_rankings  # Add authentication to the MongoDB URI
+      - MONGO_URI=${MONGO_URI}  
     networks:
       - mynetwork
-
 
 volumes:
   traefik-certificates:
 
 networks:
   mynetwork:
-    driver: bridge  # The default network driver, you can change this if needed
+    driver: bridge

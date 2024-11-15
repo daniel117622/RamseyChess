@@ -3,9 +3,9 @@ import time
 from data_access.elo_service import EloService
 import os 
 
-mongo_url = "mongodb://mongodb:27017"
 max_retries = 5
 retry_interval = 10  # seconds
+mongo_url = os.getenv('MONGO_URI', None)
 
 for attempt in range(max_retries):
     try:

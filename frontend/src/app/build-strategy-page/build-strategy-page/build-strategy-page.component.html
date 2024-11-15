@@ -4,7 +4,7 @@
       <h3 style="margin-bottom: 15px;">{{ steps[currentStep].title }}</h3>
       <ng-container [ngSwitch]="steps[currentStep].component">
         <app-introduction *ngSwitchCase="'app-introduction'"></app-introduction>
-        <app-material-form *ngSwitchCase="'app-material-form'"></app-material-form>        
+        <app-material-form *ngSwitchCase="'app-material-form'" [sub]="this.sub" ></app-material-form>        
         <!-- Pass sub to app-strategy-overview -->
         <app-strategy-overview 
           *ngSwitchCase="'app-strategy-overview'"

@@ -72,7 +72,7 @@ interface EvaluateDangerDetail {
   _id: ObjectId;
   name: string;
   owner: string | null;
-  type: "evaluate_danger";
+  type: string;
   blackPieces: {
       attackedPieces: number;
       hangingPieces: number;
@@ -85,3 +85,24 @@ interface EvaluateDangerDetail {
 
 export type StrategyDetail = EvaluateMaterialDetail | EvaluateDangerDetail;
 export interface StrategyDetailResponse extends Array<StrategyDetail> {}
+
+
+interface StrategyGeneric {
+  _id: ObjectId;
+  name: string;
+  owner: string;
+  [key: string]: any;
+}
+
+export interface StrategyCardListProfileView {
+  _id: ObjectId;
+  elo: number;
+  losses: number;
+  name: string;
+  owner: string;
+  strategy_list: StrategyGeneric[];
+  wins: number;
+  description: string; 
+}
+
+

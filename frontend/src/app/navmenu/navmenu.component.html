@@ -43,7 +43,7 @@
   </ul>
 
   <!-- Right side: Sign In / Register or Sign Out, shown only on desktop -->
-  <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important;">
+  <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important; max-height: 70px !important;">
     <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
     </li>

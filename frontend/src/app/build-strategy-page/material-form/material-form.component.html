@@ -108,7 +108,20 @@
               </div>
             </td>
           </tr>
-          
+          <!-- Row for Material Name Input with Consistent Styling -->
+          <tr>
+            <td colspan="2" class="asset-placeholder">
+              <div class="piece-container d-flex flex-column align-items-center">
+                <input
+                  type="text"
+                  class="form-control w-75"
+                  [(ngModel)]="materialEval.name"
+                  placeholder="Enter material name"
+                  aria-label="Material Name"
+                />
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

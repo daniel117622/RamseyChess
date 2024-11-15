@@ -21,6 +21,7 @@ class AiPremadeStratDoc:
     losses       : int
     elo          : int
     owner        : str
+    description  : str
 
 
 class AiPremadeManager():
@@ -77,3 +78,10 @@ class AiPremadeManager():
                 "modified_count": result.modified_count
             }
                 
+    def insertIntoDb(self, new_doc: AiPremadeStratDoc) -> str:
+        result = self.docs.insert_one(asdict(new_doc))
+        return str(new_doc._id) if result.acknowledged else None
+    
+    def getByOwner(self, owner):
+        self.current_docs_collection = list(self.docs.find({"owner":owner}))
+        return json.loads(dumps(self.current_docs_collection))

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 
 import { UserProfile } from 'src/models/user-profile.model';
+import { StrategyCardListProfileView } from 'src/models/start-card.model';
 
 @Component({
   selector: 'app-profile-page',
@@ -14,6 +15,8 @@ import { UserProfile } from 'src/models/user-profile.model';
 export class ProfilePageComponent implements OnInit {
   user$ = this.auth.user$;
   userProfileData$: Observable<UserProfile> | undefined;
+
+  my_saved_strategies : StrategyCardListProfileView[] = []
 
   constructor(public auth: AuthService, private http: HttpClient) {}
 
@@ -28,5 +31,16 @@ export class ProfilePageComponent implements OnInit {
         })
       )
     );
+    // ASYNC WITH PROFILE FETCHING
+    this.user$.pipe(
+      filter((user): user is User => user != null),
+      switchMap(user => 
+        this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
+          sub: user.sub
+        })
+      )
+    ).subscribe(strategies => {
+      this.my_saved_strategies = strategies;
+    });
   }
 }

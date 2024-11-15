@@ -77,7 +77,8 @@ export class StrategyBuildService {
 
   saveStrategy()
   {
-    return 1
+    return this.http.post('/api/register_strategy', this.buildable_strategy)
   }
   
+
 }

@@ -16,6 +16,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    networks:
+      - mynetwork
 
   ramsey-api:
     build:
@@ -33,6 +35,8 @@ services:
       - FLASK_RUN_HOST=0.0.0.0
       - PYTHONPATH=/app
       - MONGO_URL=mongodb://mongodb:27018/?authSource=admin
+    networks:
+      - mynetwork
 
   frontend:
     build:
@@ -46,6 +50,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`34.172.128.64`)"  # Use your IP address
       - "traefik.http.routers.frontend.entrypoints=websecure"
+    networks:
+      - mynetwork
       
   elo-rankings:
     build:
@@ -60,6 +66,9 @@ services:
     restart: always
     environment:
       - MONGO_URI=mongodb://mongodb/elo_rankings  # Add authentication to the MongoDB URI
+    networks:
+      - mynetwork
+
 
 volumes:
   traefik-certificates:

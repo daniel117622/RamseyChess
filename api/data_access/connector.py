@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import time
 from data_access.elo_service import EloService
 
-mongo_url = "mongodb://root:root@34.172.128.64:27018/"
+mongo_url = "mongodb://34.172.128.64:27018/?authSource=admin"
 max_retries = 5
 retry_interval = 10  # seconds
 

@@ -211,14 +211,13 @@ def request_move_by_strategy():
     if board.turn == chess.WHITE:
       scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
     
-    else:
-      # For black's turn, swap white and black pieces
-      tmpWhite = eval_manager["whitePieces"]
-      tmpBlack = eval_manager["blackPieces"]
-      
+    else:      
       # Swap the pieces
-      eval_manager["whitePieces"] = tmpBlack
-      eval_manager["blackPieces"] = tmpWhite
+      for piece , value in eval_manager["whitePieces"].items():
+         eval_manager["blackPieces"][piece] *= -1 
+      for piece , value in eval_manager["blackPieces"].items():
+         eval_manager["blackPieces"][piece] *= -1 
+         
       scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
 
     loaded_evaluators.append(scoring_executor)

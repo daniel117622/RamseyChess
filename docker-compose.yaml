@@ -32,6 +32,7 @@ services:
       - FLASK_APP=server.py
       - FLASK_RUN_HOST=0.0.0.0
       - PYTHONPATH=/app
+      - MONGO_URL=mongodb://mongodb:27018/?authSource=admin
 
   frontend:
     build:
@@ -58,7 +59,7 @@ services:
         condition: service_healthy
     restart: always
     environment:
-      - MONGO_URI=mongodb://34.172.128.64:27018/elo_rankings  # Add authentication to the MongoDB URI
+      - MONGO_URI=mongodb://mongodb/elo_rankings  # Add authentication to the MongoDB URI
 
 volumes:
   traefik-certificates:

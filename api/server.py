@@ -214,7 +214,7 @@ def request_move_by_strategy():
     else:      
       # Swap the pieces
       for piece , value in eval_manager["whitePieces"].items():
-         eval_manager["blackPieces"][piece] *= -1 
+         eval_manager["whitePieces"][piece] *= -1 
       for piece , value in eval_manager["blackPieces"].items():
          eval_manager["blackPieces"][piece] *= -1 
          

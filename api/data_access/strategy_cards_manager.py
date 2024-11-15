@@ -88,42 +88,26 @@ class AiPremadeManager():
         return json.loads(dumps(self.current_docs_collection))
     
     def deleteStrategy(self, strategy_id: str):
-        client = db.client
-        session = client.start_session()
+        # Create the filter to find the strategy document by its ObjectId
+        filter = {"_id": ObjectId(strategy_id)}
+        # Retrieve the strategy document based on the filter
+        strategy_doc = self.docs.find_one(filter)
 
-        try:
-            session.start_transaction()
+        if not strategy_doc:
+            return {"error": f"Strategy with id {strategy_id} not found."}
+        
+        # Flag to check if all children are deleted
+        all_children_deleted = True
 
-            # Create the filter to find the strategy document by its ObjectId
-            filter = {"_id": ObjectId(strategy_id)}
-            # Retrieve the strategy document based on the filter
-            strategy_doc = self.docs.find_one(filter, session=session)
+        for strategy in strategy_doc["strategy_list"]:
+            result = db[strategy["collection"]].delete_one({"_id": ObjectId(strategy["strat_id"])})
+            # If any child strategy cannot be deleted, set the flag to False
+            if result.deleted_count == 0:
+                all_children_deleted = False
 
-            if not strategy_doc:
-                return {"error": f"Strategy with id {strategy_id} not found."}
-            
-            # Flag to check if all children are deleted
-            all_children_deleted = True
-
-            for strategy in strategy_doc["strategy_list"]:
-                result = db[strategy["collection"]].delete_one({"_id": ObjectId(strategy["strat_id"])}, session=session)
-                # If any child strategy cannot be deleted, set the flag to False
-                if result.deleted_count == 0:
-                    all_children_deleted = False
-
-            # If all child strategies were successfully deleted, proceed to delete the parent document
-            if all_children_deleted:
-                self.docs.delete_one(filter, session=session)
-                session.commit_transaction()
-                return True
-            else:
-                session.abort_transaction()
-                return {"error": "Failed to delete one or more child strategies."}
-
-        except OperationFailure as e:
-            # If an error occurs during the transaction, abort the transaction
-            session.abort_transaction()
-            return {"error": f"Operation failed: {str(e)}"}
-
-        finally:
-            session.end_session()
+        # If all child strategies were successfully deleted, proceed to delete the parent document
+        if all_children_deleted:
+            self.docs.delete_one(filter)
+            return True
+        else:
+            return {"error": "Failed to delete one or more child strategies."}

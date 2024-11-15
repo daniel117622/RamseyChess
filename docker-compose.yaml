@@ -63,3 +63,7 @@ services:
       
 volumes:
   traefik-certificates:
+
+networks:
+  mynetwork:
+    driver: bridge  # The default network driver, you can change this if needed

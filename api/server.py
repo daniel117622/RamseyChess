@@ -206,10 +206,18 @@ def request_move_by_strategy():
     # matEval = MaterialEvaluator(eval_manager=material_scoring, board=board)
     # matEval.set_board(board)
     # minimax = Minimax(evaluator=[matEval], depth=depth)
-
     manager.loadById(evaluator_id)
-    scoring_executor = available_scorers[collection](eval_manager=manager.getCurrent(), board=board)
+    if board.turn == chess.WHITE:
+      scoring_executor = available_scorers[collection](eval_manager=manager.getCurrent(), board=board)
     
+    else:
+      tmpWhite = manager.getCurrent()["white_pieces"]
+      tmpBlack = manager.getCurrent()["black_pieces"]
+      eval_manager = manager.getCurrent()
+      eval_manager["white_pieces"] = tmpBlack
+      eval_manager["black_pieces"] = tmpWhite
+      scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+
     loaded_evaluators.append(scoring_executor)
   
   

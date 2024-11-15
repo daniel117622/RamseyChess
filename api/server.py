@@ -212,13 +212,14 @@ def request_move_by_strategy():
       scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
     
     else:      
-      # Swap the pieces
-      for piece , value in eval_manager["whitePieces"].items():
-         eval_manager["whitePieces"][piece] *= -1 
-      for piece , value in eval_manager["blackPieces"].items():
-         eval_manager["blackPieces"][piece] *= -1 
-         
-      scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+      # Swap the pieces only in this type of evaluation. Probably a generic method of "swapping will need to be added"
+      if collection == "evaluate_material":
+        for piece , value in eval_manager["whitePieces"].items():
+          eval_manager["whitePieces"][piece] *= -1 
+        for piece , value in eval_manager["blackPieces"].items():
+          eval_manager["blackPieces"][piece] *= -1 
+          
+        scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
 
     loaded_evaluators.append(scoring_executor)
   

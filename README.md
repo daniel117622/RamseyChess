@@ -1,7 +1,7 @@
 
-# RamseyChess Blog
+# RamseyChess
 
-Welcome to the **RamseyChess Blog**! This is the place where chess enthusiasts of all levels can come together to explore the world of chess, learn new strategies, and stay up to date with the latest news in the chess community.
+Welcome to the **RamseyChess **! This is the place where chess enthusiasts of all levels can come together to explore the world of chess, learn new strategies, and stay up to date with the latest news in the chess community.
 
 ## About RamseyChess Blog
 
@@ -24,11 +24,12 @@ For example, at a depth of 1, the bot will look at all possible next moves and c
 To help you get started with building your own strategies, you can also play against predefined AI bots with unique approaches:
 
 - **The Pawn Gobbler**: This bot relentlessly pursues pawns, trying to capture every single one.
-- **The Coward**: A cautious bot that avoids attacks and often retreats rather than engaging.
-- **The Opportunist**: This bot focuses on capturing high-value pieces, like the queen, whenever possible.
-
+- **The inverted**: Literally switched piece values, it will try to lose
 As the platform develops, more sophisticated bots will be introduced, including those that value closed positions and strategic movement restrictions.
 
+## Medium term plans:
+Aside from evaluating only material. The following parameters are for certain to be added, as well as some sort of configuration to change their wheights over time:
+![image](https://github.com/user-attachments/assets/f5bfddf0-b860-4c14-94ee-0c4dca2f7049)
 
 ## Contact Us
 

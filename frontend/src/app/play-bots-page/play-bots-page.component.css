@@ -48,6 +48,12 @@ tr {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+@keyframes blink {
+  0% { background-color: inherit; }
+  50% { background-color: yellow; }
+  100% { background-color: inherit; }
+}
+
 .blink {
   animation: blink 1s ease-in-out;
 }

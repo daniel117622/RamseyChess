@@ -158,7 +158,6 @@ def request_move_by_strategy():
 
     loaded_evaluators.append(scoring_executor)
 
-  print(str(loaded_evaluators[0]), flush=True)
   
   
   minimax = Minimax(evaluator=loaded_evaluators,depth=depth)

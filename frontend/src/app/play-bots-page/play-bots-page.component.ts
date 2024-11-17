@@ -92,11 +92,31 @@ export class PlayBotsPageComponent implements OnInit {
       const res: NextMove | {} = await this.play_ai.getNextMoveByStratId(this.currentFen, strategy, 2);
       if ('best_move' in res && typeof res.best_move === 'string') 
       {
+        const move = res.best_move;
+        if (res.best_move.length === 5)
+        {
+          const from = move.substring(0, 2);
+          const to = move.substring(2, 4);
+          const promotionPiece = move[4].toLowerCase(); 
+
+          // Load the current FEN into the chess.js instance
+          this._chess.load(this.currentFen);
+
+          // Make the move with promotion
+          this._chess.move({ from, to, promotion: promotionPiece });
+
+          // Get the updated FEN
+          this.currentFen = this._chess.fen();
+
+          // Update the ngx-chess-board with the new FEN
+          this.chessBoard.setFEN(this.currentFen);
+        }
+        else
+        { 
         this.chessBoard.move(res.best_move);
         this.currentFen = this.chessBoard.getFEN();
-
         this._chess.load(this.currentFen)
-        console.log(this._chess.isCheckmate())
+        }
         if (this._chess.isCheckmate())
         {
           const winner = currentTurn === 'w' ? whiteStrategy : blackStrategy;
@@ -120,8 +140,7 @@ export class PlayBotsPageComponent implements OnInit {
               console.error('Error posting winner data:', error);
             }
           );          
-          this.isPlaying = false;
-          this.openResetPopup(currentTurn === 'w' ? "White wins!" : "Black wins!"); // Call popup for win
+          this.openResetPopup(currentTurn === 'w' ? 'White wins!' : 'Black wins!');
           return;
         } 
         if (this._chess.isDraw()) 
@@ -145,6 +164,8 @@ export class PlayBotsPageComponent implements OnInit {
               console.error('Error posting winner data:', error);
             }
           );
+          this.openResetPopup("Game ended in a draw");
+          return;
         }
       } 
       else 
@@ -203,33 +224,28 @@ export class PlayBotsPageComponent implements OnInit {
     return fenParts[1] as 'w' | 'b';
   }
 
-  openResetPopup(gameResult: string): void 
-  {
-      const dialogRef = this.dialog.open(ResetPopupComponent, 
-      {
-          width: '400px',
-          hasBackdrop: true,
-          disableClose: true,
-          data: gameResult // Pass the game result here
-      });
+  openResetPopup(gameResult: string): void {
+    const dialogRef = this.dialog.open(ResetPopupComponent, {
+      width: '400px',
+      hasBackdrop: true,
+      disableClose: true,
+      data: gameResult // Pass the game result here
+    });
   
-      dialogRef.afterClosed().subscribe(result => 
-      {
-          if (result) 
-          {
-              console.log("User confirmed action in reset popup.");
-              this.chessBoard.reset(); 
-              this.currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
-          } 
-          else 
-          {
-              console.log("User canceled action in reset popup.");
-          }
-          setTimeout(() => 
-            {
-              this.isGameOver = true;
-            }, 1500)
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("User confirmed action in reset popup.");
+        this.chessBoard.reset();
+        this.currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+      } else {
+        console.log("User canceled action in reset popup.");
+      }
+      this.isPlaying = true;
+      setTimeout(() => {
+        this.isGameOver = true;
+         // Set isPlaying to false after the popup has closed and actions are complete
+      }, 1500);
+    });
   }
   
   updateElo(delta_elo: number, result: string) 

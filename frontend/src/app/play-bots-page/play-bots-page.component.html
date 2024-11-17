@@ -2,22 +2,32 @@
   <div class="row">
     <!-- Chessboard Column -->
     <div class="col-12 col-lg-6 d-flex justify-content-center">
-      <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" [size]="boardSize" [darkTileColor]="'#779557'"
-        [lightTileColor]="'#ECECD0'" [pieceIcons]="{
-          blackBishopUrl: 'assets/pieces/bb.svg',
-          blackKingUrl: 'assets/pieces/bk.svg',
-          blackKnightUrl: 'assets/pieces/bn.svg',
-          blackPawnUrl: 'assets/pieces/bp.svg',
-          blackQueenUrl: 'assets/pieces/bq.svg',
-          blackRookUrl: 'assets/pieces/br.svg',
-          whiteBishopUrl: 'assets/pieces/wb.svg',
-          whiteKingUrl: 'assets/pieces/wk.svg',
-          whiteKnightUrl: 'assets/pieces/wn.svg',
-          whitePawnUrl: 'assets/pieces/wp.svg',
-          whiteQueenUrl: 'assets/pieces/wq.svg',
-          whiteRookUrl: 'assets/pieces/wr.svg'
-        }">
-      </ngx-chess-board>
+      <ngx-chess-board
+      #chessBoard
+      (moveChange)="onMoveChange()"
+      [size]="boardSize"
+      [darkTileColor]="'#779557'"
+      [lightTileColor]="'#ECECD0'"
+      [pieceIcons]="{
+        blackBishopUrl: 'assets/pieces/bb.svg',
+        blackKingUrl: 'assets/pieces/bk.svg',
+        blackKnightUrl: 'assets/pieces/bn.svg',
+        blackPawnUrl: 'assets/pieces/bp.svg',
+        blackQueenUrl: 'assets/pieces/bq.svg',
+        blackRookUrl: 'assets/pieces/br.svg',
+        whiteBishopUrl: 'assets/pieces/wb.svg',
+        whiteKingUrl: 'assets/pieces/wk.svg',
+        whiteKnightUrl: 'assets/pieces/wn.svg',
+        whitePawnUrl: 'assets/pieces/wp.svg',
+        whiteQueenUrl: 'assets/pieces/wq.svg',
+        whiteRookUrl: 'assets/pieces/wr.svg'
+      }"
+      [freeMode]="true"
+      [dragDisabled]="true"
+      [lightDisabled]="true"
+      [darkDisabled]="true"
+    >
+    </ngx-chess-board>
     </div>
 
     <!-- Table Column -->

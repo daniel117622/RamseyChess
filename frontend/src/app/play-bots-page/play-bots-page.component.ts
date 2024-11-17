@@ -31,7 +31,8 @@ export class PlayBotsPageComponent implements OnInit {
   selectedBlackRowIndex: number | null = null;
 
   publicStrategies: StrategyCardData[] = []
-
+  isWhiteBlinking: boolean = false;
+  isBlackBlinking: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -102,22 +103,23 @@ export class PlayBotsPageComponent implements OnInit {
           console.log("Posting winner")
           this.isPlaying = false;
           this.play_ai.postWinner(whiteStrategy, blackStrategy, winner).subscribe(
-            (response) => 
+            (deltaElo: number | null) => 
             {
-              if (response.success) 
+              if (deltaElo !== null) 
               {
                 console.log('Winner data successfully posted:', { whiteStrategy, blackStrategy });
+                this.updateElo(deltaElo, currentTurn);
               } 
               else 
               {
-                console.error('Failed to post winner data:', response.error);
+                console.error('Failed to update Elo due to an error in posting winner data.');
               }
             },
             (error) => 
             {
               console.error('Error posting winner data:', error);
             }
-          );
+          );          
           this.isPlaying = false;
           this.openResetPopup(currentTurn === 'w' ? "White wins!" : "Black wins!"); // Call popup for win
           return;
@@ -126,15 +128,16 @@ export class PlayBotsPageComponent implements OnInit {
         {
           console.log("The game ended in a draw. No ELO scores will be changed.");
           this.play_ai.postWinner(whiteStrategy, blackStrategy, "").subscribe(
-            (response) => 
+            (deltaElo: number | null) => 
             {
-              if (response.success) 
+              if (deltaElo !== null) 
               {
                 console.log('Winner data successfully posted:', { whiteStrategy, blackStrategy });
+                this.updateElo(deltaElo, 'd');
               } 
               else 
               {
-                console.error('Failed to post winner data:', response.error);
+                console.error('Failed to post winner data.');
               }
             },
             (error) => 
@@ -142,11 +145,7 @@ export class PlayBotsPageComponent implements OnInit {
               console.error('Error posting winner data:', error);
             }
           );
-          this.isPlaying = false;
-          this.openResetPopup("Its a draw!"); // Call popup for draw
-          return;
         }
-
       } 
       else 
       {
@@ -185,8 +184,6 @@ export class PlayBotsPageComponent implements OnInit {
   }
 
   
-
-
   // Responsive board
   updateBoardSize(): number {
     const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
@@ -235,4 +232,64 @@ export class PlayBotsPageComponent implements OnInit {
       });
   }
   
+  updateElo(delta_elo: number, result: string) 
+  {
+    // ['b', 'w', 'd'] black win, white win, or draw
+    const whiteStrategy = this.publicStrategies.find(
+      (strategy) => strategy._id.$oid === this.whiteStrategyId
+    );
+    const blackStrategy = this.publicStrategies.find(
+      (strategy) => strategy._id.$oid === this.blackStrategyId
+    );
+  
+    if (!whiteStrategy || !blackStrategy) 
+    {
+      console.error('Strategies not found.');
+      return;
+    }
+  
+    if (result === 'w') 
+    {
+      whiteStrategy.elo += delta_elo;
+      blackStrategy.elo -= delta_elo;
+      console.log(`White wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
+    } 
+    else if (result === 'b') 
+    {
+      whiteStrategy.elo -= delta_elo;
+      blackStrategy.elo += delta_elo;
+      console.log(`Black wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
+    } 
+    else if (result === 'd') 
+    {
+      if (whiteStrategy.elo > blackStrategy.elo) 
+      {
+        whiteStrategy.elo -= delta_elo;
+        blackStrategy.elo += delta_elo;
+      } 
+      else if (whiteStrategy.elo < blackStrategy.elo) 
+      {
+        whiteStrategy.elo += delta_elo;
+        blackStrategy.elo -= delta_elo;
+      }
+      console.log(`Draw. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
+    }
+
+    if (this.selectedWhiteRowIndex !== null) 
+    {
+      this.isWhiteBlinking = true;
+    }
+    if (this.selectedBlackRowIndex !== null)
+    {
+      this.isBlackBlinking = true;
+    }
+
+    // Detect changes to apply the class
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.isWhiteBlinking = false;
+      this.isBlackBlinking = false;
+      this.cdr.detectChanges();
+    }, 1000);
+  }
 }

@@ -208,20 +208,23 @@ def request_move_by_strategy():
     # minimax = Minimax(evaluator=[matEval], depth=depth)
     manager.loadById(evaluator_id)
     eval_manager = manager.getCurrent()
-    if board.turn == chess.WHITE:
-      scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+
+    # if board.turn == chess.WHITE:
+    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
     
-    else:      
-      # Swap the pieces only in this type of evaluation. Probably a generic method of "swapping will need to be added"
-      if collection == "evaluate_material":
-        for piece , value in eval_manager["whitePieces"].items():
-          eval_manager["whitePieces"][piece] *= -1 
-        for piece , value in eval_manager["blackPieces"].items():
-          eval_manager["blackPieces"][piece] *= -1 
-          
-        scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+    # else:      
+    #   # Swap the pieces only in this type of evaluation. Probably a generic method of "swapping will need to be added"
+    #   if collection == "evaluate_material":
+    #     for piece , value in eval_manager["whitePieces"].items():
+    #       eval_manager["whitePieces"][piece] *= -1 
+    #     for piece , value in eval_manager["blackPieces"].items():
+    #       eval_manager["blackPieces"][piece] *= -1 
+    #       
+    #     scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
 
     loaded_evaluators.append(scoring_executor)
+
+  print(str(loaded_evaluators[0]), flush=True)
   
   
   minimax = Minimax(evaluator=loaded_evaluators,depth=depth)

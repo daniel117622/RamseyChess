@@ -63,7 +63,8 @@
                   (click)="onRowClick(strategy, i)"
                   [ngClass]="{
                     'white-selected': i === selectedWhiteRowIndex,
-                    'black-selected': i === selectedBlackRowIndex
+                    'black-selected': i === selectedBlackRowIndex,
+                    'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
                   }"
                 >
                   <td>{{ strategy.name }}</td>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, of , firstValueFrom } from 'rxjs';
-import { catchError , tap } from 'rxjs/operators';
+import { BehaviorSubject, of , firstValueFrom, Observable } from 'rxjs';
+import { catchError , tap, map } from 'rxjs/operators';
 import { StrategyCardData, StrategyRequest, StrategyDetailResponse } from 'src/models/start-card.model';
 import { NextMove } from 'src/models/next-move.model';
 
@@ -80,26 +80,19 @@ export class PlayAiService {
     }
   }
 
-  postWinner(white_strategy: string, black_strategy: string, winner: string) 
-  {
+  postWinner(white_strategy: string, black_strategy: string, winner: string): Observable<number | null> {
     // EMPTY STRING MEANS A DRAW
-    return this.http.post<{ success: boolean, error: string }>('/api/post_winner', 
-      { 
-        white_strategy, 
-        black_strategy,
-        winner: winner
-      }).pipe(
-        tap((response) => 
+    return this.http
+      .post<{ deltaElo?: number }>(
+        '/api/post_winner',
         {
-          if (response.success) 
-          {
-            console.log('Winner data successfully posted:', { white_strategy, black_strategy });
-          } 
-          else 
-          {
-            console.error('Failed to post winner data:', response.error);
-          }
-        })
+          white_strategy,
+          black_strategy,
+          winner,
+        }
+      )
+      .pipe(
+        map((response) => response.deltaElo ?? null)
       );
-    }
+  }
 }

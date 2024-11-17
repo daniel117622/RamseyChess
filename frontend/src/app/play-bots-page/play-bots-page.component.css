@@ -48,3 +48,6 @@ tr {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.blink {
+  animation: blink 1s ease-in-out;
+}

@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from data_access.material_manager import EvaluateMaterialManager
-from data_access.danger_manager import EvaluateDangerManager
 from data_access.strategy_cards_manager import AiPremadeStratDoc, AiPremadeManager
 import sys
 
@@ -27,14 +26,11 @@ def get_strategies_expand():
 @public_routes.route('/get_evaluators', methods=['GET'])
 def get_evaluators():
   em = EvaluateMaterialManager()
-  ed = EvaluateDangerManager()
 
   public_ems = em.getNullOwner()
-  public_eds = ed.getNullOwner()
 
   return jsonify({
     "material_evaluators" : public_ems,
-    "danger_evaluators": public_eds
   })
 
 @public_routes.route('/get_strategy_detail', methods=['POST'])
@@ -43,7 +39,6 @@ def get_strategy_detail():
   strategy_list = req["strategy_list"]
   available_collections = {
     "evaluate_material": EvaluateMaterialManager,
-    "evaluate_danger": EvaluateDangerManager
   }
 
   strategy_details_list = []
@@ -72,7 +67,6 @@ def get_strategy_detail_by_id():
 
   available_collections = {
     "evaluate_material": EvaluateMaterialManager,
-    "evaluate_danger": EvaluateDangerManager
   }
 
   strategy_details_list = []

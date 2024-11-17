@@ -9,10 +9,10 @@ from routes.profile_routes.profile_routes import profile_routes
 
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
-from data_access.danger_manager import EvaluateDangerManager
+
 
 from evaluators.material_evaluator import MaterialEvaluator
-from evaluators.danger_evaluator import DangerEvaluator
+
 
 import json
 from bson.json_util import dumps , loads
@@ -28,36 +28,6 @@ app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
 
 
-@app.route('/gen_evaluate', methods=['POST'])
-def evaluate_material():
-  data    = request.get_json()
-
-  fen       = data.get("fen", None)
-  mat_eval_name = data.get("mat_eval_name", None)
-  dan_eval_name = data.get("dan_eval_name", None)
-  
-  board = chess.Board(fen)
-
-  # Accesso a la BD
-  em = EvaluateMaterialManager()
-  em.loadOne(mat_eval_name)
-  material_scoring = em.getCurrent()
-  
-  ed = EvaluateDangerManager()
-  ed.loadOne(dan_eval_name)
-  danger_scoring = ed.getCurrent()
-
-  # Computación del score
-  matEval = MaterialEvaluator(material_scoring, board)
-  danEval = DangerEvaluator(danger_scoring, board)
-
-  mat_score = matEval.calculate()
-  dan_score = danEval.calculate()
-
-  return jsonify({
-     "material_score" : mat_score,
-     "danger_score" : dan_score
-  })
 
 @app.route('/mat_eval', methods=['POST'])
 def material_eval():
@@ -84,40 +54,6 @@ def material_eval():
         "material_score": matEval.calculate()
     })
 
-@app.route('/danger_eval', methods=['POST'])
-def danger_eval():
-  data      = request.get_json()
-  fen       = data.get("fen", None)
-  eval_name = data.get("eval_name", None)
-
-  board = chess.Board(fen)
-
-  ed = EvaluateDangerManager()
-  ed.loadOne(eval_name)
-  danger_scoring = ed.getCurrent()
-
-  danEval = DangerEvaluator(eval_manager=danger_scoring, board=board)
-
-  legal_moves_fen = {}
-  for move in board.legal_moves:
-    board_copy = board.copy(stack=False)
-    board_copy.push(move)
-    # Get the FEN for the new position
-    danEval.set_board(board_copy)
-    legal_moves_fen[str(board.san(move))] = danEval.calculate()
-
-  for move, score in legal_moves_fen.items():
-      print(f"Move: {move}, score: {score}")
-
-  if board.turn == chess.WHITE:
-    best_move = max(legal_moves_fen, key=legal_moves_fen.get)
-  else:
-    best_move = min(legal_moves_fen, key=legal_moves_fen.get)
-
-  return jsonify({
-    "best_move": best_move,
-    "danger_score" : legal_moves_fen[best_move]
-    })
 
 @app.route('/mat_eval_debug', methods=['POST'])
 def material_eval_debug():
@@ -186,12 +122,10 @@ def request_move_by_strategy():
   load_managers = ai_manager.getCurrent()["strategy_list"]
 
   available_managers = {
-    "evaluate_material": EvaluateMaterialManager,
-    "evaluate_danger": EvaluateDangerManager
+    "evaluate_material": EvaluateMaterialManager
   }
   available_scorers = {
-     "evaluate_material": MaterialEvaluator,
-     "evaluate_danger": DangerEvaluator
+     "evaluate_material": MaterialEvaluator
   }
   loaded_evaluators = []
   for strategy in load_managers:

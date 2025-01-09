@@ -133,29 +133,12 @@ def request_move_by_strategy():
     evaluator_id = strategy["strat_id"]
     manager = available_managers[collection]()
 
-    # em = EvaluateMaterialManager()
-    # em.loadOne(eval_name)
-    # material_scoring = em.getCurrent()
-    # 
-    # matEval = MaterialEvaluator(eval_manager=material_scoring, board=board)
-    # matEval.set_board(board)
-    # minimax = Minimax(evaluator=[matEval], depth=depth)
     manager.loadById(evaluator_id)
     eval_manager = manager.getCurrent()
 
     # if board.turn == chess.WHITE:
     scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
     
-    # else:      
-    #   # Swap the pieces only in this type of evaluation. Probably a generic method of "swapping will need to be added"
-    #   if collection == "evaluate_material":
-    #     for piece , value in eval_manager["whitePieces"].items():
-    #       eval_manager["whitePieces"][piece] *= -1 
-    #     for piece , value in eval_manager["blackPieces"].items():
-    #       eval_manager["blackPieces"][piece] *= -1 
-    #       
-    #     scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-
     loaded_evaluators.append(scoring_executor)
 
   
@@ -168,6 +151,57 @@ def request_move_by_strategy():
     })
   else:
      return jsonify({})
+  
+@app.route('/request_game_by_strategy', methods=['POST'])
+def request_game_by_strategy():
+  req         = request.get_json()
+  strategy_id = req["strategy_id"]
+  fen         = req["fen"]
+  depth       = req["depth"]
+  board = chess.Board(fen)
+  # Accesso a la BD 
+  ai_manager = AiPremadeManager()
+  ai_manager.loadById(strategy_id)
+  load_managers = ai_manager.getCurrent()["strategy_list"]
+
+  available_managers = {
+    "evaluate_material": EvaluateMaterialManager
+  }
+  available_scorers = {
+     "evaluate_material": MaterialEvaluator
+  }
+  loaded_evaluators = []
+  for strategy in load_managers:
+    collection   = strategy["collection"]
+    evaluator_id = strategy["strat_id"]
+    manager = available_managers[collection]()
+
+    manager.loadById(evaluator_id)
+    eval_manager = manager.getCurrent()
+
+    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+    
+    loaded_evaluators.append(scoring_executor)
+
+    minimax = Minimax(evaluator=loaded_evaluators, depth=depth)
+
+    full_game  = []
+    move_count = 0
+    max_moves  = 10
+    
+    while not board.is_game_over() and move_count < max_moves:
+        best_move = minimax.find_best_move(board)
+        if best_move:
+            full_game.append(best_move.uci())
+            board.push(best_move) 
+            move_count += 1
+        else:
+            break  
+    
+    return jsonify({
+        "moves": full_game,
+        "result": board.result() if board.is_game_over() else "ongoing"
+    })
   
 @app.route('/post_winner', methods=['POST'])
 def post_winner():

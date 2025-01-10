@@ -16,6 +16,8 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 # Explicitly install requests to ensure it's available
 RUN pip install requests
+RUN pip install flask_socketio
+
 # Install your project as a package using setup.py
 RUN pip install -e .
 

@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 import chess
 from flasgger import Swagger
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit , disconnect
+
 
 from routes.public_routes.public_routes import public_routes
 from routes.profile_routes.profile_routes import profile_routes
@@ -23,6 +25,7 @@ from minimax import Minimax
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 swagger = Swagger(app)
+socketio = SocketIO(app)
 
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
@@ -152,13 +155,20 @@ def request_move_by_strategy():
   else:
      return jsonify({})
   
-@app.route('/request_game_by_strategy', methods=['POST'])
-def request_game_by_strategy():
-  req         = request.get_json()
-  strategy_id = req["strategy_id"]
-  fen         = req["fen"]
-  depth       = req["depth"]
-  board = chess.Board(fen)
+@socketio.on('request_game_by_strategy')
+def request_game_by_strategy(data):
+  # Will be changed to use marshmallow to declaratively establish the fields
+  required_fields = ['strategy_id', 'fen', 'depth']
+  if not all(field in data for field in required_fields):
+      emit('error', {'message': f'Missing required fields. Expected {required_fields}.'})
+      disconnect()  # Close the connection
+      return
+  # Declarar variables
+  strategy_id = data['strategy_id']
+  fen         = data['fen']
+  depth       = data['depth']
+  board       = chess.Board(fen)
+
   # Accesso a la BD 
   ai_manager = AiPremadeManager()
   ai_manager.loadById(strategy_id)
@@ -170,6 +180,7 @@ def request_game_by_strategy():
   available_scorers = {
      "evaluate_material": MaterialEvaluator
   }
+
   loaded_evaluators = []
   for strategy in load_managers:
     collection   = strategy["collection"]
@@ -192,16 +203,14 @@ def request_game_by_strategy():
     while not board.is_game_over() and move_count < max_moves:
         best_move = minimax.find_best_move(board)
         if best_move:
-            full_game.append(best_move.uci())
-            board.push(best_move) 
+            board.push(best_move)
+            emit('move', {'move': best_move.uci(), 'fen': board.fen()})
             move_count += 1
         else:
-            break  
-    
-    return jsonify({
-        "moves": full_game,
-        "result": board.result() if board.is_game_over() else "ongoing"
-    })
+            break
+
+    emit('game_end', {'result': board.result() if board.is_game_over() else 'ongoing'})
+
   
 @app.route('/post_winner', methods=['POST'])
 def post_winner():

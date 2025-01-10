@@ -187,7 +187,7 @@ def request_game_by_strategy():
 
     full_game  = []
     move_count = 0
-    max_moves  = 10
+    max_moves  = 128
     
     while not board.is_game_over() and move_count < max_moves:
         best_move = minimax.find_best_move(board)

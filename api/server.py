@@ -22,9 +22,9 @@ from bson import ObjectId
 from minimax import Minimax
 
 
-app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-swagger = Swagger(app)
+app      = Flask(__name__)
+cors     = CORS(app, resources={r"/*": {"origins": "*"}})
+swagger  = Swagger(app)
 socketio = SocketIO(app)
 
 app.register_blueprint(public_routes)
@@ -316,4 +316,4 @@ def post_winner():
   
 
 if __name__ == '__main__':
-  app.run(debug=True)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)

@@ -10,7 +10,10 @@
   "/stream/": {
     "target": "http://ramsey-api:5000",
     "secure": false,
-    "ws": true, 
-    "logLevel": "debug"
+    "ws": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/stream": "" 
+    }
   }
 }

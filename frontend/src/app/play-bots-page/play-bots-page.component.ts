@@ -9,7 +9,6 @@ import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.
 import { Chess } from 'chess.js';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ResetPopupComponent } from './reset-popup/reset-popup.component';
-';
 
 @Component({
   selector: 'app-play-bots-page',

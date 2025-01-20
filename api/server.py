@@ -25,7 +25,7 @@ from minimax import Minimax
 app      = Flask(__name__)
 cors     = CORS(app, resources={r"/*": {"origins": "*"}})
 swagger  = Swagger(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)

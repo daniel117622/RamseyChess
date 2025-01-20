@@ -313,7 +313,21 @@ def post_winner():
     error_message = result.get("error", "Unable to update ELO rankings")
 
     return jsonify({"success": False, "error": error_message}), 500
-  
+
+@socketio.on('ping_socket')
+def handle_ping_socket(message):
+    """
+    Handles the 'ping_socket' event. Replies with the same message.
+    Disconnects the client if the message is 'exit'.
+    """
+    print(f"Received message: {message}")
+    
+    if message == "exit":
+        emit('response', {'message': 'Goodbye! Disconnecting...'})
+        disconnect()
+    else:
+        emit('response', {'message': f"Echo: {message}"})
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

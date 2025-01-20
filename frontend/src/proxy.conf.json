@@ -1,19 +1,16 @@
 {
   "/api/": {
-    "target": "http://ramsey-api:5000",
-    "secure": false,
+    "target"  : "http://ramsey-api:5000",
+    "secure"  : false,
     "logLevel": "debug",
     "pathRewrite": {
       "^/api": ""
     }
   },
-  "/stream/": {
-    "target": "http://ramsey-api:5000",
-    "secure": false,
-    "ws": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/stream": "" 
-    }
+  "/socket.io/": {
+    "target"  : "http://ramsey-api:5000",
+    "secure"  : false,
+    "ws"      : true,
+    "logLevel": "debug"
   }
 }

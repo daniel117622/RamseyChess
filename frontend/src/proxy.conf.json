@@ -8,9 +8,10 @@
     }
   },
   "/socket.io/": {
-    "target"  : "http://ramsey-api:5000",
-    "secure"  : false,
-    "ws"      : true,
+    "target": "http://ramsey-api:5000",
+    "secure": false,
+    "ws": true,
+    "changeOrigin": true,
     "logLevel": "debug"
   }
 }

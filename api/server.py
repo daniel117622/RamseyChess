@@ -330,4 +330,9 @@ def handle_ping_socket(message):
 
 
 if __name__ == '__main__':
+    import eventlet
+    import eventlet.wsgi
+    eventlet.monkey_patch()
+
+    # Use the Eventlet server
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

@@ -14,6 +14,9 @@
     "changeOrigin": true,
     "logLevel"    : "debug",
     "headers": {
-      "X-Forwarded-Proto": "https"
+      "Connection": "Upgrade",
+      "Upgrade"   : "websocket"
     }
+  }
+
 }

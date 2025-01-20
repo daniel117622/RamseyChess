@@ -13,7 +13,8 @@ setup(
         "flask",
         'flask-cors',
         "chess",
-        "flasgger"
+        "flasgger",
+        "eventlet"
     ],
     python_requires='>=3.6',
 )

@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 import chess
 from flasgger import Swagger
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit , disconnect
+from flask_socketio import SocketIO, emit, disconnect
 
 
 from routes.public_routes.public_routes import public_routes
@@ -155,61 +155,89 @@ def request_move_by_strategy():
   else:
      return jsonify({})
   
-@socketio.on('request_game_by_strategy')
-def request_game_by_strategy(data):
-  # Will be changed to use marshmallow to declaratively establish the fields
-  required_fields = ['strategy_id', 'fen', 'depth']
-  if not all(field in data for field in required_fields):
-      emit('error', {'message': f'Missing required fields. Expected {required_fields}.'})
-      disconnect()  # Close the connection
-      return
-  # Declarar variables
-  strategy_id = data['strategy_id']
-  fen         = data['fen']
-  depth       = data['depth']
-  board       = chess.Board(fen)
+@socketio.on('execute_game')
+def execute_game(data):
+    # Ensure the required parameters are present
+    if 'white_strategy_id' not in data or 'black_strategy_id' not in data:
+        emit('error', {'message': 'Missing required fields: white_strategy_id and black_strategy_id'})
+        disconnect()
+        return
 
-  # Accesso a la BD 
-  ai_manager = AiPremadeManager()
-  ai_manager.loadById(strategy_id)
-  load_managers = ai_manager.getCurrent()["strategy_list"]
+    # Retrieve parameters
+    white_strategy_id = data['white_strategy_id']
+    black_strategy_id = data['black_strategy_id']
 
-  available_managers = {
-    "evaluate_material": EvaluateMaterialManager
-  }
-  available_scorers = {
-     "evaluate_material": MaterialEvaluator
-  }
+    # Initialize the chess board
+    board = chess.Board()
 
-  loaded_evaluators = []
-  for strategy in load_managers:
-    collection   = strategy["collection"]
-    evaluator_id = strategy["strat_id"]
-    manager = available_managers[collection]()
+    # Set up AI for both strategies
+    ai_manager_white = AiPremadeManager()
+    ai_manager_white.loadById(white_strategy_id)
+    white_strategy_list = ai_manager_white.getCurrent()["strategy_list"]
 
-    manager.loadById(evaluator_id)
-    eval_manager = manager.getCurrent()
+    ai_manager_black = AiPremadeManager()
+    ai_manager_black.loadById(black_strategy_id)
+    black_strategy_list = ai_manager_black.getCurrent()["strategy_list"]
 
-    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-    
-    loaded_evaluators.append(scoring_executor)
+    # Define evaluator logic
+    available_managers = {
+        "evaluate_material": EvaluateMaterialManager
+    }
+    available_scorers = {
+        "evaluate_material": MaterialEvaluator
+    }
 
-    minimax = Minimax(evaluator=loaded_evaluators, depth=depth)
+    def load_evaluators(strategy_list):
+        loaded_evaluators = []
+        for strategy in strategy_list:
+            collection   = strategy["collection"]
+            evaluator_id = strategy["strat_id"]
 
-    full_game  = []
-    move_count = 0
-    max_moves  = 128
-    
+            manager = available_managers[collection]()
+            manager.loadById(evaluator_id)
+            eval_manager = manager.getCurrent()
+
+            scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+            loaded_evaluators.append(scoring_executor)
+        return loaded_evaluators
+
+    white_evaluators = load_evaluators(white_strategy_list)
+    black_evaluators = load_evaluators(black_strategy_list)
+
+    # Game logic
+    full_game          = []
+    move_count         = 0
+    max_moves          = 128
+    current_evaluators = white_evaluators
+
     while not board.is_game_over() and move_count < max_moves:
+        minimax = Minimax(evaluator=current_evaluators, depth=2) 
         best_move = minimax.find_best_move(board)
+
         if best_move:
             board.push(best_move)
-            emit('move', {'move': best_move.uci(), 'fen': board.fen()})
+            current_fen = board.fen()
+            emit('move', {
+                'type'       : 'move',
+                'move'       : best_move.uci(),
+                'current_fen': current_fen,
+                'turn'       : 'b' if move_count % 2 == 0 else 'w',
+                'result'     : 'ongoing'
+            })
             move_count += 1
+            current_evaluators = black_evaluators if move_count % 2 == 0 else white_evaluators
         else:
             break
 
-    emit('game_end', {'result': board.result() if board.is_game_over() else 'ongoing'})
+    # Game end
+    result = board.result()
+    game_end_payload = {
+        'type'       : 'game_end',
+        'result'     : 'checkmate' if board.is_checkmate() else 'draw' if board.is_stalemate() else 'ongoing',
+        'current_fen': board.fen(),
+        'winner'     : 'white' if board.result() == '1-0' else 'black' if board.result() == '0-1' else 'draw'
+    }
+    emit('game_end', game_end_payload)
 
   
 @app.route('/post_winner', methods=['POST'])

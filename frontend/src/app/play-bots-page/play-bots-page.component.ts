@@ -9,6 +9,7 @@ import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.
 import { Chess } from 'chess.js';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ResetPopupComponent } from './reset-popup/reset-popup.component';
+';
 
 @Component({
   selector: 'app-play-bots-page',
@@ -176,6 +177,59 @@ export class PlayBotsPageComponent implements OnInit {
     }
   
     this.isPlaying = false;
+  }
+
+  async playFullGame(whiteStrategy: string, blackStrategy: string) 
+  {
+      this.isPlaying = true;
+  
+      // Establish socket connection to fetch moves
+      const socket = this.play_ai.listenForMoves(whiteStrategy, blackStrategy);
+  
+      socket.subscribe(
+          (data) => 
+          {
+              if (data.type === 'move') 
+              {
+                  // Handle the move logic here
+                  console.log('Received move:', data.move);
+                  if (data.move.length === 5) 
+                  {
+                      const from = data.move.substring(0, 2);
+                      const to = data.move.substring(2, 4);
+                      const promotionPiece = data.move[4].toLowerCase();
+  
+                      this._chess.load(this.currentFen);
+                      this._chess.move({ from, to, promotion: promotionPiece });
+                      this.currentFen = this._chess.fen();
+                      this.chessBoard.setFEN(this.currentFen);
+                  } 
+                  else 
+                  {
+                      this.chessBoard.move(data.move);
+                      this.currentFen = this.chessBoard.getFEN();
+                      this._chess.load(this.currentFen);
+                  }
+              } 
+              else if (data.type === 'game_end') 
+              {
+                  // Handle game end logic
+                  console.log('Game ended');
+                  socket.complete();
+                  this.isPlaying = false;
+              }
+          },
+          (error) => 
+          {
+              console.error('WebSocket error:', error);
+              this.isPlaying = false;
+          },
+          () => 
+          {
+              console.log('WebSocket connection closed');
+              this.isPlaying = false;
+          }
+      );
   }
 
   onRowClick(strategy: StrategyCardData, index: number): void 

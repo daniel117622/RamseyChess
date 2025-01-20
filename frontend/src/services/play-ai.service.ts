@@ -4,14 +4,17 @@ import { BehaviorSubject, of , firstValueFrom, Observable } from 'rxjs';
 import { catchError , tap, map } from 'rxjs/operators';
 import { StrategyCardData, StrategyRequest, StrategyDetailResponse } from 'src/models/start-card.model';
 import { NextMove } from 'src/models/next-move.model';
-
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { Subject } from 'rxjs'
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayAiService {
-  
+  private socket$: WebSocketSubject<any> | null = null;
+  public  gameMoves$: Subject<any> = new Subject();
+
   constructor(private http: HttpClient) {}
 
   fetchStrategyCards() {
@@ -95,4 +98,26 @@ export class PlayAiService {
         map((response) => response.deltaElo ?? null)
       );
   }
+
+  public listenForMoves(whiteStrategyId: string, blackStrategyId: string): WebSocketSubject<any> 
+  {
+      if (this.socket$) 
+      {
+          console.warn('WebSocket is already active.');
+          return this.socket$; // Return the existing socket if it's already active
+      }
+  
+      // Construct WebSocket URL with query parameters
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host; // Current host (e.g., localhost:4200)
+      const wsUrl = `${protocol}//${host}/stream/execute_game?whiteStrategyId=${whiteStrategyId}&blackStrategyId=${blackStrategyId}`;
+  
+      // Create a new WebSocket connection
+      this.socket$ = new WebSocketSubject(wsUrl);
+  
+      return this.socket$; // Return the WebSocketSubject to be handled externally
+  }
+
+
+  
 }

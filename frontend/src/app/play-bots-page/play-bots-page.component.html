@@ -49,10 +49,10 @@
               >
               <button 
                 class="btn btn-primary custom-button px-3 py-2" 
-                (click)="playNMoves(numMoves, whiteStrategyId ? whiteStrategyId : '', blackStrategyId ? blackStrategyId : '')" 
+                (click)="this.playFullGame( whiteStrategyId ? whiteStrategyId : '', blackStrategyId ? blackStrategyId : '')" 
                 [disabled]="isPlaying || !whiteStrategyId || !blackStrategyId"
               >
-                Play N Moves
+                Play full games
               </button>
             </div>
           </div>

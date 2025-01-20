@@ -1,3 +1,8 @@
+import eventlet
+import eventlet.wsgi
+
+eventlet.monkey_patch()
+
 from data_access.elo_service import EloService
 from flask import Flask, request, jsonify
 import chess
@@ -330,9 +335,5 @@ def handle_ping_socket(message):
 
 
 if __name__ == '__main__':
-    import eventlet
-    import eventlet.wsgi
-    eventlet.monkey_patch()
-
     # Use the Eventlet server
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)

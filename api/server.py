@@ -231,19 +231,22 @@ def execute_game(data):
         best_move = minimax.find_best_move(board)
 
         if best_move:
-            time_since_last_move = time.time() - last_move_time
-            if time_since_last_move < 0.5:
-                time.sleep(0.5 - time_since_last_move)
+            target_time = last_move_time + 0.5
+            time_to_wait = target_time - time.time()
+            if time_to_wait > 0:
+                time.sleep(time_to_wait)
 
             board.push(best_move)
             current_fen = board.fen()
             emit('move', {
-                'type'       : 'move',
-                'move'       : best_move.uci(),
+                'type': 'move',
+                'move': best_move.uci(),
                 'current_fen': current_fen,
-                'turn'       : 'b' if move_count % 2 == 0 else 'w',
-                'result'     : 'ongoing'
+                'turn': 'b' if move_count % 2 == 0 else 'w',
+                'result': 'ongoing'
             })
+
+            last_move_time = time.time()
             move_count += 1
             current_evaluators = black_evaluators if move_count % 2 == 0 else white_evaluators
         else:

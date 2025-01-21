@@ -35,6 +35,13 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
 
+@socketio.on('connect')
+def test_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
 
 
 @app.route('/mat_eval', methods=['POST'])
@@ -336,4 +343,5 @@ def handle_ping_socket(message):
 
 if __name__ == '__main__':
     # Use the Eventlet server
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+

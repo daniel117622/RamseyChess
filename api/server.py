@@ -6,6 +6,7 @@ eventlet.monkey_patch()
 from data_access.elo_service import EloService
 from flask import Flask, request, jsonify
 import chess
+import time
 from flasgger import Swagger
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect
@@ -30,7 +31,8 @@ from minimax import Minimax
 app      = Flask(__name__)
 cors     = CORS(app, resources={r"/*": {"origins": "*"}})
 swagger  = Swagger(app)
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet', logger=True, engineio_logger=True)
+
 
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
@@ -222,11 +224,17 @@ def execute_game(data):
     max_moves          = 128
     current_evaluators = white_evaluators
 
+    last_move_time = time.time()
+
     while not board.is_game_over() and move_count < max_moves:
         minimax = Minimax(evaluator=current_evaluators, depth=2) 
         best_move = minimax.find_best_move(board)
 
         if best_move:
+            time_since_last_move = time.time() - last_move_time
+            if time_since_last_move < 0.5:
+                time.sleep(0.5 - time_since_last_move)
+
             board.push(best_move)
             current_fen = board.fen()
             emit('move', {

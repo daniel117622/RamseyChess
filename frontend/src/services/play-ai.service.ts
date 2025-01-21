@@ -145,13 +145,13 @@ export class PlayAiService {
       return new Observable((observer) => 
       {
           // Listen for the 'move' event
-          this.socket?.on('move', (data) => 
+          this.socket?.on('move', (data : any) => 
           {
               observer.next(data); // Emit the move data to subscribers
           });
   
           // Listen for the 'game_end' event
-          this.socket?.on('game_end', (data) => 
+          this.socket?.on('game_end', (data : any) => 
           {
               observer.next(data); // Emit the game-end data to subscribers
               observer.complete(); // Complete the observable

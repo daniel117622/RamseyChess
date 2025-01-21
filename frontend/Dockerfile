@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Step 4: Install Angular and project dependencies using npm with legacy peer deps
 RUN npx npm@7 install --legacy-peer-deps
+RUN npm install socket.io-client
 
 # Step 5: Copy the rest of the application source code
 COPY . .

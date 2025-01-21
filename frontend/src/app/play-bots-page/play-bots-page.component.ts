@@ -215,6 +215,56 @@ export class PlayBotsPageComponent implements OnInit {
               else if (data.type === 'game_end') 
               {
                   console.log('Game ended:', data.result);
+  
+                  // Determine the result and open the reset popup
+                  if (data.result === 'checkmate') 
+                  {
+                      const winner = data.winner === 'white' ? whiteStrategyId : blackStrategyId;
+                      console.log(`Game ended with a winner: ${winner}`);
+                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, winner).subscribe(
+                          (deltaElo: number | null) => 
+                          {
+                              if (deltaElo !== null) 
+                              {
+                                  console.log('Winner data successfully posted:', { whiteStrategyId, blackStrategyId });
+                                  this.updateElo(deltaElo, data.winner === 'white' ? 'w' : 'b');
+                              } 
+                              else 
+                              {
+                                  console.error('Failed to update Elo due to an error in posting winner data.');
+                              }
+                          },
+                          (error) => 
+                          {
+                              console.error('Error posting winner data:', error);
+                          }
+                      );
+                      this.openResetPopup(`${data.winner === 'white' ? 'White' : 'Black'} wins!`);
+                  } 
+                  else if (data.result === 'draw') 
+                  {
+                      console.log('Game ended in a draw.');
+                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, '').subscribe(
+                          (deltaElo: number | null) => 
+                          {
+                              if (deltaElo !== null) 
+                              {
+                                  console.log('Draw data successfully posted:', { whiteStrategyId, blackStrategyId });
+                                  this.updateElo(deltaElo, 'd');
+                              } 
+                              else 
+                              {
+                                  console.error('Failed to post draw data.');
+                              }
+                          },
+                          (error) => 
+                          {
+                              console.error('Error posting draw data:', error);
+                          }
+                      );
+                      this.openResetPopup('Game ended in a draw');
+                  }
+  
                   this.isPlaying = false;
               }
           },

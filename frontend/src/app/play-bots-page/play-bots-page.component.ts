@@ -178,20 +178,22 @@ export class PlayBotsPageComponent implements OnInit {
     this.isPlaying = false;
   }
 
-  async playFullGame(whiteStrategy: string, blackStrategy: string) 
+  async playFullGame(whiteStrategyId: string, blackStrategyId: string): Promise<void> 
   {
       this.isPlaying = true;
   
-      // Establish socket connection to fetch moves
-      const socket = this.play_ai.listenForMoves(whiteStrategy, blackStrategy);
+      // Get the Observable from listenForMoves
+      const moveObservable = this.play_ai.listenForMoves(whiteStrategyId, blackStrategyId);
   
-      socket.subscribe(
+      // Subscribe to the Observable to handle incoming data
+      moveObservable.subscribe(
           (data) => 
           {
               if (data.type === 'move') 
               {
-                  // Handle the move logic here
                   console.log('Received move:', data.move);
+  
+                  // Check for promotion moves
                   if (data.move.length === 5) 
                   {
                       const from = data.move.substring(0, 2);
@@ -212,20 +214,18 @@ export class PlayBotsPageComponent implements OnInit {
               } 
               else if (data.type === 'game_end') 
               {
-                  // Handle game end logic
-                  console.log('Game ended');
-                  socket.complete();
+                  console.log('Game ended:', data.result);
                   this.isPlaying = false;
               }
           },
           (error) => 
           {
-              console.error('WebSocket error:', error);
+              console.error('Error during game:', error);
               this.isPlaying = false;
           },
           () => 
           {
-              console.log('WebSocket connection closed');
+              console.log('Game session completed');
               this.isPlaying = false;
           }
       );

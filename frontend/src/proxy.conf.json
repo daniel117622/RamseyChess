@@ -1,11 +1,22 @@
 {
-    "/api/": {
-      "target": "http://ramsey-api:5000",
-      "secure": false,
-      "logLevel": "debug",
-      "pathRewrite": {
-        "^/api": ""  
-      }
+  "/api/": {
+    "target"  : "http://ramsey-api:5000",
+    "secure"  : false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/socket.io/": {
+    "target"      : "http://ramsey-api:5000",
+    "secure"      : false,
+    "ws"          : true,
+    "changeOrigin": true,
+    "logLevel"    : "debug",
+    "headers": {
+      "Connection": "Upgrade",
+      "Upgrade"   : "websocket"
     }
   }
-  
+
+}

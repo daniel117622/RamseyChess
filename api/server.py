@@ -1,13 +1,20 @@
+import eventlet
+import eventlet.wsgi
+
+eventlet.monkey_patch()
+
 from data_access.elo_service import EloService
 from flask import Flask, request, jsonify
 import chess
+import time
 from flasgger import Swagger
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit , disconnect
+from flask_socketio import SocketIO, emit, disconnect
 
 
 from routes.public_routes.public_routes import public_routes
 from routes.profile_routes.profile_routes import profile_routes
+from routes.socket_routes.socket_routes import socketio_routes , register_socketio_events
 
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
@@ -22,15 +29,17 @@ from bson import ObjectId
 from minimax import Minimax
 
 
-app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-swagger = Swagger(app)
-socketio = SocketIO(app)
+app      = Flask(__name__)
+cors     = CORS(app, resources={r"/*": {"origins": "*"}})
+swagger  = Swagger(app)
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet', logger=True, engineio_logger=True)
+
 
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
+app.register_blueprint(socketio_routes)
 
-
+register_socketio_events(socketio)
 
 @app.route('/mat_eval', methods=['POST'])
 def material_eval():
@@ -154,62 +163,6 @@ def request_move_by_strategy():
     })
   else:
      return jsonify({})
-  
-@socketio.on('request_game_by_strategy')
-def request_game_by_strategy(data):
-  # Will be changed to use marshmallow to declaratively establish the fields
-  required_fields = ['strategy_id', 'fen', 'depth']
-  if not all(field in data for field in required_fields):
-      emit('error', {'message': f'Missing required fields. Expected {required_fields}.'})
-      disconnect()  # Close the connection
-      return
-  # Declarar variables
-  strategy_id = data['strategy_id']
-  fen         = data['fen']
-  depth       = data['depth']
-  board       = chess.Board(fen)
-
-  # Accesso a la BD 
-  ai_manager = AiPremadeManager()
-  ai_manager.loadById(strategy_id)
-  load_managers = ai_manager.getCurrent()["strategy_list"]
-
-  available_managers = {
-    "evaluate_material": EvaluateMaterialManager
-  }
-  available_scorers = {
-     "evaluate_material": MaterialEvaluator
-  }
-
-  loaded_evaluators = []
-  for strategy in load_managers:
-    collection   = strategy["collection"]
-    evaluator_id = strategy["strat_id"]
-    manager = available_managers[collection]()
-
-    manager.loadById(evaluator_id)
-    eval_manager = manager.getCurrent()
-
-    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-    
-    loaded_evaluators.append(scoring_executor)
-
-    minimax = Minimax(evaluator=loaded_evaluators, depth=depth)
-
-    full_game  = []
-    move_count = 0
-    max_moves  = 128
-    
-    while not board.is_game_over() and move_count < max_moves:
-        best_move = minimax.find_best_move(board)
-        if best_move:
-            board.push(best_move)
-            emit('move', {'move': best_move.uci(), 'fen': board.fen()})
-            move_count += 1
-        else:
-            break
-
-    emit('game_end', {'result': board.result() if board.is_game_over() else 'ongoing'})
 
   
 @app.route('/post_winner', methods=['POST'])
@@ -285,7 +238,8 @@ def post_winner():
     error_message = result.get("error", "Unable to update ELO rankings")
 
     return jsonify({"success": False, "error": error_message}), 500
-  
 
 if __name__ == '__main__':
-  app.run(debug=True)
+    # Use the Eventlet server
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+

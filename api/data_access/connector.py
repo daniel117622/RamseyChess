@@ -7,6 +7,7 @@ max_retries = 5
 retry_interval = 10  # seconds
 mongo_url = os.getenv('MONGO_URI', None)
 
+client = None
 for attempt in range(max_retries):
     try:
         client : MongoClient = MongoClient(mongo_url)

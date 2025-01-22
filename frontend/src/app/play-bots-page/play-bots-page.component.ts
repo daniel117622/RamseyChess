@@ -178,6 +178,109 @@ export class PlayBotsPageComponent implements OnInit {
     this.isPlaying = false;
   }
 
+  async playFullGame(whiteStrategyId: string, blackStrategyId: string): Promise<void> 
+  {
+      this.isPlaying = true;
+  
+      // Get the Observable from listenForMoves
+      const moveObservable = this.play_ai.listenForMoves(whiteStrategyId, blackStrategyId);
+  
+      // Subscribe to the Observable to handle incoming data
+      moveObservable.subscribe(
+          (data) => 
+          {
+              if (data.type === 'move') 
+              {
+                  console.log('Received move:', data.move);
+  
+                  // Check for promotion moves
+                  if (data.move.length === 5) 
+                  {
+                      const from = data.move.substring(0, 2);
+                      const to = data.move.substring(2, 4);
+                      const promotionPiece = data.move[4].toLowerCase();
+  
+                      this._chess.load(this.currentFen);
+                      this._chess.move({ from, to, promotion: promotionPiece });
+                      this.currentFen = this._chess.fen();
+                      this.chessBoard.setFEN(this.currentFen);
+                  } 
+                  else 
+                  {
+                      this.chessBoard.move(data.move);
+                      this.currentFen = this.chessBoard.getFEN();
+                      this._chess.load(this.currentFen);
+                  }
+              } 
+              else if (data.type === 'game_end') 
+              {
+                  console.log('Game ended:', data.result);
+  
+                  // Determine the result and open the reset popup
+                  if (data.result === 'checkmate') 
+                  {
+                      const winner = data.winner === 'white' ? whiteStrategyId : blackStrategyId;
+                      console.log(`Game ended with a winner: ${winner}`);
+                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, winner).subscribe(
+                          (deltaElo: number | null) => 
+                          {
+                              if (deltaElo !== null) 
+                              {
+                                  console.log('Winner data successfully posted:', { whiteStrategyId, blackStrategyId });
+                                  this.updateElo(deltaElo, data.winner === 'white' ? 'w' : 'b');
+                              } 
+                              else 
+                              {
+                                  console.error('Failed to update Elo due to an error in posting winner data.');
+                              }
+                          },
+                          (error) => 
+                          {
+                              console.error('Error posting winner data:', error);
+                          }
+                      );
+                      this.openResetPopup(`${data.winner === 'white' ? 'White' : 'Black'} wins!`);
+                  } 
+                  else if (data.result === 'draw') 
+                  {
+                      console.log('Game ended in a draw.');
+                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, '').subscribe(
+                          (deltaElo: number | null) => 
+                          {
+                              if (deltaElo !== null) 
+                              {
+                                  console.log('Draw data successfully posted:', { whiteStrategyId, blackStrategyId });
+                                  this.updateElo(deltaElo, 'd');
+                              } 
+                              else 
+                              {
+                                  console.error('Failed to post draw data.');
+                              }
+                          },
+                          (error) => 
+                          {
+                              console.error('Error posting draw data:', error);
+                          }
+                      );
+                      this.openResetPopup('Game ended in a draw');
+                  }
+  
+                  this.isPlaying = false;
+              }
+          },
+          (error) => 
+          {
+              console.error('Error during game:', error);
+              this.isPlaying = false;
+          },
+          () => 
+          {
+              console.log('Game session completed');
+              this.isPlaying = false;
+          }
+      );
+  }
+
   onRowClick(strategy: StrategyCardData, index: number): void 
   {
     if (this.whiteStrategyId === null) 

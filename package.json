@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@angular/cli": "^14.0.6"
+    "@angular/cli": "^14.0.6",
+    "socket.io-client": "^4.8.1"
   }
 }

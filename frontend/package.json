@@ -25,6 +25,7 @@
     "ngx-chess-board": "^2.2.3",
     "npx": "^10.2.2",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

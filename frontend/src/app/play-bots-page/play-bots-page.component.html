@@ -34,18 +34,9 @@
       <div class="container mt-3">
         <div class="text-center mt-3">
           <div class="mt-4"> <!-- Increased top margin for separation on mobile -->
-            <label for="numMoves" class="text-white d-block mb-2">Number of Moves:</label> <!-- Bottom margin for label -->
+            <label for="numMoves" class="text-white d-block mb-2">Select 2 bots then click play</label> <!-- Bottom margin for label -->
             
             <div class="d-flex justify-content-center align-items-center gap-2 mb-3"> <!-- Flex container with gap for spacing -->
-              <input
-                type="number"
-                id="numMoves"
-                name="numMoves"
-                min="1"
-                [(ngModel)]="numMoves"
-                class="form-control"
-                style="max-width: 100px; border-radius: 1px;"
-              >
               <button 
                 class="btn btn-primary custom-button px-3 py-2" 
                 (click)="this.playFullGame( whiteStrategyId ? whiteStrategyId : '', blackStrategyId ? blackStrategyId : '')" 

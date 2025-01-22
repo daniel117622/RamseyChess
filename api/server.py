@@ -14,6 +14,7 @@ from flask_socketio import SocketIO, emit, disconnect
 
 from routes.public_routes.public_routes import public_routes
 from routes.profile_routes.profile_routes import profile_routes
+from routes.socket_routes.socket_routes import socketio_routes , register_socketio_events
 
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
@@ -36,15 +37,9 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet', logger
 
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
+app.register_blueprint(socketio_routes)
 
-@socketio.on('connect')
-def test_connect():
-    print('Client connected')
-
-@socketio.on('disconnect')
-def test_disconnect():
-    print('Client disconnected')
-
+register_socketio_events(socketio)
 
 @app.route('/mat_eval', methods=['POST'])
 def material_eval():
@@ -168,99 +163,6 @@ def request_move_by_strategy():
     })
   else:
      return jsonify({})
-  
-@socketio.on('execute_game')
-def execute_game(data):
-    # Ensure the required parameters are present
-    if 'white_strategy_id' not in data or 'black_strategy_id' not in data:
-        emit('error', {'message': 'Missing required fields: white_strategy_id and black_strategy_id'})
-        disconnect()
-        return
-
-    # Retrieve parameters
-    white_strategy_id = data['white_strategy_id']
-    black_strategy_id = data['black_strategy_id']
-
-    # Initialize the chess board
-    board = chess.Board()
-
-    # Set up AI for both strategies
-    ai_manager_white = AiPremadeManager()
-    ai_manager_white.loadById(white_strategy_id)
-    white_strategy_list = ai_manager_white.getCurrent()["strategy_list"]
-
-    ai_manager_black = AiPremadeManager()
-    ai_manager_black.loadById(black_strategy_id)
-    black_strategy_list = ai_manager_black.getCurrent()["strategy_list"]
-
-    # Define evaluator logic
-    available_managers = {
-        "evaluate_material": EvaluateMaterialManager
-    }
-    available_scorers = {
-        "evaluate_material": MaterialEvaluator
-    }
-
-    def load_evaluators(strategy_list):
-        loaded_evaluators = []
-        for strategy in strategy_list:
-            collection   = strategy["collection"]
-            evaluator_id = strategy["strat_id"]
-
-            manager = available_managers[collection]()
-            manager.loadById(evaluator_id)
-            eval_manager = manager.getCurrent()
-
-            scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-            loaded_evaluators.append(scoring_executor)
-        return loaded_evaluators
-
-    white_evaluators = load_evaluators(white_strategy_list)
-    black_evaluators = load_evaluators(black_strategy_list)
-
-    # Game logic
-    full_game          = []
-    move_count         = 0
-    max_moves          = 128
-    current_evaluators = white_evaluators
-
-    last_move_time = time.time()
-
-    while not board.is_game_over() and move_count < max_moves:
-        minimax = Minimax(evaluator=current_evaluators, depth=2) 
-        best_move = minimax.find_best_move(board)
-
-        if best_move:
-            target_time = last_move_time + 0.5
-            time_to_wait = target_time - time.time()
-            if time_to_wait > 0:
-                time.sleep(time_to_wait)
-
-            board.push(best_move)
-            current_fen = board.fen()
-            emit('move', {
-                'type': 'move',
-                'move': best_move.uci(),
-                'current_fen': current_fen,
-                'turn': 'b' if move_count % 2 == 0 else 'w',
-                'result': 'ongoing'
-            })
-
-            last_move_time = time.time()
-            move_count += 1
-            current_evaluators = black_evaluators if move_count % 2 == 0 else white_evaluators
-        else:
-            break
-
-    # Game end
-    result = board.result()
-    game_end_payload = {
-        'type'       : 'game_end',
-        'result'     : 'checkmate' if board.is_checkmate() else 'draw' if board.is_stalemate() else 'ongoing',
-        'current_fen': board.fen(),
-        'winner'     : 'white' if board.result() == '1-0' else 'black' if board.result() == '0-1' else 'draw'
-    }
-    emit('game_end', game_end_payload)
 
   
 @app.route('/post_winner', methods=['POST'])
@@ -336,21 +238,6 @@ def post_winner():
     error_message = result.get("error", "Unable to update ELO rankings")
 
     return jsonify({"success": False, "error": error_message}), 500
-
-@socketio.on('ping_socket')
-def handle_ping_socket(message):
-    """
-    Handles the 'ping_socket' event. Replies with the same message.
-    Disconnects the client if the message is 'exit'.
-    """
-    print(f"Received message: {message}")
-    
-    if message == "exit":
-        emit('response', {'message': 'Goodbye! Disconnecting...'})
-        disconnect()
-    else:
-        emit('response', {'message': f"Echo: {message}"})
-
 
 if __name__ == '__main__':
     # Use the Eventlet server

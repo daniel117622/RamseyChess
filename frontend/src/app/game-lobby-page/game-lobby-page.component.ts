@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,16 +12,28 @@ import { v4 as uuidv4 } from 'uuid';
 export class GameLobbyPageComponent implements OnInit 
 {
   lobbyId: string | null = null;
+  playerName: string | null = null;
   players: string[] = []
 
   constructor (
     private route: ActivatedRoute,
     private router: Router,
-    private lobby: LobbyService
+    private lobby: LobbyService,
+    private auth : AuthService
   ) {}
 
   ngOnInit (): void 
   {
+
+    this.auth.user$.subscribe(user => 
+      {
+        if (user) 
+        {
+          this.playerName = user.name ?? user.nickname ?? null; // Use 'name', fallback to 'nickname'
+          console.log(`Player name: ${this.playerName}`);
+        }
+      });
+
       this.lobby.initializeSocket();
 
       // Wait for the socket to connect before proceeding
@@ -34,7 +47,7 @@ export class GameLobbyPageComponent implements OnInit
   connectToLobby (lobbyId: string): void 
   {
     this.lobbyId = lobbyId;
-    this.router.navigate(['/game-lobby', lobbyId]); 
+    this.router.navigate(['/game-lobby', lobbyId]);
     this.lobby.joinLobby(lobbyId);
 
     this.lobby.onPlayerJoined().subscribe(player => 

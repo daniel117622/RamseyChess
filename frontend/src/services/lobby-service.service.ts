@@ -11,10 +11,15 @@ export class LobbyService
 
   initializeSocket (): void 
   {
+    if (this.socket) {
+      console.warn('Socket.IO connection is already initialized.');
+      return;
+    }
+
     const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
     const host = window.location.host;
-    const socketPort = '3000';
-    const socketUrl = `${protocol}//${host.split(':')[0]}:${socketPort}`;
+    const socketUrl = `${protocol}//${host}`;
+
     this.socket = io(socketUrl, 
     {
       path: '/socket.io',
@@ -22,12 +27,14 @@ export class LobbyService
     });
   }
 
-  joinLobby (lobbyId: string): void 
+  joinLobby(lobbyId: string, playerName: string): void 
   {
-    if (this.socket) 
+    if (!this.socket) 
     {
-      this.socket.emit('joinLobby', { lobbyId });
+      console.error('Socket.IO connection is not initialized.');
+      return;
     }
+    this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
   onPlayerJoined (): Observable<any> 

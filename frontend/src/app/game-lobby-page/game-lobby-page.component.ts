@@ -11,15 +11,15 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class GameLobbyPageComponent implements OnInit 
 {
-  lobbyId: string | null = null;
+  lobbyId   : string | null = null;
   playerName: string | null = null;
-  players: string[] = []
+  players   : string[]      = []
 
   constructor (
-    private route: ActivatedRoute,
+    private route : ActivatedRoute,
     private router: Router,
-    private lobby: LobbyService,
-    private auth : AuthService
+    private lobby : LobbyService,
+    private auth  : AuthService
   ) {}
 
   ngOnInit (): void 
@@ -29,7 +29,7 @@ export class GameLobbyPageComponent implements OnInit
       {
         if (user) 
         {
-          this.playerName = user.name ?? user.nickname ?? null; // Use 'name', fallback to 'nickname'
+          this.playerName = user.name ?? user.nickname ?? 'ADT PASSENGER';
           console.log(`Player name: ${this.playerName}`);
         }
       });
@@ -38,23 +38,21 @@ export class GameLobbyPageComponent implements OnInit
 
       // Wait for the socket to connect before proceeding
       this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
-      if (this.lobbyId) 
+      if (this.lobbyId && this.playerName) 
       {
-        this.connectToLobby(this.lobbyId);
+        this.joinLobby(this.lobbyId, this.playerName);
       }
   }
 
-  connectToLobby (lobbyId: string): void 
+  joinLobby(lobbyId: string, playerName: string): void 
   {
-    this.lobbyId = lobbyId;
-    this.router.navigate(['/game-lobby', lobbyId]);
-    this.lobby.joinLobby(lobbyId);
+    this.lobby.joinLobby(lobbyId, playerName);
 
-    this.lobby.onPlayerJoined().subscribe(player => 
+    this.lobby.onPlayerJoined().subscribe((player) => 
     {
-      if (!this.players.includes(player)) 
+      if (!this.players.includes(player.name)) 
       {
-        this.players.push(player);
+        this.players.push(player.name);
       }
     });
   }
@@ -63,7 +61,15 @@ export class GameLobbyPageComponent implements OnInit
   {
     const newLobbyId = uuidv4();
     console.log(`New lobby created with ID: ${newLobbyId}`);
-    this.connectToLobby(newLobbyId); 
+  
+    if (this.playerName) 
+    {
+      this.joinLobby(newLobbyId, this.playerName); 
+    }
+    else 
+    {
+      console.error('Cannot create lobby without player name');
+    }
   }
 
   resetLobby (): void 

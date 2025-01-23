@@ -23,10 +23,12 @@
     "@auth0/auth0-angular": "^2.2.3",
     "chess.js": "^1.0.0-beta.8",
     "ngx-chess-board": "^2.2.3",
+    "ngx-socket-io": "^4.8.2",
     "npx": "^10.2.2",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",
     "tslib": "^2.3.0",
+    "uuid": "^11.0.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

@@ -1,0 +1,11 @@
+<h1>Lobby ID: {{ lobbyId }}</h1>
+
+<!-- Only display the button if no lobbyId is set -->
+<button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
+
+<h2>Players in Lobby:</h2>
+<ul>
+  <li *ngFor="let player of players">{{ player }}</li>
+</ul>
+
+<button *ngIf="lobbyId" (click)="resetLobby()">Leave Lobby</button>

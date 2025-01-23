@@ -9,6 +9,7 @@ import { SignInPageComponent } from './sign-in-page/sign-in-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page/profile-page.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { BuildStrategyPageComponent } from './build-strategy-page/build-strategy-page/build-strategy-page.component';
+import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';
 
 const routerOptions: ExtraOptions = {
   anchorScrolling: 'enabled', 
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'bot-vs-bot', component: PlayBotsPageComponent},
   { path: 'sign-in', component: SignInPageComponent},
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard]},
-  { path: 'build-strategy', component: BuildStrategyPageComponent, canActivate: [AuthGuard]}
+  { path: 'build-strategy', component: BuildStrategyPageComponent, canActivate: [AuthGuard]},
+  { path: 'game-lobby/:lobby-id?', component: GameLobbyPageComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

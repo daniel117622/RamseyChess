@@ -26,6 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confirm-popup.component';
 import { ResetPopupComponent } from './play-bots-page/reset-popup/reset-popup.component';
 import { MyStrategyComponent } from './profile-page/my-strategy/my-strategy.component';
+import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MyStrategyComponent } from './profile-page/my-strategy/my-strategy.comp
     StrategyOverviewComponent,
     ConfirmPopupComponent,
     ResetPopupComponent,
-    MyStrategyComponent
+    MyStrategyComponent,
+    GameLobbyPageComponent
   ],
   imports: [
     BrowserModule,

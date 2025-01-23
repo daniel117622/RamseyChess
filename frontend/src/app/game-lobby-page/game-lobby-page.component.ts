@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
@@ -15,14 +15,15 @@ export class GameLobbyPageComponent implements OnInit
   lobbyId   : string | null = null;
   playerName: string | null = null;
   
-  private playersSubject = new BehaviorSubject<string[]>([]);
+  private playersSubject = new BehaviorSubject<string[]>(["DUMMY PLAYER"]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
 
   constructor (
     private route : ActivatedRoute,
     private router: Router,
     private lobby : LobbyService,
-    private auth  : AuthService
+    private auth  : AuthService,
+    private cdr   : ChangeDetectorRef
   ) {}
 
   addPlayer (player: string): void 
@@ -64,6 +65,7 @@ export class GameLobbyPageComponent implements OnInit
       const currentPlayers = this.playersSubject.value;
       this.playersSubject.next([...currentPlayers, player.name]);
       console.log('Updated players array:', this.playersSubject.value);
+      this.cdr.detectChanges();
     });
   }
 

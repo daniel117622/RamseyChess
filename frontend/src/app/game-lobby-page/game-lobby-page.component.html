@@ -3,10 +3,11 @@
 <!-- Only display the button if no lobbyId is set -->
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
 
-<div *ngIf="players$ | async as players">
+<!-- Use ngIfVariable to force reload -->
+<div *ngIf="ngIfVariable">
   <h2>Players in Lobby:</h2>
   <ul>
-    <li *ngFor="let player of players">{{ player }}</li>
+    <li *ngFor="let player of playersSubject.value">{{ player }}</li>
   </ul>
 </div>
 

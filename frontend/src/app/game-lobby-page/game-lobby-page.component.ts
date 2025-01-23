@@ -15,9 +15,10 @@ export class GameLobbyPageComponent implements OnInit
 {
   lobbyId   : string | null = null;
   playerName: string | null = null;
-  
-  private playersSubject = new BehaviorSubject<string[]>(["DUMMY PLAYER"]);
+  ngIfVariable = false;
+  public playersSubject = new BehaviorSubject<string[]>(["DUMMY PLAYER"]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
+
 
   constructor (
     private route : ActivatedRoute,
@@ -62,10 +63,14 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.onPlayerJoined().subscribe((player) => {
       console.log('Subscription triggered for player:', player);
       this.zone.run(() => {
+        // Toggle ngIfVariable to force reload
+        this.ngIfVariable = false; 
         const currentPlayers = [...this.playersSubject.value];
         const updatedPlayers = [...currentPlayers, player.name];
         this.playersSubject.next(updatedPlayers);
         console.log('Updated players array:', this.playersSubject.value);
+        // Re-enable ngIfVariable after update
+        this.ngIfVariable = true; 
       });
     })
   }

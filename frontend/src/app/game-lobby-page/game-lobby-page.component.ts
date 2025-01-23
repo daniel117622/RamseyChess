@@ -51,7 +51,7 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.onPlayerJoined().subscribe((player) => 
     {
         console.log(player)
-        this.players.push(player.name);
+        this.players = [...this.players, player.name];
         console.log('Updated players array:', this.players);
     })
   }

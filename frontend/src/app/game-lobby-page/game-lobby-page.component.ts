@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { v4 as uuidv4 } from 'uuid';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game-lobby-page',
@@ -13,7 +14,9 @@ export class GameLobbyPageComponent implements OnInit
 {
   lobbyId   : string | null = null;
   playerName: string | null = null;
-  players   : string[]      = []
+  
+  private playersSubject = new BehaviorSubject<string[]>([]);
+  players$: Observable<string[]> = this.playersSubject.asObservable();
 
   constructor (
     private route : ActivatedRoute,
@@ -21,6 +24,12 @@ export class GameLobbyPageComponent implements OnInit
     private lobby : LobbyService,
     private auth  : AuthService
   ) {}
+
+  addPlayer (player: string): void 
+  {
+    const currentPlayers = this.playersSubject.value;
+    this.playersSubject.next([...currentPlayers, player]);
+  }
 
   ngOnInit (): void 
   {
@@ -44,16 +53,18 @@ export class GameLobbyPageComponent implements OnInit
       }
   }
 
-  joinLobby(lobbyId: string, playerName: string): void 
+  joinLobby (lobbyId: string, playerName: string): void 
   {
     this.lobby.joinLobby(lobbyId, playerName);
-    
+
     this.lobby.onPlayerJoined().subscribe((player) => 
     {
-        console.log(player)
-        this.players = [...this.players, player.name];
-        console.log('Updated players array:', this.players);
-    })
+      console.log(player);
+      // Use BehaviorSubject to update players array
+      const currentPlayers = this.playersSubject.value;
+      this.playersSubject.next([...currentPlayers, player.name]);
+      console.log('Updated players array:', this.playersSubject.value);
+    });
   }
 
   createLobby (): void 
@@ -76,7 +87,7 @@ export class GameLobbyPageComponent implements OnInit
   {
     this.lobbyId = null;
     this.router.navigate(['/game-lobby']);
-    this.players = [];
+    this.playersSubject.next([]);
     console.log('Lobby reset');
   }
 

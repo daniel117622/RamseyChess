@@ -61,17 +61,22 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
     this.lobby.onPlayerJoined().subscribe((player) => {
-      console.log('Subscription triggered for player:', player);
-      this.zone.run(() => {
-        // Toggle ngIfVariable to force reload
-        this.ngIfVariable = false; 
+        console.log('Subscription triggered for player:', player);
+
+        // Update the BehaviorSubject (optional if you want to keep the state synced)
         const currentPlayers = [...this.playersSubject.value];
         const updatedPlayers = [...currentPlayers, player.name];
         this.playersSubject.next(updatedPlayers);
+    
+        // Update the DOM directly
+        const playerList = document.getElementById('playerList');
+        if (playerList) {
+          const newPlayerElement = document.createElement('li');
+          newPlayerElement.textContent = player.name; // Add the player name
+          playerList.appendChild(newPlayerElement); // Append to the list
+        }
+    
         console.log('Updated players array:', this.playersSubject.value);
-        // Re-enable ngIfVariable after update
-        this.ngIfVariable = true; 
-      });
     })
   }
 

@@ -50,11 +50,12 @@ export class GameLobbyPageComponent implements OnInit
     
     this.lobby.onPlayerJoined().subscribe((player) => 
     {
-      if (!this.players.includes(player.name)) 
-      {
-        this.players.push(player.name);
-      }
-    });
+        console.log("Received from FLASK: " + player)
+        if (player && player.name && !this.players.includes(player.name)) 
+        {
+            this.players.push(player.name);
+        }
+    })
   }
 
   createLobby (): void 

@@ -37,7 +37,7 @@ export class LobbyService
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
-  onPlayerJoined (): Observable<any> 
+  onPlayerJoined(): Observable<any> 
   {
     if (!this.socket) 
     {
@@ -48,6 +48,7 @@ export class LobbyService
     {
       this.socket?.on('playerJoined', (data) => 
       {
+        console.log('Received playerJoined event:', data); // Debugging log
         observer.next(data);
       });
 

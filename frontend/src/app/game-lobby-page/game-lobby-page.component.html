@@ -3,10 +3,11 @@
 <!-- Only display the button if no lobbyId is set -->
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
 
-<h2>Players in Lobby (Debug):</h2>
-<pre>{{ getPlayersArray() }}</pre>
-<ul>
-  <li *ngFor="let player of players$ | async">{{ player }}</li>
-</ul>
+<div *ngIf="players$ | async as players">
+  <h2>Players in Lobby:</h2>
+  <ul>
+    <li *ngFor="let player of players">{{ player }}</li>
+  </ul>
+</div>
 
 <button *ngIf="lobbyId" (click)="resetLobby()">Leave Lobby</button>

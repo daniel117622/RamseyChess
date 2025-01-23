@@ -26,8 +26,8 @@ const routes: Routes = [
   { path: 'sign-in', component: SignInPageComponent},
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard]},
   { path: 'build-strategy', component: BuildStrategyPageComponent, canActivate: [AuthGuard]},
-  { path: 'game-lobby', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, // Base route
-  { path: 'game-lobby/:lobby-id', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, // With parameter
+  { path: 'game-lobby', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, 
+  { path: 'game-lobby/:lobby-id', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, 
 ];
 
 @NgModule({

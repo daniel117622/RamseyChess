@@ -95,4 +95,10 @@ export class GameLobbyPageComponent implements OnInit
     console.log('Lobby reset');
   }
 
+  getPlayersArray(): string 
+  {
+    return JSON.stringify(this.playersSubject.value);
+  }
+  
+
 }

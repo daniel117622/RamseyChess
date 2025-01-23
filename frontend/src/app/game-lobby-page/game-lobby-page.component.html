@@ -4,7 +4,7 @@
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
 
 <h2>Players in Lobby (Debug):</h2>
-<pre>{{ players$ | async | json }}</pre>
+<pre>{{ getPlayersArray() }}</pre>
 <ul>
   <li *ngFor="let player of players$ | async">{{ player }}</li>
 </ul>

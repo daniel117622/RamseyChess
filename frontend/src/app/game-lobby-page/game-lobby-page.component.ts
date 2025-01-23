@@ -56,17 +56,17 @@ export class GameLobbyPageComponent implements OnInit
       }
   }
 
-  joinLobby (lobbyId: string, playerName: string): void 
-  {
+  joinLobby(lobbyId: string, playerName: string): void {
     this.lobby.emitJoinLobby(lobbyId, playerName);
-
-    this.lobby.onPlayerJoined().subscribe((player) => 
-    {
-      this.zone.run(() => { 
+  
+    this.lobby.onPlayerJoined().subscribe((player) => {
+      this.zone.run(() => {
         console.log('Player joined event:', player);
         const currentPlayers = [...this.playersSubject.value];
-        this.playersSubject.next([...currentPlayers, player.name]);
-        console.log('Updated players array:', this.playersSubject.value);
+        const updatedPlayers = [...currentPlayers, player.name];
+        console.log('Before emitting players array:', updatedPlayers);
+        this.playersSubject.next(updatedPlayers);
+        console.log('After emitting players array:', this.playersSubject.value);
       });
     });
   }

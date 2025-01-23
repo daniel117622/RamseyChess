@@ -65,6 +65,7 @@ export class GameLobbyPageComponent implements OnInit
     if (this.playerName) 
     {
       this.joinLobby(newLobbyId, this.playerName); 
+      this.router.navigate(['/game-lobby', newLobbyId]);
     }
     else 
     {

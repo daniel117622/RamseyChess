@@ -21,11 +21,14 @@ export class GameLobbyPageComponent implements OnInit
 
   ngOnInit (): void 
   {
-    this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
-    if (this.lobbyId) 
-    {
-      this.connectToLobby(this.lobbyId);
-    }
+      this.lobby.initializeSocket();
+
+      // Wait for the socket to connect before proceeding
+      this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
+      if (this.lobbyId) 
+      {
+        this.connectToLobby(this.lobbyId);
+      }
   }
 
   connectToLobby (lobbyId: string): void 
@@ -53,6 +56,7 @@ export class GameLobbyPageComponent implements OnInit
   resetLobby (): void 
   {
     this.lobbyId = null;
+    this.router.navigate(['/game-lobby']);
     this.players = [];
     console.log('Lobby reset');
   }

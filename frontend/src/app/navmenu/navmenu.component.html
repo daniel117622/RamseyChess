@@ -32,7 +32,7 @@
       <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
     </li>
 
-    <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
+    <li class="nav-item d-md-none" *ngIf="(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/game-lobby']" class="nav-link">Game Lobby</a>
     </li>
     <!-- Show Sign In / Register on mobile view if not authenticated -->

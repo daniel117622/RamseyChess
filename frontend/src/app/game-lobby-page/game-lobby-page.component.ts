@@ -52,6 +52,7 @@ export class GameLobbyPageComponent implements OnInit
     {
         console.log(player)
         this.players.push(player.name);
+        console.log('Updated players array:', this.players);
     })
   }
 

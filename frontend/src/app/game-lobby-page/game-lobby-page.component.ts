@@ -61,24 +61,33 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
     this.lobby.onPlayerJoined().subscribe((player) => {
-        console.log('Subscription triggered for player:', player);
-
-        // Update the BehaviorSubject (optional if you want to keep the state synced)
-        const currentPlayers = [...this.playersSubject.value];
-        const updatedPlayers = [...currentPlayers, player.name];
-        this.playersSubject.next(updatedPlayers);
-    
-        // Update the DOM directly
-        const playerList = document.getElementById('playerList');
-        if (playerList) {
-          const newPlayerElement = document.createElement('li');
-          newPlayerElement.textContent = player.name; // Add the player name
-          playerList.appendChild(newPlayerElement); // Append to the list
-        }
-    
-        console.log('Updated players array:', this.playersSubject.value);
-    })
+      console.log('Subscription triggered for player:', player);
+  
+      // Update the BehaviorSubject (state management)
+      const currentPlayers = [...this.playersSubject.value];
+      const updatedPlayers = [...currentPlayers, player.name];
+      this.playersSubject.next(updatedPlayers);
+  
+      // Populate the player list in the DOM
+      const playerList = document.getElementById('playerList');
+      if (playerList) {
+        // Clear the existing list to avoid duplicates
+        playerList.innerHTML = '';
+  
+        // Loop through the updated players array and add them to the list
+        this.playersSubject.value.forEach((playerName) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = playerName; // Set the player's name
+          playerList.appendChild(listItem); // Append the <li> to the <ul>
+        });
+      } else {
+        console.error('#playerList not found in the DOM!');
+      }
+  
+      console.log('Updated players array:', this.playersSubject.value);
+    });
   }
+  
 
   createLobby (): void 
   {

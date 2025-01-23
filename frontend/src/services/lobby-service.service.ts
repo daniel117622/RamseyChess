@@ -27,7 +27,7 @@ export class LobbyService
     });
   }
 
-  joinLobby(lobbyId: string, playerName: string): void 
+  emitJoinLobby(lobbyId: string, playerName: string): void 
   {
     if (!this.socket) 
     {

@@ -3,7 +3,8 @@
 <!-- Only display the button if no lobbyId is set -->
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
 
-<h2>Players in Lobby:</h2>
+<h2>Players in Lobby (Debug):</h2>
+<pre>{{ players$ | async | json }}</pre>
 <ul>
   <li *ngFor="let player of players$ | async">{{ player }}</li>
 </ul>

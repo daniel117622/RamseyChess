@@ -60,15 +60,14 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
     this.lobby.onPlayerJoined().subscribe((player) => {
+      console.log('Subscription triggered for player:', player);
       this.zone.run(() => {
-        console.log('Player joined event:', player);
         const currentPlayers = [...this.playersSubject.value];
         const updatedPlayers = [...currentPlayers, player.name];
-        console.log('Before emitting players array:', updatedPlayers);
         this.playersSubject.next(updatedPlayers);
-        console.log('After emitting players array:', this.playersSubject.value);
+        console.log('Updated players array:', this.playersSubject.value);
       });
-    });
+    })
   }
 
   createLobby (): void 

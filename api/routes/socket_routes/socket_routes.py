@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask_socketio import SocketIO, emit, disconnect
+from flask_socketio import SocketIO, emit, disconnect , join_room
 import chess
 import time
 
@@ -119,3 +119,12 @@ def register_socketio_events(socketio):
             disconnect()
         else:
             emit('response', {'message': f"Echo: {message}"})
+
+    @socketio.on('playerjoin')
+    def handle_player_join(data):
+        lobby_id = data.get('lobbyId')
+        name     = data.get('name')
+        
+        join_room(lobby_id)
+        emit('playerJoined', {'name': name}, to=lobby_id)
+        print(f"{name} joined lobby {lobby_id}")

@@ -4,6 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { v4 as uuidv4 } from 'uuid';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-game-lobby-page',
@@ -23,7 +24,8 @@ export class GameLobbyPageComponent implements OnInit
     private router: Router,
     private lobby : LobbyService,
     private auth  : AuthService,
-    private cdr   : ChangeDetectorRef
+    private cdr   : ChangeDetectorRef,
+    private zone  : NgZone
   ) {}
 
   addPlayer (player: string): void 
@@ -60,12 +62,12 @@ export class GameLobbyPageComponent implements OnInit
 
     this.lobby.onPlayerJoined().subscribe((player) => 
     {
-      console.log(player);
-      // Use BehaviorSubject to update players array
-      const currentPlayers = this.playersSubject.value;
-      this.playersSubject.next([...currentPlayers, player.name]);
-      console.log('Updated players array:', this.playersSubject.value);
-      this.cdr.detectChanges();
+      this.zone.run(() => { 
+        console.log('Player joined event:', player);
+        const currentPlayers = this.playersSubject.value;
+        this.playersSubject.next([...currentPlayers, player.name]);
+        console.log('Updated players array:', this.playersSubject.value);
+      });
     });
   }
 

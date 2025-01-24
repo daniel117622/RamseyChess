@@ -6,7 +6,9 @@ class Minimax:
         self.evaluator = evaluator
         self.depth = depth
         self.debug = debug
-
+        if depth >= 5:
+            raise ValueError("DDOS PREVENTION: Depth too high")
+            
     def minimax(self, board, depth, maximizing_player):
         for evaluator in self.evaluator:
             evaluator.set_board(board)

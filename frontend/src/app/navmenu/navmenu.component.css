@@ -97,3 +97,9 @@
   color: #dc3545; /* Subtle red color on hover */
   text-decoration: underline;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

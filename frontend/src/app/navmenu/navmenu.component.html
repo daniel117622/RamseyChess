@@ -8,7 +8,7 @@
       <a [routerLink]="['/blog']" class="nav-link" style="text-wrap: nowrap;">Ramsey Chess</a>
     </li>
   </ul>
-  
+
   <!-- Mobile menu toggle button, only visible on mobile screens -->
   <button class="navbar-toggler d-block d-md-none" type="button" (click)="toggleMenu()">
     <span class="navbar-toggler-icon">☰</span>
@@ -32,9 +32,18 @@
       <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
     </li>
 
-    <li class="nav-item d-md-none" *ngIf="(auth.isAuthenticated$ | async)">
-      <a [routerLink]="['/game-lobby']" class="nav-link">Game Lobby</a>
+    <!-- Game Lobby visible in both desktop and mobile -->
+    <li class="nav-item">
+      <a
+        [routerLink]="['/game-lobby']"
+        class="nav-link"
+        [class.disabled]="!(auth.isAuthenticated$ | async)"
+        [attr.aria-disabled]="!(auth.isAuthenticated$ | async)"
+      >
+        Game Lobby
+      </a>
     </li>
+    
     <!-- Show Sign In / Register on mobile view if not authenticated -->
     <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>

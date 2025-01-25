@@ -37,21 +37,20 @@ export class LobbyService
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
-  onPlayerJoined(): Observable<any> 
+  onPlayerJoined(): Observable<{ players: string[] }> 
   {
     if (!this.socket) 
     {
       throw new Error('Socket.IO connection is not initialized.');
     }
-
+  
     return new Observable((observer) => 
     {
-      this.socket?.on('playerJoined', (data) => 
+      this.socket?.on('playerJoined', (data: { players: string[] }) => 
       {
-        console.log('Received playerJoined event:', data); // Debugging log
-        observer.next(data);
+        console.log('Received playerJoined event:', data); 
       });
-
+  
       return () => 
       {
         this.socket?.off('playerJoined');

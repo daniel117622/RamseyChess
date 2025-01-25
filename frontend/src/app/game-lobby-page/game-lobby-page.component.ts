@@ -57,34 +57,38 @@ export class GameLobbyPageComponent implements OnInit
       }
   }
 
-  joinLobby(lobbyId: string, playerName: string): void {
+  joinLobby(lobbyId: string, playerName: string): void 
+  {
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
-    this.lobby.onPlayerJoined().subscribe((player) => {
-      console.log('Subscription triggered for player:', player);
+    this.lobby.onPlayerJoined().subscribe((data) => 
+    {
+      console.log('Subscription triggered for players:', data.players);
   
-      // Update the BehaviorSubject (state management)
-      const currentPlayers = [...this.playersSubject.value];
-      const updatedPlayers = [...currentPlayers, player.name];
-      this.playersSubject.next(updatedPlayers);
+      // Update the BehaviorSubject with the array of players
+      this.playersSubject.next(data.players);
   
       // Populate the player list in the DOM
       const playerList = document.getElementById('playerList');
-      if (playerList) {
+      if (playerList) 
+      {
         // Clear the existing list to avoid duplicates
         playerList.innerHTML = '';
   
         // Loop through the updated players array and add them to the list
-        this.playersSubject.value.forEach((playerName) => {
+        data.players.forEach((playerName: string) => 
+        {
           const listItem = document.createElement('li');
-          listItem.textContent = playerName; // Set the player's name
-          playerList.appendChild(listItem); // Append the <li> to the <ul>
+          listItem.textContent = playerName;
+          playerList.appendChild(listItem); 
         });
-      } else {
+      } 
+      else 
+      {
         console.error('#playerList not found in the DOM!');
       }
   
-      console.log('Updated players array:', this.playersSubject.value);
+      console.log('Updated players array:', data.players);
     });
   }
   

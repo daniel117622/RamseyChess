@@ -11,6 +11,8 @@ from utils.socket_exception import exception_handler
 
 socketio_routes = Blueprint('socketio_blueprint', __name__)
 
+pvp_lobbies = {}
+
 def register_socketio_events(socketio):
     @socketio.on('connect')
     def test_connect():
@@ -126,5 +128,10 @@ def register_socketio_events(socketio):
         name     = data.get('name')
         
         join_room(lobby_id)
-        emit('playerJoined', {'name': name}, to=lobby_id)
-        print(f"{name} joined lobby {lobby_id}")
+
+        if lobby_id not in pvp_lobbies:
+            pvp_lobbies[lobby_id] = []
+        if name not in pvp_lobbies[lobby_id]:
+            pvp_lobbies[lobby_id].append(name)
+
+        emit('playerJoined', {'players': pvp_lobbies[lobby_id]}, to=lobby_id)

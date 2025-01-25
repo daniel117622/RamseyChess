@@ -5,6 +5,7 @@ import { LobbyService } from 'src/services/lobby-service.service';
 import { v4 as uuidv4 } from 'uuid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NgZone } from '@angular/core';
+import * as md5 from 'md5';
 
 @Component({
   selector: 'app-game-lobby-page',
@@ -19,7 +20,10 @@ export class GameLobbyPageComponent implements OnInit
   public playersSubject = new BehaviorSubject<string[]>([]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
 
+  readyStates: { [player: string]: boolean } = {};
+  isRoomFull: boolean = false;
 
+  
   constructor (
     private route : ActivatedRoute,
     private router: Router,
@@ -42,7 +46,7 @@ export class GameLobbyPageComponent implements OnInit
       {
         if (user) 
         {
-          this.playerName = user.name ?? user.nickname ?? 'ADT PASSENGER';
+          this.playerName = user.sub ? md5(user.sub) : 'UNKNOWN_PLAYER';
           console.log(`Player name: ${this.playerName}`);
         }
       });
@@ -119,10 +123,7 @@ export class GameLobbyPageComponent implements OnInit
     console.log('Lobby reset');
   }
 
-  getPlayersArray(): string 
-  {
-    return JSON.stringify(this.playersSubject.value);
-  }
+
   handleJoinLobby (): void 
   {
     if (!this.inputLobbyId.trim()) 

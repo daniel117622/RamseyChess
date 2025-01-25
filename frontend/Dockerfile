@@ -11,6 +11,8 @@ COPY package*.json ./
 RUN npx npm@7 install --legacy-peer-deps
 RUN npm install socket.io-client --legacy-peer-deps
 RUN npm install uuid --legacy-peer-deps
+RUN npm install md5 --legacy-peer-deps
+
 # Step 5: Copy the rest of the application source code
 COPY . .
 

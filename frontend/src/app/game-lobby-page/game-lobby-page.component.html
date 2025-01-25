@@ -15,7 +15,7 @@
 <!-- Button to create a new lobby -->
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
 
-<div *ngIf="lobbyId">
+<div *ngIf="lobbyId" class="col-12 col-lg-6 d-flex justify-content-center">
   <ngx-chess-board #chessBoard  [size]="boardSize" [darkTileColor]="'#779557'" [dragDisabled]="true" [drawDisabled]="true"
   [lightTileColor]="'#ECECD0'" [pieceIcons]="{
     blackBishopUrl: 'assets/pieces/bb.svg',

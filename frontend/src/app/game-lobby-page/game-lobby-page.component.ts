@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener , ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NgZone } from '@angular/core';
+import { NgxChessBoardComponent } from 'ngx-chess-board';
 import * as md5 from 'md5';
 
 @Component({
@@ -23,6 +24,10 @@ export class GameLobbyPageComponent implements OnInit
   readyStates: { [player: string]: boolean } = {};
   isRoomFull: boolean = false;
   boardSize = 600
+
+  private chessBoardSubject = new BehaviorSubject<NgxChessBoardComponent | null>(null);
+  chessBoard$: Observable<NgxChessBoardComponent | null> = this.chessBoardSubject.asObservable();
+
   
   constructor (
     private route : ActivatedRoute,

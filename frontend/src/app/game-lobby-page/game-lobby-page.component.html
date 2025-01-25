@@ -1,38 +1,54 @@
 <h1>Lobby ID: <span class="lobby-id">{{ lobbyId }}</span></h1>
 
 <!-- Form to join a lobby -->
-<div *ngIf="!lobbyId">
-  <label for="roomCode">Enter Lobby Code:</label>
-  <input
-    type="text"
-    id="roomCode"
-    [(ngModel)]="inputLobbyId"
-    placeholder="Enter lobby ID"
-  />
-  <button (click)="handleJoinLobby()">Join Lobby</button>
+<div *ngIf="!lobbyId" class="mb-3">
+  <label for="roomCode" class="form-label">Enter Lobby Code:</label>
+  <div class="d-flex align-items-center">
+    <input
+      type="text"
+      id="roomCode"
+      [(ngModel)]="inputLobbyId"
+      placeholder="Enter lobby ID"
+      class="form-control me-2"
+    />
+    <button
+      class="btn btn-primary custom-button px-3 py-2"
+      (click)="handleJoinLobby()"
+    >
+      Join Lobby
+    </button>
+  </div>
 </div>
 
 <!-- Button to create a new lobby -->
-<button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
-
-<div *ngIf="lobbyId" class="col-12 col-lg-6 d-flex justify-content-center">
-  <ngx-chess-board #chessBoard  [size]="boardSize" [darkTileColor]="'#779557'" [dragDisabled]="true" [drawDisabled]="true"
-  [lightTileColor]="'#ECECD0'" [pieceIcons]="{
-    blackBishopUrl: 'assets/pieces/bb.svg',
-    blackKingUrl: 'assets/pieces/bk.svg',
-    blackKnightUrl: 'assets/pieces/bn.svg',
-    blackPawnUrl: 'assets/pieces/bp.svg',
-    blackQueenUrl: 'assets/pieces/bq.svg',
-    blackRookUrl: 'assets/pieces/br.svg',
-    whiteBishopUrl: 'assets/pieces/wb.svg',
-    whiteKingUrl: 'assets/pieces/wk.svg',
-    whiteKnightUrl: 'assets/pieces/wn.svg',
-    whitePawnUrl: 'assets/pieces/wp.svg',
-    whiteQueenUrl: 'assets/pieces/wq.svg',
-    whiteRookUrl: 'assets/pieces/wr.svg'
-  }"></ngx-chess-board>
+<div *ngIf="!lobbyId" class="mb-3">
+  <button class="btn btn-secondary px-3 py-2" (click)="createLobby()">Create New Lobby</button>
 </div>
 
+<div *ngIf="lobbyId" class="col-12 col-lg-6 d-flex justify-content-center mb-3">
+  <ngx-chess-board
+    #chessBoard
+    [size]="boardSize"
+    [darkTileColor]="'#779557'"
+    [dragDisabled]="true"
+    [drawDisabled]="true"
+    [lightTileColor]="'#ECECD0'"
+    [pieceIcons]="{
+      blackBishopUrl: 'assets/pieces/bb.svg',
+      blackKingUrl: 'assets/pieces/bk.svg',
+      blackKnightUrl: 'assets/pieces/bn.svg',
+      blackPawnUrl: 'assets/pieces/bp.svg',
+      blackQueenUrl: 'assets/pieces/bq.svg',
+      blackRookUrl: 'assets/pieces/br.svg',
+      whiteBishopUrl: 'assets/pieces/wb.svg',
+      whiteKingUrl: 'assets/pieces/wk.svg',
+      whiteKnightUrl: 'assets/pieces/wn.svg',
+      whitePawnUrl: 'assets/pieces/wp.svg',
+      whiteQueenUrl: 'assets/pieces/wq.svg',
+      whiteRookUrl: 'assets/pieces/wr.svg'
+    }"
+  ></ngx-chess-board>
+</div>
 
 <!-- Display the list of players in the lobby -->
 <div *ngIf="lobbyId">
@@ -40,5 +56,10 @@
   <ul id="playerList">
     <!-- Player list dynamically updated -->
   </ul>
-  <button (click)="resetLobby()">Leave Lobby</button>
+  <button
+    class="btn btn-danger custom-button px-3 py-2"
+    (click)="resetLobby()"
+  >
+    Leave Lobby
+  </button>
 </div>

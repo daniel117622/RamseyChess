@@ -4,3 +4,9 @@
     font-family: monospace;
   }
   
+  .custom-button {
+    background-color: #C2FE72;
+    border-radius: 1px;
+    border: none;
+    color: black;
+  }

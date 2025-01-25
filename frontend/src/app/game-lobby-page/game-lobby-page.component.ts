@@ -13,10 +13,10 @@ import { NgZone } from '@angular/core';
 })
 export class GameLobbyPageComponent implements OnInit 
 {
-  lobbyId   : string | null = null;
+  lobbyId: string | null = null;
   playerName: string | null = null;
-  ngIfVariable = false;
-  public playersSubject = new BehaviorSubject<string[]>(["DUMMY PLAYER"]);
+  inputLobbyId: string = ''; 
+  public playersSubject = new BehaviorSubject<string[]>([]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
 
 
@@ -117,6 +117,21 @@ export class GameLobbyPageComponent implements OnInit
   {
     return JSON.stringify(this.playersSubject.value);
   }
-  
+  handleJoinLobby (): void 
+  {
+    if (!this.inputLobbyId.trim()) 
+    {
+      console.error('Lobby ID cannot be empty');
+      return;
+    }
+
+    this.router.navigate(['/game-lobby', this.inputLobbyId]).then(() => 
+    {
+      if (this.playerName) 
+      {
+        this.joinLobby(this.inputLobbyId, this.playerName);
+      }
+    });
+  }
 
 }

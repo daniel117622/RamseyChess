@@ -1,14 +1,25 @@
 <h1>Lobby ID: {{ lobbyId }}</h1>
 
-<!-- Only display the button if no lobbyId is set -->
-<button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
-
-<!-- Updated to include an ID for DOM manipulation -->
-<div>
-  <h2>Players in Lobby:</h2>
-  <ul id="playerList">
-    <!-- Vanilla JS will dynamically insert <li> elements here -->
-  </ul>
+<!-- Form to join a lobby -->
+<div *ngIf="!lobbyId">
+  <label for="roomCode">Enter Lobby Code:</label>
+  <input
+    type="text"
+    id="roomCode"
+    [(ngModel)]="inputLobbyId"
+    placeholder="Enter lobby ID"
+  />
+  <button (click)="handleJoinLobby()">Join Lobby</button>
 </div>
 
-<button *ngIf="lobbyId" (click)="resetLobby()">Leave Lobby</button>
+<!-- Button to create a new lobby -->
+<button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
+
+<!-- Display the list of players in the lobby -->
+<div *ngIf="lobbyId">
+  <h2>Players in Lobby:</h2>
+  <ul id="playerList">
+    <!-- Player list dynamically updated -->
+  </ul>
+  <button (click)="resetLobby()">Leave Lobby</button>
+</div>

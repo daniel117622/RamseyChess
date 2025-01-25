@@ -38,7 +38,23 @@ export class GameLobbyPageComponent implements OnInit
     const currentPlayers = this.playersSubject.value;
     this.playersSubject.next([...currentPlayers, player]);
   }
-
+  initializeLobby(): void 
+  {
+    this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
+  
+    if (this.lobbyId && this.playerName) 
+    {
+      console.log(`Joining lobby with ID: ${this.lobbyId}`);
+      this.joinLobby(this.lobbyId, this.playerName);
+    } 
+    else if (!this.lobbyId)
+    {
+      console.warn('No lobby ID provided in the URL');
+    } else 
+    {
+      console.error('Player name is not set yet');
+    }
+  }
   ngOnInit (): void 
   {
 
@@ -48,7 +64,7 @@ export class GameLobbyPageComponent implements OnInit
         {
           this.playerName = user.sub ? md5(user.sub) : 'UNKNOWN_PLAYER';
           console.log(`Player name: ${this.playerName}`);
-          this.initalizeLobby();
+          this.initializeLobby();
         }
       });
 
@@ -156,21 +172,5 @@ export class GameLobbyPageComponent implements OnInit
     }
 
 
-    initializeLobby(): void 
-    {
-      this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
-    
-      if (this.lobbyId && this.playerName) 
-      {
-        console.log(`Joining lobby with ID: ${this.lobbyId}`);
-        this.joinLobby(this.lobbyId, this.playerName);
-      } 
-      else if (!this.lobbyId)
-      {
-        console.warn('No lobby ID provided in the URL');
-      } else 
-      {
-        console.error('Player name is not set yet');
-      }
-    }
+
 }

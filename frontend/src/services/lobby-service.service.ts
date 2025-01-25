@@ -49,6 +49,7 @@ export class LobbyService
       this.socket?.on('playerJoined', (data: { players: string[] }) => 
       {
         console.log('Received playerJoined event:', data); 
+        observer.next(data);
       });
   
       return () => 

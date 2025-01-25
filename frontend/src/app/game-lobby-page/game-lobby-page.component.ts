@@ -65,23 +65,25 @@ export class GameLobbyPageComponent implements OnInit
     {
       console.log('Subscription triggered for players:', data.players);
   
-      // Update the BehaviorSubject with the array of players
-      this.playersSubject.next(data.players);
-  
-      // Populate the player list in the DOM
       const playerList = document.getElementById('playerList');
       if (playerList) 
       {
-        // Clear the existing list to avoid duplicates
         playerList.innerHTML = '';
   
-        // Loop through the updated players array and add them to the list
-        data.players.forEach((playerName: string) => 
+        if (Array.isArray(data.players)) 
         {
-          const listItem = document.createElement('li');
-          listItem.textContent = playerName;
-          playerList.appendChild(listItem); 
-        });
+          data.players.forEach((playerName: string) => 
+          {
+            const listItem = document.createElement('li');
+            listItem.textContent = playerName;
+            playerList.appendChild(listItem);
+            console.log(`Added player '${playerName}' to the DOM:`, listItem);
+          });
+        } 
+        else 
+        {
+          console.error('Players array is missing or invalid in data:', data);
+        }
       } 
       else 
       {

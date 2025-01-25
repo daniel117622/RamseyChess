@@ -1,4 +1,4 @@
-<h1>Lobby ID: {{ lobbyId }}</h1>
+<h1>Lobby ID: <span class="lobby-id">{{ lobbyId }}</span></h1>
 
 <!-- Form to join a lobby -->
 <div *ngIf="!lobbyId">
@@ -14,6 +14,25 @@
 
 <!-- Button to create a new lobby -->
 <button *ngIf="!lobbyId" (click)="createLobby()">Create New Lobby</button>
+
+<div *ngIf="lobbyId">
+  <ngx-chess-board #chessBoard  [size]="boardSize" [darkTileColor]="'#779557'" [dragDisabled]="true"
+  [lightTileColor]="'#ECECD0'" [pieceIcons]="{
+    blackBishopUrl: 'assets/pieces/bb.svg',
+    blackKingUrl: 'assets/pieces/bk.svg',
+    blackKnightUrl: 'assets/pieces/bn.svg',
+    blackPawnUrl: 'assets/pieces/bp.svg',
+    blackQueenUrl: 'assets/pieces/bq.svg',
+    blackRookUrl: 'assets/pieces/br.svg',
+    whiteBishopUrl: 'assets/pieces/wb.svg',
+    whiteKingUrl: 'assets/pieces/wk.svg',
+    whiteKnightUrl: 'assets/pieces/wn.svg',
+    whitePawnUrl: 'assets/pieces/wp.svg',
+    whiteQueenUrl: 'assets/pieces/wq.svg',
+    whiteRookUrl: 'assets/pieces/wr.svg'
+  }"></ngx-chess-board>
+</div>
+
 
 <!-- Display the list of players in the lobby -->
 <div *ngIf="lobbyId">

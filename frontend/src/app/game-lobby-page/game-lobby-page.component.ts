@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
@@ -22,7 +22,7 @@ export class GameLobbyPageComponent implements OnInit
 
   readyStates: { [player: string]: boolean } = {};
   isRoomFull: boolean = false;
-
+  boardSize = 600
   
   constructor (
     private route : ActivatedRoute,
@@ -141,4 +141,16 @@ export class GameLobbyPageComponent implements OnInit
     });
   }
 
+
+    updateBoardSize(): number {
+      const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+      this.boardSize = viewportWidth * 0.95 > 600 ? 600 : viewportWidth * 0.95;
+      console.log(viewportWidth)
+      return this.boardSize;
+    }
+    @HostListener('window:resize', ['$event'])
+    onResize(event: Event): void {
+      this.updateBoardSize();
+      this.cdr.detectChanges();
+    }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NgZone } from '@angular/core';
 import * as md5 from 'md5';
@@ -101,7 +101,7 @@ export class GameLobbyPageComponent implements OnInit
 
   createLobby (): void 
   {
-    const newLobbyId = uuidv4();
+    const newLobbyId = nanoid(6);
     console.log(`New lobby created with ID: ${newLobbyId}`);
   
     if (this.playerName) 

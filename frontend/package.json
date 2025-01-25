@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "@auth0/auth0-angular": "^2.2.3",
+    "@types/md5": "^2.3.5",
+    "@types/uuid": "^10.0.0",
     "chess.js": "^1.0.0-beta.8",
     "ngx-chess-board": "^2.2.3",
     "npx": "^10.2.2",

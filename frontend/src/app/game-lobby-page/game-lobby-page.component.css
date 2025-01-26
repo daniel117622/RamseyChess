@@ -25,3 +25,7 @@ button.ready {
   color           : #ffffff;
   font-weight     : bold;
 }
+
+.force-hide {
+  display: none !important;
+}

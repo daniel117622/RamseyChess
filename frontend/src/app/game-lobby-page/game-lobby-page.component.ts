@@ -126,7 +126,11 @@ export class GameLobbyPageComponent implements OnInit
       const blackStrategyId = data.black_strategy;
 
       this.lobby.streamGame(lobbyId || '', whiteStrategyId, blackStrategyId).subscribe((data) => {
-        console.log(JSON.stringify(data));
+        if (data.type === 'move' && data.move) 
+        {
+          console.log(`Executing move: ${data.move}`);
+          this.chessBoard.move(data.move); 
+        }
       });
     })
   }

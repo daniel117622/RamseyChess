@@ -16,4 +16,5 @@
 .selected 
 {
   background-color: #f5deb3 !important; 
+  border: dashed #202000;
 }

@@ -132,36 +132,26 @@ export class GameLobbyPageComponent implements OnInit
   {
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
-    this.lobby.onPlayerJoined().subscribe((data) => 
+    this.lobby.onPlayerJoined().subscribe((data: { players: { name: string; color: string }[] }) => 
     {
-      console.log('Subscription triggered for players:', data.players);
-  
       const playerList = document.getElementById('playerList');
-      if (playerList) 
-      {
-        playerList.innerHTML = '';
+      playerList!.innerHTML = '';
   
-        if (Array.isArray(data.players)) 
-        {
-          data.players.forEach((playerName: string) => 
-          {
-            const listItem = document.createElement('li');
-            listItem.textContent = playerName;
-            playerList.appendChild(listItem);
-            console.log(`Added player '${playerName}' to the DOM:`, listItem);
-          });
-        } 
-        else 
-        {
-          console.error('Players array is missing or invalid in data:', data);
-        }
-      } 
-      else 
+      const playerNames = data.players.map(player => player.name);
+  
+      playerNames.forEach((playerName: string) => 
       {
-        console.error('#playerList not found in the DOM!');
+        const listItem = document.createElement('li');
+        listItem.textContent = playerName;
+        playerList!.appendChild(listItem);
+      });
+      
+      const currentPlayer = data.players.find(player => player.name === playerName);
+      if (currentPlayer && currentPlayer.color === 'black') 
+      {
+        this.chessBoardSubject.value?.reverse()
+        console.log('Chessboard reversed for black player');
       }
-  
-      console.log('Updated players array:', data.players);
     });
   }
   

@@ -65,7 +65,7 @@ export class LobbyService
   }
 
 
-  onPlayerJoined(): Observable<{ players: string[] }> 
+  onPlayerJoined(): Observable<{ players: { name: string; color: string }[] }> 
   {
     if (!this.socket) 
     {
@@ -74,7 +74,7 @@ export class LobbyService
   
     return new Observable((observer) => 
     {
-      this.socket?.on('playerJoined', (data: { players: string[] }) => 
+      this.socket?.on('playerJoined', (data: { players: { name: string; color: string }[] }) => 
       {
         console.log('Received playerJoined event:', data); 
         observer.next(data);

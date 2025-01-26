@@ -140,9 +140,12 @@ def register_socketio_events(socketio):
             if color:
                 pvp_lobbies[lobby_id][name] = {'ready': False, 'color': color}
 
-        player_names = [player_name for player_name in pvp_lobbies[lobby_id]]
+        player_data = [
+            {"name": player_name, "color": info["color"]}
+            for player_name, info in pvp_lobbies[lobby_id].items()
+        ]
 
-        emit('playerJoined', {'players': player_names}, to=lobby_id)
+        emit('playerJoined', {'players': player_data}, to=lobby_id)
 
     @socketio.on('playerReady')
     def handle_player_ready(data):

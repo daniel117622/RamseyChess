@@ -28,8 +28,10 @@ export class GameLobbyPageComponent implements OnInit
   isRoomFull: boolean = false;
   boardSize = 600
 
-  private chessBoardSubject = new BehaviorSubject<NgxChessBoardComponent | null>(null);
-  chessBoard$: Observable<NgxChessBoardComponent | null> = this.chessBoardSubject.asObservable();
+  @ViewChild('chessBoard', { static: true }) chessBoard!: NgxChessBoardComponent;
+
+  private chessBoardSubject = new BehaviorSubject<NgxChessBoardComponent>(this.chessBoard);
+  chessBoard$: Observable<NgxChessBoardComponent> = this.chessBoardSubject.asObservable();
 
   user$ = this.auth.user$;
   userProfileData$: Observable<UserProfile> | undefined;
@@ -149,7 +151,7 @@ export class GameLobbyPageComponent implements OnInit
       const currentPlayer = data.players.find(player => player.name === playerName);
       if (currentPlayer && currentPlayer.color === 'black') 
       {
-        this.chessBoardSubject.value?.reverse()
+        this.chessBoard.reverse();
         console.log('Chessboard reversed for black player');
       }
     });

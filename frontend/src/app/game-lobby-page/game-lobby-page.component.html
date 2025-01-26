@@ -26,9 +26,8 @@
 </div>
 
 <div [class.force-hide]="!isPlayerInLobby"  class="col-12 col-lg-6 d-flex justify-content-center mb-3">
-  <ngx-chess-board 
-    #chessBoard
-    [hidden]="isPlayerInLobby"
+  <ngx-chess-board [class.force-hide]="!isPlayerInLobby" 
+    #chessBoard 
     [size]="boardSize"
     [darkTileColor]="'#779557'"
     [dragDisabled]="true"

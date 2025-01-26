@@ -130,8 +130,32 @@ def register_socketio_events(socketio):
         join_room(lobby_id)
 
         if lobby_id not in pvp_lobbies:
-            pvp_lobbies[lobby_id] = []
-        if name not in pvp_lobbies[lobby_id]:
-            pvp_lobbies[lobby_id].append(name)
+            pvp_lobbies[lobby_id] = {}
 
-        emit('playerJoined', {'players': pvp_lobbies[lobby_id]}, to=lobby_id)
+        if name not in pvp_lobbies[lobby_id]:
+            pvp_lobbies[lobby_id][name] = {'ready': False}
+
+        # compatibility with the frontend
+        player_names = [player_name for player_name in pvp_lobbies[lobby_id]]
+
+        # Emit the list of player names to the lobby
+        emit('playerJoined', {'players': player_names}, to=lobby_id)
+
+    @socketio.on('playerReady')
+    def handle_player_ready(data):
+        lobby_id    = data.get('lobbyId')
+        name        = data.get('name')
+        ready_state = data.get('ready')
+
+        # Update the readiness state of the player
+        if lobby_id in pvp_lobbies and name in pvp_lobbies[lobby_id]:
+            pvp_lobbies[lobby_id][name]['ready'] = ready_state
+
+        # Prepare the list of players with readiness states
+        players_with_ready = [
+            {"name": player_name, "ready": info["ready"]}
+            for player_name, info in pvp_lobbies[lobby_id].items()
+        ]
+
+        # Emit the updated readiness states and player names to the lobby
+        emit('playerReadyUpdate', {'players': players_with_ready}, to=lobby_id)

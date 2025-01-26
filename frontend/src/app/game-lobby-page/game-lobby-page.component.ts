@@ -38,6 +38,7 @@ export class GameLobbyPageComponent implements OnInit
   selected_strategy: StrategyCardListProfileView | null = null;
 
   playerReadyState = false;
+  bothPlayersReadyState : { name: string, ready: boolean }[] = []
 
   constructor (
     private route : ActivatedRoute,
@@ -93,16 +94,24 @@ export class GameLobbyPageComponent implements OnInit
         this.joinLobby(this.lobbyId, this.playerName);
       }
 
-    this.user$.pipe(
-      filter((user): user is User => user != null),
-      switchMap(user => 
-        this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
-          sub: user.sub
-        })
-      )
-    ).subscribe(strategies => {
-      this.my_saved_strategies = strategies;
-      console.log("Retrieved user strategies: " + this.my_saved_strategies)
+      this.user$.pipe(
+        filter((user): user is User => user != null),
+        switchMap(user => 
+          this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
+            sub: user.sub
+          })
+        )
+      ).subscribe(strategies => {
+        this.my_saved_strategies = strategies;
+        console.log("Retrieved user strategies: " + this.my_saved_strategies)
+      });
+
+
+      // Initialize a listener for readyness of players 
+    this.lobby.onPlayerReadyUpdate().subscribe((data) => 
+    {
+      console.log('Updated player readiness:', data.players);
+      this.bothPlayersReadyState = data.players; 
     });
   }
 
@@ -195,6 +204,7 @@ export class GameLobbyPageComponent implements OnInit
   toggleReadyState() : void
   {
     this.playerReadyState = !this.playerReadyState;
+    this.lobby.emitReadySignal(this.playerReadyState)
   }
 
     updateBoardSize(): number {

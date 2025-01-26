@@ -37,6 +37,16 @@ export class LobbyService
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
+  emitReadySignal (readyState: boolean): void 
+  {
+    if (!this.socket) 
+    {
+      console.error('Socket.IO connection is not initialized.');
+      return;
+    }
+    this.socket.emit('playerReady', { ready: readyState });
+  }
+
   onPlayerJoined(): Observable<{ players: string[] }> 
   {
     if (!this.socket) 
@@ -58,6 +68,29 @@ export class LobbyService
       };
     });
   }
+
+  onPlayerReadyUpdate(): Observable<{ players: { name: string, ready: boolean }[] }> 
+  {
+    if (!this.socket) 
+    {
+      throw new Error('Socket.IO connection is not initialized.');
+    }
+  
+    return new Observable((observer) => 
+    {
+      this.socket?.on('playerReadyUpdate', (data: { players: { name: string, ready: boolean }[] }) => 
+      {
+        console.log('Received playerReadyUpdate event:', data);
+        observer.next(data); // Pass the data to the observer
+      });
+  
+      return () => 
+      {
+        this.socket?.off('playerReadyUpdate');
+      };
+    });
+  }
+
 
   getLobbyDetails (lobbyId: string): Observable<any> 
   {

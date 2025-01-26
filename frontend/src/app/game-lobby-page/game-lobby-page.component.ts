@@ -133,6 +133,7 @@ export class GameLobbyPageComponent implements OnInit
         }
       });
     })
+    this.updateBoardSize();
   }
 
   joinLobby(lobbyId: string, playerName: string): void 

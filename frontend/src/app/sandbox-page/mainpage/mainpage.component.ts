@@ -43,6 +43,7 @@ export class MainpageComponent implements AfterViewInit {
         }
       });
     });
+    this.updateBoardSize();
   }
 
   onGameEnd() {

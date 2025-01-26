@@ -1,12 +1,19 @@
-.lobby-id {
-    color: #007bff; 
-    font-weight: bold;
-    font-family: monospace;
-  }
+.lobby-id 
+{
+  color: #007bff; 
+  font-weight: bold;
+  font-family: monospace;
+}
   
-  .custom-button {
-    background-color: #C2FE72;
-    border-radius: 1px;
-    border: none;
-    color: black;
-  }
+.custom-button 
+{
+  background-color: #C2FE72;
+  border-radius: 1px;
+  border: none;
+  color: black;
+}
+
+.selected 
+{
+  background-color: #f5deb3 !important; 
+}

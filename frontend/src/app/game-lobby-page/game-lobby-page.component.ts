@@ -35,7 +35,7 @@ export class GameLobbyPageComponent implements OnInit
   userProfileData$: Observable<UserProfile> | undefined;
 
   my_saved_strategies : StrategyCardListProfileView[] = []
-
+  selected_strategy: StrategyCardListProfileView | null = null;
 
   constructor (
     private route : ActivatedRoute,
@@ -183,7 +183,11 @@ export class GameLobbyPageComponent implements OnInit
       }
     });
   }
-
+  
+  selectStrategy(strategy: StrategyCardListProfileView): void 
+  {
+    this.selected_strategy = strategy;
+  }
 
     updateBoardSize(): number {
       const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;

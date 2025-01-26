@@ -27,17 +27,23 @@ export class NavMenuComponent implements OnInit {
     this.checkScreenSize();
   }
 
-  private checkScreenSize(): void {
+  private checkScreenSize(): void 
+  {
     this.isSmallScreen = window.innerWidth <= 768;
   }
-
   // Method to log out the user
-  logout(): void {
+  logout(): void 
+  {
     this.auth.logout({ logoutParams: { returnTo: window.location.origin } });
   }
 
-
-  toggleMenu(): void {
+  toggleMenu(): void 
+  {
     this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void 
+  {
+    this.menuOpen = false;
   }
 }

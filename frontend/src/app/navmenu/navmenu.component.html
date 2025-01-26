@@ -5,7 +5,7 @@
   <!-- Left side: Icon -->
   <ul class="nav justify-content-center flex-grow-1 logo-container" style="flex-grow: 0 !important;">
     <li class="nav-item">
-      <a [routerLink]="['/blog']" class="nav-link" style="text-wrap: nowrap;">Ramsey Chess</a>
+      <a [routerLink]="['/blog']" class="nav-link" (click)="closeMenu()" style="text-wrap: nowrap;">Ramsey Chess</a>
     </li>
   </ul>
 
@@ -20,50 +20,47 @@
     [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
   >
     <li class="nav-item">
-      <a href="/blog" class="nav-link mobile-hide">Blog</a>
+      <a href="/blog" class="nav-link mobile-hide" (click)="closeMenu()">Blog</a>
     </li>
     <li class="nav-item">
-      <a [routerLink]="['/']" class="nav-link">Sandbox</a>
+      <a [routerLink]="['/']" class="nav-link" (click)="closeMenu()">Sandbox</a>
     </li>
     <li class="nav-item">
-      <a [routerLink]="['/play-ai']" class="nav-link mobile-hide">Play against AI</a>
+      <a [routerLink]="['/play-ai']" class="nav-link mobile-hide" (click)="closeMenu()">Play against AI</a>
     </li>
     <li class="nav-item">
-      <a [routerLink]="['/bot-vs-bot']" class="nav-link">Bot vs Bot</a>
+      <a [routerLink]="['/bot-vs-bot']" class="nav-link" (click)="closeMenu()">Bot vs Bot</a>
     </li>
 
-    <!-- Game Lobby visible in both desktop and mobile -->
     <li class="nav-item">
       <a
         [routerLink]="['/game-lobby']"
         class="nav-link"
         [class.disabled]="!(auth.isAuthenticated$ | async)"
         [attr.aria-disabled]="!(auth.isAuthenticated$ | async)"
+        (click)="closeMenu()"
       >
         Game Lobby
       </a>
     </li>
     
-    <!-- Show Sign In / Register on mobile view if not authenticated -->
     <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
-      <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
+      <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
     </li>
-    <!-- Show Profile and email only on mobile view when authenticated -->
     <li class="nav-item d-md-none d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
-      <a (click)="logout()" class="logout-icon">X</a>
-      <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
+      <a (click)="logout(); closeMenu()" class="logout-icon">X</a>
+      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 
   <!-- Right side: Sign In / Register or Sign Out, shown only on desktop -->
   <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important; max-height: 70px !important;">
     <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
-      <a [routerLink]="['/sign-in']" class="nav-link">Sign In / Register</a>
+      <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
     </li>
-    <!-- Only show logout button on desktop without email -->
     <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
-      <a (click)="logout()" class="logout-icon">X</a>
-      <a [routerLink]="['/profile']" class="nav-link">{{ userData?.email ?? 'No email' }}</a>
+      <a (click)="logout(); closeMenu()" class="logout-icon">X</a>
+      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 </div>

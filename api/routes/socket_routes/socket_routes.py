@@ -28,6 +28,7 @@ def register_socketio_events(socketio):
         socketio.sleep(0)
         emit('hello', {'message': 'Hello! Connection to execute_game established.'})
         # Ensure the required parameters are present
+        lobby_id = data.get('lobbyId', None)
         if 'white_strategy_id' not in data or 'black_strategy_id' not in data:
             emit('error', {'message': 'Missing required fields: white_strategy_id and black_strategy_id'})
             disconnect()
@@ -93,7 +94,7 @@ def register_socketio_events(socketio):
                     'current_fen': current_fen,
                     'turn': 'b' if move_count % 2 == 0 else 'w',
                     'result': 'ongoing'
-                })
+                }, to=lobby_id)
 
                 last_move_time = time.time()
                 move_count += 1
@@ -108,7 +109,7 @@ def register_socketio_events(socketio):
             'current_fen': board.fen(),
             'winner': 'white' if board.result() == '1-0' else 'black' if board.result() == '0-1' else 'draw'
         }
-        emit('game_end', game_end_payload)
+        emit('game_end', game_end_payload, to=lobby_id)
         disconnect()
 
 
@@ -126,19 +127,21 @@ def register_socketio_events(socketio):
     def handle_player_join(data):
         lobby_id = data.get('lobbyId')
         name     = data.get('name')
-        
+
         join_room(lobby_id)
 
         if lobby_id not in pvp_lobbies:
             pvp_lobbies[lobby_id] = {}
 
         if name not in pvp_lobbies[lobby_id]:
-            pvp_lobbies[lobby_id][name] = {'ready': False}
+            player_count = len(pvp_lobbies[lobby_id])
+            color = 'white' if player_count == 0 else 'black' if player_count == 1 else None
 
-        # compatibility with the frontend
+            if color:
+                pvp_lobbies[lobby_id][name] = {'ready': False, 'color': color}
+
         player_names = [player_name for player_name in pvp_lobbies[lobby_id]]
 
-        # Emit the list of player names to the lobby
         emit('playerJoined', {'players': player_names}, to=lobby_id)
 
     @socketio.on('playerReady')
@@ -146,10 +149,12 @@ def register_socketio_events(socketio):
         lobby_id    = data.get('lobbyId')
         name        = data.get('name')
         ready_state = data.get('ready')
+        selected_strategy = data.get('selected_strategy')
 
         # Update the readiness state of the player
         if lobby_id in pvp_lobbies and name in pvp_lobbies[lobby_id]:
-            pvp_lobbies[lobby_id][name]['ready'] = ready_state
+            pvp_lobbies[lobby_id][name]['ready']             = ready_state
+            pvp_lobbies[lobby_id][name]['selected_strategy'] = selected_strategy
 
         # Prepare the list of players with readiness states
         players_with_ready = [
@@ -159,3 +164,27 @@ def register_socketio_events(socketio):
 
         # Emit the updated readiness states and player names to the lobby
         emit('playerReadyUpdate', {'players': players_with_ready}, to=lobby_id)
+
+    @socketio.on('forceGameStart')
+    def handle_force_game_start(data):
+        lobby_id       = data.get('lobbyId')
+        player_started = data.get('player')
+
+        player_data = pvp_lobbies[lobby_id]
+        white_player = next((name for name, info in player_data.items() if info['color'] == 'white'), None)
+        black_player = next((name for name, info in player_data.items() if info['color'] == 'black'), None)
+
+        white_strategy = player_data[white_player]['selected_strategy']
+        black_strategy = player_data[black_player]['selected_strategy']
+
+        emit('gameStarted', {
+            'message'       : 'Game is starting soon. No changes allowed',
+            'player'        : player_started,
+            'white_strategy': white_strategy,
+            'black_strategy': black_strategy
+        }, to=lobby_id)
+
+        
+
+
+    

@@ -114,6 +114,18 @@ export class GameLobbyPageComponent implements OnInit
       console.log('Updated player readiness:', data.players);
       this.bothPlayersReadyState = data.players; 
     });
+
+    this.lobby.onGameStarted().subscribe( (data : any) => {
+      console.log("Game started payload:", JSON.stringify(data));
+
+      const lobbyId = this.lobbyId; 
+      const whiteStrategyId = data.white_strategy;
+      const blackStrategyId = data.black_strategy;
+
+      this.lobby.streamGame(lobbyId || '', whiteStrategyId, blackStrategyId).subscribe((data) => {
+        console.log(JSON.stringify(data));
+      });
+    })
   }
 
   joinLobby(lobbyId: string, playerName: string): void 
@@ -199,7 +211,6 @@ export class GameLobbyPageComponent implements OnInit
   selectStrategy(strategy: StrategyCardListProfileView): void 
   {
     this.selected_strategy = strategy;
-    console.log(JSON.stringify(strategy))
   }
 
   toggleReadyState() : void
@@ -234,6 +245,10 @@ export class GameLobbyPageComponent implements OnInit
     {
       console.log('Game started!');
       this.all_buttons_frozen = true;
+      if (this.playerName && this.lobbyId)
+      {
+        this.lobby.emitForceGameStart(this.lobbyId, this.playerName)
+      }
     }
 
 }

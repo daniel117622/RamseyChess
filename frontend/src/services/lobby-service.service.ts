@@ -47,6 +47,24 @@ export class LobbyService
     this.socket.emit('playerReady', { ready: readyState , name : playerName , lobbyId: lobbyId});
   }
 
+  emitForceGameStart(lobbyId: string, playerName : string): void 
+  {
+    if (!this.socket) 
+    {
+      console.error('Socket.IO connection is not initialized.');
+      return;
+    }
+  
+    if (!lobbyId) 
+    {
+      console.error('Lobby ID is required to force game start.');
+      return;
+    }
+  
+    this.socket.emit('forceGameStart', { lobbyId: lobbyId , player: playerName});
+  }
+
+
   onPlayerJoined(): Observable<{ players: string[] }> 
   {
     if (!this.socket) 
@@ -87,6 +105,72 @@ export class LobbyService
       return () => 
       {
         this.socket?.off('playerReadyUpdate');
+      };
+    });
+  }
+
+  onGameStarted(): Observable<{ message: string; player: string }> 
+  {
+    if (!this.socket) 
+    {
+      throw new Error('Socket.IO connection is not initialized.');
+    }
+
+    return new Observable((observer) => 
+    {
+      this.socket?.on('gameStarted', (data: { message: string; player: string }) => 
+      {
+        console.log('Received gameStarted event:', data);
+        observer.next(data); // Pass the data to the observer
+      });
+
+      return () => 
+      {
+        this.socket?.off('gameStarted');
+      };
+    });
+  }
+
+  streamGame(
+    lobbyId: string,
+    whiteStrategyId: string,
+    blackStrategyId: string
+  ): Observable<
+    | { type: 'move'; move: string; current_fen: string; turn: string; result: string }
+    | { type: 'game_end'; result: string; current_fen: string; winner: string }
+  > {
+    if (!this.socket) {
+      throw new Error('Socket.IO connection is not initialized.');
+    }
+  
+    // Emit the execute_game event to start streaming the game
+    this.socket.emit('execute_game', {
+      lobbyId: lobbyId,
+      white_strategy_id: whiteStrategyId,
+      black_strategy_id: blackStrategyId,
+    });
+  
+    return new Observable((observer) => {
+      this.socket?.on(
+        'move',
+        (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => {
+          console.log('Received move event:', data);
+          observer.next(data); 
+        }
+      );
+  
+      this.socket?.on(
+        'game_end',
+        (data: { type: 'game_end'; result: string; current_fen: string; winner: string }) => {
+          console.log('Game ended:', data);
+          observer.next(data); 
+          observer.complete(); 
+        }
+      );
+  
+      return () => {
+        this.socket?.off('move');
+        this.socket?.off('game_end');
       };
     });
   }

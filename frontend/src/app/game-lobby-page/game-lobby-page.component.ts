@@ -166,6 +166,7 @@ export class GameLobbyPageComponent implements OnInit
   createLobby (): void 
   {
     const newLobbyId = nanoid(6);
+    this.isPlayerInLobby = true
     console.log(`New lobby created with ID: ${newLobbyId}`);
   
     if (this.playerName) 

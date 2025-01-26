@@ -1,12 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener , ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthService, User } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
 import { NgZone } from '@angular/core';
 import { NgxChessBoardComponent } from 'ngx-chess-board';
 import * as md5 from 'md5';
+import { StrategyCardListProfileView } from 'src/models/start-card.model';
+import { UserProfile } from 'src/models/user-profile.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-game-lobby-page',
@@ -28,14 +31,20 @@ export class GameLobbyPageComponent implements OnInit
   private chessBoardSubject = new BehaviorSubject<NgxChessBoardComponent | null>(null);
   chessBoard$: Observable<NgxChessBoardComponent | null> = this.chessBoardSubject.asObservable();
 
-  
+  user$ = this.auth.user$;
+  userProfileData$: Observable<UserProfile> | undefined;
+
+  my_saved_strategies : StrategyCardListProfileView[] = []
+
+
   constructor (
     private route : ActivatedRoute,
     private router: Router,
     private lobby : LobbyService,
     private auth  : AuthService,
     private cdr   : ChangeDetectorRef,
-    private zone  : NgZone
+    private zone  : NgZone,
+    private http  : HttpClient
   ) {}
 
   addPlayer (player: string): void 
@@ -81,6 +90,19 @@ export class GameLobbyPageComponent implements OnInit
       {
         this.joinLobby(this.lobbyId, this.playerName);
       }
+
+    this.user$.pipe(
+      filter((user): user is User => user != null),
+      switchMap(user => 
+        this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
+          sub: user.sub
+        })
+      )
+    ).subscribe(strategies => {
+      this.my_saved_strategies = strategies;
+      console.log("Retrieved user strategies: " + this.my_saved_strategies)
+    });
+
   }
 
   joinLobby(lobbyId: string, playerName: string): void 

@@ -221,6 +221,17 @@ export class GameLobbyPageComponent implements OnInit
       this.cdr.detectChanges();
     }
 
-
+    areBothPlayersReady(): boolean 
+    {
+      return (
+        this.bothPlayersReadyState.length === 2 &&
+        this.bothPlayersReadyState.every(player => player.ready)
+      );
+    }
+    
+    startGame(): void 
+    {
+      console.log('Game started!');
+    }
 
 }

@@ -55,7 +55,11 @@
   <h2>Players in Lobby:</h2>
   <ul id="playerList">
     <!-- Player list dynamically updated -->
+    <li *ngFor="let player of bothPlayersReadyState">
+      {{ player.name }} - {{ player.ready ? 'Ready' : 'Not Ready' }}
+    </li>
   </ul>
+
   <div class="d-flex align-items-center gap-3">
     <!-- Leave Lobby Button -->
     <button
@@ -73,6 +77,15 @@
         (click)="toggleReadyState()"
     >
       I am ready
+    </button>
+
+    <!-- Execute Game Button -->
+    <button
+      class="btn btn-primary custom-button px-3 py-2"
+      [disabled]="!areBothPlayersReady()"
+      (click)="startGame()"
+    >
+      Execute Game
     </button>
   </div>
 </div>

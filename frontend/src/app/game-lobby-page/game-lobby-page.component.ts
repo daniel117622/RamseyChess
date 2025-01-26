@@ -204,7 +204,10 @@ export class GameLobbyPageComponent implements OnInit
   toggleReadyState() : void
   {
     this.playerReadyState = !this.playerReadyState;
-    this.lobby.emitReadySignal(this.playerReadyState)
+    if (this.lobbyId && this.playerName)
+    {
+      this.lobby.emitReadySignal(this.playerReadyState, this.lobbyId, this.playerName)
+    }
   }
 
     updateBoardSize(): number {

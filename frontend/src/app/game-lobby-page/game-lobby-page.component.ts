@@ -137,6 +137,7 @@ export class GameLobbyPageComponent implements OnInit
 
   joinLobby(lobbyId: string, playerName: string): void 
   {
+    this.isPlayerInLobby = true;
     this.lobby.emitJoinLobby(lobbyId, playerName);
   
     this.lobby.onPlayerJoined().subscribe((data: { players: { name: string; color: string }[] }) => 

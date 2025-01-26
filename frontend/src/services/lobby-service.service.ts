@@ -37,14 +37,14 @@ export class LobbyService
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
-  emitReadySignal (readyState: boolean, lobbyId: string, playerName: string): void 
+  emitReadySignal (readyState: boolean, lobbyId: string, playerName: string, strategy_id : string): void 
   {
     if (!this.socket) 
     {
       console.error('Socket.IO connection is not initialized.');
       return;
     }
-    this.socket.emit('playerReady', { ready: readyState , name : playerName , lobbyId: lobbyId});
+    this.socket.emit('playerReady', { ready: readyState , name : playerName , lobbyId: lobbyId, selected_strategy : strategy_id});
   }
 
   emitForceGameStart(lobbyId: string, playerName : string): void 

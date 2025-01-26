@@ -218,7 +218,7 @@ export class GameLobbyPageComponent implements OnInit
     this.playerReadyState = !this.playerReadyState;
     if (this.lobbyId && this.playerName)
     {
-      this.lobby.emitReadySignal(this.playerReadyState, this.lobbyId, this.playerName)
+      this.lobby.emitReadySignal(this.playerReadyState, this.lobbyId, this.playerName, this.selected_strategy?._id.$oid ||  '')
     }
   }
 

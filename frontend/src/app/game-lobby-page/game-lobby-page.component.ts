@@ -62,7 +62,6 @@ export class GameLobbyPageComponent implements OnInit
   initializeLobby(): void 
   {
     this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
-    this.isPlayerInLobby = true;
     if (this.lobbyId && this.playerName) 
     {
       console.log(`Joining lobby with ID: ${this.lobbyId}`);
@@ -202,6 +201,7 @@ export class GameLobbyPageComponent implements OnInit
     {
       if (this.playerName) 
       {
+        this.isPlayerInLobby = true;
         this.joinLobby(this.inputLobbyId, this.playerName);
       }
     });

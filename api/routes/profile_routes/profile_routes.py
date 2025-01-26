@@ -4,6 +4,7 @@ from data_access.material_manager import EvaluateMaterialManager, EvaluateMateri
 from data_access.strategy_cards_manager import AiPremadeStratDoc, AiPremadeManager, Strategy
 from bson.objectid import ObjectId
 from typing import Any
+import copy
 
 # For transactions
 from data_access.connector import db
@@ -175,7 +176,8 @@ def get_private_strategies():
         strategy_view.append(found_strat)
 
       # PER STRATEGY MAKE THE REPLACEMENT
-      single_strategy["strategy_list"] = strategy_view
+      single_strategy["strategy_list"] = copy.deepcopy(strategy_view)
+      strategy_view = []
 
     return jsonify(my_strategies)     
       

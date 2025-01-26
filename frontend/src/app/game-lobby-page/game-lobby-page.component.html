@@ -29,11 +29,13 @@
   <ngx-chess-board 
     #chessBoard 
     [ngClass]="{'force-hide': !isPlayerInLobby}"
-    [size]="boardSize"
-    [darkTileColor]="'#779557'"
-    [dragDisabled]="true"
-    [drawDisabled]="true"
-    [lightTileColor]="'#ECECD0'"
+    [size]           = "boardSize"
+    [darkTileColor]  = "'#779557'"
+    [dragDisabled]   = "true"
+    [drawDisabled]   = "true"
+    [lightTileColor] = "'#ECECD0'"
+    [lightDisabled]  = "true"
+    [darkDisabled]   = "true"
     [pieceIcons]="{
       blackBishopUrl: 'assets/pieces/bb.svg',
       blackKingUrl: 'assets/pieces/bk.svg',

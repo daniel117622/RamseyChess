@@ -56,12 +56,25 @@
   <ul id="playerList">
     <!-- Player list dynamically updated -->
   </ul>
-  <button
-    class="btn btn-danger custom-button px-3 py-2"
-    (click)="resetLobby()"
-  >
-    Leave Lobby
-  </button>
+  <div class="d-flex align-items-center gap-3">
+    <!-- Leave Lobby Button -->
+    <button
+      class="btn btn-danger custom-button px-3 py-2"
+      (click)="resetLobby()"
+    >
+      Leave Lobby
+    </button>
+
+    <!-- I am ready Button -->
+    <button
+        class="btn btn-success custom-button px-3 py-2"
+        [class.ready]="playerReadyState"
+        [disabled]="!selected_strategy"
+        (click)="toggleReadyState()"
+    >
+      I am ready
+    </button>
+  </div>
 </div>
 
 

@@ -37,6 +37,8 @@ export class GameLobbyPageComponent implements OnInit
   my_saved_strategies : StrategyCardListProfileView[] = []
   selected_strategy: StrategyCardListProfileView | null = null;
 
+  playerReadyState = false;
+
   constructor (
     private route : ActivatedRoute,
     private router: Router,
@@ -188,6 +190,11 @@ export class GameLobbyPageComponent implements OnInit
   {
     this.selected_strategy = strategy;
     console.log(JSON.stringify(strategy))
+  }
+
+  toggleReadyState() : void
+  {
+    this.playerReadyState = !this.playerReadyState;
   }
 
     updateBoardSize(): number {

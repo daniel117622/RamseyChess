@@ -1,6 +1,6 @@
 .lobby-id 
 {
-  color: #007bff; 
+  color      : #007bff;
   font-weight: bold;
   font-family: monospace;
 }
@@ -8,13 +8,20 @@
 .custom-button 
 {
   background-color: #C2FE72;
-  border-radius: 1px;
-  border: none;
-  color: black;
+  border-radius   : 1px;
+  border          : none;
+  color           : black;
 }
 
 .selected 
 {
-  background-color: #f5deb3 !important; 
-  border: dashed #202000;
+  background-color: #f5deb3 !important;
+  border          : dashed #202000;
+}
+
+button.ready {
+  background-color: #28a745;
+  border-color    : #218838;
+  color           : #ffffff;
+  font-weight     : bold;
 }

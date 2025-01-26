@@ -63,3 +63,64 @@
     Leave Lobby
   </button>
 </div>
+
+<!-- Table for displaying saved strategies -->
+<!-- Table for displaying saved strategies -->
+<div class="mt-5">
+  <h2>My Saved Strategies</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Strategy Name</th>
+        <th>Owner</th>
+        <th>Elo</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Description</th>
+        <th>Strategy List</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let strategy of my_saved_strategies; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ strategy.name }}</td>
+        <td>{{ strategy.owner }}</td>
+        <td>{{ strategy.elo }}</td>
+        <td>{{ strategy.wins }}</td>
+        <td>{{ strategy.losses }}</td>
+        <td>{{ strategy.description }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let item of strategy.strategy_list">
+              <strong>{{ item.name }}</strong> (Type: {{ item.type }})
+              <div>
+                <strong>White Pieces:</strong>
+                <ul>
+                  <li>Pawn  : {{ item['whitePieces'].pawn }}</li>
+                  <li>Knight: {{ item['whitePieces'].knight }}</li>
+                  <li>Bishop: {{ item['whitePieces'].bishop }}</li>
+                  <li>Rook  : {{ item['whitePieces'].rook }}</li>
+                  <li>Queen : {{ item['whitePieces'].queen }}</li>
+                  <li>King  : {{ item['whitePieces'].king }}</li>
+                </ul>
+              </div>
+              <div>
+                <strong>Black Pieces:</strong>
+                <ul>
+                  <li>Pawn  : {{ item['blackPieces'].pawn }}</li>
+                  <li>Knight: {{ item['blackPieces'].knight }}</li>
+                  <li>Bishop: {{ item['blackPieces'].bishop }}</li>
+                  <li>Rook  : {{ item['blackPieces'].rook }}</li>
+                  <li>Queen : {{ item['blackPieces'].queen }}</li>
+                  <li>King  : {{ item['blackPieces'].king }}</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

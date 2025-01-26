@@ -102,7 +102,6 @@ export class GameLobbyPageComponent implements OnInit
       this.my_saved_strategies = strategies;
       console.log("Retrieved user strategies: " + this.my_saved_strategies)
     });
-
   }
 
   joinLobby(lobbyId: string, playerName: string): void 

@@ -113,15 +113,6 @@ def register_socketio_events(socketio):
         disconnect()
 
 
-    @socketio.on('ping_socket')
-    def handle_ping_socket(message):
-        print(f"Received message: {message}")
-
-        if message == "exit":
-            emit('response', {'message': 'Goodbye! Disconnecting...'})
-            disconnect()
-        else:
-            emit('response', {'message': f"Echo: {message}"})
 
     @socketio.on('playerjoin')
     def handle_player_join(data):

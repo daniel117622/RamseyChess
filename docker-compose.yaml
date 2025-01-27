@@ -29,9 +29,9 @@ services:
     container_name: ramsey-api
     ports:
       - "3001:5000"
-    depends_on:
-      mongodb:
-        condition: service_healthy
+#    depends_on:
+#      mongodb:
+#        condition: service_healthy
     restart: always
     environment:
       - FLASK_APP=server.py

@@ -112,8 +112,9 @@ class Minimax:
         self.logger.log(f"\n♟️ Finding Best Move for {'White' if is_white_turn else 'Black'}\n")
 
         for move in board.legal_moves:
-            board.push(move)
-            eval = self.minimax(board, self.depth - 1, not is_white_turn)  
+            board.push(move)  
+            eval = self.minimax(board, self.depth - 1, board.turn)  
+            board.pop() 
 
             self.logger.log(f"♟️ Move: {move.uci()} | Eval: {eval}")
 

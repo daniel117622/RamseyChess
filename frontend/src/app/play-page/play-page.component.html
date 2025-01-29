@@ -1,26 +1,23 @@
 <div class="main-container mt-5">
-    <div class="container">
-        <h4>AI Premade Opponents</h4>
-        <p class="short-desc">Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.</p>
-        
-        <!-- Bottom bar for separation -->
-        <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
+  <div class="container">
+    <h4>AI Premade Opponents</h4>
+    <p class="short-desc">Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.</p>
+
+    <!-- Bottom bar for separation -->
+    <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
+  </div>
+
+  <div class="container mt-4">
+    <!-- Check if cards array is empty -->
+    <div *ngIf="cards.length === 0" class="text-center">
+      <p>No strategies available</p>
     </div>
-    
-    <div class="container mt-4">
-      <!-- Check if cards array is empty -->
-      <div *ngIf="cards.length === 0" class="text-center">
-        <p>No strategies available</p>
-      </div>
-    
-      <!-- Render cards if available -->
-      <div class="row">
+
     <!-- Render cards if available -->
-    <div class="container mt-4">
-      <div class="row">
-        <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" [routerLink]="['/cards', card._id.$oid]">
-          <div class="card h-100">
-            <div class="card-body" >
+    <div class="row justify-content-around">
+      <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" [routerLink]="['/cards', card._id.$oid]">
+        <div class="card h-100">
+          <div class="card-body">
                 <!-- First row: Name and Elo -->
                 <div class="mb-3">
                   <div class="table-responsive">

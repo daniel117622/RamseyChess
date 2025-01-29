@@ -120,7 +120,7 @@ def register_socketio_events(socketio):
                 evaluator.set_board(board)
             try:
                 # Create Minimax instance using correct evaluators and fixed depth
-                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=1)
+                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=2)
                 best_move = minimax.find_best_move(board)
             except Exception as e:
                 logger.log(f"❌ Error in Minimax: {e}")

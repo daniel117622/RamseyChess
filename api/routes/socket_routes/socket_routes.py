@@ -103,7 +103,7 @@ def register_socketio_events(socketio):
 
         # Initialize Minimax with correct evaluators
         move_count = 0
-        max_moves = 128
+        max_moves = 300
         last_move_time = time.time()
 
         logger.log("🔹 Game loop starting...")
@@ -120,7 +120,7 @@ def register_socketio_events(socketio):
                 evaluator.set_board(board)
             try:
                 # Create Minimax instance using correct evaluators and fixed depth
-                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=3)
+                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=1)
                 best_move = minimax.find_best_move(board)
             except Exception as e:
                 logger.log(f"❌ Error in Minimax: {e}")

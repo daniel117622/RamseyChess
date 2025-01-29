@@ -26,38 +26,40 @@ class Minimax:
             evaluator.set_board(board)
 
         self.logger.log(f"\n🔹 Depth: {depth} | {'White' if is_white_turn else 'Black'}'s turn")
-        self.logger.log(f"🔹 Using evaluator: {'white_evaluators' if is_white_turn else 'black_evaluators'}")
         self.logger.log(f"🔹 Board FEN: {board.fen()}")
 
         if depth == 0 or board.is_game_over():
+            if board.is_checkmate():
+                # Return extreme score for checkmate
+                return float('inf') if not is_white_turn else float('-inf')
+
+            # Calculate normal evaluation when no checkmate
             score = sum(evaluator.calculate() for evaluator in evaluator_list)
             self.logger.log(f"  🔹 Base case reached: Evaluated score = {score}")
             return score
 
-        if is_white_turn:  # White maximizes
+        if is_white_turn: 
             best_eval = float('-inf')
-            best_moves = []
             for move in board.legal_moves:
                 board.push(move)
+
+                if board.is_checkmate():
+                    self.logger.log(f"♛ Checkmate detected by White with move {move.uci()}")
+                    board.pop()
+                    return float('inf') 
+
                 eval = self.minimax(board, depth - 1, False, alpha, beta)
                 board.pop()
 
                 self.logger.log(f"  🔸 Evaluating move {move.uci()} | Score: {eval}")
 
-                if eval > best_eval:
-                    best_eval = eval
-                    best_moves = [move]
-                elif eval == best_eval:
-                    best_moves.append(move)
-
+                best_eval = max(best_eval, eval)
                 alpha = max(alpha, eval)
+
                 if beta <= alpha:
                     break  # Beta cut-off
 
-            if depth == self.depth:
-                self.logger.log(f"✅ Best moves at root: {[m.uci() for m in best_moves]}")
-
-            return best_eval if depth != self.depth else best_moves
+            return best_eval
 
         else:  # Black minimizes
             best_eval = float('inf')

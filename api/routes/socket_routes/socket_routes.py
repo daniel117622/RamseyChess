@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask_socketio import SocketIO, emit, disconnect , join_room
 import chess
 import time
+import logging
 
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
@@ -12,6 +13,16 @@ from utils.socket_exception import exception_handler
 socketio_routes = Blueprint('socketio_blueprint', __name__)
 
 pvp_lobbies = {}
+class GameLogger:
+    """ Logger for execute_game() to keep debug logs structured and clean. """
+    def __init__(self, debug: bool):
+        self.debug = debug
+
+    def log(self, message: str):
+        """ Print logs only if debug mode is enabled. """
+        if self.debug:
+            logging.info(message)
+
 
 def register_socketio_events(socketio):
     @socketio.on('connect')
@@ -22,115 +33,132 @@ def register_socketio_events(socketio):
     def test_disconnect():
         print('Client disconnected')
 
-    @exception_handler()
-    def execute_game(data):
-        socketio.sleep(0)
-        emit('hello', {'message': 'Hello! Connection to execute_game established.'})
+@socketio.on('execute_game')
+@exception_handler()
+def execute_game(data):
+    socketio.sleep(0)
 
-        # Ensure required parameters are present
-        if 'white_strategy' not in data or 'black_strategy' not in data:
-            emit('error', {'message': 'Missing required fields: white_strategy and black_strategy'})
-            disconnect()
-            return
+    # Extract game parameters from request
+    white_strategy = data.get("white_strategy")
+    black_strategy = data.get("black_strategy")
+    debug_var = data.get("debug", False)
 
-        # Extract game parameters from request
-        white_strategy = data["white_strategy"]
-        black_strategy = data["black_strategy"]
-        debug = data.get("debug", False)
+    # Initialize logger
+    logger = GameLogger(debug_var)
 
-        # Use standard starting position for chess
-        board = chess.Board()  # Standard starting position
-        depth = 3  # Fixed depth
+    logger.log("🔹 execute_game event received!")
 
-        # Access database to get both AI strategy repositories
-        ai_manager_white = AiPremadeManager()
-        ai_manager_black = AiPremadeManager()
-        
-        # Load strategies by ID
-        ai_manager_white.loadById(white_strategy)
-        ai_manager_black.loadById(black_strategy)
-        
-        # Get the list of strategy types used by each player
-        white_strategy_list = ai_manager_white.getCurrent()["strategy_list"]
-        black_strategy_list = ai_manager_black.getCurrent()["strategy_list"]
-
-        # Available manager classes mapped by type
-        available_managers = {
-            "evaluate_material": EvaluateMaterialManager
-        }
-        available_scorers = {
-            "evaluate_material": MaterialEvaluator
-        }
-
-        def load_evaluators(strategy_list):
-            loaded_evaluators = []
-            for strategy in strategy_list:
-                collection = strategy["collection"]
-                evaluator_id = strategy["strat_id"]
-
-                if collection in available_managers:
-                    manager = available_managers[collection]()
-                    manager.loadById(evaluator_id)
-                    eval_manager = manager.getCurrent()
-
-                    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-                    loaded_evaluators.append(scoring_executor)
-
-            return loaded_evaluators
-
-        # Load evaluators for both White and Black
-        white_evaluators = load_evaluators(white_strategy_list)
-        black_evaluators = load_evaluators(black_strategy_list)
-
-        # Initialize Minimax with correct evaluators
-        move_count = 0
-        max_moves = 128
-        last_move_time = time.time()
-
-        while not board.is_game_over() and move_count < max_moves:
-            is_white_turn = board.turn == chess.WHITE
-
-            for evaluator in white_evaluators:
-                evaluator.set_board(board)
-            for evaluator in black_evaluators:
-                evaluator.set_board(board)
-
-            current_evaluators = white_evaluators if is_white_turn else black_evaluators
-            # Create Minimax instance using correct evaluators and fixed depth
-            minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
-            best_move = minimax.find_best_move(board)
-
-            if best_move:
-                target_time = last_move_time + 0.5  # Ensure at least 0.5s between moves
-                time_to_wait = target_time - time.time()
-                if time_to_wait > 0:
-                    time.sleep(time_to_wait)
-
-                board.push(best_move)
-                current_fen = board.fen()
-                emit('move', {
-                    'type': 'move',
-                    'move': best_move.uci(),
-                    'current_fen': current_fen,
-                    'turn': 'w' if board.turn == chess.WHITE else 'b',  # Correct turn handling
-                    'result': 'ongoing'
-                }, to=data.get('lobbyId', None))
-
-                last_move_time = time.time()
-                move_count += 1
-            else:
-                break  # No move found, exit loop
-
-        # Handle game end conditions
-        result = board.result()
-        game_end_payload = {
-            'type': 'game_end',
-            'result': 'checkmate' if board.is_checkmate() else 'draw' if board.is_stalemate() else 'ongoing',
-            'current_fen': board.fen(),
-            'winner': 'white' if result == '1-0' else 'black' if result == '0-1' else 'draw'
-        }
-        emit('game_end', game_end_payload, to=data.get('lobbyId', None))
+    # Validate input parameters
+    if not white_strategy or not black_strategy:
+        logger.log("⚠️ Missing strategy parameters")
+        emit('error', {'message': 'Missing required fields: white_strategy and black_strategy'})
         disconnect()
+        return
+
+    logger.log(f"🔹 White Strategy: {white_strategy}, Black Strategy: {black_strategy}")
+
+    # Game setup
+    board = chess.Board()  # Standard starting position
+    depth = 3  # Fixed depth
+
+    # Access database to get both AI strategy repositories
+    ai_manager_white = AiPremadeManager()
+    ai_manager_black = AiPremadeManager()
+
+    # Load strategies by ID
+    ai_manager_white.loadById(white_strategy)
+    ai_manager_black.loadById(black_strategy)
+
+    # Get the list of strategy types used by each player
+    white_strategy_list = ai_manager_white.getCurrent()["strategy_list"]
+    black_strategy_list = ai_manager_black.getCurrent()["strategy_list"]
+
+    # Available manager classes mapped by type
+    available_managers = {
+        "evaluate_material": EvaluateMaterialManager
+    }
+    available_scorers = {
+        "evaluate_material": MaterialEvaluator
+    }
+
+    def load_evaluators(strategy_list):
+        loaded_evaluators = []
+        for strategy in strategy_list:
+            collection = strategy["collection"]
+            evaluator_id = strategy["strat_id"]
+
+            if collection in available_managers:
+                manager = available_managers[collection]()
+                manager.loadById(evaluator_id)
+                eval_manager = manager.getCurrent()
+
+                scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+                loaded_evaluators.append(scoring_executor)
+
+        return loaded_evaluators
+
+    # Load evaluators for both White and Black
+    white_evaluators = load_evaluators(white_strategy_list)
+    black_evaluators = load_evaluators(black_strategy_list)
+
+    # Initialize Minimax with correct evaluators
+    move_count = 0
+    max_moves = 128
+    last_move_time = time.time()
+
+    logger.log("🔹 Game loop starting...")
+
+    while not board.is_game_over() and move_count < max_moves:
+        is_white_turn = board.turn == chess.WHITE
+        logger.log(f"🔹 Turn {move_count + 1}: {'White' if is_white_turn else 'Black'} to move.")
+
+        # Set board for evaluators
+        for evaluator in white_evaluators:
+            evaluator.set_board(board)
+        for evaluator in black_evaluators:
+            evaluator.set_board(board)
+
+        try:
+            # Create Minimax instance using correct evaluators and fixed depth
+            minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug_var)
+            best_move = minimax.find_best_move(board)
+        except Exception as e:
+            logger.log(f"❌ Error in Minimax: {e}")
+            break
+
+        if best_move:
+            logger.log(f"✅ Move found: {best_move.uci()}")
+            
+            # Ensure at least 0.5s between moves
+            time.sleep(max(0, last_move_time + 0.5 - time.time()))
+            
+            board.push(best_move)
+            current_fen = board.fen()
+            emit('move', {
+                'type': 'move',
+                'move': best_move.uci(),
+                'current_fen': current_fen,
+                'turn': 'w' if board.turn == chess.WHITE else 'b',
+                'result': 'ongoing'
+            }, to=data.get('lobbyId', None))
+
+            last_move_time = time.time()
+            move_count += 1
+        else:
+            logger.log("⚠️ No move found! Breaking the loop.")
+            break
+
+    logger.log("🔹 Game Over. Emitting game_end event.")
+    
+    emit('game_end', {
+        'type': 'game_end',
+        'result': 'checkmate' if board.is_checkmate() else 'draw' if board.is_stalemate() else 'ongoing',
+        'current_fen': board.fen(),
+        'winner': 'white' if board.result() == '1-0' else 'black' if board.result() == '0-1' else 'draw'
+    }, to=data.get('lobbyId', None))
+
+    disconnect()
+
 
 
     @socketio.on('playerjoin')

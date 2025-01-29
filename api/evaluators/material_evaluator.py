@@ -11,14 +11,15 @@ class MaterialEvaluator():
         self.board = board
     
     def calculate(self) -> float:
-        own_score      = 0.0
-        opponent_score = 0.0
+        sum_of_black_pieces = 0.0
+        sum_of_white_pieces = 0.0
+
 
         for piece_type in ["pawn", "knight", "bishop", "rook", "queen"]: 
-            own_score      += len(self.board.pieces(getattr(chess, piece_type.upper()), chess.BLACK)) * self.eval_manager["blackPieces"][piece_type]  #type: ignore[index]
-            opponent_score += len(self.board.pieces(getattr(chess, piece_type.upper()), chess.WHITE)) * self.eval_manager["whitePieces"][piece_type]  #type: ignore[index]
+            sum_of_black_pieces += len(self.board.pieces(getattr(chess, piece_type.upper()), chess.BLACK)) * self.eval_manager["blackPieces"][piece_type]  #type: ignore[index]
+            sum_of_white_pieces += len(self.board.pieces(getattr(chess, piece_type.upper()), chess.WHITE)) * self.eval_manager["whitePieces"][piece_type]  #type: ignore[index]
 
-        return own_score + opponent_score     
+        return sum_of_black_pieces + sum_of_white_pieces     
     
     def __str__(self):
         return (

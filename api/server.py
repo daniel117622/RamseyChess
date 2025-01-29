@@ -172,8 +172,8 @@ def request_move_by_strategy():
     debug = req.get("debug", False)
     # Create Minimax with renamed parameters
     minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
-
     best_move = minimax.find_best_move(board)
+    
     if best_move:
         return jsonify({
             "best_move": best_move.uci(),

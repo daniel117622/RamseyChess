@@ -89,8 +89,13 @@ def register_socketio_events(socketio):
 
         while not board.is_game_over() and move_count < max_moves:
             is_white_turn = board.turn == chess.WHITE
-            current_evaluators = white_evaluators if is_white_turn else black_evaluators
 
+            for evaluator in white_evaluators:
+                evaluator.set_board(board)
+            for evaluator in black_evaluators:
+                evaluator.set_board(board)
+
+            current_evaluators = white_evaluators if is_white_turn else black_evaluators
             # Create Minimax instance using correct evaluators and fixed depth
             minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
             best_move = minimax.find_best_move(board)

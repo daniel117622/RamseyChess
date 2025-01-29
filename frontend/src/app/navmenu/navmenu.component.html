@@ -10,7 +10,10 @@
   </ul>
 
   <!-- Mobile menu toggle button, only visible on mobile screens -->
-  <button class="navbar-toggler d-block d-md-none" type="button" (click)="toggleMenu()">
+  <button class="navbar-toggler"
+    type="button"
+    (click)="toggleMenu()"
+    [ngClass]="{'d-block': isSmallScreen, 'd-none': !isSmallScreen}">
     <span class="navbar-toggler-icon">☰</span>
   </button>
 

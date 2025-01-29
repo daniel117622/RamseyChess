@@ -107,6 +107,7 @@ def register_socketio_events(socketio):
         last_move_time = time.time()
 
         logger.log("🔹 Game loop starting...")
+        
 
         while not board.is_game_over() and move_count < max_moves:
             is_white_turn = board.turn == chess.WHITE
@@ -117,10 +118,9 @@ def register_socketio_events(socketio):
                 evaluator.set_board(board)
             for evaluator in black_evaluators:
                 evaluator.set_board(board)
-
             try:
                 # Create Minimax instance using correct evaluators and fixed depth
-                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=2)
+                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=1)
                 best_move = minimax.find_best_move(board)
             except Exception as e:
                 logger.log(f"❌ Error in Minimax: {e}")

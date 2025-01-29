@@ -18,7 +18,6 @@ class Logger:
 class Minimax:
     def __init__(self, white_evaluators, black_evaluators, depth=1, debug=False):
         """
-        Initializes the Minimax algorithm where both players try to lose.
         :param white_evaluators: List of evaluators for White.
         :param black_evaluators: List of evaluators for Black.
         :param depth: Search depth for the Minimax algorithm.
@@ -100,36 +99,36 @@ class Minimax:
                 self.logger.log(f"✅ Best moves at root: {[m.uci() for m in best_moves]}")
 
             return best_eval if depth != self.depth else best_moves
+        
     def find_best_move(self, board):
         """
-        Finds the best move for the current player, minimizing score.
+        Finds the best move for the current player, maximizing or minimizing based on turn.
         """
-        for evaluator in self.white_evaluators:
-            evaluator.set_board(board)
-        for evaluator in self.black_evaluators:
-            evaluator.set_board(board)
-
-        min_eval = float('inf')
-        best_moves = []
-
         is_white_turn = board.turn == chess.WHITE
 
-        self.logger.log(f"\n♟️ Finding Best Move for {'White' if is_white_turn else 'Black'} (trying to lose)...\n")
+        best_eval = float('-inf') if is_white_turn else float('inf')
+        best_moves = []
 
+        self.logger.log(f"\n♟️ Finding Best Move for {'White' if is_white_turn else 'Black'}\n")
 
         for move in board.legal_moves:
             board.push(move)
-            eval = self.minimax(board, self.depth - 1, is_white_turn)  
-            board.pop()
+            eval = self.minimax(board, self.depth - 1, not is_white_turn)  
 
             self.logger.log(f"♟️ Move: {move.uci()} | Eval: {eval}")
 
-            if eval < min_eval:
-                min_eval = eval
-                best_moves = [move]
-            elif eval == min_eval:
-                best_moves.append(move)
+            if is_white_turn:  # White maximizes
+                if eval > best_eval:
+                    best_eval = eval
+                    best_moves = [move]
+                elif eval == best_eval:
+                    best_moves.append(move)
+            else:  # Black minimizes
+                if eval < best_eval:
+                    best_eval = eval
+                    best_moves = [move]
+                elif eval == best_eval:
+                    best_moves.append(move)
 
         self.logger.log(f"✅ Best move chosen: {best_moves[0].uci() if best_moves else 'None'}\n")
-
         return random.choice(best_moves) if best_moves else None

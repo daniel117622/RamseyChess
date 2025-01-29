@@ -1,69 +1,63 @@
 <div
   class="my-container d-flex justify-content-between align-items-center nav-header"
   [ngClass]="{'fixed-top': !isSmallScreen}"
-  style="background-color: #4B5B30; padding: 10px 20px;"
 >
   <!-- Left side: Icon -->
-  <ul class="nav justify-content-center flex-grow-1"
-      style="flex-grow: 0; margin: 0; padding: 0; list-style: none;">
-    <li class="nav-item" style="margin-right: 15px;">
-      <a [routerLink]="['/blog']" class="nav-link" (click)="closeMenu()"
-         style="white-space: nowrap; color: white; text-decoration: none;">Ramsey Chess</a>
+  <ul class="nav justify-content-center flex-grow-1 logo-container" style="flex-grow: 0 !important;">
+    <li class="nav-item">
+      <a [routerLink]="['/blog']" class="nav-link" (click)="closeMenu()" style="text-wrap: nowrap;">Ramsey Chess</a>
     </li>
   </ul>
 
-  <!-- Mobile menu toggle button -->
-  <button
-    class="navbar-toggler d-block d-md-none"
-    type="button"
-    (click)="toggleMenu()"
-    style="background: none; border: none; color: white; font-size: 24px;"
-  >
-    ☰
+  <!-- Mobile menu toggle button, only visible on mobile screens -->
+  <button class="navbar-toggler d-block d-md-none" type="button" (click)="toggleMenu()">
+    <span class="navbar-toggler-icon">☰</span>
   </button>
 
   <!-- Center: Navigation Items -->
   <ul
-    class="nav justify-content-center flex-grow-1"
+    class="nav justify-content-center flex-grow-1 center-menu"
     [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
-    style="display: flex; margin: 0; padding: 0; list-style: none;"
   >
-    <li class="nav-item" style="margin: 0 15px;">
-      <a href="/blog" class="nav-link" (click)="closeMenu()" style="color: white; text-decoration: none;">Blog</a>
+    <li class="nav-item">
+      <a href="/blog" class="nav-link mobile-hide" (click)="closeMenu()">Blog</a>
     </li>
-    <li class="nav-item" style="margin: 0 15px;">
-      <a [routerLink]="['/play-ai']" class="nav-link" (click)="closeMenu()" style="color: white; text-decoration: none;">Play against AI</a>
+    <li class="nav-item">
+      <a [routerLink]="['/play-ai']" class="nav-link mobile-hide" (click)="closeMenu()">Play against AI</a>
     </li>
-    <li class="nav-item" style="margin: 0 15px;">
-      <a [routerLink]="['/bot-vs-bot']" class="nav-link" (click)="closeMenu()" style="color: white; text-decoration: none;">Bot vs Bot</a>
+    <li class="nav-item">
+      <a [routerLink]="['/bot-vs-bot']" class="nav-link" (click)="closeMenu()">Bot vs Bot</a>
     </li>
-    <li class="nav-item" style="margin: 0 15px;">
-      <a [routerLink]="['/game-lobby']" class="nav-link" 
-         [class.disabled]="!(auth.isAuthenticated$ | async)"
-         [attr.aria-disabled]="!(auth.isAuthenticated$ | async)"
-         (click)="closeMenu()" style="color: white; text-decoration: none;">
+
+    <li class="nav-item">
+      <a
+        [routerLink]="['/game-lobby']"
+        class="nav-link"
+        [class.disabled]="!(auth.isAuthenticated$ | async)"
+        [attr.aria-disabled]="!(auth.isAuthenticated$ | async)"
+        (click)="closeMenu()"
+      >
         Game Lobby
       </a>
     </li>
+    
+    <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
+      <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
+    </li>
+    <li class="nav-item d-md-none d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
+      <a (click)="logout(); closeMenu()" class="logout-icon">X</a>
+      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
+    </li>
   </ul>
 
-  <!-- Right side: Auth Actions -->
-  <ul
-    class="nav justify-content-end flex-grow-1"
-    style="flex-grow: 0; display: flex; align-items: center; margin: 0; padding: 0; list-style: none;"
-  >
-    <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)" style="margin-left: 15px;">
-      <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()" style="color: white; text-decoration: none;">
-        Sign In / Register
-      </a>
+  <!-- Right side: Sign In / Register or Sign Out, shown only on desktop -->
+  <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important; max-height: 70px !important;">
+    <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
+      <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
     </li>
-    <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async" style="margin-left: 15px;">
-      <a (click)="logout(); closeMenu()" style="color: white; margin-right: 8px; cursor: pointer; text-decoration: none;">
-        X
-      </a>
-      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()" style="color: white; text-decoration: none;">
-        {{ userData?.email ?? 'No email' }}
-      </a>
+    <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
+      <a (click)="logout(); closeMenu()" class="logout-icon">X</a>
+      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
     </li>
   </ul>
 </div>

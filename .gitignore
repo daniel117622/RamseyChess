@@ -103,3 +103,4 @@ venv.bak/
 *.pyc
 
 elo-rankings/node_modules
+api/venv

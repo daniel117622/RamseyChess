@@ -183,7 +183,7 @@ export class PlayBotsPageComponent implements OnInit {
       this.isPlaying = true;
   
       // Get the Observable from listenForMoves
-      const moveObservable = this.play_ai.listenForMoves(whiteStrategyId, blackStrategyId);
+      const moveObservable = this.play_ai.listenForMoves(whiteStrategyId, blackStrategyId, false);
   
       // Subscribe to the Observable to handle incoming data
       moveObservable.subscribe(

@@ -100,38 +100,32 @@ export class PlayAiService {
       );
   }
 
-  listenForMoves(whiteStrategyId: string, blackStrategyId: string): Observable<any> 
+  listenForMoves(whiteStrategyId: string, blackStrategyId: string, debug: boolean): Observable<any> 
   {
-  
       if (this.socket) 
       {
           console.warn('Socket.IO connection is already active.');
-          return this.createMoveObservable(); // Return the existing observable if the socket is already active
+          return this.createMoveObservable(); // Return existing observable if already connected
       }
-  
-      // Initialize Socket.IO connection
-      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-      const host = window.location.host; // Current host (e.g., localhost:4200)
-      const socketUrl = `${protocol}//${host}`; // Adjust if your Socket.IO server runs on a different domain
-  
+
+      // Construct the WebSocket connection URL dynamically
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host; // Use current host (adjust if needed)
+      const socketUrl = `${protocol}//${host}`;
+
       this.socket = io(socketUrl, 
       {
-          path: '/socket.io', // Adjust if the server uses a custom path
+          path: '/socket.io', // Ensure correct server path
           transports: ['websocket'], // Force WebSocket transport
-          query: 
-          {
-              white_strategy_id: whiteStrategyId,
-              black_strategy_id: blackStrategyId,
-          },
       });
-  
-      // Emit the execute_game event to start the game
+
+      // Emit the execute_game event with required parameters (fen and depth are removed)
       this.socket.emit('execute_game', 
       {
-          white_strategy_id: whiteStrategyId,
-          black_strategy_id: blackStrategyId,
+          white_strategy: whiteStrategyId,
+          black_strategy: blackStrategyId
       });
-  
+
       return this.createMoveObservable();
   }
   

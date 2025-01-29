@@ -13,11 +13,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
-RUN pip install --upgrade pip
-# Explicitly install requests to ensure it's available
-RUN pip install requests
-RUN pip install flask_socketio
-
+# Upgrade pip and install dependencies in one layer
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir requests flask_socketio && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -e .
 # Install your project as a package using setup.py
 RUN pip install -e .
 

@@ -1,98 +1,135 @@
 import chess
 import random
 
-class Minimax:
-    def __init__(self, evaluator, depth=1, debug=False):
-        self.evaluator = evaluator
-        self.depth = depth
+# Strategy pattern to clearly print debug messages.
+class Logger:
+    """
+    Logger class to handle debug messages without cluttering the Minimax logic.
+    """
+    def __init__(self, debug):
         self.debug = debug
+
+    def log(self, message):
+        """ Print the message only if debug mode is enabled. """
+        if self.debug:
+            print(message)
+
+
+class Minimax:
+    def __init__(self, white_evaluators, black_evaluators, depth=1, debug=False):
+        """
+        Initializes the Minimax algorithm where both players try to lose.
+        :param white_evaluators: List of evaluators for White.
+        :param black_evaluators: List of evaluators for Black.
+        :param depth: Search depth for the Minimax algorithm.
+        :param debug: Enables debug mode if True.
+        """
+        self.white_evaluators = white_evaluators
+        self.black_evaluators = black_evaluators
+        self.depth = depth
+        self.logger = Logger(debug)  # Use Logger instead of inline if statements
+
         if depth >= 5:
             raise ValueError("DDOS PREVENTION: Depth too high")
-            
-    def minimax(self, board, depth, maximizing_player):
-        for evaluator in self.evaluator:
+
+    def minimax(self, board, depth, is_white_turn):
+        """
+        Minimax algorithm where:
+        - White tries to maximize its score.
+        - Black tries to minimize White's score.
+        
+        :param board: Current board state.
+        :param depth: Remaining search depth.
+        :param is_white_turn: True if it's White's turn, False if it's Black's turn.
+        """
+        # Select the correct evaluator based on who is moving
+        evaluator_list = self.white_evaluators if is_white_turn else self.black_evaluators
+
+        for evaluator in evaluator_list:
             evaluator.set_board(board)
 
+        # Debug Logging
+        self.logger.log(f"\n🔹 Depth: {depth} | {'White' if is_white_turn else 'Black'}'s turn")
+        self.logger.log(f"🔹 Using evaluator: {'white_evaluators' if is_white_turn else 'black_evaluators'}")
+        self.logger.log(f"🔹 Board FEN: {board.fen()}")
+
+        # Base case: If depth is 0 or game is over, return evaluation
         if depth == 0 or board.is_game_over():
-            return sum(evaluator.calculate() for evaluator in self.evaluator)
+            score = sum(evaluator.calculate() for evaluator in evaluator_list)
+            self.logger.log(f"  🔹 Base case reached: Evaluated score = {score}")
+            return score
 
-        if maximizing_player:
-            max_eval = float('-inf')
+        if is_white_turn:  # White maximizes
+            best_eval = float('-inf')
             best_moves = []
             for move in board.legal_moves:
                 board.push(move)
-                eval = self.minimax(board, depth - 1, False)
+                eval = self.minimax(board, depth - 1, False)  # Next turn is Black's
                 board.pop()
-                if eval > max_eval:
-                    max_eval = eval
+
+                self.logger.log(f"  🔸 Evaluating move {move.uci()} | Score: {eval}")
+
+                if eval > best_eval:
+                    best_eval = eval
                     best_moves = [move]
-                elif eval == max_eval:
+                elif eval == best_eval:
                     best_moves.append(move)
-            return max_eval if depth != self.depth else best_moves
-        else:
-            min_eval = float('inf')
+
+            if depth == self.depth:
+                self.logger.log(f"✅ Best moves at root: {[m.uci() for m in best_moves]}")
+
+            return best_eval if depth != self.depth else best_moves
+
+        else:  # Black minimizes
+            best_eval = float('inf')
             best_moves = []
             for move in board.legal_moves:
                 board.push(move)
-                eval = self.minimax(board, depth - 1, True)
+                eval = self.minimax(board, depth - 1, True)  # Next turn is White's
                 board.pop()
-                if eval < min_eval:
-                    min_eval = eval
-                    best_moves = [move]
-                elif eval == min_eval:
-                    best_moves.append(move)
-            return min_eval if depth != self.depth else best_moves
 
+                self.logger.log(f"  🔸 Evaluating move {move.uci()} | Score: {eval}")
+
+                if eval < best_eval:
+                    best_eval = eval
+                    best_moves = [move]
+                elif eval == best_eval:
+                    best_moves.append(move)
+
+            if depth == self.depth:
+                self.logger.log(f"✅ Best moves at root: {[m.uci() for m in best_moves]}")
+
+            return best_eval if depth != self.depth else best_moves
     def find_best_move(self, board):
-        for evaluator in self.evaluator:
+        """
+        Finds the best move for the current player, minimizing score.
+        """
+        for evaluator in self.white_evaluators:
+            evaluator.set_board(board)
+        for evaluator in self.black_evaluators:
             evaluator.set_board(board)
 
-        best_move = None
-        if board.turn == chess.WHITE:
-            max_eval = float('-inf')
-            best_moves = []
-            for move in board.legal_moves:
-                board.push(move)
-                eval = self.minimax(board, self.depth - 1, False)
-                board.pop()
-                if eval > max_eval:
-                    max_eval = eval
-                    best_moves = [move]
-                elif eval == max_eval:
-                    best_moves.append(move)
-            # Apply tiebreaker: choose randomly among best moves
-            best_move = random.choice(best_moves) if best_moves else None
-        else:
-            min_eval = float('inf')
-            best_moves = []
-            for move in board.legal_moves:
-                board.push(move)
-                eval = self.minimax(board, self.depth - 1, True)
-                board.pop()
-                if eval < min_eval:
-                    min_eval = eval
-                    best_moves = [move]
-                elif eval == min_eval:
-                    best_moves.append(move)
-            # Apply tiebreaker: choose randomly among best moves
-            best_move = random.choice(best_moves) if best_moves else None
-            
-        return best_move
-        
+        min_eval = float('inf')
+        best_moves = []
 
-if __name__ == "__main__":
-    from data_access.material_manager import EvaluateMaterialManager
-    from evaluators.material_evaluator import MaterialEvaluator
-    em = EvaluateMaterialManager()
-    em.loadOne("default")
-    eval_manager = em.getCurrent()
+        is_white_turn = board.turn == chess.WHITE
 
-    board = chess.Board("rnb1k1nr/p1pp1pp1/p6p/2b1p1q1/4P3/PP1PB3/2P2PPP/RN1QK1NR b KQkq - 0 8")
+        self.logger.log(f"\n♟️ Finding Best Move for {'White' if is_white_turn else 'Black'} (trying to lose)...\n")
 
-    matEval = MaterialEvaluator(eval_manager=eval_manager,board=board)
 
-    print(matEval.eval_manager)
-        
-    minimax = Minimax(evaluator=[matEval], depth=3)
-    best_move = minimax.find_best_move(board)
-    print(board.san(best_move))
+        for move in board.legal_moves:
+            board.push(move)
+            eval = self.minimax(board, self.depth - 1, is_white_turn)  
+            board.pop()
+
+            self.logger.log(f"♟️ Move: {move.uci()} | Eval: {eval}")
+
+            if eval < min_eval:
+                min_eval = eval
+                best_moves = [move]
+            elif eval == min_eval:
+                best_moves.append(move)
+
+        self.logger.log(f"✅ Best move chosen: {best_moves[0].uci() if best_moves else 'None'}\n")
+
+        return random.choice(best_moves) if best_moves else None

@@ -123,47 +123,64 @@ def submit_exec():
 
 @app.route('/request_move_by_strategy', methods=['POST'])
 def request_move_by_strategy():
-  req         = request.get_json()
-  strategy_id = req["strategy_id"]
-  fen         = req["fen"]
-  depth       = req["depth"]
-  board = chess.Board(fen)
-  # Accesso a la BD 
-  ai_manager = AiPremadeManager()
-  ai_manager.loadById(strategy_id)
-  load_managers = ai_manager.getCurrent()["strategy_list"]
+    req = request.get_json()
+    white_strategy = req["white_strategy"]
+    black_strategy = req["black_strategy"]
+    fen   = req["fen"]
+    depth = req["depth"]
+    board = chess.Board(fen)
 
-  available_managers = {
-    "evaluate_material": EvaluateMaterialManager
-  }
-  available_scorers = {
-     "evaluate_material": MaterialEvaluator
-  }
-  loaded_evaluators = []
-  for strategy in load_managers:
-    collection   = strategy["collection"]
-    evaluator_id = strategy["strat_id"]
-    manager = available_managers[collection]()
+    # Access database to get both AI strategy repositories
+    ai_manager_white = AiPremadeManager()
+    ai_manager_black = AiPremadeManager()
 
-    manager.loadById(evaluator_id)
-    eval_manager = manager.getCurrent()
+    # Load strategies by ID
+    ai_manager_white.loadById(white_strategy)
+    ai_manager_black.loadById(black_strategy)
 
-    # if board.turn == chess.WHITE:
-    scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
-    
-    loaded_evaluators.append(scoring_executor)
+    # Get the list of strategy types used by each player
+    load_managers_white = ai_manager_white.getCurrent()["strategy_list"]
+    load_managers_black = ai_manager_black.getCurrent()["strategy_list"]
 
-  
-  
-  minimax = Minimax(evaluator=loaded_evaluators,depth=depth)
-  best_move = minimax.find_best_move(board)
-  if best_move:
-    return jsonify({
-      "best_move" : best_move.uci(),
-    })
-  else:
-     return jsonify({})
+    # Available manager classes mapped by type
+    available_managers = {
+        "evaluate_material": EvaluateMaterialManager
+    }
+    available_scorers = {
+        "evaluate_material": MaterialEvaluator
+    }
 
+    def load_evaluators(strategy_list):
+        loaded_evaluators = []
+        for strategy in strategy_list:
+            collection = strategy["collection"]
+            evaluator_id = strategy["strat_id"]
+
+            if collection in available_managers:
+                manager = available_managers[collection]()
+                manager.loadById(evaluator_id)
+                eval_manager = manager.getCurrent()
+
+                scoring_executor = available_scorers[collection](eval_manager=eval_manager, board=board)
+                loaded_evaluators.append(scoring_executor)
+
+        return loaded_evaluators
+
+    # Load evaluators for both White and Black
+    white_evaluators = load_evaluators(load_managers_white)
+    black_evaluators = load_evaluators(load_managers_black)
+
+    debug = req.get("debug", False)
+    # Create Minimax with renamed parameters
+    minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
+
+    best_move = minimax.find_best_move(board)
+    if best_move:
+        return jsonify({
+            "best_move": best_move.uci(),
+        })
+    else:
+        return jsonify({})
   
 @app.route('/post_winner', methods=['POST'])
 def post_winner():

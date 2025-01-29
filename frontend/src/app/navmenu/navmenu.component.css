@@ -49,7 +49,7 @@
 }
 
 /* Show the toggle button on small screens */
-@media (max-width: 768px) {
+@media (max-width: 1120px) {
   .navbar-toggler {
       display: block;
   }

@@ -27,10 +27,10 @@
       </div>
     </div>
 
-    <!-- Tables Column -->
-    <div class="col-12 col-lg-6">
-      <!-- STRATEGY CARD OVERVIEW -->
-      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3">
+  <!-- Tables Column -->
+  <div class="col-12 col-lg-6 d-flex flex-column justify-content-around">
+    <!-- STRATEGY CARD OVERVIEW -->
+    <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mb-3">
         <p>Strategy name: {{ strat.name }}</p>
         <p>Strategy type: {{ strat.type }}</p>
         <ng-container *ngIf="strat.type === 'evaluate_material'">

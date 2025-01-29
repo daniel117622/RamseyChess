@@ -17,7 +17,7 @@ const routerOptions: ExtraOptions = {
 };
 
 const routes: Routes = [
-  { path: '', redirectTo: 'mainpage', pathMatch: 'full' },
+  { path: '', redirectTo: 'bot-vs-bot', pathMatch: 'full' },
   { path: 'mainpage', component: MainpageComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'play-ai', component: PlayPageComponent},

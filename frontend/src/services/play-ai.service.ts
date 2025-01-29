@@ -60,19 +60,17 @@ export class PlayAiService {
   }
   async getNextMoveByStratId(
     fen: string | null, 
-    white_strategy_id: string | null, 
+    strategy_id: string | null, 
     depth: number
   ): Promise<NextMove | {}> {
-    const black_strategy_id = '671afaa69eb0593a9dea2024'; // Default black strategy
   
-    console.log("Fetching next move for white strategy ID:", white_strategy_id);
   
     try {
       const nextMove = await firstValueFrom(
         this.http.post<NextMove>('/api/request_move_by_strategy', {
           fen,
-          white_strategy: white_strategy_id,
-          black_strategy: black_strategy_id,
+          white_strategy: '671afaa69eb0593a9dea2024',
+          black_strategy: strategy_id,
           depth
         }).pipe(
           catchError(error => {

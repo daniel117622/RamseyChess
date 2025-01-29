@@ -25,6 +25,10 @@ export class NavMenuComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkScreenSize();
+    if (!this.isSmallScreen) 
+    {
+      this.menuOpen = false; 
+    }
   }
 
   private checkScreenSize(): void 

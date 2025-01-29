@@ -58,29 +58,40 @@ export class PlayAiService {
   ping() {
     console.log("Play ai running");
   }
-  async getNextMoveByStratId(fen: string | null, strategy_id: string | null, depth: number): Promise<NextMove | {}> {
-    console.log("Fetching next move for strategy ID:", strategy_id);
+  async getNextMoveByStratId(
+    fen: string | null, 
+    strategy_id: string | null, 
+    depth: number
+  ): Promise<NextMove | {}> {
+  
+  
     try {
       const nextMove = await firstValueFrom(
-        this.http.post<NextMove>('/api/request_move_by_strategy', { fen, strategy_id, depth }).pipe(
+        this.http.post<NextMove>('/api/request_move_by_strategy', {
+          fen,
+          white_strategy: '671afaa69eb0593a9dea2024',
+          black_strategy: strategy_id,
+          depth
+        }).pipe(
           catchError(error => {
             console.error('Error fetching next move', error);
-            return of({}); // Return an empty object or handle appropriately
+            return of({}); 
           })
         )
       );
   
       if (Object.keys(nextMove).length === 0) {
-        return {best_move : ''} as NextMove;
+        return { best_move: '' } as NextMove;
       }
-
+  
       return nextMove as NextMove;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error) 
+      {
         console.error('Network error or connection issue:', error);
-        return {}; // Return null or another appropriate value for connection issues
+        return {}; 
       }
-      throw error; // Propagate other errors
+      throw error; 
     }
   }
 

@@ -129,7 +129,6 @@ def request_move_by_strategy():
     fen   = req["fen"]
     depth = req["depth"]
     board = chess.Board(fen)
-
     # Access database to get both AI strategy repositories
     ai_manager_white = AiPremadeManager()
     ai_manager_black = AiPremadeManager()

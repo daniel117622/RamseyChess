@@ -59,7 +59,7 @@ def register_socketio_events(socketio):
 
         # Game setup
         board = chess.Board()  # Standard starting position
-        depth = 3  # Fixed depth
+        depth = 2  # Fixed depth
 
         # Access database to get both AI strategy repositories
         ai_manager_white = AiPremadeManager()

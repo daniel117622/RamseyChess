@@ -18,7 +18,8 @@
   <ul
     class="nav justify-content-center flex-grow-1 center-menu"
     [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
-  >
+    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+  > 
     <li class="nav-item">
       <a href="/blog" class="nav-link mobile-hide" (click)="closeMenu()">Blog</a>
     </li>

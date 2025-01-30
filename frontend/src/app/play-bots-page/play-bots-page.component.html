@@ -56,6 +56,7 @@
               <tr>
                 <th>Strategy Name</th>
                 <th>Elo</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
@@ -70,6 +71,13 @@
                 >
                   <td>{{ strategy.name }}</td>
                   <td>{{strategy.elo}}</td>
+                  <td>
+                    <ul>
+                      <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces as Record<string, number> | keyvalue">
+                        {{ piece.key }}: {{ piece.value }}
+                      </li>
+                    </ul>
+                  </td>
                 </tr>
               </tbody>              
           </table>

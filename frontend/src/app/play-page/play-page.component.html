@@ -1,7 +1,9 @@
 <div class="main-container mt-5">
   <div class="container">
     <h4>AI Premade Opponents</h4>
-    <p class="short-desc">Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.</p>
+    <p class="short-desc">
+      Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.
+    </p>
 
     <!-- Bottom bar for separation -->
     <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
@@ -42,11 +44,13 @@
               </div>
             </div>
 
+            <!-- Strategy details -->
             <div *ngIf="card?.strategy_details">
               <div class="row">
                 <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
                   <p>Strategy name: {{ strat.name }}</p>
                   <p>Strategy type: {{ strat.type }}</p>
+
                   <ng-container *ngIf="strat.type === 'evaluate_material'">
                     <div class="table-responsive">
                       <table class="table table-bordered w-100">
@@ -68,12 +72,13 @@
                         </tbody>
                       </table>
                     </div>
+                  </ng-container> <!-- Properly closed ng-container -->
                 </div>
               </div>
-            </div>
+            </div> <!-- Closing strategy details -->
           </div>
         </div>
       </div>
     </div>
-  </div> <!-- This is the missing closing div -->
+  </div>
 </div>

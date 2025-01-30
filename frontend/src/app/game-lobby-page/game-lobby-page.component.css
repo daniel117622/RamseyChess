@@ -29,7 +29,6 @@ button.ready {
 .force-hide {
   display: none !important;
 }
-
 .custom-table-wrapper {
   border-radius: 2px;
   overflow: hidden;
@@ -37,7 +36,7 @@ button.ready {
 }
 
 .table {
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Slightly smaller font size for a compact look */
 }
 
 .custom-row {
@@ -48,10 +47,17 @@ button.ready {
   background-color: #e8f5e9;
 }
 
+.table td,
+.table th {
+  padding: 0.3rem 0.5rem; /* Minimized padding to reduce row height */
+}
+
 .btn-green {
   background-color: #38b000;
   border-color: #38b000;
   color: #ffffff;
+  padding: 0.2rem 0.4rem; /* Reduced padding for smaller button */
+  font-size: 0.75rem; /* Smaller text for the button */
   transition: background-color 0.3s ease;
 }
 
@@ -70,4 +76,8 @@ h2 {
 
 .table-hover tbody tr:hover td {
   background-color: #e8f5e9 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
 }

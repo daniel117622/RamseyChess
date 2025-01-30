@@ -60,50 +60,53 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let strategy of publicStrategies; let i = index"
-          (click)="onRowClick(strategy, i)"
-          [ngClass]="{
-            'white-selected': i === selectedWhiteRowIndex,
-            'black-selected': i === selectedBlackRowIndex,
-            'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
-          }">
-        <td>{{ strategy.name }}</td>
-        <td>{{ strategy.elo }}</td>
-        <td>
-          <ul>
-            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
-              {{ piece.key }}: {{ piece.value }}
-            </li>
-          </ul>
-        </td>
-      </tr>
+      <!-- Main row with strategy details -->
+      <ng-container *ngFor="let strategy of publicStrategies; let i = index">
+        <tr (click)="onRowClick(strategy, i)"
+            [ngClass]="{
+              'white-selected': i === selectedWhiteRowIndex,
+              'black-selected': i === selectedBlackRowIndex,
+              'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
+            }">
+          <td>{{ strategy.name }}</td>
+          <td>{{ strategy.elo }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
+                {{ piece.key }}: {{ piece.value }}
+              </li>
+            </ul>
+          </td>
+        </tr>
 
-      <!-- White Pieces Row as Nested Row -->
-      <tr *ngIf="strategy?.strategy_details?.[0]?.whitePieces">
-        <td colspan="2"><strong>White Pieces</strong></td>
-        <td>
-          <ul>
-            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
-              {{ piece.key }}: {{ piece.value }}
-            </li>
-          </ul>
-        </td>
-      </tr>
+        <!-- White Pieces Row -->
+        <tr *ngIf="strategy?.strategy_details?.[0]?.whitePieces">
+          <td colspan="2"><strong>White Pieces</strong></td>
+          <td>
+            <ul>
+              <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
+                {{ piece.key }}: {{ piece.value }}
+              </li>
+            </ul>
+          </td>
+        </tr>
 
-      <!-- Black Pieces Row as Nested Row -->
-      <tr *ngIf="strategy?.strategy_details?.[0]?.blackPieces">
-        <td colspan="2"><strong>Black Pieces</strong></td>
-        <td>
-          <ul>
-            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.blackPieces | keyvalue">
-              {{ piece.key }}: {{ piece.value }}
-            </li>
-          </ul>
-        </td>
-      </tr>
+        <!-- Black Pieces Row -->
+        <tr *ngIf="strategy?.strategy_details?.[0]?.blackPieces">
+          <td colspan="2"><strong>Black Pieces</strong></td>
+          <td>
+            <ul>
+              <li *ngFor="let piece of strategy?.strategy_details?.[0]?.blackPieces | keyvalue">
+                {{ piece.key }}: {{ piece.value }}
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>
+
 <!-- END STRATEGY DETAIL TABLE -->
 
 

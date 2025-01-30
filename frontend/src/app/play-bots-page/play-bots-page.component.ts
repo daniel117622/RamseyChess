@@ -416,4 +416,14 @@ export class PlayBotsPageComponent implements OnInit {
       this.cdr.detectChanges();
     }, 1000);
   }
+
+  function toPieceValues(input: any): PieceValues 
+  {
+  return Object.fromEntries(
+    Object.entries(input || {}).filter(
+      ([_, value]) => typeof value === 'number'
+    )
+  );
+}
+  
 }

@@ -3,20 +3,22 @@
 <!-- Form to join a lobby -->
 <div *ngIf="!lobbyId" class="mb-3">
   <label for="roomCode" class="form-label">Enter Lobby Code:</label>
-  <div class="d-flex align-items-center">
-    <input
-      type="text"
-      id="roomCode"
-      [(ngModel)]="inputLobbyId"
-      placeholder="Enter lobby ID"
-      class="form-control me-2"
-    />
-    <button
-      class="btn btn-primary custom-button px-3 py-2"
-      (click)="handleJoinLobby()"
-    >
-      Join Lobby
-    </button>
+  <div class="row">
+    <div class="col-12 col-lg-6 d-flex align-items-center">
+      <input
+        type="text"
+        id="roomCode"
+        [(ngModel)]="inputLobbyId"
+        placeholder="Enter lobby ID"
+        class="form-control me-2"
+      />
+      <button
+        class="btn btn-primary custom-button px-3 py-2"
+        (click)="handleJoinLobby()"
+      >
+        Join Lobby
+      </button>
+    </div>
   </div>
 </div>
 

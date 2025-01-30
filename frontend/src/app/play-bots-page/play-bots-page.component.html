@@ -75,7 +75,12 @@
         </tr>
 
         <!-- Combined Row for White and Black Pieces -->
-        <tr *ngIf="strategy?.strategy_details?.[0]">
+        <tr *ngIf="strategy?.strategy_details?.[0]"
+            [ngClass]="{
+              'white-selected': i === selectedWhiteRowIndex,
+              'black-selected': i === selectedBlackRowIndex,
+              'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
+            }">
           <td colspan="3">
             <div style="display: flex; justify-content: space-between;">
               <!-- White Pieces -->

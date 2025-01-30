@@ -55,31 +55,6 @@
             </table>
           </div>
         </ng-container>
-        <ng-container *ngIf="strat.type === 'evaluate_danger'">
-          <div class="table-responsive">
-            <table class="table table-bordered w-100">
-              <thead style="border-bottom: solid 1px;">
-                <tr>
-                  <th>Evaluation</th>
-                  <th>White</th>
-                  <th>Black</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Attacked Pieces</td>
-                  <td>{{ strat.whitePieces.attackedPieces }}</td>
-                  <td>{{ strat.blackPieces.attackedPieces }}</td>
-                </tr>
-                <tr>
-                  <td>Hanging Pieces</td>
-                  <td>{{ strat.whitePieces.hangingPieces }}</td>
-                  <td>{{ strat.blackPieces.hangingPieces }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-container>
       </div>
     </div>
   </div>

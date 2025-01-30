@@ -83,7 +83,7 @@ interface EvaluateDangerDetail {
   };
 }
 
-export type StrategyDetail = EvaluateMaterialDetail | EvaluateDangerDetail;
+export type StrategyDetail = EvaluateMaterialDetail
 export interface StrategyDetailResponse extends Array<StrategyDetail> {}
 
 

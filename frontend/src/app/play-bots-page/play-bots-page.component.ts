@@ -358,76 +358,64 @@ export class PlayBotsPageComponent implements OnInit {
   
   updateElo(delta_elo: number, result: string) 
   {
-    // ['b', 'w', 'd'] black win, white win, or draw
-    const whiteStrategy = this.publicStrategies.find(
-      (strategy) => strategy._id.$oid === this.whiteStrategyId
-    );
-    const blackStrategy = this.publicStrategies.find(
-      (strategy) => strategy._id.$oid === this.blackStrategyId
-    );
-  
-    if (!whiteStrategy || !blackStrategy) 
-    {
-      console.error('Strategies not found.');
-      return;
-    }
-  
-    if (result === 'w') 
-    {
-      whiteStrategy.elo += delta_elo;
-      blackStrategy.elo -= delta_elo;
-      console.log(`White wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
-    } 
-    else if (result === 'b') 
-    {
-      whiteStrategy.elo -= delta_elo;
-      blackStrategy.elo += delta_elo;
-      console.log(`Black wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
-    } 
-    else if (result === 'd') 
-    {
-      if (whiteStrategy.elo > blackStrategy.elo) 
+      // ['b', 'w', 'd'] black win, white win, or draw
+      const whiteStrategy = this.publicStrategies.find(
+        (strategy) => strategy._id.$oid === this.whiteStrategyId
+      );
+      const blackStrategy = this.publicStrategies.find(
+        (strategy) => strategy._id.$oid === this.blackStrategyId
+      );
+    
+      if (!whiteStrategy || !blackStrategy) 
       {
-        whiteStrategy.elo -= delta_elo;
-        blackStrategy.elo += delta_elo;
-      } 
-      else if (whiteStrategy.elo < blackStrategy.elo) 
+        console.error('Strategies not found.');
+        return;
+      }
+    
+      if (result === 'w') 
       {
         whiteStrategy.elo += delta_elo;
         blackStrategy.elo -= delta_elo;
+        console.log(`White wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
+      } 
+      else if (result === 'b') 
+      {
+        whiteStrategy.elo -= delta_elo;
+        blackStrategy.elo += delta_elo;
+        console.log(`Black wins. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
+      } 
+      else if (result === 'd') 
+      {
+        if (whiteStrategy.elo > blackStrategy.elo) 
+        {
+          whiteStrategy.elo -= delta_elo;
+          blackStrategy.elo += delta_elo;
+        } 
+        else if (whiteStrategy.elo < blackStrategy.elo) 
+        {
+          whiteStrategy.elo += delta_elo;
+          blackStrategy.elo -= delta_elo;
+        }
+        console.log(`Draw. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
       }
-      console.log(`Draw. New Elo scores - White: ${whiteStrategy.elo}, Black: ${blackStrategy.elo}`);
-    }
-
-    if (this.selectedWhiteRowIndex !== null) 
-    {
-      this.isWhiteBlinking = true;
-    }
-    if (this.selectedBlackRowIndex !== null)
-    {
-      this.isBlackBlinking = true;
-    }
-
-    // Detect changes to apply the class
-    this.cdr.detectChanges();
-    setTimeout(() => {
-      this.isWhiteBlinking = false;
-      this.isBlackBlinking = false;
+  
+      if (this.selectedWhiteRowIndex !== null) 
+      {
+        this.isWhiteBlinking = true;
+      }
+      if (this.selectedBlackRowIndex !== null)
+      {
+        this.isBlackBlinking = true;
+      }
+  
+      // Detect changes to apply the class
       this.cdr.detectChanges();
-    }, 1000);
+      setTimeout(() => {
+        this.isWhiteBlinking = false;
+        this.isBlackBlinking = false;
+        this.cdr.detectChanges();
+      }, 1000);
+    }
   }
-
-  toPieceValues(input: any): PieceValues {
-    return Object.fromEntries(
-      Object.entries(input || {}).filter(
-        ([_, value]) => typeof value === 'number'
-      )
-    );
-  }
-
-  get filteredWhitePieces(): PieceValues {
-    return this.toPieceValues(this.strategy?.strategy_details?.[0]?.whitePieces);
-  }
-}
   
 }

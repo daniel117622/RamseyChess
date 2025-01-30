@@ -49,65 +49,63 @@
         </div>
 
 
-        <!-- Strategy Details Table -->
-        <div class="table-responsive mt-4">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Strategy Name</th>
-                <th>Elo</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr 
-                *ngFor="let strategy of publicStrategies; let i = index"
-                (click)="onRowClick(strategy, i)"
-                [ngClass]="{
-                  'white-selected': i === selectedWhiteRowIndex,
-                  'black-selected': i === selectedBlackRowIndex,
-                  'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
-                }"
-              >
-                <td>{{ strategy.name }}</td>
-                <td>{{ strategy.elo }}</td>
-                <td>
-                  <ul>
-                    <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
-                      {{ piece.key }}: {{ piece.value }}
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-              
-              <!-- White Pieces Row -->
-              <tr>
-                <td colspan="2"><strong>White Pieces</strong></td>
-                <td>
-                  <ul>
-                    <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
-                      {{ piece.key }}: {{ piece.value }}
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-              
-              <!-- Black Pieces Row -->
-              <tr>
-                <td colspan="2"><strong>Black Pieces</strong></td>
-                <td>
-                  <ul>
-                    <li *ngFor="let piece of strategy?.strategy_details?.[0]?.blackPieces | keyvalue">
-                      {{ piece.key }}: {{ piece.value }}
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-              
-            </tbody>
-          </table>
-        </div>
-        <!--END STRATEGY DETAIL TABLE -->
+<!-- Strategy Details Table -->
+<div class="table-responsive mt-4">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Strategy Name</th>
+        <th>Elo</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let strategy of publicStrategies; let i = index"
+          (click)="onRowClick(strategy, i)"
+          [ngClass]="{
+            'white-selected': i === selectedWhiteRowIndex,
+            'black-selected': i === selectedBlackRowIndex,
+            'blink': i === selectedWhiteRowIndex && isWhiteBlinking || i === selectedBlackRowIndex && isBlackBlinking
+          }">
+        <td>{{ strategy.name }}</td>
+        <td>{{ strategy.elo }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
+              {{ piece.key }}: {{ piece.value }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+
+      <!-- White Pieces Row as Nested Row -->
+      <tr *ngIf="strategy?.strategy_details?.[0]?.whitePieces">
+        <td colspan="2"><strong>White Pieces</strong></td>
+        <td>
+          <ul>
+            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
+              {{ piece.key }}: {{ piece.value }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+
+      <!-- Black Pieces Row as Nested Row -->
+      <tr *ngIf="strategy?.strategy_details?.[0]?.blackPieces">
+        <td colspan="2"><strong>Black Pieces</strong></td>
+        <td>
+          <ul>
+            <li *ngFor="let piece of strategy?.strategy_details?.[0]?.blackPieces | keyvalue">
+              {{ piece.key }}: {{ piece.value }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- END STRATEGY DETAIL TABLE -->
+
 
         <!-- Additional Block of Text -->
         

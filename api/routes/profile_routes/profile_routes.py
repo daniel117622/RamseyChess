@@ -166,14 +166,24 @@ def get_private_strategies():
 
     for single_strategy in my_strategies:
       for strategy in single_strategy["strategy_list"]:
-        collection   = strategy["collection"]
-        evaluator_id = strategy["strat_id"]
-        manager = available_managers[collection]()
-    
-        manager.loadById(evaluator_id)
-        found_strat = manager.getCurrent()
-        found_strat["type"] = collection
-        strategy_view.append(found_strat)
+        try:
+            collection = strategy["collection"]
+            evaluator_id = strategy["strat_id"]
+            manager = available_managers[collection]()
+            
+            manager.loadById(evaluator_id)
+            found_strat = manager.getCurrent()
+            
+            if found_strat:
+                found_strat["type"] = collection
+                strategy_view.append(found_strat)
+            else:
+                logging.warning(f"Strategy with evaluator_id '{evaluator_id}' not found in collection '{collection}'.")
+        
+        except KeyError as e:
+            logging.warning(f"Missing key {e} in strategy: {strategy}. Skipping this strategy.")
+        except Exception as e:
+            logging.warning(f"An error occurred while processing strategy {strategy}: {e}. Skipping this strategy.")
 
       # PER STRATEGY MAKE THE REPLACEMENT
       single_strategy["strategy_list"] = copy.deepcopy(strategy_view)

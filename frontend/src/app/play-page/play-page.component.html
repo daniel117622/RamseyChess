@@ -18,89 +18,88 @@
       <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" [routerLink]="['/cards', card._id.$oid]">
         <div class="card h-100">
           <div class="card-body">
-                <!-- First row: Name and Elo -->
-                <div class="mb-3">
-                  <div class="table-responsive">
-                    <table class="table table-bordered w-100" style="background-color: #e6f7e6;">
-                      <thead class="table-light">
-                        <tr>
-                          <th>Name</th>
-                          <th>Elo</th>
-                          <th>Wins</th>
-                          <th>Losses</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>{{ card.name }}</td>
-                          <td>{{ card.elo }}</td>
-                          <td>{{ card.wins }}</td>
-                          <td>{{ card.losses }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            <!-- First row: Name and Elo -->
+            <div class="mb-3">
+              <div class="table-responsive">
+                <table class="table table-bordered w-100" style="background-color: #e6f7e6;">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Name</th>
+                      <th>Elo</th>
+                      <th>Wins</th>
+                      <th>Losses</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{ card.name }}</td>
+                      <td>{{ card.elo }}</td>
+                      <td>{{ card.wins }}</td>
+                      <td>{{ card.losses }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-              <div *ngIf="card?.strategy_details">
-                <div class="row">
-                  <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
-                    <p>Strategy name:  {{ strat.name }}</p>
-                    <p>Strategy type: {{ strat.type }}</p>
-                    <ng-container *ngIf="strat.type === 'evaluate_material'">
-                      <div class="table-responsive">
-                        <table class="table table-bordered w-100">
-                          <thead style="border-bottom: solid 1px;">
+            <div *ngIf="card?.strategy_details">
+              <div class="row">
+                <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
+                  <p>Strategy name: {{ strat.name }}</p>
+                  <p>Strategy type: {{ strat.type }}</p>
+                  <ng-container *ngIf="strat.type === 'evaluate_material'">
+                    <div class="table-responsive">
+                      <table class="table table-bordered w-100">
+                        <thead style="border-bottom: solid 1px;">
+                          <tr>
+                            <th>PieceType</th>
+                            <th>White</th>
+                            <th>Black</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
                             <tr>
-                              <th>PieceType</th>
-                              <th>White</th>
-                              <th>Black</th>
+                              <td style="text-transform: capitalize;">{{ piece.key }}</td>
+                              <td>{{ piece.value }}</td>
+                              <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                              <tr>
-                                <td style="text-transform: capitalize;">{{ piece.key }}</td>
-                                <td>{{ piece.value }}</td>
-                                <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
-                              </tr>
-                            </ng-container>
-                          </tbody>
-                        </table>
-                      </div>
-                    </ng-container>
-                    <ng-container *ngIf="strat.type === 'evaluate_danger'">
-                      <div class="table-responsive">
-                        <table class="table table-bordered w-100">
-                          <thead style="border-bottom: solid 1px;">
-                            <tr>
-                              <th>Evaluation</th>
-                              <th>White</th>
-                              <th>Black</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Attacked Pieces</td>
-                              <td>{{ strat.whitePieces.attackedPieces }}</td>
-                              <td>{{ strat.blackPieces.attackedPieces }}</td>
-                            </tr>
-                            <tr>
-                              <td>Hanging Pieces</td>
-                              <td>{{ strat.whitePieces.hangingPieces }}</td>
-                              <td>{{ strat.blackPieces.hangingPieces }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </ng-container>
-                  </div>
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="strat.type === 'evaluate_danger'">
+                    <div class="table-responsive">
+                      <table class="table table-bordered w-100">
+                        <thead style="border-bottom: solid 1px;">
+                          <tr>
+                            <th>Evaluation</th>
+                            <th>White</th>
+                            <th>Black</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Attacked Pieces</td>
+                            <td>{{ strat.whitePieces.attackedPieces }}</td>
+                            <td>{{ strat.blackPieces.attackedPieces }}</td>
+                          </tr>
+                          <tr>
+                            <td>Hanging Pieces</td>
+                            <td>{{ strat.whitePieces.hangingPieces }}</td>
+                            <td>{{ strat.blackPieces.hangingPieces }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </ng-container>
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>    
+  </div> <!-- This is the missing closing div -->
 </div>

@@ -52,12 +52,12 @@
 <!-- Strategy Details Table -->
 <!-- Strategy Details Table -->
 <div class="table-responsive mt-4">
-  <table class="table table-bordered">
+  <table class="table table-bordered" style="table-layout: fixed; width: 100%;">
     <thead>
       <tr>
-        <th>Strategy Name</th>
-        <th>Elo</th>
-        <th>Details</th>
+        <th style="width: 33%;">Strategy Name</th>
+        <th style="width: 33%;">Elo</th>
+        <th style="width: 34%;">Details</th>
       </tr>
     </thead>
     <tbody>
@@ -76,7 +76,7 @@
 
         <!-- Combined Row for White and Black Pieces -->
         <tr *ngIf="strategy?.strategy_details?.[0]">
-          <td colspan="2">
+          <td colspan="2" style="width: 50%;">
             <strong>White Pieces</strong>
             <ul>
               <li *ngFor="let piece of strategy?.strategy_details?.[0]?.whitePieces | keyvalue">
@@ -84,7 +84,7 @@
               </li>
             </ul>
           </td>
-          <td colspan="2">
+          <td colspan="2" style="width: 50%;">
             <strong>Black Pieces</strong>
             <ul>
               <li *ngFor="let piece of strategy?.strategy_details?.[0]?.blackPieces | keyvalue">

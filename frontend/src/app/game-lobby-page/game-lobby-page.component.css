@@ -31,7 +31,7 @@ button.ready {
 }
 
 .custom-table-wrapper {
-  border-radius: 12px;
+  border-radius: 2px;
   overflow: hidden;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }

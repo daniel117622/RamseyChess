@@ -73,7 +73,7 @@
                   <td>{{strategy.elo}}</td>
                   <td>
                     <ul>
-                      <li *ngFor="let piece of (strategy?.strategy_details?.[0]?.whitePieces | keyvalue)">
+                      <li *ngFor="let piece of (strategy?.strategy_details?.[0]?.whitePieces as { [key: string]: number }) | keyvalue">
                         {{ piece.key }}: {{ piece.value }}
                       </li>
                     </ul>

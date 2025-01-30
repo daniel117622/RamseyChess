@@ -5,7 +5,7 @@ from data_access.strategy_cards_manager import AiPremadeStratDoc, AiPremadeManag
 from bson.objectid import ObjectId
 from typing import Any
 import copy
-
+import logging
 # For transactions
 from data_access.connector import db
 from pymongo.errors import PyMongoError

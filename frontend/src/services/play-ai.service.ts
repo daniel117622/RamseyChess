@@ -133,8 +133,8 @@ export class PlayAiService {
       // Emit the execute_game event with required parameters (fen and depth are removed)
       this.socket.emit('execute_game', 
       {
-          white_strategy: whiteStrategyId,
-          black_strategy: blackStrategyId
+          white_strategy_id: whiteStrategyId,
+          black_strategy_id: blackStrategyId
       });
 
       return this.createMoveObservable();

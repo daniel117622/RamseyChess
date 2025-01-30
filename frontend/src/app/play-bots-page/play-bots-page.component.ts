@@ -417,13 +417,17 @@ export class PlayBotsPageComponent implements OnInit {
     }, 1000);
   }
 
-  function toPieceValues(input: any): PieceValues 
-  {
-  return Object.fromEntries(
-    Object.entries(input || {}).filter(
-      ([_, value]) => typeof value === 'number'
-    )
-  );
+  toPieceValues(input: any): PieceValues {
+    return Object.fromEntries(
+      Object.entries(input || {}).filter(
+        ([_, value]) => typeof value === 'number'
+      )
+    );
+  }
+
+  get filteredWhitePieces(): PieceValues {
+    return this.toPieceValues(this.strategy?.strategy_details?.[0]?.whitePieces);
+  }
 }
   
 }

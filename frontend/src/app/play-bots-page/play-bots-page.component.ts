@@ -10,6 +10,11 @@ import { Chess } from 'chess.js';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ResetPopupComponent } from './reset-popup/reset-popup.component';
 
+interface PieceValues 
+{
+  [key: string]: number;
+}
+
 @Component({
   selector: 'app-play-bots-page',
   templateUrl: './play-bots-page.component.html',

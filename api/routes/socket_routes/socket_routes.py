@@ -39,8 +39,8 @@ def register_socketio_events(socketio):
         socketio.sleep(0)
 
         # Extract game parameters from request
-        white_strategy = data.get("white_strategy")
-        black_strategy = data.get("black_strategy")
+        white_strategy = data.get("white_strategy_id")
+        black_strategy = data.get("black_strategy_id")
         debug_var = data.get("debug", False)
 
         # Initialize logger

@@ -43,7 +43,18 @@ export class GameLobbyPageComponent implements OnInit
   playerReadyState = false;
   bothPlayersReadyState : { name: string, ready: boolean }[] = []
   all_buttons_frozen: boolean = false;
-
+  availableLobbies = [
+    { id: 'room-1', players: [{ name: 'Alice' }], status: 'Waiting for Player' },
+    { id: 'room-2', players: [{ name: 'Bob' }, { name: 'Eve' }], status: 'In Progress' },
+    { id: 'room-3', players: [], status: 'Open' },
+    { id: 'room-4', players: [{ name: 'Charlie' }], status: 'Waiting for Player' },
+    { id: 'room-5', players: [{ name: 'David' }, { name: 'Faythe' }], status: 'In Progress' },
+    { id: 'room-6', players: [{ name: 'Grace' }], status: 'Waiting for Player' },
+    { id: 'room-7', players: [{ name: 'Heidi' }], status: 'Waiting for Player' },
+    { id: 'room-8', players: [{ name: 'Ivan' }, { name: 'Judy' }], status: 'In Progress' },
+    { id: 'room-9', players: [], status: 'Open' },
+    { id: 'room-10', players: [{ name: 'Mallory' }], status: 'Waiting for Player' }
+  ];
   constructor (
     private route : ActivatedRoute,
     private router: Router,
@@ -252,4 +263,8 @@ export class GameLobbyPageComponent implements OnInit
       }
     }
 
+    joinExistingLobby(lobby_id : any) : void
+    {
+      return
+    }
 }

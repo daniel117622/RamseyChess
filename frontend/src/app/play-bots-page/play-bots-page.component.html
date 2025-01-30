@@ -73,12 +73,11 @@
                   <td>{{strategy.elo}}</td>
                   <td>
                     
-                    <ul>
-                      <li *ngFor="let piece of whitePieces | keyvalue">
-                        {{ piece.key }}: {{ piece.value }}
-                      </li>
-                    </ul>
-                    </ul>
+<ul>
+  <li *ngFor="let piece of filteredWhitePieces | keyvalue">
+    {{ piece.key }}: {{ piece.value }}
+  </li>
+</ul>
                   </td>
                 </tr>
               </tbody>              

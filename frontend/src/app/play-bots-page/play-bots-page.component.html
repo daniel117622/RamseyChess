@@ -76,6 +76,7 @@
 
         <!-- Combined Row for White and Black Pieces -->
         <tr *ngIf="strategy?.strategy_details?.[0]"
+            (click)="onRowClick(strategy, i)"
             [ngClass]="{
               'white-selected': i === selectedWhiteRowIndex,
               'black-selected': i === selectedBlackRowIndex,

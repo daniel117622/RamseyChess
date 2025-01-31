@@ -1,7 +1,7 @@
 from flask import jsonify, request
 import chess
-from api.minimax import Minimax
-from api.evaluators.material_evaluator import MaterialEvaluator
+from minimax import Minimax
+from evaluators.material_evaluator import MaterialEvaluator
 
 def minimax_handler(request):
     data = request.get_json()
@@ -35,4 +35,3 @@ def minimax_handler(request):
     return jsonify({
         "best_move": best_move.uci() if best_move else None
     })
-

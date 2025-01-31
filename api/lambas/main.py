@@ -2,7 +2,9 @@ from flask import jsonify, request
 import chess
 from minimax import Minimax
 from evaluators.material_evaluator import MaterialEvaluator
+import functions_framework
 
+@functions_framework.http
 def minimax_handler(request):
     data = request.get_json()
     white_evaluators_data = data["white_evaluators"]

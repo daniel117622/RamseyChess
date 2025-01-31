@@ -19,3 +19,10 @@
     margin-bottom: 10px;
     border: solid black;
 }
+
+.table-cell-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 190px;
+  }

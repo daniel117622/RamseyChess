@@ -95,6 +95,35 @@
     </button>
   </div>
 </div>
+<!-- Table displaying available lobbies -->
+<!-- Table displaying available lobbies -->
+<div *ngIf="!lobbyId" class="mb-5">
+  <h2 class="text-center mb-4">Available Lobbies</h2>
+  <div class="table-responsive custom-table-wrapper">
+    <table class="table table-hover table-borderless">
+      <thead class="table-light">
+        <tr>
+          <th class="text-center">#</th>
+          <th>Lobby ID</th>
+          <th>Players</th>
+          <th>Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lobby of availableLobbies; let i = index" class="custom-row">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td>{{ lobby.id }}</td>
+          <td>{{ lobby.players.length }} / 2</td>
+          <td>{{ lobby.status }}</td>
+          <td class="text-center">
+            <button class="btn btn-green btn-sm">Join</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 <!-- Table to select a strategy -->

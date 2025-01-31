@@ -29,6 +29,13 @@ class MaterialEvaluator():
             f"board_fen: {self.board.fen()}"
             f")"
         )
+    
+    def to_json(self):
+        return {
+            "blackPieces": self.eval_manager["blackPieces"],
+            "whitePieces": self.eval_manager["whitePieces"],
+            "board_fen": self.board.fen()
+        }
 
 if __name__ == "__main__":
     print("Testbed")

@@ -1,5 +1,6 @@
 import eventlet
 import eventlet.wsgi
+import logging
 
 eventlet.monkey_patch()
 
@@ -28,6 +29,7 @@ from bson.json_util import dumps , loads
 from bson import ObjectId
 from minimax import Minimax
 
+logging.basicConfig(level=logging.INFO)
 
 app      = Flask(__name__)
 cors     = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -171,9 +173,15 @@ def request_move_by_strategy():
 
     debug = req.get("debug", False)
     # Create Minimax with renamed parameters
+    logging.info("Minimax Arguments:\n%s", json.dumps({
+        "white_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in white_evaluators],
+        "black_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in black_evaluators],
+        "depth": depth,
+        "debug": debug
+    }, indent=4))
     minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
     best_move = minimax.find_best_move(board)
-
+    
     if best_move:
         return jsonify({
             "best_move": best_move.uci(),

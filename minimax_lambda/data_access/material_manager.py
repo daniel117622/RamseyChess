@@ -59,6 +59,7 @@ class EvaluateMaterialManager():
     def insertIntoDb(self, new_doc: EvaluateMaterialDoc) -> str:
         result = self.docs.insert_one(asdict(new_doc))
         return str(new_doc._id) if result.acknowledged else None
+    
 
 if __name__ == "__main__":
     # Test data access

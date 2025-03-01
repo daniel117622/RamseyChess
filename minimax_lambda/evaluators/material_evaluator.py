@@ -1,5 +1,14 @@
 import chess
-from data_access.material_manager import EvaluateMaterialDoc
+from bson.objectid import ObjectId
+from typing import Dict , Optional
+
+@dataclass
+class EvaluateMaterialDoc:
+    _id           : ObjectId
+    name          : str
+    whitePieces   : Dict[str, float]
+    blackPieces   : Dict[str, float]
+    owner         : Optional[str] = None #UUID
 
 class MaterialEvaluator():
     def __init__(self, eval_manager : EvaluateMaterialDoc, board) -> None:

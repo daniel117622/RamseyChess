@@ -127,8 +127,14 @@ def register_socketio_events(socketio):
                 cloud_function_url = "https://us-central1-ramseychess.cloudfunctions.net/minimax_handler"
                 # Prepare request payload
                 data = {
-                    "white_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in white_evaluators],
-                    "black_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in black_evaluators],
+                    "white_evaluators": [
+                        {str(evaluator.__class__.__name__): {**evaluator.to_json(), "board_fen": board.fen()}}
+                        for evaluator in white_evaluators
+                    ],
+                    "black_evaluators": [
+                        {str(evaluator.__class__.__name__): {**evaluator.to_json(), "board_fen": board.fen()}}
+                        for evaluator in black_evaluators
+                    ],
                     "depth": depth,
                     "debug": False
                 }

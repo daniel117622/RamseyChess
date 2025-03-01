@@ -175,10 +175,16 @@ def request_move_by_strategy():
 
     cloud_function_url = "https://us-central1-ramseychess.cloudfunctions.net/minimax_handler"
     data = {
-        "white_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in white_evaluators],
-        "black_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in black_evaluators],
+        "white_evaluators": [
+            {str(evaluator.__class__.__name__): {**evaluator.to_json(), "board_fen": board.fen()}}
+            for evaluator in white_evaluators
+        ],
+        "black_evaluators": [
+            {str(evaluator.__class__.__name__): {**evaluator.to_json(), "board_fen": board.fen()}}
+            for evaluator in black_evaluators
+        ],
         "depth": depth,
-        "debug": debug
+        "debug": False
     }
     response           = requests.post(cloud_function_url, json=data)
     # Create Minimax with renamed parameters

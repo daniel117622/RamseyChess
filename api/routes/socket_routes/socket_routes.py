@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, emit, disconnect , join_room
 import chess
 import time
 import logging
+import requests
 
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
@@ -13,6 +14,8 @@ from utils.socket_exception import exception_handler
 socketio_routes = Blueprint('socketio_blueprint', __name__)
 
 pvp_lobbies = {}
+cloud_function_url = "https://us-central1-ramseychess.cloudfunctions.net/minimax_handler"
+
 class GameLogger:
     """ Logger for execute_game() to keep debug logs structured and clean. """
     def __init__(self, debug: bool):
@@ -118,25 +121,40 @@ def register_socketio_events(socketio):
                 evaluator.set_board(board)
             for evaluator in black_evaluators:
                 evaluator.set_board(board)
-            try:
-                # Create Minimax instance using correct evaluators and fixed depth
-                minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=2)
-                best_move = minimax.find_best_move(board)
-            except Exception as e:
-                logger.log(f"❌ Error in Minimax: {e}")
-                break
 
-            if best_move:
-                logger.log(f"✅ Move found: {best_move.uci()}")
-                
+            try:
+                # Cloud Function API endpoint
+                cloud_function_url = "https://us-central1-ramseychess.cloudfunctions.net/minimax_handler"
+                # Prepare request payload
+                data = {
+                    "white_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in white_evaluators],
+                    "black_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in black_evaluators],
+                    "depth": depth,
+                    "debug": False
+                }
+
+                # Make request to Cloud Function
+                response = requests.post(cloud_function_url, json=data)
+                response_data = response.json()
+
+                # Extract best move
+                best_move_uci = response_data.get("best_move")
+                if not best_move_uci:
+                    logger.log("⚠️ No move received from API! Breaking the loop.")
+                    break
+
+                best_move = chess.Move.from_uci(best_move_uci)
+                logger.log(f"✅ Move found: {best_move_uci}")
+
                 # Ensure at least 0.5s between moves
                 time.sleep(max(0, last_move_time + 0.5 - time.time()))
-                
+
+                # Apply move
                 board.push(best_move)
                 current_fen = board.fen()
                 emit('move', {
                     'type': 'move',
-                    'move': best_move.uci(),
+                    'move': best_move_uci,
                     'current_fen': current_fen,
                     'turn': 'w' if board.turn == chess.WHITE else 'b',
                     'result': 'ongoing'
@@ -144,18 +162,9 @@ def register_socketio_events(socketio):
 
                 last_move_time = time.time()
                 move_count += 1
-            else:
-                logger.log("⚠️ No move found! Breaking the loop.")
+            except Exception as e:
+                logger.log(f"❌ Error calling Minimax API: {e}")
                 break
-
-        logger.log("🔹 Game Over. Emitting game_end event.")
-        
-        emit('game_end', {
-            'type': 'game_end',
-            'result': 'checkmate' if board.is_checkmate() else 'draw' if board.is_stalemate() else 'ongoing',
-            'current_fen': board.fen(),
-            'winner': 'white' if board.result() == '1-0' else 'black' if board.result() == '0-1' else 'draw'
-        }, to=data.get('lobbyId', None))
 
         disconnect()
 

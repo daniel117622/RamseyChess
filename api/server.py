@@ -186,6 +186,9 @@ def request_move_by_strategy():
         "depth": depth,
         "debug": False
     }
+    
+    logging.debug("Sending request to Cloud Function with data: %s", data)
+
     response           = requests.post(cloud_function_url, json=data)
     # Create Minimax with renamed parameters
     if response.status_code == 200:

@@ -1,10 +1,9 @@
 import chess
-from bson.objectid import ObjectId
 from typing import Dict , Optional
+from dataclasses import dataclass
 
 @dataclass
 class EvaluateMaterialDoc:
-    _id           : ObjectId
     name          : str
     whitePieces   : Dict[str, float]
     blackPieces   : Dict[str, float]

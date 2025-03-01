@@ -1,7 +1,7 @@
 import eventlet
 import eventlet.wsgi
 import logging
-
+import requests
 eventlet.monkey_patch()
 
 from data_access.elo_service import EloService
@@ -172,23 +172,29 @@ def request_move_by_strategy():
     black_evaluators = load_evaluators(load_managers_black)
 
     debug = req.get("debug", False)
-    # Create Minimax with renamed parameters
-    logging.info("Minimax Arguments:\n%s", json.dumps({
+
+    cloud_function_url = "https://us-central1-ramseychess.cloudfunctions.net/minimax_handler"
+    data = {
         "white_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in white_evaluators],
         "black_evaluators": [{str(evaluator.__class__.__name__): evaluator.to_json()} for evaluator in black_evaluators],
         "depth": depth,
         "debug": debug
-    }, indent=4))
-    minimax = Minimax(white_evaluators=white_evaluators, black_evaluators=black_evaluators, depth=depth, debug=debug)
-    best_move = minimax.find_best_move(board)
-    
-    if best_move:
-        return jsonify({
-            "best_move": best_move.uci(),
-            "algebraic_notation" : board.san(best_move)
-        })
+    }
+    response           = requests.post(cloud_function_url, json=data)
+    # Create Minimax with renamed parameters
+    if response.status_code == 200:
+        result = response.json()
+        best_move = result.get("best_move")
+        if best_move:
+            algebraic_notation = chess.Board(fen).san(chess.Move.from_uci(best_move))
+            return jsonify({
+                "best_move": best_move,
+                "algebraic_notation": algebraic_notation
+            })
+        else:
+            return jsonify({})
     else:
-        return jsonify({})
+        return jsonify({"error": "Error calling the Minimax Cloud Function"}), 500
   
 @app.route('/post_winner', methods=['POST'])
 def post_winner():

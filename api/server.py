@@ -1,7 +1,7 @@
 import eventlet
 import eventlet.wsgi
 import logging
-import requests
+
 eventlet.monkey_patch()
 
 from data_access.elo_service import EloService
@@ -11,7 +11,7 @@ import time
 from flasgger import Swagger
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect
-
+import requests
 
 from routes.public_routes.public_routes import public_routes
 from routes.profile_routes.profile_routes import profile_routes

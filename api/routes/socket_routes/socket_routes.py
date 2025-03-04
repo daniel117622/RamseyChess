@@ -162,8 +162,47 @@ def register_socketio_events(socketio):
                 current_fen = board.fen()
                 # Check if the game is over
                 if board.is_checkmate():
-                    handle_checkmate(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger)
-                    break  
+                    winner_strategy_id = white_strategy if board.turn == chess.BLACK else black_strategy
+                    loser_strategy_id  = black_strategy if board.turn == chess.BLACK else white_strategy
+                    winner_color       = "white" if board.turn        == chess.BLACK else "black"
+                    loser_color        = "black" if winner_color      == "white" else "white"
+                    game_date          = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())  # current UTC time
+
+                    # Generate PGN (Portable Game Notation)
+                    game_obj = chess.pgn.Game()
+                    node = game_obj
+                    for move in board.move_stack:
+                        node = node.add_variation(move)
+                    game_pgn = str(game_obj)
+
+                    # Generate checksum
+                    checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)
+
+                    # Emit game_end event with checksum
+                    emit('game_end', {
+                        'type': 'move',
+                        'move': best_move_uci,
+                        'current_fen': current_fen,
+                        'turn': 'w' if board.turn == chess.WHITE else 'b',
+                        'result': {
+                            'winner': {
+                                'strategy_id': winner_strategy_id,
+                                'color': winner_color
+                            },
+                            'loser': {
+                                'strategy_id': loser_strategy_id,
+                                'color': loser_color
+                            },
+                            'date': game_date,
+                            'game_pgn': game_pgn,
+                            'checksum': checksum
+                        }
+                    }, to=data.get('lobbyId', None))
+
+                    logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}, Color: {winner_color}, Date: {game_date}")
+                    logger.log(f"📜 Game PGN:\n{game_pgn}")
+                    logger.log(f"🔐 Checksum: {checksum}")
+                    break  # Exit the game loop
                 elif board.is_stalemate() or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fifty_moves():
                     handle_draw(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger)
                     break  

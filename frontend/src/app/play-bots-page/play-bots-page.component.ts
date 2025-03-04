@@ -219,59 +219,66 @@ export class PlayBotsPageComponent implements OnInit {
               } 
               else if (data.type === 'game_end') 
               {
-                  console.log('Game ended:', data.result);
-  
-                  // Determine the result and open the reset popup
-                  if (data.result === 'checkmate') 
-                  {
-                      const winner = data.winner === 'white' ? whiteStrategyId : blackStrategyId;
-                      console.log(`Game ended with a winner: ${winner}`);
-                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, winner).subscribe(
-                          (deltaElo: number | null) => 
-                          {
-                              if (deltaElo !== null) 
-                              {
-                                  console.log('Winner data successfully posted:', { whiteStrategyId, blackStrategyId });
-                                  this.updateElo(deltaElo, data.winner === 'white' ? 'w' : 'b');
-                              } 
-                              else 
-                              {
-                                  console.error('Failed to update Elo due to an error in posting winner data.');
-                              }
-                          },
-                          (error) => 
-                          {
-                              console.error('Error posting winner data:', error);
-                          }
-                      );
-                      this.openResetPopup(`${data.winner === 'white' ? 'White' : 'Black'} wins!`);
-                  } 
-                  else if (data.result === 'draw') 
-                  {
-                      console.log('Game ended in a draw.');
-                      this.play_ai.postWinner(whiteStrategyId, blackStrategyId, '').subscribe(
-                          (deltaElo: number | null) => 
-                          {
-                              if (deltaElo !== null) 
-                              {
-                                  console.log('Draw data successfully posted:', { whiteStrategyId, blackStrategyId });
-                                  this.updateElo(deltaElo, 'd');
-                              } 
-                              else 
-                              {
-                                  console.error('Failed to post draw data.');
-                              }
-                          },
-                          (error) => 
-                          {
-                              console.error('Error posting draw data:', error);
-                          }
-                      );
-                      this.openResetPopup('Game ended in a draw');
-                  }
-  
-                  this.isPlaying = false;
-              }
+                console.log('Game ended:', data.result);
+            
+                // Check if the game ended with a winner or a draw
+                if (data.result.result_type) 
+                {
+                    const resultType = data.result.result_type;  // '+' for white win, '-' for black win
+                    const winnerColor = resultType === '+' ? 'white' : 'black';
+                    const winnerStrategyId = data.result.winner.strategy_id;  // Strategy ID of the winner
+                    const loserStrategyId = data.result.loser.strategy_id;   // Strategy ID of the loser
+            
+                    console.log(`Game ended with a winner: ${winnerColor}`);
+            
+                    // Post the winner and loser data
+                    this.play_ai.postWinner(winnerStrategyId, loserStrategyId, winnerColor).subscribe(
+                        (deltaElo: number | null) => 
+                        {
+                            if (deltaElo !== null) 
+                            {
+                                console.log('Winner data successfully posted:', { winnerStrategyId, loserStrategyId });
+                                this.updateElo(deltaElo, winnerColor === 'white' ? 'w' : 'b');
+                            } 
+                            else 
+                            {
+                                console.error('Failed to update Elo due to an error in posting winner data.');
+                            }
+                        },
+                        (error) => 
+                        {
+                            console.error('Error posting winner data:', error);
+                        }
+                    );
+            
+                    this.openResetPopup(`${winnerColor.charAt(0).toUpperCase() + winnerColor.slice(1)} wins!`);
+                } 
+                else if (data.result.result_type === '*') 
+                {
+                    console.log('Game ended in a draw.');
+                    this.play_ai.postWinner(whiteStrategyId, blackStrategyId, '').subscribe(
+                        (deltaElo: number | null) => 
+                        {
+                            if (deltaElo !== null) 
+                            {
+                                console.log('Draw data successfully posted:', { whiteStrategyId, blackStrategyId });
+                                this.updateElo(deltaElo, 'd');
+                            } 
+                            else 
+                            {
+                                console.error('Failed to post draw data.');
+                            }
+                        },
+                        (error) => 
+                        {
+                            console.error('Error posting draw data:', error);
+                        }
+                    );
+                    this.openResetPopup('Game ended in a draw');
+                }
+            
+                this.isPlaying = false;
+            }
           },
           (error) => 
           {

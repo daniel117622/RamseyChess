@@ -186,6 +186,7 @@ def register_socketio_events(socketio):
                         'current_fen': current_fen,
                         'turn': 'w' if board.turn == chess.WHITE else 'b',
                         'result': {
+                            'result_type': '+' if winner_color == 'white' else '-'
                             'winner': {
                                 'strategy_id': winner_strategy_id,
                                 'color': winner_color
@@ -230,15 +231,15 @@ def register_socketio_events(socketio):
                         'current_fen': current_fen,
                         'turn': 'w' if board.turn == chess.WHITE else 'b',
                         'result': {
-                            'result_type': result_type,  # "*" for draw
+                            'result_type': result_type,  
                             'winner': {
                                 'strategy_id': winner_strategy_id,
                                 'color': winner_color
-                            },
+                            } if result_type != '*' else None,  
                             'loser': {
                                 'strategy_id': loser_strategy_id,
                                 'color': loser_color
-                            },
+                            } if result_type != '*' else None,  
                             'date': game_date,
                             'game_pgn': game_pgn,
                             'checksum': checksum

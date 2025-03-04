@@ -163,7 +163,10 @@ def register_socketio_events(socketio):
                 # Check if the game is over
                 if board.is_checkmate():
                     handle_checkmate(board, white_evaluators, black_evaluators, best_move_uci, current_fen, data, logger)
-                    break  # Exit game loop and send disconnect packet
+                    break  
+                elif board.is_stalemate() or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fifty_moves():
+                    handle_draw(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger)
+                    break  
 
                 # Continue emitting moves normally if the game isn't over
                 emit('move', {
@@ -250,17 +253,6 @@ def register_socketio_events(socketio):
         }, to=lobby_id)
 
 
-def generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen):
-    """Generates a SHA-256 checksum for game validation."""
-    game_data = json.dumps({
-        "winner_strategy_id": winner_strategy_id,
-        "loser_strategy_id" : loser_strategy_id,
-        "game_pgn"          : game_pgn,
-        "game_date"         : game_date,
-        "final_fen"         : final_fen
-    }, sort_keys=True)  # Sort keys for consistency
-
-    return hashlib.sha256(game_data.encode()).hexdigest()
 
 def handle_checkmate(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger):
     """Handles checkmate event and sends the result with a cryptographic checksum."""
@@ -307,6 +299,70 @@ def handle_checkmate(board, white_strategy, black_strategy, best_move_uci, curre
     logger.log(f"📜 Game PGN:\n{game_pgn}")
     logger.log(f"🔐 Checksum: {checksum}")
 
+
+def handle_draw(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger):
+    """Handles draw event and sends the result with a cryptographic checksum."""
+    # Since it's a draw, there is no winner or loser
+    result_type = "*"
+    winner_strategy_id = None
+    loser_strategy_id = None
+    winner_color = "none"  # No winner in a draw
+    loser_color = "none"   # No loser in a draw
+    
+    # Game date in UTC
+    game_date = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())  # Get current UTC time
+
+    # Generate PGN (Portable Game Notation)
+    game = chess.pgn.Game()
+    node = game
+    for move in board.move_stack:
+        node = node.add_variation(move)
+
+    game_pgn = str(game)  # Convert PGN object to string
+
+    # Generate checksum
+    checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)
+
+    # Emit game end event with checksum
+    emit('game_end', {
+        'type': 'move',
+        'move': best_move_uci,
+        'current_fen': current_fen,
+        'turn': 'w' if board.turn == chess.WHITE else 'b',
+        'result': {
+            'result_type': result_type,  # "*" for draw
+            'winner': {
+                'strategy_id': winner_strategy_id,
+                'color': winner_color
+            },
+            'loser': {
+                'strategy_id': loser_strategy_id,
+                'color': loser_color
+            },
+            'date': game_date,
+            'game_pgn': game_pgn,  
+            'checksum': checksum  
+        }
+    }, to=data.get('lobbyId', None))
+
+    # Log results
+    logger.log(f"⚖️ Draw! No winner, game ended in a draw. Date: {game_date}")
+    logger.log(f"📜 Game PGN:\n{game_pgn}")
+    logger.log(f"🔐 Checksum: {checksum}")
+
+
+
+def generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen):
+    """Generates a SHA-256 checksum for game validation."""
+    game_data = json.dumps({
+        "winner_strategy_id": winner_strategy_id,
+        "loser_strategy_id" : loser_strategy_id,
+        "game_pgn"          : game_pgn,
+        "game_date"         : game_date,
+        "final_fen"         : final_fen
+    }, sort_keys=True)  # Sort keys for consistency
+
+    return hashlib.sha256(game_data.encode()).hexdigest()
 
 def verify_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen, received_checksum):
     """Verifies if the checksum matches the computed game data."""

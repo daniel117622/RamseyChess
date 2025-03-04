@@ -184,6 +184,7 @@ def register_socketio_events(socketio):
                 break
         
         # End the game.
+        socketio.sleep(0.25)
         disconnect()
 
 

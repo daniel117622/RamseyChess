@@ -4,6 +4,7 @@ import chess
 import time
 import logging
 import requests
+import chess.pgn
 
 import hashlib
 import json
@@ -173,7 +174,7 @@ def register_socketio_events(socketio):
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
-                    game_pgn = str(game_obj)
+                    game_pgn = game_obj.accept(chess.pgn.StringExporter())
 
                     # Generate checksum
                     checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)
@@ -217,7 +218,7 @@ def register_socketio_events(socketio):
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
-                    game_pgn = str(game_obj)  # Convert PGN to string
+                    game_pgn = game_obj.accept(chess.pgn.StringExporter())
 
                     # Generate checksum using your checksum function
                     checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)

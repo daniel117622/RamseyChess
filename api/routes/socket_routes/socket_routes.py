@@ -162,7 +162,7 @@ def register_socketio_events(socketio):
                 current_fen = board.fen()
                 # Check if the game is over
                 if board.is_checkmate():
-                    handle_checkmate(board, white_evaluators, black_evaluators, best_move_uci, current_fen, data, logger)
+                    handle_checkmate(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger)
                     break  
                 elif board.is_stalemate() or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fifty_moves():
                     handle_draw(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger)

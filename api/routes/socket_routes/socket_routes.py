@@ -49,7 +49,7 @@ def register_socketio_events(socketio):
         debug_var = data.get("debug", False)
 
         # Initialize logger
-        logger = GameLogger(debug_var)
+        logger = GameLogger(True)
 
         logger.log("🔹 execute_game event received!")
 

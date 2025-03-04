@@ -5,6 +5,8 @@ import time
 import logging
 import requests
 
+import hashlib
+import json
 from data_access.strategy_cards_manager import AiPremadeManager
 from data_access.material_manager import EvaluateMaterialManager
 from evaluators.material_evaluator import MaterialEvaluator
@@ -155,21 +157,13 @@ def register_socketio_events(socketio):
                 # Ensure at least 0.5s between moves
                 time.sleep(max(0, last_move_time + 0.5 - time.time()))
 
-                # Apply move
+                
                 board.push(best_move)
                 current_fen = board.fen()
                 # Check if the game is over
                 if board.is_checkmate():
-                    winner_strategy_id = white_strategy if board.turn == chess.BLACK else black_strategy
-                    emit('game_end', {
-                        'type': 'move',
-                        'move': best_move_uci,
-                        'current_fen': current_fen,
-                        'turn': 'w' if board.turn == chess.WHITE else 'b',
-                        'result': winner_strategy_id 
-                    }, to=data.get('lobbyId', None))
-                    logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}")
-                    break  # Exit loop on checkmate
+                    handle_checkmate(board, white_evaluators, black_evaluators, best_move_uci, current_fen, data, logger)
+                    break  # Exit game loop and send disconnect packet
 
                 # Continue emitting moves normally if the game isn't over
                 emit('move', {
@@ -185,7 +179,8 @@ def register_socketio_events(socketio):
             except Exception as e:
                 logger.log(f"❌ Error calling Minimax API: {e}")
                 break
-
+        
+        # End the game.
         disconnect()
 
 
@@ -254,7 +249,66 @@ def register_socketio_events(socketio):
             'black_strategy': black_strategy
         }, to=lobby_id)
 
-        
+
+def generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen):
+    """Generates a SHA-256 checksum for game validation."""
+    game_data = json.dumps({
+        "winner_strategy_id": winner_strategy_id,
+        "loser_strategy_id" : loser_strategy_id,
+        "game_pgn"          : game_pgn,
+        "game_date"         : game_date,
+        "final_fen"         : final_fen
+    }, sort_keys=True)  # Sort keys for consistency
+
+    return hashlib.sha256(game_data.encode()).hexdigest()
+
+def handle_checkmate(board, white_strategy, black_strategy, best_move_uci, current_fen, data, logger):
+    """Handles checkmate event and sends the result with a cryptographic checksum."""
+    winner_strategy_id = white_strategy if board.turn == chess.BLACK else black_strategy
+    loser_strategy_id = black_strategy if board.turn == chess.BLACK else white_strategy
+    winner_color = "white" if board.turn == chess.BLACK else "black"
+    loser_color = "black" if winner_color == "white" else "white"
+    game_date = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())  # Get current UTC time
+
+    # Generate PGN (Portable Game Notation)
+    game = chess.pgn.Game()
+    node = game
+    for move in board.move_stack:
+        node = node.add_variation(move)
+
+    game_pgn = str(game)  # Convert PGN object to string
+
+    # Generate checksum
+    checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)
+
+    # Emit game end event with checksum
+    emit('game_end', {
+        'type': 'move',
+        'move': best_move_uci,
+        'current_fen': current_fen,
+        'turn': 'w' if board.turn == chess.WHITE else 'b',
+        'result': {
+            'winner': {
+                'strategy_id': winner_strategy_id,
+                'color': winner_color
+            },
+            'loser': {
+                'strategy_id': loser_strategy_id,
+                'color': loser_color
+            },
+            'date': game_date,
+            'game_pgn': game_pgn,  
+            'checksum': checksum  
+        }
+    }, to=data.get('lobbyId', None))
+
+    # Log results
+    logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}, Color: {winner_color}, Date: {game_date}")
+    logger.log(f"📜 Game PGN:\n{game_pgn}")
+    logger.log(f"🔐 Checksum: {checksum}")
 
 
-    
+def verify_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen, received_checksum):
+    """Verifies if the checksum matches the computed game data."""
+    expected_checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, final_fen)
+    return expected_checksum == received_checksum

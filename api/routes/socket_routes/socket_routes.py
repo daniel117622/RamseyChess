@@ -158,6 +158,20 @@ def register_socketio_events(socketio):
                 # Apply move
                 board.push(best_move)
                 current_fen = board.fen()
+                # Check if the game is over
+                if board.is_checkmate():
+                    winner_strategy_id = white_strategy if board.turn == chess.BLACK else black_strategy
+                    emit('game_end', {
+                        'type': 'move',
+                        'move': best_move_uci,
+                        'current_fen': current_fen,
+                        'turn': 'w' if board.turn == chess.WHITE else 'b',
+                        'result': winner_strategy_id 
+                    }, to=data.get('lobbyId', None))
+                    logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}")
+                    break  # Exit loop on checkmate
+
+                # Continue emitting moves normally if the game isn't over
                 emit('move', {
                     'type': 'move',
                     'move': best_move_uci,

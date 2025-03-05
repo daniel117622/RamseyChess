@@ -274,10 +274,14 @@ def post_winner():
             # Using deltaElo to safely update Elo ratings for win/loss scenario
             if winner == "white":
                 white_strat.updateElo(white_elo + result["deltaElo"])
+                white_strat.updateWins()
                 black_strat.updateElo(black_elo - result["deltaElo"])
+                black_strat.updateLosses()
             else:
                 white_strat.updateElo(white_elo - result["deltaElo"])
+                white_strat.updateLosses()
                 black_strat.updateElo(black_elo + result["deltaElo"])
+                black_strat.updateWins()
 
             return jsonify({
                 "success"    : True,

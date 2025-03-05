@@ -78,7 +78,36 @@ class AiPremadeManager():
                 "matched_count": result.matched_count,
                 "modified_count": result.modified_count
             }
-                
+        
+    def updateWins(self):
+        """
+        Increments the 'wins' property of the current document by 1.
+        """
+        if self.current_doc and "wins" in self.current_doc:
+            new_wins = self.current_doc.get("wins", 0) + 1
+            filter = {"_id": self.current_doc["_id"]}
+            update = {"$set": {"wins": new_wins}}
+            result = self.docs.update_one(filter, update)
+            return {
+                "matched_count": result.matched_count,
+                "modified_count": result.modified_count
+            }
+        return {"error": "No current document or wins field not found"}
+
+    def updateLosses(self):
+        """
+        Increments the 'losses' property of the current document by 1.
+        """
+        if self.current_doc and "losses" in self.current_doc:
+            new_losses = self.current_doc.get("losses") + 1
+            filter = {"_id": self.current_doc["_id"]}
+            update = {"$set": {"losses": new_losses}}
+            result = self.docs.update_one(filter, update)
+            return {
+                "matched_count": result.matched_count,
+                "modified_count": result.modified_count
+            }         
+        
     def insertIntoDb(self, new_doc: AiPremadeStratDoc) -> str:
         result = self.docs.insert_one(asdict(new_doc))
         return str(new_doc._id) if result.acknowledged else None

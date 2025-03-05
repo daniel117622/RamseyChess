@@ -133,7 +133,9 @@ export class PlayBotsPageComponent implements OnInit {
               if (deltaElo !== null) 
               {
                 console.log('Winner data successfully posted:', { whiteStrategy, blackStrategy });
+                // Updates the frontend view.
                 this.updateElo(deltaElo, currentTurn);
+                this.updateWinLoss(currentTurn === 'w' ? 'w' : 'b');
               } 
               else 
               {
@@ -444,6 +446,64 @@ export class PlayBotsPageComponent implements OnInit {
         this.isBlackBlinking = false;
         this.cdr.detectChanges();
       }, 1000);
+    }
+
+    updateWinLoss(result: string): void
+    {
+        // ['b', 'w', 'd'] black win, white win, or draw
+        const whiteStrategy = this.publicStrategies.find(
+            (strategy) => strategy._id.$oid === this.whiteStrategyId
+        );
+        const blackStrategy = this.publicStrategies.find(
+            (strategy) => strategy._id.$oid === this.blackStrategyId
+        );
+    
+        if (!whiteStrategy || !blackStrategy)
+        {
+            console.error('Strategies not found.');
+            return;
+        }
+    
+        if (result === 'w')
+        {
+            // White wins
+            whiteStrategy.wins += 1;
+            blackStrategy.losses += 1;
+            console.log(`White wins. New records - White: ${whiteStrategy.wins} wins, Black: ${blackStrategy.losses} losses`);
+        }
+        else if (result === 'b')
+        {
+            // Black wins
+            whiteStrategy.losses += 1;
+            blackStrategy.wins += 1;
+            console.log(`Black wins. New records - White: ${whiteStrategy.losses} losses, Black: ${blackStrategy.wins} wins`);
+        }
+        else if (result === 'd')
+        {
+            // Draw
+            whiteStrategy.losses += 1;
+            blackStrategy.losses += 1;
+            console.log(`Draw. New records - White: ${whiteStrategy.losses} losses, Black: ${blackStrategy.losses} losses`);
+        }
+    
+        // Trigger blinking for row highlighting based on changes
+        if (this.selectedWhiteRowIndex !== null)
+        {
+            this.isWhiteBlinking = true;
+        }
+        if (this.selectedBlackRowIndex !== null)
+        {
+            this.isBlackBlinking = true;
+        }
+    
+        // Detect changes to apply the class
+        this.cdr.detectChanges();
+        setTimeout(() =>
+        {
+            this.isWhiteBlinking = false;
+            this.isBlackBlinking = false;
+            this.cdr.detectChanges();
+        }, 1000);
     }
   }
   

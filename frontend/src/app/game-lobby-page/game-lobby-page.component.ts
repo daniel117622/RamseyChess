@@ -156,11 +156,11 @@ export class GameLobbyPageComponent implements OnInit
               }
               
               // Ensure game_pgn exists before parsing
-              if (data.game_pgn) 
+              if (data.result.game_pgn) 
               {
-                  const totalTurns = data.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
+                  const totalTurns = data.result.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
                   console.log(`Total number of turns: ${totalTurns}`);
-                  this.gameFinishedPgn = data.game_pgn
+                  this.gameFinishedPgn = data.result.game_pgn
               }
           }
       });

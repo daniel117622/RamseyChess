@@ -40,7 +40,8 @@ RUN npx npm@7 install --legacy-peer-deps
 COPY . .
 
 # Step 5: Build Angular app for production
-RUN npx ng build --prod
+RUN npx ng build --configuration production
+
 
 # Step 6: Expose the production port (default 80)
 EXPOSE 80

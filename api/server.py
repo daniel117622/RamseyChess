@@ -249,8 +249,8 @@ def post_winner():
     else:
         # Otherwise, it's a regular win/loss scenario
         result = elo_service.post("/game", {
-            "winner": white_strategy_id if winner == white_strategy_id else black_strategy_id,
-            "loser": black_strategy_id if winner == white_strategy_id else white_strategy_id
+            "winner": white_strategy_id if winner == "white" else black_strategy_id,
+            "loser" : black_strategy_id if winner == "white" else white_strategy_id
         })
 
         # Check if the request was successful and if the game was resolved

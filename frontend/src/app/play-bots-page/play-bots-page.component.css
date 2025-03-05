@@ -6,13 +6,13 @@
 }
 
 .white-selected td {
-  background-color: rgb(187, 247, 159) !important;
-  border-color: rgb(100, 200, 50) !important; /* Slightly darker green for contrast */
+  background-color: rgb(128, 221, 85) !important;
+  border-color:  rgb(128, 221, 85) !important; /* Slightly darker green for contrast */
 }
 
 .black-selected td {
   background-color: rgb(218, 78, 78) !important;
-  border-color: rgb(150, 40, 40) !important; /* Slightly darker red for contrast */
+  border-color: rgb(218, 78, 78) !important; /* Slightly darker red for contrast */
 }
 
 .white-selected, .black-selected {

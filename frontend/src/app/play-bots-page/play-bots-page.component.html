@@ -49,10 +49,10 @@
         </div>
 
 
-<!-- Strategy Details Table -->
+
 <!-- Strategy Details Table -->
 <div class="table-responsive mt-4">
-  <table class="table table-bordered" style="table-layout: fixed; width: 100%;">
+  <table id="strategyTable" class="table table-bordered" style="table-layout: fixed; width: 100%;">
     <thead>
       <tr>
         <th style="width: 33%;">Strategy Name</th>
@@ -63,7 +63,7 @@
     <tbody>
       <!-- Main row with strategy details -->
       <ng-container *ngFor="let strategy of publicStrategies; let i = index">
-        <tr (click)="onRowClick(strategy, i)"
+        <tr id="entry_{{i}}" (click)="onRowClick(strategy, i)"
             [ngClass]="{
               'white-selected': i === selectedWhiteRowIndex,
               'black-selected': i === selectedBlackRowIndex,
@@ -76,6 +76,7 @@
 
         <!-- Combined Row for White and Black Pieces -->
         <tr *ngIf="strategy?.strategy_details?.[0]"
+            id="entry_{{i}}_details"
             (click)="onRowClick(strategy, i)"
             [ngClass]="{
               'white-selected': i === selectedWhiteRowIndex,

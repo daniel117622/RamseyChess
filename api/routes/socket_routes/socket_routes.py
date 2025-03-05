@@ -186,7 +186,7 @@ def register_socketio_events(socketio):
                         'current_fen': current_fen,
                         'turn': 'w' if board.turn == chess.WHITE else 'b',
                         'result': {
-                            'result_type': '+' if winner_color == 'white' else '-'
+                            'result_type': '+' if winner_color == 'white' else '-',
                             'winner': {
                                 'strategy_id': winner_strategy_id,
                                 'color': winner_color

@@ -6,6 +6,15 @@ import { NgxChessBoardComponent } from 'ngx-chess-board';
 import { NextMove } from 'src/models/next-move.model';
 import { Chess } from 'chess.js';
 
+import { MatDialog } from '@angular/material/dialog'; 
+import { ResetPopupComponent } from '../play-bots-page/reset-popup/reset-popup.component';
+
+enum Color 
+{
+  White = 'w',
+  Black = 'b'
+}
+
 @Component({
   selector: 'app-play-card',
   templateUrl: './play-card.component.html',
@@ -19,7 +28,11 @@ export class PlayAiCardComponent implements OnInit {
   boardSize: number = 600;
   gameFinished = false;
   currentFen : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-  constructor(private play_ai: PlayAiService, private route: ActivatedRoute, private cdr : ChangeDetectorRef) {}
+
+  isPlaying  = true
+  isGameOver = false
+
+  constructor(private play_ai: PlayAiService, private route: ActivatedRoute, private cdr : ChangeDetectorRef, private dialog : MatDialog) {}
 
   ngOnInit(): void 
   {
@@ -52,33 +65,52 @@ export class PlayAiCardComponent implements OnInit {
         });
     } 
   }
-  onMoveChange() 
+
+  onMoveChange()
   {
-    const fen = this.chessBoard.getFEN();
-    this.currentFen = fen
-    console.log('Current FEN:', fen);
-    const activeColor = fen.split(' ')[1]; 
-    if (activeColor == 'b')
-    {
-      this.play_ai.getNextMoveByStratId(fen, this.cardId, 2).then( (res : NextMove | {}) =>
-      {  
-        console.log(res)
-        if ('best_move' in res && res.best_move != "")
-        {
-          this.chessBoard.move(res.best_move)
-        }
-        else
-        {
-          console.log("Trying a random move")
-          const randomMove = this.getRandomLegalMove(fen);
-          console.log(randomMove)
-          this.chessBoard.move(randomMove);
-        }
-        
-      })
-      .catch(() => {
-      });
-    }
+      const fen = this.chessBoard.getFEN();
+      this.currentFen = fen;
+      console.log('Current FEN:', fen);
+      const activeColor: 'b' | 'w' = fen.split(' ')[1] as 'b' | 'w';
+      const winner = activeColor === 'b' ? 'White' : 'Black';
+      
+      const chess = new Chess(fen);
+  
+      // Check for draw or checkmate conditions first
+      if (chess.isCheckmate())
+      {
+          const winner = fen.split(' ')[1] === 'b' ? 'White' : 'Black';
+          this.openResetPopup(`${winner} wins by checkmate!`);
+          alert(`${winner} wins by checkmate!`);
+          return;
+      }
+  
+      if (chess.isDraw())
+      {
+          this.openResetPopup("Game ended in a draw");
+          alert("Game ended in a draw");
+          return;
+      }
+  
+      // If it's the AI's turn (Black is playing)
+      if (activeColor === 'b')
+      {
+          this.play_ai.getNextMoveByStratId(fen, this.cardId, 2).then((res: NextMove | {}) =>
+          {
+              console.log(res);
+  
+              if ('best_move' in res && res.best_move !== "")
+              {
+                  this.chessBoard.move(res.best_move);
+              }
+              else
+              {
+                  this.openResetPopup(`${winner} wins!`);
+                  alert(`${winner} wins!`);
+              }
+          })
+          .catch(() => {});
+      }
   }
 
   getRandomLegalMove(fen: string): string {
@@ -116,5 +148,29 @@ export class PlayAiCardComponent implements OnInit {
     this.updateBoardSize();
     this.cdr.detectChanges();
   }
+
+  openResetPopup(gameResult: string): void {
+    const dialogRef = this.dialog.open(ResetPopupComponent, {
+      width: '400px',
+      hasBackdrop: true,
+      disableClose: true,
+      data: gameResult // Pass the game result here
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("User confirmed action in reset popup.");
+        this.chessBoard.reset();
+        this.currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+      } else {
+        console.log("User canceled action in reset popup.");
+      }
+      this.isPlaying = true;
+      setTimeout(() => {
+        this.isGameOver = true;
+      }, 1500);
+    });
+  }
+  
 
 }

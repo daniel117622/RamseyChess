@@ -71,7 +71,15 @@
             }">
           <td>{{ strategy.name }}</td>
           <td>{{ strategy.elo }}</td>
-          <td>{{ strategy.wins }} / {{ strategy.losses }}</td>
+          <td>
+            <span class="wins" [ngClass]="{'positive': strategy.wins >= 0, 'negative': strategy.wins < 0}">
+              Wins: {{ strategy.wins }}
+            </span>
+            /
+            <span class="losses" [ngClass]="{'positive': strategy.losses >= 0, 'negative': strategy.losses < 0}">
+              Losses: {{ strategy.losses }}
+            </span>
+          </td>
         </tr>
 
         <!-- Combined Row for White and Black Pieces -->

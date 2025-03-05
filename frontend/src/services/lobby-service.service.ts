@@ -146,16 +146,19 @@ export class LobbyService
       throw new Error('Socket.IO connection is not initialized.');
     }
   
-    // Emit the execute_game event only if the player is not the one that triggered forceGameStart
-    if (!this.isGameInitiator)
+    // Emit the e_game event only if the player is not the one that triggered forceGameStart
+    if (this.isGameInitiator)
     {
       console.log("This player started the game")
-      this.socket.emit('execute_game', 
+      if (lobbyId && lobbyId !== "")
       {
-        lobbyId: lobbyId,
-        white_strategy_id: whiteStrategyId,
-        black_strategy_id: blackStrategyId,
-      });
+        this.socket.emit('execute_game', 
+        {
+          lobbyId: lobbyId,
+          white_strategy_id: whiteStrategyId,
+          black_strategy_id: blackStrategyId,
+        });
+      }
     }
   
     return new Observable((observer) => 

@@ -191,11 +191,11 @@ export class LobbyService
           result: { 
             result_type: string; 
             winner: { strategy_id: string; color: string }; 
-            loser: { strategy_id: string; color: string } 
+            loser: { strategy_id: string; color: string }; 
+            game_pgn: string; 
+            checksum: string; 
           }; 
-          checksum: string; 
           date: string; 
-          game_pgn: string; 
           turn: string; 
         }) => 
         {

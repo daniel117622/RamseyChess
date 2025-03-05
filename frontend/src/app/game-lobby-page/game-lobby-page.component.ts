@@ -146,32 +146,33 @@ export class GameLobbyPageComponent implements OnInit
     this.updateBoardSize();
   }
 
-  joinLobby(lobbyId: string, playerName: string): void 
+
+  joinLobby(lobbyId: string, playerName: string): void
   {
-    this.isPlayerInLobby = true;
-    this.lobby.emitJoinLobby(lobbyId, playerName);
+      this.isPlayerInLobby = true;
+      this.lobby.emitJoinLobby(lobbyId, playerName);
   
-    this.lobby.onPlayerJoined().subscribe((data: { players: { name: string; color: string }[] }) => 
-    {
-      const playerList = document.getElementById('playerList');
-      playerList!.innerHTML = '';
-  
-      const playerNames = data.players.map(player => player.name);
-  
-      playerNames.forEach((playerName: string) => 
+      this.lobby.onPlayerJoined().subscribe((data: { players: { name: string; color: string }[] }) =>
       {
-        const listItem = document.createElement('li');
-        listItem.textContent = playerName;
-        playerList!.appendChild(listItem);
+          const playerList = document.getElementById('playerList');
+          playerList!.innerHTML = '';
+  
+          const playerNames = data.players.map(player => player.name);
+  
+          playerNames.forEach((playerName: string) =>
+          {
+              const listItem = document.createElement('li');
+              listItem.textContent = playerName;
+              playerList!.appendChild(listItem);
+          });
+  
+          const currentPlayer = data.players.find(player => player.name === playerName);
+          if (currentPlayer && currentPlayer.color === 'black')
+          {
+              this.chessBoard.reverse();
+              console.log('Chessboard reversed for black player');
+          }
       });
-      
-      const currentPlayer = data.players.find(player => player.name === playerName);
-      if (currentPlayer && currentPlayer.color === 'black') 
-      {
-        this.chessBoard.reverse();
-        console.log('Chessboard reversed for black player');
-      }
-    });
   }
   
 
@@ -202,22 +203,21 @@ export class GameLobbyPageComponent implements OnInit
   }
 
 
-  handleJoinLobby (): void 
+  handleJoinLobby(): void
   {
-    if (!this.inputLobbyId.trim()) 
-    {
-      console.error('Lobby ID cannot be empty');
-      return;
-    }
-
-    this.router.navigate(['/game-lobby', this.inputLobbyId]).then(() => 
-    {
-      if (this.playerName) 
+      if (!this.inputLobbyId.trim())
       {
-        this.isPlayerInLobby = true;
-        this.joinLobby(this.inputLobbyId, this.playerName);
+          console.error('Lobby ID cannot be empty');
+          return;
       }
-    });
+  
+      window.location.href = `/game-lobby/${this.inputLobbyId}`;
+      
+      if (this.playerName)
+      {
+          this.isPlayerInLobby = true;
+          this.joinLobby(this.inputLobbyId, this.playerName);
+      }
   }
 
   selectStrategy(strategy: StrategyCardListProfileView): void 

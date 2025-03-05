@@ -260,7 +260,6 @@ export class GameLobbyPageComponent implements OnInit
       if (this.playerName && this.lobbyId)
       {
         this.lobby.emitForceGameStart(this.lobbyId, this.playerName)
-        this.lobby.isGameInitiator = true;
       }
     }
 

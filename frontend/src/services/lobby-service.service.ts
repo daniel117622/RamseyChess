@@ -147,8 +147,9 @@ export class LobbyService
     }
   
     // Emit the execute_game event only if the player is not the one that triggered forceGameStart
-    if (this.shouldSendExecuteGame())
+    if (this.isGameInitiator)
     {
+      console.log("This player started the game")
       this.socket.emit('execute_game', 
       {
         lobbyId: lobbyId,
@@ -163,7 +164,6 @@ export class LobbyService
         'move',
         (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => 
         {
-          console.log('Received move event:', data);
           observer.next(data); 
         }
       );

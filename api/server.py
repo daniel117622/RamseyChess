@@ -262,8 +262,12 @@ def post_winner():
             black_strat.loadById(black_strategy_id)
             
             # Update Elo ratings for win/loss scenario
-            white_strat.updateElo(result["winner"]["elo"] if winner == white_strategy_id else result["loser"]["elo"])
-            black_strat.updateElo(result["loser"]["elo"]  if winner == white_strategy_id else result["winner"]["elo"])
+            if winner == "white":
+                white_strat.updateElo(result["winner"]["elo"])
+                black_strat.updateElo(result["loser"]["elo"])
+            else:
+                white_strat.updateElo(result["loser"]["elo"])
+                black_strat.updateElo(result["winner"]["elo"])
 
             return jsonify({
                 "success"    : True,

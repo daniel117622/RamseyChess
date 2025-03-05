@@ -172,8 +172,11 @@ def register_socketio_events(socketio):
 
                     # Generate PGN (Portable Game Notation)
                     game_obj = chess.pgn.Game()
-                    game_obj.headers["Winner Strategy ID"] = winner_strategy_id
-                    game_obj.headers["Loser Strategy ID"] = loser_strategy_id
+                    game_obj.headers["Event"]  = "BOT VS BOT CHESS GAME"
+                    game_obj.headers["Site"]   = "ramseychess.net"
+                    game_obj.headers["Date"]   = game_date
+                    game_obj.headers["Result"] = "1-0" if winner_color == "white" else "0-1"  
+
 
                     node = game_obj
                     for move in board.move_stack:
@@ -220,8 +223,11 @@ def register_socketio_events(socketio):
 
                     # Generate PGN (Portable Game Notation)
                     game_obj = chess.pgn.Game()
-                    game_obj.headers["Winner Strategy ID"] = winner_strategy_id
-                    game_obj.headers["Loser Strategy ID"]  = loser_strategy_id
+                    game_obj.headers["Event"]  = "BOT VS BOT CHESS GAME"
+                    game_obj.headers["Site"]   = "ramseychess.net"
+                    game_obj.headers["Date"]   = game_date
+                    game_obj.headers["Result"] = "1-0" if winner_color == "white" else "0-1"  
+
 
                     node = game_obj
                     for move in board.move_stack:

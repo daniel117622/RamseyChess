@@ -145,7 +145,7 @@
       <tbody>
         <tr 
           *ngFor="let strategy of my_saved_strategies; let i = index"
-          [class.table-active]="strategy === selected_strategy"
+          [class.selected]="strategy === selected_strategy"
           (click)="selectStrategy(strategy)"
         >
           <td>{{ i + 1 }}</td>

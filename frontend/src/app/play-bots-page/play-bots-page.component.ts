@@ -252,7 +252,9 @@ export class PlayBotsPageComponent implements OnInit {
                     console.log(`Game ended with a winner: ${winnerColor}`);
             
                     // Post the winner and loser data
-                    this.play_ai.postWinner(winnerStrategyId, loserStrategyId, winnerColor).subscribe(
+                    this.play_ai.postWinner(winnerColor === 'white' ? winnerStrategyId : loserStrategyId, 
+                                            winnerColor === 'black' ? winnerStrategyId : loserStrategyId, 
+                                            winnerColor).subscribe(
                         (deltaElo: number | null) => 
                         {
                             if (deltaElo !== null) 

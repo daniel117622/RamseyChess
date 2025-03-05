@@ -181,7 +181,7 @@ def register_socketio_events(socketio):
 
                     # Emit game_end event with checksum
                     emit('game_end', {
-                        'type': 'move',
+                        'type': 'game_end',
                         'move': best_move_uci,
                         'current_fen': current_fen,
                         'turn': 'w' if board.turn == chess.WHITE else 'b',
@@ -226,7 +226,7 @@ def register_socketio_events(socketio):
 
                     # Emit game_end event with the draw result
                     emit('game_end', {
-                        'type': 'move',
+                        'type': 'game_end',
                         'move': best_move_uci,
                         'current_fen': current_fen,
                         'turn': 'w' if board.turn == chess.WHITE else 'b',

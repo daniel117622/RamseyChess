@@ -235,16 +235,15 @@ def post_winner():
             white_strat.loadById(white_strategy_id)
             black_strat.loadById(black_strategy_id)
 
-            # Determine the player with the lowest Elo
-            white_elo = white_strat.current_doc.elo
-            black_elo = black_strat.current_doc.elo
-            
-            # If white's Elo is lower, update white's Elo with deltaElo, and black's Elo remains unchanged
+            # Get Elo scores from the current strategies using the getCurrent method
+            white_elo = white_strat.getCurrent().get("elo")
+            black_elo = black_strat.getCurrent().get("elo")
+
+            # Update Elo based on the lowest Elo player in the draw case
             if white_elo < black_elo:
                 white_strat.updateElo(white_elo + result["deltaElo"])
                 black_strat.updateElo(black_elo - result["deltaElo"])
             else:
-                # If black's Elo is lower, update black's Elo with deltaElo, and white's Elo remains unchanged
                 white_strat.updateElo(white_elo - result["deltaElo"])
                 black_strat.updateElo(black_elo + result["deltaElo"])
 
@@ -269,14 +268,16 @@ def post_winner():
 
             white_strat.loadById(white_strategy_id)
             black_strat.loadById(black_strategy_id)
-            
+
+            white_elo = white_strat.getCurrent()["elo"]
+            black_elo = black_strat.getCurrent()["elo"]
             # Using deltaElo to safely update Elo ratings for win/loss scenario
             if winner == "white":
-                white_strat.updateElo(white_strat.current_doc.elo + result["deltaElo"])
-                black_strat.updateElo(black_strat.current_doc.elo - result["deltaElo"])
+                white_strat.updateElo(white_elo + result["deltaElo"])
+                black_strat.updateElo(black_elo - result["deltaElo"])
             else:
-                white_strat.updateElo(white_strat.current_doc.elo - result["deltaElo"])
-                black_strat.updateElo(black_strat.current_doc.elo + result["deltaElo"])
+                white_strat.updateElo(white_elo - result["deltaElo"])
+                black_strat.updateElo(black_elo + result["deltaElo"])
 
             return jsonify({
                 "success"    : True,

@@ -81,14 +81,12 @@ export class PlayAiCardComponent implements OnInit {
       {
           const winner = fen.split(' ')[1] === 'b' ? 'White' : 'Black';
           this.openResetPopup(`${winner} wins by checkmate!`);
-          alert(`${winner} wins by checkmate!`);
           return;
       }
   
       if (chess.isDraw())
       {
           this.openResetPopup("Game ended in a draw");
-          alert("Game ended in a draw");
           return;
       }
   
@@ -106,7 +104,6 @@ export class PlayAiCardComponent implements OnInit {
               else
               {
                   this.openResetPopup(`${winner} wins!`);
-                  alert(`${winner} wins!`);
               }
           })
           .catch(() => {});

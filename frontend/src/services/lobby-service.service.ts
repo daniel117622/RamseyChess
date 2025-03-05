@@ -174,32 +174,43 @@ export class LobbyService
       }
     }
   
-    return new Observable((observer) => 
-    {
+    return new Observable((observer) => {
       this.socket?.on(
         'move',
-        (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => 
-        {
+        (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => {
           observer.next(data); 
         }
       );
-  
+    
       this.socket?.on(
         'game_end',
-        (data: { type: 'game_end'; result: string; current_fen: string; winner: string }) => 
+        (data: { 
+          type: 'game_end'; 
+          current_fen: string; 
+          move: string; 
+          result: { 
+            result_type: string; 
+            winner: { strategy_id: string; color: string }; 
+            loser: { strategy_id: string; color: string } 
+          }; 
+          checksum: string; 
+          date: string; 
+          game_pgn: string; 
+          turn: string; 
+        }) => 
         {
           console.log('Game ended:', data);
           observer.next(data); 
           observer.complete(); 
         }
       );
-  
-      return () => 
-      {
+    
+      return () => {
         this.socket?.off('move');
         this.socket?.off('game_end');
       };
     });
+    
   }
 
 

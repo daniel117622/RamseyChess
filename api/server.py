@@ -236,8 +236,8 @@ def post_winner():
             black_strat.loadById(black_strategy_id)
 
             # Determine the player with the lowest Elo
-            white_elo = result["players"][0]["elo"]
-            black_elo = result["players"][1]["elo"]
+            white_elo = white_strat.current_doc.elo
+            black_elo = black_strat.current_doc.elo
             
             # If white's Elo is lower, update white's Elo with deltaElo, and black's Elo remains unchanged
             if white_elo < black_elo:
@@ -272,11 +272,11 @@ def post_winner():
             
             # Using deltaElo to safely update Elo ratings for win/loss scenario
             if winner == "white":
-                white_strat.updateElo(result["winner"]["elo"] + result["deltaElo"])
-                black_strat.updateElo(result["loser"]["elo"] - result["deltaElo"])
+                white_strat.updateElo(white_strat.current_doc.elo + result["deltaElo"])
+                black_strat.updateElo(black_strat.current_doc.elo - result["deltaElo"])
             else:
-                white_strat.updateElo(result["loser"]["elo"] - result["deltaElo"])
-                black_strat.updateElo(result["winner"]["elo"] + result["deltaElo"])
+                white_strat.updateElo(white_strat.current_doc.elo - result["deltaElo"])
+                black_strat.updateElo(black_strat.current_doc.elo + result["deltaElo"])
 
             return jsonify({
                 "success"    : True,

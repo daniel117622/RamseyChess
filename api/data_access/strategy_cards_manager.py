@@ -83,7 +83,7 @@ class AiPremadeManager():
         """
         Increments the 'wins' property of the current document by 1.
         """
-        if self.current_doc and "wins" in self.current_doc:
+        if self.current_doc:
             new_wins = self.current_doc.get("wins", 0) + 1
             filter = {"_id": self.current_doc["_id"]}
             update = {"$set": {"wins": new_wins}}
@@ -98,7 +98,7 @@ class AiPremadeManager():
         """
         Increments the 'losses' property of the current document by 1.
         """
-        if self.current_doc and "losses" in self.current_doc:
+        if self.current_doc:
             new_losses = self.current_doc.get("losses") + 1
             filter = {"_id": self.current_doc["_id"]}
             update = {"$set": {"losses": new_losses}}

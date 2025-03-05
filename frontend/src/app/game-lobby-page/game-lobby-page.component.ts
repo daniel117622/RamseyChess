@@ -29,6 +29,8 @@ export class GameLobbyPageComponent implements OnInit
   boardSize = 600
   isPlayerInLobby : boolean = false;
 
+  gameFinishedPgn : string | null = null;
+
   @ViewChild('chessBoard', { static: true }) chessBoard!: NgxChessBoardComponent;
 
   private chessBoardSubject = new BehaviorSubject<NgxChessBoardComponent>(this.chessBoard);
@@ -158,6 +160,7 @@ export class GameLobbyPageComponent implements OnInit
               {
                   const totalTurns = data.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
                   console.log(`Total number of turns: ${totalTurns}`);
+                  this.gameFinishedPgn = data.game_pgn
               }
           }
       });
@@ -218,6 +221,7 @@ export class GameLobbyPageComponent implements OnInit
     this.router.navigate(['/game-lobby']);
     this.playersSubject.next([]);
     this.isPlayerInLobby = false;
+    this.gameFinishedPgn = null;
     console.log('Lobby reset');
   }
 

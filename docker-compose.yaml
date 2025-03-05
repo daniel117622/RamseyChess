@@ -45,12 +45,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: prod-stage  # Specifies the production build stage defined in your Dockerfile
     container_name: frontend
     ports:
       - "80:80"  # Make sure port 80 is exposed for Nginx
     restart: always
     networks:
-      - mynetwork
+    - mynetwork
 
   elo-rankings:
     build:

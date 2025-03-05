@@ -259,7 +259,7 @@ def register_socketio_events(socketio):
                     'current_fen': current_fen,
                     'turn': 'w' if board.turn == chess.WHITE else 'b',
                     'result': 'ongoing'
-                }, to=data.get('lobbyId', None))
+                }, to=lobby_id)
 
                 last_move_time = time.time()
                 move_count += 1

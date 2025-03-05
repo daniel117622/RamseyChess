@@ -147,7 +147,7 @@ export class LobbyService
     }
   
     // Emit the execute_game event only if the player is not the one that triggered forceGameStart
-    if (this.isGameInitiator)
+    if (!this.isGameInitiator)
     {
       console.log("This player started the game")
       this.socket.emit('execute_game', 
@@ -208,9 +208,4 @@ export class LobbyService
     });
   }
 
-
-  private shouldSendExecuteGame(): boolean
-  {
-    return this.isGameInitiator; 
-  }
 }

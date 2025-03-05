@@ -1,27 +1,49 @@
-# Use an official Node.js runtime as a parent image
-FROM node:16 AS build
+# Step 1: Use Node.js version 16 for building the Angular app
+FROM node:16 AS dev-stage
 
-# Set the working directory inside the container
+# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Install dependencies
-COPY package*.json ./
-RUN npm install
+# Step 3: Copy package.json and package-lock.json to the working directory
+COPY package*.json ./ 
 
-# Copy the rest of the app's code
+# Step 4: Install Angular and project dependencies using npm with legacy peer deps (dev stage)
+RUN npx npm@7 install --legacy-peer-deps
+RUN npm install socket.io-client --legacy-peer-deps
+RUN npm install uuid --legacy-peer-deps
+RUN npm install md5 --legacy-peer-deps
+
+# Step 5: Copy the rest of the application source code
 COPY . .
 
-# Build the Angular app for production
-RUN npm run build --prod
+# Step 6: Expose the port that Angular's dev server will run on (default 4200)
+EXPOSE 4200
 
-# Stage 2: Serve the app using a lightweight web server
-FROM nginx:alpine
+# Step 7: Start the Angular development server (ng serve)
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
 
-# Copy the build artifacts from the previous build stage to the Nginx container
-COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
 
-# Expose port 80 for the Nginx web server
+# Production Stage: Now create a production build with legacy peer deps
+
+FROM node:16 AS prod-stage
+
+# Step 1: Set the working directory inside the container
+WORKDIR /app
+
+# Step 2: Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Step 3: Install dependencies with legacy peer deps for production
+RUN npx npm@7 install --legacy-peer-deps
+
+# Step 4: Copy the rest of the application source code
+COPY . .
+
+# Step 5: Build Angular app for production
+RUN npx ng build --prod
+
+# Step 6: Expose the production port (default 80)
 EXPOSE 80
 
-# Start Nginx when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+# Step 7: Serve the Angular production build
+CMD ["npx", "http-server", "dist", "--host", "0.0.0.0", "--port", "80"]

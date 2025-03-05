@@ -138,7 +138,20 @@ export class LobbyService
     blackStrategyId: string
   ): Observable<
     | { type: 'move'; move: string; current_fen: string; turn: string; result: string }
-    | { type: 'game_end'; result: string; current_fen: string; winner: string }
+    | { 
+      type: 'game_end'; 
+      current_fen: string; 
+      move: string; 
+      result: { 
+          result_type: string; 
+          winner: { strategy_id: string; color: string }; 
+          loser: { strategy_id: string; color: string } 
+      }; 
+      checksum: string; 
+      date: string; 
+      game_pgn: string; 
+      turn: string; 
+    }
   > 
   {
     if (!this.socket)

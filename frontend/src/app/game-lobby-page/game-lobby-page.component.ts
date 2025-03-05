@@ -138,8 +138,17 @@ export class GameLobbyPageComponent implements OnInit
       this.lobby.streamGame(lobbyId || '', whiteStrategyId, blackStrategyId).subscribe((data) => {
         if (data.type === 'move' && data.move) 
         {
-          console.log(`Executing move: ${data.move}`);
           this.chessBoard.move(data.move); 
+        }
+        else if (data.type === 'game_end' && data.move) 
+        {
+            console.log(`Final move before game ends: ${data.move}`);
+            this.chessBoard.move(data.move);
+
+            console.log(`Game Winner: Strategy ID - ${data.result.winner.strategy_id}, Color - ${data.result.winner.color}`);
+            const totalTurns = data.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
+            console.log(`Total number of turns: ${totalTurns}`);
+
         }
       });
     })

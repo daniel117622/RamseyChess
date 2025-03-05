@@ -1,23 +1,27 @@
-# Step 1: Use Node.js version 16 for building the Angular app
-FROM node:16 AS dev-stage
+# Use an official Node.js runtime as a parent image
+FROM node:16 AS build
 
-# Step 2: Set the working directory inside the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy package.json and package-lock.json to the working directory
+# Install dependencies
 COPY package*.json ./
+RUN npm install
 
-# Step 4: Install Angular and project dependencies using npm with legacy peer deps
-RUN npx npm@7 install --legacy-peer-deps
-RUN npm install socket.io-client --legacy-peer-deps
-RUN npm install uuid --legacy-peer-deps
-RUN npm install md5 --legacy-peer-deps
-
-# Step 5: Copy the rest of the application source code
+# Copy the rest of the app's code
 COPY . .
 
-# Step 6: Expose the port that Angular's dev server will run on (default 4200)
-EXPOSE 4200
+# Build the Angular app for production
+RUN npm run build --prod
 
-# Step 7: Start the Angular development server (ng serve)
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
+# Stage 2: Serve the app using a lightweight web server
+FROM nginx:alpine
+
+# Copy the build artifacts from the previous build stage to the Nginx container
+COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
+
+# Expose port 80 for the Nginx web server
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]

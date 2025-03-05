@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "80:4200"
+      - "80:80"  # Make sure port 80 is exposed for Nginx
     restart: always
     networks:
       - mynetwork

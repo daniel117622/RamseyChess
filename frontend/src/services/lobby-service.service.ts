@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class LobbyService 
 {
   private socket: Socket | null = null;
-
+  public isGameInitiator = false;
   initializeSocket (): void 
   {
     if (this.socket) {
@@ -62,6 +62,7 @@ export class LobbyService
     }
   
     this.socket.emit('forceGameStart', { lobbyId: lobbyId , player: playerName});
+    this.isGameInitiator = true
   }
 
 
@@ -138,22 +139,30 @@ export class LobbyService
   ): Observable<
     | { type: 'move'; move: string; current_fen: string; turn: string; result: string }
     | { type: 'game_end'; result: string; current_fen: string; winner: string }
-  > {
-    if (!this.socket) {
+  > 
+  {
+    if (!this.socket)
+    {
       throw new Error('Socket.IO connection is not initialized.');
     }
   
-    // Emit the execute_game event to start streaming the game
-    this.socket.emit('execute_game', {
-      lobbyId: lobbyId,
-      white_strategy_id: whiteStrategyId,
-      black_strategy_id: blackStrategyId,
-    });
+    // Emit the execute_game event only if the player is not the one that triggered forceGameStart
+    if (this.shouldSendExecuteGame())
+    {
+      this.socket.emit('execute_game', 
+      {
+        lobbyId: lobbyId,
+        white_strategy_id: whiteStrategyId,
+        black_strategy_id: blackStrategyId,
+      });
+    }
   
-    return new Observable((observer) => {
+    return new Observable((observer) => 
+    {
       this.socket?.on(
         'move',
-        (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => {
+        (data: { type: 'move'; move: string; current_fen: string; turn: string; result: string }) => 
+        {
           console.log('Received move event:', data);
           observer.next(data); 
         }
@@ -161,14 +170,16 @@ export class LobbyService
   
       this.socket?.on(
         'game_end',
-        (data: { type: 'game_end'; result: string; current_fen: string; winner: string }) => {
+        (data: { type: 'game_end'; result: string; current_fen: string; winner: string }) => 
+        {
           console.log('Game ended:', data);
           observer.next(data); 
           observer.complete(); 
         }
       );
   
-      return () => {
+      return () => 
+      {
         this.socket?.off('move');
         this.socket?.off('game_end');
       };
@@ -195,5 +206,11 @@ export class LobbyService
         this.socket?.off(`lobbyDetails:${lobbyId}`);
       };
     });
+  }
+
+
+  private shouldSendExecuteGame(): boolean
+  {
+    return this.isGameInitiator; 
   }
 }

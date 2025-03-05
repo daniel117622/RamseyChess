@@ -47,6 +47,7 @@ def register_socketio_events(socketio):
         # Extract game parameters from request
         white_strategy = data.get("white_strategy_id")
         black_strategy = data.get("black_strategy_id")
+        lobby_id = data.get("lobbyId", None)
         debug_var = data.get("debug", False)
 
         # Initialize logger
@@ -199,7 +200,7 @@ def register_socketio_events(socketio):
                             'game_pgn': game_pgn,
                             'checksum': checksum
                         }
-                    }, to=data.get('lobbyId', None))
+                    }, to=lobby_id)
 
                     logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}, Color: {winner_color}, Date: {game_date}")
                     logger.log(f"📜 Game PGN:\n{game_pgn}")
@@ -244,7 +245,7 @@ def register_socketio_events(socketio):
                             'game_pgn': game_pgn,
                             'checksum': checksum
                         }
-                    }, to=data.get('lobbyId', None))
+                    }, to=lobby_id)
 
                     logger.log(f"⚖️ Draw! No winner, game ended in a draw. Date: {game_date}")
                     logger.log(f"📜 Game PGN:\n{game_pgn}")

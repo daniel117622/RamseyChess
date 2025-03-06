@@ -74,40 +74,41 @@
 }
 
 .elo-score {
-    position : relative;
-    display  : inline-block;
-    padding  : 0.5rem;
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem;
     font-size: 1rem;
-    color    : black;
+    color: black;
     overflow: visible;
   }
   
   .elo-text {
-    cursor : pointer;
+    cursor: pointer;
     display: inline-block;
-    width  : 100%;
+    width: 100%;
   }
   
   .elo-tooltip {
-    visibility      : hidden;
-    position        : absolute;
-    top             : 20px;
-    left            : 50%;
-    transform       : translateX(-50%);
+    visibility: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 100%;
+    transform: translateX(-20px) translateY(-5px);
     background-color: #333;
-    color           : white;
-    padding         : 10px;
-    border-radius   : 5px;
-    width           : 200px;
-    text-align      : center;
-    z-index         : 10;
-    opacity         : 0;
-    transition      : opacity 0.3s ease, visibility 0s ease 0.3s;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s ease 0.3s;
+    white-space: normal;
   }
   
   .elo-score:hover .elo-tooltip {
     visibility: visible;
-    opacity   : 1;
+    opacity: 1;
     transition: opacity 0.3s ease;
   }
   

@@ -79,6 +79,7 @@
     padding  : 0.5rem;
     font-size: 1rem;
     color    : black;
+    overflow: visible;
   }
   
   .elo-text {

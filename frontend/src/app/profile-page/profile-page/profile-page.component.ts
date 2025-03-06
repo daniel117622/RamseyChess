@@ -20,7 +20,7 @@ export class ProfilePageComponent implements OnInit {
   my_saved_strategies : StrategyCardListProfileView[] = []
 
   constructor(public auth: AuthService, private http: HttpClient) {}
-  
+
   ngOnInit(): void
   {
     // Fetch user profile data
@@ -53,6 +53,37 @@ export class ProfilePageComponent implements OnInit {
       this.my_saved_strategies = response.strategies;
       this.totalPages          = response.total_pages;
       this.currentPage         = response.current_page;
+    });
+  }
+
+
+  goToPage(page: number): void
+  {
+    if (page >= 1 && page <= this.totalPages)
+    {
+      this.currentPage = page;
+      this.fetchStrategies(page);
+    }
+  }
+
+  fetchStrategies(page: number): void
+  {
+    // Update the strategy fetch call to use the current page
+    this.user$.pipe(
+      filter((user): user is User => user != null),
+      switchMap(user => 
+        this.http.post<PaginatedStrategyResponse>('/api/get_private_strategies', 
+          { 
+            sub: user.sub,
+            page: page // Fetch strategies for the requested page
+          }
+        )
+      )
+    ).subscribe(response => 
+    {
+      this.my_saved_strategies = response.strategies;
+      this.totalPages = response.total_pages;
+      this.currentPage = response.current_page;
     });
   }
 }

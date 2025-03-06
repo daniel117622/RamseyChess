@@ -54,7 +54,7 @@
                 My Strategy-Repo
             </h2>
         </div>
-    
+
         <!-- Responsive Flexbox Container -->
         <div class="row justify-content-center gap-3">
             <!-- Loop through the strategies -->
@@ -66,7 +66,34 @@
                 <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
             </div>
         </div>
+
+        <!-- Pagination Section -->
+        <div class="d-flex justify-content-center mt-4">
+            <!-- Show page count -->
+            <div class="pagination-info">
+                <p class="text-white mb-0">
+                    Page {{ currentPage }} of {{ totalPages }}
+                </p>
+            </div>
+            
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+                <button 
+                    class="btn btn-primary" 
+                    [disabled]="currentPage === 1" 
+                    (click)="goToPage(currentPage - 1)">
+                    Previous
+                </button>
+                <button 
+                    class="btn btn-primary" 
+                    [disabled]="currentPage === totalPages" 
+                    (click)="goToPage(currentPage + 1)">
+                    Next
+                </button>
+            </div>
+        </div>
     </div>
+
   
 
 </div>

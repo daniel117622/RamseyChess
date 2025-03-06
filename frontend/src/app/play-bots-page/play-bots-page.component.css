@@ -132,6 +132,8 @@ tr {
 
 .navigation-buttons-container
 {
-  display: flex;  
-  gap    : 10px;  
+  display   : flex;
+  gap       : 10px;
+  width     : 100%;
+  text-align: center;
 }

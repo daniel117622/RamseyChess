@@ -521,36 +521,32 @@ export class PlayBotsPageComponent implements OnInit {
 
     detectCapture(beforeFen: string, afterFen: string): void
     {
+        // Load before and after boards using the same Chess instance
         const beforeBoard = new Chess(beforeFen);
         const afterBoard = new Chess(afterFen);
-      
-        let capturedPieceType: string | null = null;
-        let capturedPieceColor: string | null = null;
     
         // Loop over all squares and check for captured pieces
         for (let square of SQUARES)
         {
-            const beforePiece = beforeBoard.get(square as Square);
-            const afterPiece = afterBoard.get(square as Square);
-      
+            const beforePiece = beforeBoard.get(square);
+            const afterPiece  = afterBoard.get(square);
+    
             // A piece was on the square before the move but not after (capture)
             if (beforePiece && !afterPiece)
             {
-                capturedPieceType = beforePiece.type;
-                capturedPieceColor = beforePiece.color;
-                
-                // Increment capture counters
-                if (capturedPieceColor === 'w')
+                // Increment capture counters based on the captured piece color
+                if (beforePiece.color === 'w')
                 {
                     this.whiteCapturedPieces++;
                 }
-                else if (capturedPieceColor === 'b')
+                else if (beforePiece.color === 'b')
                 {
                     this.blackCapturedPieces++;
                 }
             }
         }
     }
+    
     
     
 }

@@ -169,7 +169,7 @@ export class GameLobbyPageComponent implements OnInit
   }
 
 
-  joinLobby(lobbyId: string, playerName: string): void
+  joinLobby(lobbyId: string, playerName: string): void 
   {
       this.isPlayerInLobby = true;
       this.lobby.emitJoinLobby(lobbyId, playerName);
@@ -185,6 +185,7 @@ export class GameLobbyPageComponent implements OnInit
           {
               const listItem = document.createElement('li');
               listItem.textContent = playerName;
+              listItem.classList.add('player-entry');  // Add the player-entry class
               playerList!.appendChild(listItem);
           });
   

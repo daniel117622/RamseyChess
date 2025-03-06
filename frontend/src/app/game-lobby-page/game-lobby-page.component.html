@@ -60,7 +60,10 @@
   <h2>Players in Lobby:</h2>
   <ul id="playerList">
     <!-- Player list dynamically updated -->
-    <li *ngFor="let player of bothPlayersReadyState">
+    <li *ngFor="let player of bothPlayersReadyState" [ngClass]="{
+        'ready-state': player.ready,
+        'not-ready-state': !player.ready
+    }">
       {{ player.name }} - {{ player.ready ? 'Ready' : 'Not Ready' }}
     </li>
   </ul>

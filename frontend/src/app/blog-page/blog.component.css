@@ -164,3 +164,36 @@ p
 {
   line-height: 1.4em;
 }
+
+.button-container 
+{
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button 
+{
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+button:hover 
+{
+  background: #0056b3;
+}
+
+button:disabled 
+{
+  background: #ccc;
+  cursor: not-allowed;
+}

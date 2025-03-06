@@ -13,6 +13,9 @@ export class BlogComponent implements OnInit {
   eq2: string = '\\[ F_2 = \\sum_{j=1}^{h} \\text{Hanging Piece Value}_j + \\sum_{k=1}^{u} \\text{Underprotected Piece Value}_k \\]';
   eq3: string = '\\[ \\text{Evaluation} = c_1 \\cdot F_1 + c_2 \\cdot F_2 \\]';
 
+  sections = ['section1', 'section2', 'section3', 'section4'];
+  currentIndex = 0;
+
   constructor(private route: ActivatedRoute, private router: Router) {}
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
@@ -42,5 +45,31 @@ export class BlogComponent implements OnInit {
         }
       });
   }
+  
+  scrollToSection(index: number) 
+  {
+    const section = document.getElementById(this.sections[index]);
+    if (section) 
+    {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
+  nextSection() 
+  {
+    if (this.currentIndex < this.sections.length - 1) 
+    {
+      this.currentIndex++;
+      this.scrollToSection(this.currentIndex);
+    }
+  }
+
+  prevSection() 
+  {
+    if (this.currentIndex > 0) 
+    {
+      this.currentIndex--;
+      this.scrollToSection(this.currentIndex);
+    }
+  }
 }

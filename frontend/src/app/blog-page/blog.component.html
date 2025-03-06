@@ -1,5 +1,8 @@
 <div class="container" style="margin-top: 45px;">
-  
+  <div class="button-container">
+    <button (click)="prevSection()" [disabled]="currentIndex === 0">&#9665; Prev</button>
+    <button (click)="nextSection()" [disabled]="currentIndex === sections.length - 1">Next &#9655;</button>
+  </div>
   <div class="blog-text" style="min-width:240px">
     <div class="col-md-12 mt-5">
       <section id="section1">

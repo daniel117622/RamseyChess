@@ -13,11 +13,21 @@
   color           : black;
 }
 
-.selected 
-{
+.selected {
   background-color: #f5deb3 !important;
-  border          : dashed #202000;
+  border-top: 3px solid #202000;
+  border-bottom: 3px solid #202000;
 }
+
+.selected td {
+  border-left: 3px solid #202000;
+  border-right: 3px solid #202000;
+}
+
+.selected td + td {
+  border-left: none; /* Remove interior borders */
+}
+
 
 button.ready {
   background-color: #28a745;

@@ -6,7 +6,7 @@ import { PlayAiService } from '../../services/play-ai.service';
 import { EvalService } from '../../services/eval-service.service';
 import { NextMove } from 'src/models/next-move.model';
 import { StrategyCardData, StrategyDetailResponse } from 'src/models/start-card.model';
-import { Chess } from 'chess.js';
+import { Chess, SQUARES, Square } from 'chess.js';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ResetPopupComponent } from './reset-popup/reset-popup.component';
 
@@ -14,6 +14,8 @@ interface PieceValues
 {
   [key: string]: number;
 }
+
+
 
 @Component({
   selector: 'app-play-bots-page',
@@ -204,7 +206,8 @@ export class PlayBotsPageComponent implements OnInit {
               if (data.type === 'move') 
               {
                   console.log('Received move:', data.move);
-  
+                  const beforeFen = this.currentFen;
+
                   // Check for promotion moves
                   if (data.move.length === 5) 
                   {
@@ -223,6 +226,9 @@ export class PlayBotsPageComponent implements OnInit {
                       this.currentFen = this.chessBoard.getFEN();
                       this._chess.load(this.currentFen);
                   }
+                  const afterFen = this.currentFen;
+                  // Increment counters
+                  this.detectCapture(beforeFen, afterFen);
               } 
               else if (data.type === 'game_end') 
               {
@@ -510,6 +516,36 @@ export class PlayBotsPageComponent implements OnInit {
             this.cdr.detectChanges();
         }, 1000);
     }
-  }
+
+    
+
+    detectCapture(beforeFen: string, afterFen: string): void
+    {
+        const beforeBoard = new Chess(beforeFen);
+        const afterBoard = new Chess(afterFen);
+    
+        for (let square of SQUARES)
+        {
+            const beforePiece = beforeBoard.get(square as Square);
+            const afterPiece = afterBoard.get(square as Square);
+    
+            if (beforePiece && !afterPiece)
+            {
+                const capturedPieceType = beforePiece.type;
+                const capturedPieceColor = beforePiece.color;
+    
+                if (capturedPieceColor === 'w')
+                {
+                    this.whiteCapturedPieces++;
+                }
+                else if (capturedPieceColor === 'b')
+                {
+                    this.blackCapturedPieces++;
+                }
+            }
+        }
+    }    
+    
+}
   
 

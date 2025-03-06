@@ -113,7 +113,7 @@ export class GameLobbyPageComponent implements OnInit
       this.user$.pipe(
         filter((user): user is User => user != null),
         switchMap(user => 
-          this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
+          this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies_all', { 
             sub: user.sub
           })
         )

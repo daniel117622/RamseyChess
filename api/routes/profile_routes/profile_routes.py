@@ -215,7 +215,53 @@ def get_private_strategies():
         "current_page": page
     }) 
       
+@profile_routes.route('/get_private_strategies_all', methods=['POST'])
+def get_private_strategies_all():
+    data = request.json
+    if not data:
+        return jsonify({"error": "Request data missing"}), 400
 
+    oauth_sub = data.get("sub")
+    if not oauth_sub:
+        return jsonify({"error": "User 'sub' not provided"}), 400
+
+    manager = UserProfileManager()
+    user_data = manager.load_one_by_sub(oauth_sub)
+    if not user_data:
+        return jsonify({"error": "User does not exist"}), 400
+
+    ai_manager = AiPremadeManager()
+    my_strategies = ai_manager.getByOwner(oauth_sub)
+    strategy_view = []
+
+    for single_strategy in my_strategies:
+        for strategy in single_strategy["strategy_list"]:
+            if "collection" not in strategy or "strat_id" not in strategy:
+                logging.warning(f"Missing keys in strategy: {strategy}. Skipping.")
+                continue
+
+            collection = strategy["collection"]
+            evaluator_id = strategy["strat_id"]
+
+            if collection not in available_managers:
+                logging.warning(f"Collection '{collection}' not found. Skipping strategy: {strategy}.")
+                continue
+
+            manager_instance = available_managers[collection]()
+            manager_instance.loadById(evaluator_id)
+            found_strat = manager_instance.getCurrent()
+
+            if found_strat:
+                found_strat["type"] = collection
+                strategy_view.append(found_strat)
+            else:
+                logging.warning(f"Strategy with evaluator_id '{evaluator_id}' not found in collection '{collection}'.")
+
+        # Replace the strategy_list with the processed list
+        single_strategy["strategy_list"] = copy.deepcopy(strategy_view)
+        strategy_view = []
+
+    return my_strategies
 
 
 @profile_routes.route('/delete_private_strategies', methods=['POST'])

@@ -5,13 +5,13 @@
   </div>
   <div class="blog-text" style="min-width:240px">
     <div class="col-md-12 mt-5">
+      <hr style="width: 100%; border-top: 1px solid #ccc;">
       <section id="section1" *ngIf="currentIndex === 0">
         <h2>What's this platform all about?</h2>
         <p>
             This chess platform isn’t about moving pieces and winning individual games against others; it’s a <strong>mind game</strong>, where you get to decide what’s valuable on the board. When making a move in chess, players think differently based on their skill level. Beginners may choose moves that look good, novices focus on capturing material, while advanced players consider deeper concepts like <strong>pawn structure</strong>, <strong>king safety</strong>, and tactics, and may even recall grandmaster games they’ve studied. <br><br>
             The aim of this website is to help you <strong>reflect on and understand your own chess thought patterns</strong>. By analyzing and quantifying these insights as numbers or concepts, you can test your strategic ideas against others—without directly playing yourself—revealing how well your unique approach holds up in practice.
         </p>
-        <hr style="width: 100%; border-top: 1px solid #ccc;">
         <h4>First steps: A piece valuation approach.</h4>
         <p>
             In the first release, this platform lets you explore a simple yet powerful concept: <strong>static piece values</strong>. Imagine you’re a beginner, familiar with the standard points for each piece—pawns are worth <span style="color: orange;">1</span>, knights and bishops <span style="color: orange;">3</span>, rooks <span style="color: orange;">5</span>, and the queen <span style="color: orange;">9</span>—but you don’t yet know about advanced tactics or opening principles. <br><br>
@@ -21,7 +21,7 @@
         </p>
     </section>
     
-    <hr style="width: 100%; border-top: 1px solid #ccc;">
+    
     
     <section id="section2" *ngIf="currentIndex === 1">
         <h2>How does this platform work?</h2>
@@ -49,7 +49,6 @@
           For now, it’s all fun and games. As the platform evolves, stronger and more strategic bots will be introduced. Personally, as a player, I enjoy creating pressure without trading pieces, and I plan to introduce bots that thrive in closed positions and restrict your movement. Stay tuned for these challenging opponents in future updates!
         </p>
       </section>
-      <hr style="width: 100%; border-top: 1px solid #ccc;">
       <section id="section4" *ngIf="currentIndex === 3">
         <h2>Technicals: Just for nerds</h2>
         <p>
@@ -80,6 +79,7 @@
             </div>
         </div>
       </section>
+      <hr style="width: 100%; border-top: 1px solid #ccc;">
     </div>
   </div> 
 </div>

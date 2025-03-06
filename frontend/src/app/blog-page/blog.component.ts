@@ -45,7 +45,7 @@ export class BlogComponent implements OnInit {
         }
       });
   }
-  
+
   scrollToSection(index: number) 
   {
     const section = document.getElementById(this.sections[index]);
@@ -70,6 +70,20 @@ export class BlogComponent implements OnInit {
     {
       this.currentIndex--;
       this.scrollToSection(this.currentIndex);
+    }
+  }
+
+    // Arrow key navigation
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void 
+  {
+    if (event.key === 'ArrowRight') 
+    {
+      this.nextSection();
+    } 
+    else if (event.key === 'ArrowLeft') 
+    {
+      this.prevSection();
     }
   }
 }

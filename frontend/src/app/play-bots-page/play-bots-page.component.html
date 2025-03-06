@@ -37,8 +37,8 @@
             <tr>
               <th class="player-name-col">Player Name</th>
               <th class="strategy-id-col">Strategy ID</th>
-              <th class="turn-col">Current Turn</th>
-              <th class="move-number-col">Move Number</th>
+              <th class="captured-pieces-col">Captured Pieces</th>
+              <th class="has-won-col">Has Won</th>
               <th class="status-col">Status</th>
             </tr>
           </thead>
@@ -46,19 +46,20 @@
             <tr>
               <td [class.blink]="isWhiteBlinking" class="player-name-col">Player 1</td>
               <td class="strategy-id-col">{{ whiteStrategyId }}</td>
-              <td *ngIf="isPlaying" class="turn-col">White's Turn</td>
-              <td *ngIf="!isPlaying" class="turn-col">Black's Turn</td>
+              <td class="captured-pieces-col">{{ whiteCapturedPieces }}</td>
+              <td class="has-won-col">{{ isWhiteWinner ? 'Yes' : 'No' }}</td>
               <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
             <tr>
               <td [class.blink]="isBlackBlinking" class="player-name-col">Player 2</td>
               <td class="strategy-id-col">{{ blackStrategyId }}</td>
-              <td *ngIf="isPlaying" class="turn-col">Black's Turn</td>
-              <td *ngIf="!isPlaying" class="turn-col">White's Turn</td>
+              <td class="captured-pieces-col">{{ blackCapturedPieces }}</td>
+              <td class="has-won-col">{{ isBlackWinner ? 'Yes' : 'No' }}</td>
               <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
           </tbody>
         </table>
+      
       
 
         <div class="mt-3">

@@ -39,6 +39,11 @@ export class PlayBotsPageComponent implements OnInit {
   isWhiteBlinking: boolean = false;
   isBlackBlinking: boolean = false;
 
+  whiteCapturedPieces: number  = 0;
+  blackCapturedPieces: number  = 0;
+  isWhiteWinner      : boolean = false;
+  isBlackWinner      : boolean = false;
+
   constructor(
     private dialog: MatDialog,
     private play_ai: PlayAiService,

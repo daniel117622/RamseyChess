@@ -14,18 +14,14 @@
 }
 
 .selected {
-  background-color: #f5deb3 !important;
-  border-top: 3px solid #202000;
-  border-bottom: 3px solid #202000;
+  background-color: rgb(128, 221, 85) !important;
+  border-color:  rgb(128, 221, 85) !important; 
+  border: 2px solid transparent; 
 }
 
-.selected td {
-  border-left: 3px solid #202000;
-  border-right: 3px solid #202000;
-}
-
-.selected td + td {
-  border-left: none; /* Remove interior borders */
+tr
+{
+  cursor: pointer;
 }
 
 

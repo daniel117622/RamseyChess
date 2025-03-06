@@ -192,6 +192,8 @@ def get_private_strategies():
     return jsonify(my_strategies)     
       
 
+
+
 @profile_routes.route('/delete_private_strategies', methods=['POST'])
 def delete_private_strategies():
     data = request.json

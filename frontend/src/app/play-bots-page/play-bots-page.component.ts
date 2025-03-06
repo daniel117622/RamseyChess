@@ -523,17 +523,23 @@ export class PlayBotsPageComponent implements OnInit {
     {
         const beforeBoard = new Chess(beforeFen);
         const afterBoard = new Chess(afterFen);
+      
+        let capturedPieceType: string | null = null;
+        let capturedPieceColor: string | null = null;
     
+        // Loop over all squares and check for captured pieces
         for (let square of SQUARES)
         {
             const beforePiece = beforeBoard.get(square as Square);
             const afterPiece = afterBoard.get(square as Square);
-    
+      
+            // A piece was on the square before the move but not after (capture)
             if (beforePiece && !afterPiece)
             {
-                const capturedPieceType = beforePiece.type;
-                const capturedPieceColor = beforePiece.color;
-    
+                capturedPieceType = beforePiece.type;
+                capturedPieceColor = beforePiece.color;
+                
+                // Increment capture counters
                 if (capturedPieceColor === 'w')
                 {
                     this.whiteCapturedPieces++;
@@ -544,7 +550,8 @@ export class PlayBotsPageComponent implements OnInit {
                 }
             }
         }
-    }    
+    }
+    
     
 }
   

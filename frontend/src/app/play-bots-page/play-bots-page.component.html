@@ -2,33 +2,34 @@
   <div class="row">
     <!-- Chessboard Column -->
     <div class="col-12 col-xxl-6 d-flex flex-column justify-content-start w-100">
-      <!-- Chess Board -->
-      <ngx-chess-board
-        #chessBoard
-        (moveChange)="onMoveChange()"
-        [size]="boardSize"
-        [darkTileColor]="'#779557'"
-        [lightTileColor]="'#ECECD0'"
-        [pieceIcons]="{
-          blackBishopUrl: 'assets/pieces/bb.svg',
-          blackKingUrl: 'assets/pieces/bk.svg',
-          blackKnightUrl: 'assets/pieces/bn.svg',
-          blackPawnUrl: 'assets/pieces/bp.svg',
-          blackQueenUrl: 'assets/pieces/bq.svg',
-          blackRookUrl: 'assets/pieces/br.svg',
-          whiteBishopUrl: 'assets/pieces/wb.svg',
-          whiteKingUrl: 'assets/pieces/wk.svg',
-          whiteKnightUrl: 'assets/pieces/wn.svg',
-          whitePawnUrl: 'assets/pieces/wp.svg',
-          whiteQueenUrl: 'assets/pieces/wq.svg',
-          whiteRookUrl: 'assets/pieces/wr.svg'
-        }"
-        [freeMode]="true"
-        [dragDisabled]="true"
-        [lightDisabled]="true"
-        [darkDisabled]="true">
-      </ngx-chess-board>
-    
+      <div class="d-flex justify-content-center">
+        <!-- Chess Board -->
+        <ngx-chess-board
+          #chessBoard
+          (moveChange)="onMoveChange()"
+          [size]="boardSize"
+          [darkTileColor]="'#779557'"
+          [lightTileColor]="'#ECECD0'"
+          [pieceIcons]="{
+            blackBishopUrl: 'assets/pieces/bb.svg',
+            blackKingUrl  : 'assets/pieces/bk.svg',
+            blackKnightUrl: 'assets/pieces/bn.svg',
+            blackPawnUrl  : 'assets/pieces/bp.svg',
+            blackQueenUrl : 'assets/pieces/bq.svg',
+            blackRookUrl  : 'assets/pieces/br.svg',
+            whiteBishopUrl: 'assets/pieces/wb.svg',
+            whiteKingUrl  : 'assets/pieces/wk.svg',
+            whiteKnightUrl: 'assets/pieces/wn.svg',
+            whitePawnUrl  : 'assets/pieces/wp.svg',
+            whiteQueenUrl : 'assets/pieces/wq.svg',
+            whiteRookUrl  : 'assets/pieces/wr.svg'
+          }"
+          [freeMode]="true"
+          [dragDisabled]="true"
+          [lightDisabled]="true"
+          [darkDisabled]="true">
+        </ngx-chess-board>
+      </div>
 
       <!-- Player Information Table -->
       <div class="mt-4 table-responsive">

@@ -1,4 +1,14 @@
 <div class="container" style="margin-top: 45px;">
+  <div class="nav-panel">
+    <ul style="list-style-type: none; padding-left: 0;">
+      <li *ngFor="let section of sections; let i = index">
+        <a href="javascript:void(0);" (click)="navigateToSection(i)">
+          {{ getSectionTitle(section) }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  
   <div class="button-container">
     <button (click)="prevSection()" [disabled]="currentIndex === 0">&#9665; Prev</button>
     <button (click)="nextSection()" [disabled]="currentIndex === sections.length - 1">Next &#9655;</button>

@@ -15,6 +15,13 @@ export class BlogComponent implements OnInit {
 
   sections = ['section1', 'section2', 'section3', 'section4'];
   currentIndex = 0;
+  sectionsMap = {
+    section1: 'About',
+    section2: 'How It Works',
+    section3: 'Play against AI',
+    section4: 'Tech'
+  };
+
 
   constructor(private route: ActivatedRoute, private router: Router) {}
   @HostListener('window:scroll', ['$event'])
@@ -72,7 +79,14 @@ export class BlogComponent implements OnInit {
       this.scrollToSection(this.currentIndex);
     }
   }
-
+  navigateToSection(index: number): void 
+  {
+    this.currentIndex = index;
+  }
+  getSectionTitle(section: string): string 
+  {
+    return this.sectionsMap[section as keyof typeof this.sectionsMap];
+  }
     // Arrow key navigation
   @HostListener('document:keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void 

@@ -177,18 +177,19 @@ p
 
 button 
 {
-  background   : #007bff;
+  background   : #2c3e50;  /* Dark background to match the sidebar and menu */
   color        : white;
   border       : none;
   padding      : 10px 15px;
   cursor       : pointer;
   font-size    : 16px;
   border-radius: 5px;
+  transition   : background-color 0.3s ease;  /* Smooth transition */
 }
 
 button:hover 
 {
-  background: #0056b3;
+  background: #a77a01;  /* Hover color from your menu */
 }
 
 button:disabled 

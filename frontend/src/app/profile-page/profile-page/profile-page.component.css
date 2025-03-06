@@ -88,7 +88,7 @@
   }
   
   .elo-tooltip {
-    display         : none;
+    visibility      : hidden;
     position        : absolute;
     top             : 20px;
     left            : 50%;
@@ -100,9 +100,13 @@
     width           : 200px;
     text-align      : center;
     z-index         : 10;
+    opacity         : 0;
+    transition      : opacity 0.3s ease, visibility 0s ease 0.3s;
   }
   
   .elo-score:hover .elo-tooltip {
-    display: block;
+    visibility: visible;
+    opacity   : 1;
+    transition: opacity 0.3s ease;
   }
   

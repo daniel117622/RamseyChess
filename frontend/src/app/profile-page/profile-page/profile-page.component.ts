@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 
 import { UserProfile } from 'src/models/user-profile.model';
-import { StrategyCardListProfileView } from 'src/models/start-card.model';
+import { StrategyCardListProfileView, PaginatedStrategyResponse } from 'src/models/start-card.model';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,32 +15,44 @@ import { StrategyCardListProfileView } from 'src/models/start-card.model';
 export class ProfilePageComponent implements OnInit {
   user$ = this.auth.user$;
   userProfileData$: Observable<UserProfile> | undefined;
-
+  totalPages : number = 0;
+  currentPage: number = 1;
   my_saved_strategies : StrategyCardListProfileView[] = []
 
   constructor(public auth: AuthService, private http: HttpClient) {}
-
-  ngOnInit(): void {
+  
+  ngOnInit(): void
+  {
+    // Fetch user profile data
     this.userProfileData$ = this.user$.pipe(
       filter((user): user is User => user != null),
       switchMap(user => 
-        this.http.post<UserProfile>('/api/get_player_data', { 
-          sub: user.sub, 
-          nickname: user.nickname, 
-          username: user.name
-        })
+        this.http.post<UserProfile>('/api/get_player_data', 
+          { 
+            sub: user.sub, 
+            nickname: user.nickname, 
+            username: user.name 
+          }
+        )
       )
     );
-    // ASYNC WITH PROFILE FETCHING
+  
+    // Fetch the first page of private strategies
     this.user$.pipe(
       filter((user): user is User => user != null),
       switchMap(user => 
-        this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies', { 
-          sub: user.sub
-        })
+        this.http.post<PaginatedStrategyResponse>('/api/get_private_strategies', 
+          { 
+            sub : user.sub,
+            page: 1
+          }
+        )
       )
-    ).subscribe(strategies => {
-      this.my_saved_strategies = strategies;
+    ).subscribe(response => 
+    {
+      this.my_saved_strategies = response.strategies;
+      this.totalPages          = response.total_pages;
+      this.currentPage         = response.current_page;
     });
   }
 }

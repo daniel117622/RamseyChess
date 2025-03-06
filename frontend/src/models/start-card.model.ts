@@ -94,6 +94,12 @@ interface StrategyGeneric {
   [key: string]: any;
 }
 
+export interface PaginatedStrategyResponse {
+  strategies: StrategyCardListProfileView[];
+  total_pages: number;
+  current_page: number;
+}
+
 export interface StrategyCardListProfileView {
   _id: ObjectId;
   elo: number;

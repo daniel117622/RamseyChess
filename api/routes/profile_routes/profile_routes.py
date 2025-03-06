@@ -9,7 +9,7 @@ import logging
 # For transactions
 from data_access.connector import db
 from pymongo.errors import PyMongoError
-
+import math
 
 profile_routes = Blueprint('profle_routes', __name__)
 
@@ -149,47 +149,71 @@ def get_private_strategies():
     if not data:
         return jsonify({"error": "Request data missing"}), 400
 
+    # Require a page argument and validate
+    page = data.get("page")
+    if page is None:
+        return jsonify({"error": "Page number is required"}), 400
+    try:
+        page = int(page)
+        if page < 1:
+            return jsonify({"error": "Page number must be 1 or greater"}), 400
+    except ValueError:
+        return jsonify({"error": "Invalid page number format"}), 400
+
     oauth_sub = data.get("sub")
     if not oauth_sub:
         return jsonify({"error": "User 'sub' not provided"}), 400
 
     manager = UserProfileManager()
     user_data = manager.load_one_by_sub(oauth_sub)
-
     if not user_data:
         return jsonify({"error": "User does not exists"}), 400
-    
+
     ai_manager = AiPremadeManager()
     my_strategies = ai_manager.getByOwner(oauth_sub)
-
     strategy_view = []
 
     for single_strategy in my_strategies:
-      for strategy in single_strategy["strategy_list"]:
-        try:
+        for strategy in single_strategy["strategy_list"]:
+            # Directly accessing keys, skipping invalid strategies
+            if "collection" not in strategy or "strat_id" not in strategy:
+                logging.warning(f"Missing keys in strategy: {strategy}. Skipping.")
+                continue
+
             collection = strategy["collection"]
             evaluator_id = strategy["strat_id"]
-            manager = available_managers[collection]()
-            
-            manager.loadById(evaluator_id)
-            found_strat = manager.getCurrent()
-            
+
+            if collection not in available_managers:
+                logging.warning(f"Collection '{collection}' not found. Skipping strategy: {strategy}.")
+                continue
+
+            manager_instance = available_managers[collection]()
+            manager_instance.loadById(evaluator_id)
+            found_strat = manager_instance.getCurrent()
+
             if found_strat:
                 found_strat["type"] = collection
                 strategy_view.append(found_strat)
             else:
                 logging.warning(f"Strategy with evaluator_id '{evaluator_id}' not found in collection '{collection}'.")
-        
-        except KeyError as e:
-            logging.warning(f"Missing key {e} in strategy: {strategy}. Skipping this strategy.")
-        except Exception as e:
-            logging.warning(f"An error occurred while processing strategy {strategy}: {e}. Skipping this strategy.")
 
-      # PER STRATEGY MAKE THE REPLACEMENT
-      single_strategy["strategy_list"] = copy.deepcopy(strategy_view)
-      strategy_view = []
+        # Replace the strategy_list with the processed list
+        single_strategy["strategy_list"] = copy.deepcopy(strategy_view)
+        strategy_view = []
 
-    return jsonify(my_strategies)     
+    # Pagination: Return at most 3 items per page from the my_strategies list
+    items_per_page = 3
+    total_items = len(my_strategies)
+    total_pages = math.ceil(total_items / items_per_page)
+    start_index = (page - 1) * items_per_page
+    end_index = start_index + items_per_page
+    paginated_strategies = my_strategies[start_index:end_index]
+
+    return jsonify({
+        "strategies"  : paginated_strategies,
+        "total_pages" : total_pages,
+        "current_page": page
+    }) 
       
 
 

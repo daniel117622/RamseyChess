@@ -35,34 +35,32 @@
         <table class="table table-bordered player-info-table">
           <thead>
             <tr>
-              <th>Player Name</th>
-              <th>Strategy ID</th>
-              <th>Current FEN</th>
-              <th>Current Turn</th> 
-              <th>Move Number</th> 
-              <th>Status</th> 
+              <th class="player-name-col">Player Name</th>
+              <th class="strategy-id-col">Strategy ID</th>
+              <th class="turn-col">Current Turn</th>
+              <th class="move-number-col">Move Number</th>
+              <th class="status-col">Status</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td [class.blink]="isWhiteBlinking">Player 1</td>
-              <td>{{ whiteStrategyId }}</td>
-              <td>{{ currentFen }}</td>
-              <td *ngIf="isPlaying">White's Turn</td>
-              <td *ngIf="!isPlaying">Black's Turn</td>
-              <td>{{ isGameOver ? 'Game Over' : 'In Progress' }}</td> <!-- Game Status -->
+              <td [class.blink]="isWhiteBlinking" class="player-name-col">Player 1</td>
+              <td class="strategy-id-col">{{ whiteStrategyId }}</td>
+              <td *ngIf="isPlaying" class="turn-col">White's Turn</td>
+              <td *ngIf="!isPlaying" class="turn-col">Black's Turn</td>
+              <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
             <tr>
-              <td [class.blink]="isBlackBlinking">Player 2</td>
-              <td>{{ blackStrategyId }}</td>
-              <td>{{ currentFen }}</td>
-              <td *ngIf="isPlaying">Black's Turn</td>
-              <td *ngIf="!isPlaying">White's Turn</td>
-              <td>{{ isGameOver ? 'Game Over' : 'In Progress' }}</td> <!-- Game Status -->
+              <td [class.blink]="isBlackBlinking" class="player-name-col">Player 2</td>
+              <td class="strategy-id-col">{{ blackStrategyId }}</td>
+              <td *ngIf="isPlaying" class="turn-col">Black's Turn</td>
+              <td *ngIf="!isPlaying" class="turn-col">White's Turn</td>
+              <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
           </tbody>
         </table>
-        
+      
+
         <div class="mt-3">
           <strong>Current FEN:</strong> {{ currentFen }}
         </div>

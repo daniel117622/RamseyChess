@@ -381,7 +381,7 @@ export class PlayBotsPageComponent implements OnInit {
       disableClose: true,
       data: gameResult // Pass the game result here
     });
-  
+    this.isGameOver = true;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("User confirmed action in reset popup.");

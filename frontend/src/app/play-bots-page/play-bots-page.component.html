@@ -28,6 +28,31 @@
         [darkDisabled]="true"
       >
       </ngx-chess-board>
+      <!-- Player Information Table -->
+      <div class="mt-4 table-responsive">
+        <table class="table table-bordered player-info-table">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Strategy ID</th>
+              <th>Current FEN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Player 1</td>
+              <td>{{ whiteStrategyId }}</td>
+              <td>{{ currentFen }}</td>
+            </tr>
+            <tr>
+              <td>Player 2</td>
+              <td>{{ blackStrategyId }}</td>
+              <td>{{ currentFen }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- END PLAYER TABLE -->
     </div>
 
     <div class="col-12 col-xxl-6">

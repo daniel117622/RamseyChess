@@ -64,3 +64,38 @@ tr {
 .blink {
   animation: blink 1s ease-in-out;
 }
+
+.player-info-table {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.player-info-table th,
+.player-info-table td {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.player-info-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.player-info-table td {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+}
+
+.player-info-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.player-info-table td {
+  word-wrap: break-word;
+  white-space: normal;
+  font-family: 'Courier New', monospace;
+  color: #333;
+}

@@ -1,7 +1,7 @@
 <div class="container game-wrapper mt-5">
   <div class="row">
     <!-- Chessboard Column -->
-    <div class="col-12 col-xxl-6 d-flex justify-content-center flex-column align-items-center">
+    <div class="col-12 col-xxl-6 d-flex flex-column justify-content-start align-items-center">
       <!-- Chess Board -->
       <ngx-chess-board
         #chessBoard
@@ -53,21 +53,20 @@
           </tbody>
         </table>
       </div>
-      
     </div>
 
-    <div class="col-12 col-xxl-6">
+    <!-- Second Column with Buttons and Strategy Table -->
+    <div class="col-12 col-xxl-6 d-flex flex-column justify-content-start">
       <div class="container mt-3">
         <div class="text-center mt-3">
-          <div class="mt-4"> <!-- Increased top margin for separation on mobile -->
-            <label for="numMoves" class="text-white d-block mb-2">Select 2 bots then click play</label> <!-- Bottom margin for label -->
+          <div class="mt-4">
+            <label for="numMoves" class="text-white d-block mb-2">Select 2 bots then click play</label>
             
-            <div class="d-flex justify-content-center align-items-center gap-2 mb-3"> <!-- Flex container with gap for spacing -->
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
               <button 
                 class="btn btn-primary custom-button px-3 py-2" 
-                (click)="this.playFullGame( whiteStrategyId ? whiteStrategyId : '', blackStrategyId ? blackStrategyId : '')" 
-                [disabled]="isPlaying || !whiteStrategyId || !blackStrategyId"
-              >
+                (click)="this.playFullGame(whiteStrategyId ? whiteStrategyId : '', blackStrategyId ? blackStrategyId : '')" 
+                [disabled]="isPlaying || !whiteStrategyId || !blackStrategyId">
                 Play full games
               </button>
             </div>
@@ -79,9 +78,9 @@
           <table id="strategyTable" class="table table-bordered" style="table-layout: fixed; width: 100%;">
             <thead>
               <tr>
-                <th style="width: 48%;">Strategy Name</th>  <!-- Increased width for Strategy Name -->
-                <th style="width: 26%;">Elo</th>            <!-- Decreased width for Elo -->
-                <th style="width: 26%;">Details</th>        <!-- Decreased width for Details -->
+                <th style="width: 48%;">Strategy Name</th>
+                <th style="width: 26%;">Elo</th>
+                <th style="width: 26%;">Details</th>
               </tr>
             </thead>
             <tbody>
@@ -155,7 +154,6 @@
             </div>
           </div>
         </ng-container>
-
       </div>
     </div>
   </div>

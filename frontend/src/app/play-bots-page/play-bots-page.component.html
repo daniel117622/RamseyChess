@@ -1,7 +1,8 @@
 <div class="container game-wrapper mt-5">
   <div class="row">
     <!-- Chessboard Column -->
-    <div class="col-12 col-xxl-6 d-flex justify-content-center">
+    <div class="col-12 col-xxl-6 d-flex justify-content-center flex-column align-items-center">
+      <!-- Chess Board -->
       <ngx-chess-board
         #chessBoard
         (moveChange)="onMoveChange()"
@@ -25,9 +26,9 @@
         [freeMode]="true"
         [dragDisabled]="true"
         [lightDisabled]="true"
-        [darkDisabled]="true"
-      >
+        [darkDisabled]="true">
       </ngx-chess-board>
+    
       <!-- Player Information Table -->
       <div class="mt-4 table-responsive">
         <table class="table table-bordered player-info-table">
@@ -52,7 +53,7 @@
           </tbody>
         </table>
       </div>
-      <!-- END PLAYER TABLE -->
+      
     </div>
 
     <div class="col-12 col-xxl-6">

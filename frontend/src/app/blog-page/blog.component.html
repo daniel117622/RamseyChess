@@ -5,7 +5,7 @@
   </div>
   <div class="blog-text" style="min-width:240px">
     <div class="col-md-12 mt-5">
-      <section id="section1">
+      <section id="section1" *ngIf="currentIndex === 0">
         <h2>What's this platform all about?</h2>
         <p>
             This chess platform isn’t about moving pieces and winning individual games against others; it’s a <strong>mind game</strong>, where you get to decide what’s valuable on the board. When making a move in chess, players think differently based on their skill level. Beginners may choose moves that look good, novices focus on capturing material, while advanced players consider deeper concepts like <strong>pawn structure</strong>, <strong>king safety</strong>, and tactics, and may even recall grandmaster games they’ve studied. <br><br>
@@ -23,7 +23,7 @@
     
     <hr style="width: 100%; border-top: 1px solid #ccc;">
     
-    <section id="section2">
+    <section id="section2" *ngIf="currentIndex === 1">
         <h2>How does this platform work?</h2>
         <p>
             I was eager to tackle directly how to use the platform, but in reality, it’s just about placing <strong>numbers</strong> you think could make the best player. To know how to play, you must understand how this platform actually works. <br><br>
@@ -33,7 +33,7 @@
         </p>
     </section>
     <hr style="width: 100%; border-top: 1px solid #ccc;">
-      <section id="section3">
+      <section id="section3" *ngIf="currentIndex === 2">
         <h2>Section: Play against AI</h2>
         <p>To get a grasp on how to build strategies, you can play against predefined strategies. In this first stage of the project, most will be fun, quirky bots designed to test different gameplay approaches:</p>
         <ul>
@@ -50,7 +50,7 @@
         </p>
       </section>
       <hr style="width: 100%; border-top: 1px solid #ccc;">
-      <section id="section4">
+      <section id="section4" *ngIf="currentIndex === 3">
         <h2>Technicals: Just for nerds</h2>
         <p>
             I've talked about how the default AI strategies behave. Well, for the time being, these strategies are retrieved from a database where I have two tables. The first table stores piece valuation functions, which are key-value pairs mapping each piece to its perceived value. The second table is called a danger function, which measures how many pieces are hanging for each player and identifies underprotected pieces in cases where multiple pieces target a key square.
@@ -80,7 +80,6 @@
             </div>
         </div>
       </section>
-    
     </div>
   </div> 
 </div>

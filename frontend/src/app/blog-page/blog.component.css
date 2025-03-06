@@ -1,38 +1,38 @@
 .container {
-  display: flex;
+  display : flex;
   position: relative;
 }
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 200px;
-  padding: 30px;
-  color: #ecf0f1;
+  position  : fixed;
+  top       : 0;
+  left      : 0;
+  height    : 100vh;
+  width     : 200px;
+  padding   : 30px;
+  color     : #ecf0f1;
   overflow-y: auto;
 }
 
 .sidebar ul {
   list-style-type: none;
-  padding: 0;
+  padding        : 0;
 }
 
 .sidebar ul li a {
   text-decoration: none;
-  color: black;
+  color          : black;
 }
 
 .sidebar ul li a.active {
   font-weight: bold;
-  color: blue;
+  color      : blue;
 }
 
 .content {
   margin-left: 220px;
-  padding: 20px;
-  width: calc(100% - 240px);
+  padding    : 20px;
+  width      : calc(100% - 240px);
 }
 
 @media (max-width: 1550px) {
@@ -42,8 +42,8 @@
 
   .content {
     margin-left: 0;
-    width: 100%;
-    padding: 20px;
+    width      : 100%;
+    padding    : 20px;
   }
 }
 
@@ -52,13 +52,13 @@
 }
 
 .active-section-indicator {
-  position: absolute;
-  top: 50px;
-  right: 20px;
+  position        : absolute;
+  top             : 50px;
+  right           : 20px;
   background-color: #ffeb3b;
-  padding: 10px;
-  font-weight: bold;
-  border-radius: 5px;
+  padding         : 10px;
+  font-weight     : bold;
+  border-radius   : 5px;
 }
 
 p {
@@ -66,23 +66,23 @@ p {
 }
 
 .menu-container {
-  top: 0;
-  left: 0;
-  width: 100%;
-  position: fixed;
+  top             : 0;
+  left            : 0;
+  width           : 100%;
+  position        : fixed;
   background-color: #2c3e50;
-  z-index: 1;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  z-index         : 1;
+  padding-top     : 10px;
+  padding-bottom  : 10px;
 }
 
 .menu-container ul {
   list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
+  padding        : 0;
+  margin         : 0;
+  display        : flex;
   justify-content: space-around;
-  padding: 10px;
+  padding        : 10px;
 }
 
 .menu-container ul li {
@@ -91,11 +91,11 @@ p {
 
 .menu-container ul li a {
   text-decoration: none;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  color          : white;
+  font-weight    : bold;
+  padding        : 10px 20px;
+  border-radius  : 5px;
+  transition     : background-color 0.3s ease;
 }
 
 .menu-container ul li a:hover {
@@ -103,14 +103,14 @@ p {
 }
 
 .my-container ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  list-style-type : none;
+  padding         : 0;
+  margin          : 0;
+  display         : flex;
+  flex-wrap       : wrap;
+  justify-content : center;
   background-color: #2c3e50;
-  padding: 10px;
+  padding         : 10px;
 }
 
 .my-container ul li {
@@ -119,12 +119,12 @@ p {
 
 .my-container ul li a {
   text-decoration: none;
-  color: white;
-  font-weight: bold;
-  padding: 8px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  display: block;
+  color          : white;
+  font-weight    : bold;
+  padding        : 8px 15px;
+  border-radius  : 5px;
+  transition     : background-color 0.3s ease;
+  display        : block;
 }
 
 .my-container ul li a:hover {
@@ -134,7 +134,7 @@ p {
 @media (max-width: 576px) {
   .my-container ul {
     flex-direction: column;
-    align-items: center;
+    align-items   : center;
   }
 
   .my-container ul li {
@@ -142,18 +142,18 @@ p {
   }
 
   .my-container ul li a {
-    padding: 10px 20px;
-    width: 100%;
+    padding   : 10px 20px;
+    width     : 100%;
     text-align: center;
   }
 }
 
 .blog-text {
-  background-color:#2c3622; /* Teal blue background */
-  color: white;              /* White text for contrast */
-  padding: 20px;             /* Add padding for spacing inside the element */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow for lift */
-  font-family: 'Courier New', Courier, monospace;
+  background-color: #2c3622;
+  color           : white;
+  padding         : 20px;
+  box-shadow      : 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family     : 'Courier New',                Courier, monospace;
 }
 
 h2
@@ -167,23 +167,22 @@ p
 
 .button-container 
 {
-  position: fixed;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  position      : fixed;
+  left          : 20px;
+  bottom        : 20px; 
+  display       : flex;
+  flex-direction: row;
+  gap           : 10px;
 }
 
 button 
 {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
+  background   : #007bff;
+  color        : white;
+  border       : none;
+  padding      : 10px 15px;
+  cursor       : pointer;
+  font-size    : 16px;
   border-radius: 5px;
 }
 
@@ -195,5 +194,5 @@ button:hover
 button:disabled 
 {
   background: #ccc;
-  cursor: not-allowed;
+  cursor    : not-allowed;
 }

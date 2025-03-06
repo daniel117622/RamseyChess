@@ -198,3 +198,51 @@ button:disabled
   cursor    : not-allowed;
   opacity   : 0.7;  
 }
+
+.nav-panel 
+{
+  font-family: Arial, sans-serif;
+}
+
+.nav-panel ul 
+{
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-panel li 
+{
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+}
+
+/* Add a "/" separator between list items except for the last one */
+.nav-panel li:not(:last-child)::after 
+{
+  content: '/';
+  padding-left: 10px;
+  color: #666;
+}
+
+/* Highlight the selected section */
+.nav-panel li.selected 
+{
+  background-color: #a77a01;
+  border-radius: 4px;
+}
+
+.nav-panel a 
+{
+  text-decoration: none;
+  color: inherit;
+  padding: 5px 0;
+}
+
+.nav-panel a:hover
+{
+  text-decoration: underline;
+}

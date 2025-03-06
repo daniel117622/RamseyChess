@@ -21,7 +21,12 @@
                     </tr>
                     <tr>
                         <td>ELO Score</td>
-                        <td>{{ userProfileData.elo }}</td>
+                        <td class="elo-score">
+                            <span class="elo-text">{{ userProfileData.elo }}</span>
+                            <div class="elo-tooltip">
+                                <p>ELO Score represents the player's skill level. Higher numbers indicate a stronger player.</p>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Last Login</td>
@@ -32,7 +37,6 @@
         </div>
         <button [routerLink]="['/build-strategy']">Create your first strategy</button>
     </div>
-
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
         <!-- Section Title with Bar -->

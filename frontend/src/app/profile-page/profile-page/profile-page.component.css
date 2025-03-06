@@ -72,3 +72,35 @@
   margin: 0;
   color : #f8f9fa;
 }
+
+.elo-score
+{
+  position: relative;
+  display : inline-block;
+}
+
+.elo-text
+{
+  cursor: pointer;
+}
+
+.elo-tooltip
+{
+  display         : none;
+  position        : absolute;
+  top             : 20px;
+  left            : 50%;
+  transform       : translateX(-50%);
+  background-color: #333;
+  color           : white;
+  padding         : 10px;
+  border-radius   : 5px;
+  width           : 200px;
+  text-align      : center;
+  z-index         : 10;
+}
+
+.elo-score:hover .elo-tooltip
+{
+  display: block;
+}

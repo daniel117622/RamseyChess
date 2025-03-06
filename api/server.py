@@ -43,64 +43,6 @@ app.register_blueprint(socketio_routes)
 
 register_socketio_events(socketio)
 
-@app.route('/mat_eval', methods=['POST'])
-def material_eval():
-    data = request.get_json()
-    fen = data.get("fen", None)
-    eval_name = data.get("eval_name", None)
-    depth = data.get("depth", 1)
-    
-    board = chess.Board(fen)
-    
-    # Load material evaluation parameters
-    em = EvaluateMaterialManager()
-    em.loadOne(eval_name)
-    material_scoring = em.getCurrent()
-    
-    matEval = MaterialEvaluator(eval_manager=material_scoring, board=board)
-    matEval.set_board(board)
-    minimax = Minimax(evaluator=[matEval], depth=depth)
-    
-    best_move = minimax.find_best_move(board)
-    
-    return jsonify({
-        "best_move": board.san(best_move),
-        "material_score": matEval.calculate()
-    })
-
-
-@app.route('/mat_eval_debug', methods=['POST'])
-def material_eval_debug():
-    data = request.get_json()
-    fen = data.get("fen", None)
-    eval_name = data.get("eval_name", None)
-    depth = data.get("depth", 1)
-    debug = data.get("debug", False)
-    
-    board = chess.Board(fen)
-    
-    # Load material evaluation parameters
-    em = EvaluateMaterialManager()
-    em.loadOne(eval_name)
-    material_scoring = em.getCurrent()
-    
-    matEval = MaterialEvaluator(eval_manager=material_scoring, board=board)
-    minimax = Minimax(evaluator=[matEval], depth=depth, debug=debug)
-    
-    best_move = minimax.find_best_move(board)
-    
-    response = {
-        "best_move": board.san(best_move),
-        "material_score": matEval.calculate()
-    }
-    
-    if debug:
-        response["debug_info"] = [
-            f"After move {board.san(move)}: {board.fen()}" for move in board.legal_moves
-        ]
-    
-    return jsonify(response)
-
 @app.route('/submit_exec', methods=['POST'])
 def submit_exec():
    req = request.get_json()

@@ -18,6 +18,15 @@
   border-color:  rgb(128, 221, 85) !important; 
   border: 2px solid transparent; 
 }
+.selected td + td {
+  border-left: none !important; 
+}
+.selected td {
+  border-left: 3px solid rgb(128, 221, 85) !important;
+  border-right: 3px solid rgb(128, 221, 85) !important;
+}
+
+
 
 tr
 {

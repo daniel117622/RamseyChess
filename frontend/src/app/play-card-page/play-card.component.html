@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="row">
     <!-- Chessboard Column -->
-    <div class="col-12 col-lg-6 d-flex justify-content-center">
+    <div class="col-12 col-xxl-6 d-flex justify-content-center">
       <div>
         <p>Card Id : {{ this.cardId }}</p>
         <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" 
@@ -28,7 +28,7 @@
     </div>
 
   <!-- Tables Column -->
-  <div class="col-12 col-lg-6 d-flex flex-column justify-content-around">
+  <div class="col-12 col-xxl-6 d-flex flex-column justify-content-around">
     <!-- STRATEGY CARD OVERVIEW -->
     <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mb-3">
         <p>Strategy name: {{ strat.name }}</p>

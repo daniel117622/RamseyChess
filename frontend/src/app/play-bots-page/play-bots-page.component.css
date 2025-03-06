@@ -129,3 +129,9 @@ tr {
   display        : flex;
   justify-content: center;
 }
+
+.navigation-buttons-container
+{
+  display: flex;  
+  gap    : 10px;  
+}

@@ -534,11 +534,11 @@ export class PlayBotsPageComponent implements OnInit {
         // If there was a piece on the destination square, it was captured.
         if (capturedPiece)
         {
-            if (capturedPiece.color === 'w')
+            if (capturedPiece.color === 'b')
             {
                 this.whiteCapturedPieces++;
             }
-            else if (capturedPiece.color === 'b')
+            else if (capturedPiece.color === 'w')
             {
                 this.blackCapturedPieces++;
             }

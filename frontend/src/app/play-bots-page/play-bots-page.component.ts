@@ -228,7 +228,7 @@ export class PlayBotsPageComponent implements OnInit {
                   }
                   const afterFen = this.currentFen;
                   // Increment counters
-                  this.detectCapture(beforeFen, afterFen);
+                  this.detectCapture(beforeFen, afterFen, data.move);
               } 
               else if (data.type === 'game_end') 
               {
@@ -519,33 +519,32 @@ export class PlayBotsPageComponent implements OnInit {
 
     
 
-    detectCapture(beforeFen: string, afterFen: string): void
+    detectCapture(beforeFen: string, afterFen: string, move: string): void
     {
-        // Load before and after boards using the same Chess instance
+        // Extract the 'from' and 'to' squares from the move string.
+        const from = move.substring(0, 2);
+        const to = move.substring(2, 4);
+    
         const beforeBoard = new Chess(beforeFen);
         const afterBoard = new Chess(afterFen);
     
-        // Loop over all squares and check for captured pieces
-        for (let square of SQUARES)
-        {
-            const beforePiece = beforeBoard.get(square);
-            const afterPiece  = afterBoard.get(square);
+        // Check the destination square in the before board.
+        const capturedPiece = beforeBoard.get(to as Square);
     
-            // A piece was on the square before the move but not after (capture)
-            if (beforePiece && !afterPiece)
+        // If there was a piece on the destination square, it was captured.
+        if (capturedPiece)
+        {
+            if (capturedPiece.color === 'w')
             {
-                // Increment capture counters based on the captured piece color
-                if (beforePiece.color === 'w')
-                {
-                    this.whiteCapturedPieces++;
-                }
-                else if (beforePiece.color === 'b')
-                {
-                    this.blackCapturedPieces++;
-                }
+                this.whiteCapturedPieces++;
+            }
+            else if (capturedPiece.color === 'b')
+            {
+                this.blackCapturedPieces++;
             }
         }
     }
+    
     
     
     

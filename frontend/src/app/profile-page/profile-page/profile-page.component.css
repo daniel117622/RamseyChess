@@ -89,26 +89,31 @@
   }
   
   .elo-tooltip {
-    visibility: hidden;
-    position: absolute;
-    bottom: 100%;
-    left: 100%;
-    transform: translateX(-20px) translateY(-5px);
+    visibility      : hidden;
+    position        : absolute;
+    top             : -10px;
+    left            : 100%;
+    transform       : translateX(10px);
     background-color: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    width: 200px;
-    text-align: center;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0s ease 0.3s;
-    white-space: normal;
+    color           : white;
+    padding         : 10px;
+    border-radius   : 5px;
+    width           : 200px;
+    text-align      : center;
+    z-index         : 10;
+    opacity         : 0;
+    transition      : opacity 0.3s ease, visibility 0s ease 0.3s;
+    white-space     : normal;
   }
   
   .elo-score:hover .elo-tooltip {
     visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease;
+  }
+
+  .table-responsive {
+    overflow-x: hidden;
+    overflow-y: hidden; 
   }
   

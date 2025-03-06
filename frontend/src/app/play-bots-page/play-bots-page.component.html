@@ -35,27 +35,27 @@
         <table class="table table-bordered player-info-table">
           <thead>
             <tr>
-              <th class="player-name-col">Player Name</th>
-              <th class="strategy-id-col">Strategy ID</th>
-              <th class="captured-pieces-col">Captured Pieces</th>
-              <th class="has-won-col">Has Won</th>
-              <th class="status-col">Status</th>
+              <th style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Player Name</th>
+              <th style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Strategy ID</th>
+              <th style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Captured Pieces</th>
+              <th style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Has Won</th>
+              <th style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Status</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td [class.blink]="isWhiteBlinking" class="player-name-col">Player 1</td>
-              <td class="strategy-id-col">{{ whiteStrategyId }}</td>
-              <td class="captured-pieces-col">{{ whiteCapturedPieces }}</td>
-              <td class="has-won-col">{{ isWhiteWinner ? 'Yes' : 'No' }}</td>
-              <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
+              <td [class.blink]="isWhiteBlinking" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Player 1</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ whiteStrategyId }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ whiteCapturedPieces }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ isWhiteWinner ? 'Yes' : 'No' }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
             <tr>
-              <td [class.blink]="isBlackBlinking" class="player-name-col">Player 2</td>
-              <td class="strategy-id-col">{{ blackStrategyId }}</td>
-              <td class="captured-pieces-col">{{ blackCapturedPieces }}</td>
-              <td class="has-won-col">{{ isBlackWinner ? 'Yes' : 'No' }}</td>
-              <td class="status-col">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
+              <td [class.blink]="isBlackBlinking" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Player 2</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ blackStrategyId }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ blackCapturedPieces }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ isBlackWinner ? 'Yes' : 'No' }}</td>
+              <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ isGameOver ? 'Game Over' : 'In Progress' }}</td>
             </tr>
           </tbody>
         </table>
@@ -70,6 +70,7 @@
           <button class="navigation-button">Previous Move</button>
           <button class="navigation-button">Next Move</button>
         </div>
+
       </div>
 
 

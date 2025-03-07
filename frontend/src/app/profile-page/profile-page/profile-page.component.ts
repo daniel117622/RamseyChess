@@ -3,9 +3,9 @@ import { AuthService, User } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
-
 import { UserProfile } from 'src/models/user-profile.model';
 import { StrategyCardListProfileView, PaginatedStrategyResponse } from 'src/models/start-card.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -26,7 +26,7 @@ export class ProfilePageComponent implements OnInit {
     { date: new Date('2024-02-22'), player: 'Daniel', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
   ];
 
-  constructor(public auth: AuthService, private http: HttpClient) {}
+  constructor(public auth: AuthService, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void
   {
@@ -111,4 +111,10 @@ export class ProfilePageComponent implements OnInit {
   {
     return
   }
+
+  goToGamePage(page: number): void
+  {
+    return
+  }
+
 }

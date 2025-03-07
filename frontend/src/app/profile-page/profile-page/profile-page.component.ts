@@ -93,27 +93,29 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
-  editStrategy(strategy_id : string)
+  editStrategy(strategy_id: string): void 
   {
-    return
-  }
-  viewDetails(strategy_id : string)
-  {
-    return
+    this.router.navigate(['/edit-strategy', strategy_id]);
   }
 
-  reviewGame(strategy_id : string)
+  viewDetails(strategy_id: string): void 
   {
-    return
-  }
-  shareGame(strategy_id : string)
-  {
-    return
+    this.router.navigate(['/view-strategy', strategy_id]);
   }
 
-  goToGamePage(page: number): void
+  reviewGame(game_id: string): void 
   {
-    return
+    this.router.navigate(['/game-db', game_id]);
+  }
+
+  shareGame(game_id: string): void 
+  {
+    return 
+  }
+
+  goToGamePage(page: number): void 
+  {
+    return 
   }
 
 }

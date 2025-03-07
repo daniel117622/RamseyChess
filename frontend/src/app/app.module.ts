@@ -27,6 +27,9 @@ import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confi
 import { ResetPopupComponent } from './play-bots-page/reset-popup/reset-popup.component';
 import { MyStrategyComponent } from './profile-page/my-strategy/my-strategy.component';
 import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';
+import { GameDbComponent } from './game-db/game-db.component';
+import { EditStrategyComponent } from './edit-strategy/edit-strategy.component';
+import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.compon
     ConfirmPopupComponent,
     ResetPopupComponent,
     MyStrategyComponent,
-    GameLobbyPageComponent
+    GameLobbyPageComponent,
+    GameDbComponent,
+    EditStrategyComponent,
+    ViewStrategyComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,9 @@ import { ProfilePageComponent } from './profile-page/profile-page/profile-page.c
 import { AuthGuard } from '@auth0/auth0-angular';
 import { BuildStrategyPageComponent } from './build-strategy-page/build-strategy-page/build-strategy-page.component';
 import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';
-
+import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
+import { EditStrategyComponent } from './edit-strategy/edit-strategy.component';
+import { GameDbComponent } from './game-db/game-db.component';
 const routerOptions: ExtraOptions = {
   anchorScrolling: 'enabled', 
   scrollPositionRestoration: 'enabled', 
@@ -28,6 +30,9 @@ const routes: Routes = [
   { path: 'build-strategy', component: BuildStrategyPageComponent, canActivate: [AuthGuard]},
   { path: 'game-lobby', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, 
   { path: 'game-lobby/:lobby-id', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, 
+  { path: 'game-db/:id', component: GameDbComponent, canActivate: [AuthGuard] }, 
+  { path: 'edit-strategy/:id', component: EditStrategyComponent, canActivate: [AuthGuard] },
+  { path: 'view-strategy/:id', component: ViewStrategyComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

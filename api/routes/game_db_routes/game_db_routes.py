@@ -12,6 +12,11 @@ import json
 
 game_db_routes = Blueprint('game_db_routes', __name__)
 
+def json_serializer(obj):
+    if isinstance(obj, ObjectId):
+        return str(obj)
+    raise TypeError("Type not serializable")
+
 
 @game_db_routes.route('/get_game_by_id', methods=['GET'])
 @post_exception_handler 
@@ -73,7 +78,7 @@ def get_games_by_owner():
         return jsonify({"error": "No games found for this user"}), 404
 
     # If there are multiple games, return a list of games
-    response = [json.loads(json.dumps(game)) for game in games]
+    response = [json.loads(json.dumps(game, default=json_serializer)) for game in games]
     return jsonify(response), 200
 
 

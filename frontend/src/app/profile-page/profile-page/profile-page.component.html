@@ -100,14 +100,14 @@
             <h2 class="text-white ">
                 Game History
             </h2>
-            <div class="search-bar-container mb-1">
-                <mat-form-field appearance="fill" class="w-100" class="custom-form-field">
-                    <mat-label>Search Games</mat-label>
-                    <input matInput [(ngModel)]="searchQuery" placeholder="Search">
-                    <button mat-icon-button matSuffix aria-label="Search" (click)="searchGame(this.searchQuery)">
-                        <mat-icon>search</mat-icon>
+            <div class="search-bar-container">
+                <div class="custom-search-bar">
+                    <label for="searchInput" class="custom-label">Search Games</label>
+                    <input id="searchInput" [(ngModel)]="searchQuery" placeholder="Search" class="custom-input">
+                    <button class="custom-icon-button" aria-label="Search" (click)="searchGame(this.searchQuery)">
+                        <span class="custom-icon">🔍</span>
                     </button>
-                </mat-form-field>
+                </div>
             </div>
         </div>
         <!-- END OF SEARCH BAR SECTION -->

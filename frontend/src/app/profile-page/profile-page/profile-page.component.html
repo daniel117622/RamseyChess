@@ -42,11 +42,20 @@
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
         <!-- Section Title with Bar -->
-        <div class="mb-4">
-            <h2 class="text-white strategy-repo-title">
-                My Strategy-Repo
+        <div class="mb-4 d-flex justify-content-between align-items-center strategy-repo-title">
+            <h2 class="text-white ">
+                My Strategy Repository
             </h2>
+            <div class="search-bar-container">
+                <div class="custom-search-bar">
+                    <input id="searchInput" [(ngModel)]="searchQuery" placeholder="Search" class="custom-input">
+                    <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQuery)">
+                        <span class="custom-icon">🔍</span>
+                    </button>
+                </div>
+            </div>
         </div>
+        <!-- END OF SEARCH BAR SECTION -->
 
         <!-- Responsive Flexbox Container -->
         <div class="row justify-content-center gap-3">
@@ -102,9 +111,8 @@
             </h2>
             <div class="search-bar-container">
                 <div class="custom-search-bar">
-                    <label for="searchInput" class="custom-label">Search Games</label>
                     <input id="searchInput" [(ngModel)]="searchQuery" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search" (click)="searchGame(this.searchQuery)">
+                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQuery)">
                         <span class="custom-icon">🔍</span>
                     </button>
                 </div>

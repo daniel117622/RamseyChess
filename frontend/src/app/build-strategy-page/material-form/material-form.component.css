@@ -4,7 +4,7 @@
     background-color: #f5e0b7; /* Carton-like background color */
     color: #333; /* Dark text for readability */
     border: 2px dashed #8b7e66; /* Dashed borders with a slightly darker carton color */
-    border-radius: 8px;
+    border-radius: 2px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
     overflow: hidden;
 }
@@ -45,7 +45,7 @@
     width: 80%;
     padding: 8px;
     border: 1px dashed #8b7e66; /* Dashed border for inputs */
-    border-radius: 4px;
+    border-radius: 2px;
     background-color: #fff5e6; /* Light carton color for inputs */
     color: #333; /* Dark text color */
     text-align: center;
@@ -68,7 +68,7 @@
     border: 2px solid #ff9800;
     background-color: #fff3e0;
     padding: 15px;
-    border-radius: 3px;
+    border-radius: 2px;
     font-size: 1.1em;
     line-height: 1.2;
     margin-bottom: 20px;

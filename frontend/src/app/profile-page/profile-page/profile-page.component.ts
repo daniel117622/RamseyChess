@@ -25,7 +25,7 @@ export class ProfilePageComponent implements OnInit {
     { date: new Date('2024-02-25'), player: 'Daniel', opponent: 'RookWarrior', result: 'Win', eloChange: +20 },
     { date: new Date('2024-02-22'), player: 'Daniel', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
   ];
-  
+
   constructor(public auth: AuthService, private http: HttpClient) {}
 
   ngOnInit(): void
@@ -92,5 +92,14 @@ export class ProfilePageComponent implements OnInit {
       this.totalPages = response.total_pages;
       this.currentPage = response.current_page;
     });
+  }
+
+  editStrategy(strategy_id : string)
+  {
+    return
+  }
+  viewDetails(strategy_id : string)
+  {
+    return
   }
 }

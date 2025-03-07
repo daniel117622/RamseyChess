@@ -56,12 +56,16 @@ def get_games_by_owner_paged():
     end_idx = start_idx + items_per_page
     paged_games = games[start_idx:end_idx]
 
-    return jsonify({
+    # Serialize each game in paged_games using the custom json_serializer
+    response = {
         "total_items": total_items,
         "total_pages": total_pages,
         "current_page": page_number,
-        "games": [game_manager.getCurrent() for game in paged_games]
-    }), 200
+        "games": [json.loads(json.dumps(game, default=json_serializer)) for game in paged_games]
+    }
+
+    return jsonify(response), 200
+
 
 @game_db_routes.route('/get_games_by_owner', methods=['GET'])
 @post_exception_handler

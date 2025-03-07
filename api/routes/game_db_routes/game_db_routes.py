@@ -8,6 +8,7 @@ from data_access.connector import db
 from pymongo.errors import PyMongoError
 import math
 from utils.socket_exception import post_exception_handler
+import json
 
 game_db_routes = Blueprint('game_db_routes', __name__)
 
@@ -71,8 +72,8 @@ def get_games_by_owner():
     if not games:
         return jsonify({"error": "No games found for this user"}), 404
 
-    game_manager.loadByOwner(user_id)
-    response = game_manager.getCurrent()
+    # If there are multiple games, return a list of games
+    response = [json.loads(json.dumps(game)) for game in games]
     return jsonify(response), 200
 
 

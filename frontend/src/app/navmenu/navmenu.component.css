@@ -103,7 +103,13 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 1120px) {
+/* By default, show d-custom elements */
+.d-custom {
+  display: block;
+}
+
+/* Hide d-custom elements on viewports 1120px and wider */
+@media (min-width: 1120px) {
   .d-custom {
     display: none !important;
   }

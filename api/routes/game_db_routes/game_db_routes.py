@@ -19,7 +19,7 @@ def get_games_by_id():
     return jsonify({})
 
 @game_db_routes.route('/get_games_by_id_paged', methods=['GET'])
-def get_games_by_id():
+def get_games_by_id_paged():
     data           = request.json()
     user_id        = data.get("sub")
     items_per_page = data.get("items_per_page")

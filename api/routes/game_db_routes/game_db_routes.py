@@ -51,12 +51,12 @@ def post_pvp_game():
     )
 
     game_manager = ChessGameManager()
-    inserted_id = game_manager.insertOne(chess_game)
+    result = game_manager.insertOne(chess_game)
 
-    if inserted_id:
+    if result:
         return jsonify({
             "message": "Game successfully recorded",
-            "inserted_id": inserted_id
+            "inserted_id": str(result.inserted_id)
         }), 201
     else:
         return jsonify({"error": "Failed to record game"}), 500

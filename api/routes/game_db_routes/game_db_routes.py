@@ -39,24 +39,22 @@ def get_games_by_id():
 @post_exception_handler
 def get_games_by_owner_paged():
     data = request.args
-
-    user_id        = data.get("sub")
-    items_per_page = int(data.get("items_per_page", 10))
-    page_number    = int(data.get("page_number", 1))
-
+    user_id = data.get("sub")
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400
 
-    game_manager = ChessGameManager()
-    games = game_manager.loadByOwner(user_id)
+    items_per_page = int(data.get("items_per_page", 10))
+    page_number = int(data.get("page_number", 1))
 
-    total_items = len(games)
-    total_pages = math.ceil(total_items / items_per_page)
-    start_idx = (page_number - 1) * items_per_page
-    end_idx = start_idx + items_per_page
+    game_manager = ChessGameManager()
+    games        = game_manager.loadByOwner(user_id)
+    total_items  = len(games)
+    total_pages  = math.ceil(total_items / items_per_page)
+
+    start_idx   = (page_number - 1) * items_per_page
+    end_idx     = start_idx + items_per_page
     paged_games = games[start_idx:end_idx]
 
-    # Serialize each game in paged_games using the custom json_serializer
     response = {
         "total_items": total_items,
         "total_pages": total_pages,

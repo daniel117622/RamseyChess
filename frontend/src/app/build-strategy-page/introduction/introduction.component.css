@@ -5,7 +5,7 @@
     color           : #f0f0f0;                         /* Light text color */
     background-color: #333;                            /* Dark background */
     padding         : 20px;
-    border-radius   : 4px;
+    border-radius   : 2px;
     box-shadow      : 0px 4px 8px rgba(0, 0, 0, 0.2);
     max-width       : 820px;
     margin          : 0 auto;

@@ -13,6 +13,9 @@ import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.compon
 import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
 import { EditStrategyComponent } from './edit-strategy/edit-strategy.component';
 import { GameDbComponent } from './game-db/game-db.component';
+
+
+
 const routerOptions: ExtraOptions = {
   anchorScrolling: 'enabled', 
   scrollPositionRestoration: 'enabled', 

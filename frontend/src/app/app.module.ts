@@ -25,11 +25,13 @@ import { StrategyOverviewComponent } from './build-strategy-page/strategy-overvi
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmPopupComponent } from './build-strategy-page/confirm-popup/confirm-popup.component';
 import { ResetPopupComponent } from './play-bots-page/reset-popup/reset-popup.component';
-import { MyStrategyComponent } from './profile-page/my-strategy/my-strategy.component';
 import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';
 import { GameDbComponent } from './game-db/game-db.component';
 import { EditStrategyComponent } from './edit-strategy/edit-strategy.component';
 import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,6 @@ import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
     StrategyOverviewComponent,
     ConfirmPopupComponent,
     ResetPopupComponent,
-    MyStrategyComponent,
     GameLobbyPageComponent,
     GameDbComponent,
     EditStrategyComponent,
@@ -70,7 +71,10 @@ import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
         redirect_uri: window.location.origin
       }
     }),
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

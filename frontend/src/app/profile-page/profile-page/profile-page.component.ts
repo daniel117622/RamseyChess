@@ -7,6 +7,10 @@ import { UserProfile } from 'src/models/user-profile.model';
 import { StrategyCardListProfileView, PaginatedStrategyResponse } from 'src/models/start-card.model';
 import { Router } from '@angular/router';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -18,6 +22,8 @@ export class ProfilePageComponent implements OnInit {
   totalPages : number = 0;
   currentPage: number = 1;
   my_saved_strategies : StrategyCardListProfileView[] = []
+
+  searchQuery = ""
 
   last_games = [
     { date: new Date('2024-03-01'), player: '_Kuhaku_', opponent: 'Player123', result: 'Win', eloChange: +15 },
@@ -116,6 +122,11 @@ export class ProfilePageComponent implements OnInit {
   goToGamePage(page: number): void 
   {
     return 
+  }
+
+  searchGame(query: string): void
+  {
+    return
   }
 
 }

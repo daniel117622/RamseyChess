@@ -96,10 +96,19 @@
             
     <!-- MY GAMES SECTION -->
     <div class="container mt-4">
-        <div class="mb-4">
+        <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-white strategy-repo-title">
                 Game History
             </h2>
+            <div class="search-bar-container">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Search Games</mat-label>
+                    <input matInput [(ngModel)]="searchQuery" placeholder="Search">
+                    <button mat-icon-button matSuffix aria-label="Search" (click)="searchGame(this.searchQuery)">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
         </div>
 
         <!-- START OF CARDS DISPLAY -->

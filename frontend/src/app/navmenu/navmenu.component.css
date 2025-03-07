@@ -102,3 +102,9 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+@media (max-width: 1120px) {
+  .d-custom {
+    display: none !important;
+  }
+}

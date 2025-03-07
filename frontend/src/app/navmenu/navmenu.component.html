@@ -46,10 +46,10 @@
       </a>
     </li>
     
-    <li class="nav-item d-md-none" *ngIf="!(auth.isAuthenticated$ | async)">
+    <li class="nav-item " *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
     </li>
-    <li class="nav-item d-md-none d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
+    <li class="nav-item d-flex align-items-center" *ngIf="auth.isAuthenticated$ | async">
       <a (click)="logout(); closeMenu()" class="logout-icon">X</a>
       <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
     </li>

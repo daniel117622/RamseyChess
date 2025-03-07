@@ -48,8 +48,8 @@
             </h2>
             <div class="search-bar-container">
                 <div class="custom-search-bar">
-                    <input id="searchInput" [(ngModel)]="searchQuery" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQuery)">
+                    <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="Search" class="custom-input">
+                    <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQueryStrategy)">
                         <span class="custom-icon">🔍</span>
                     </button>
                 </div>
@@ -111,8 +111,8 @@
             </h2>
             <div class="search-bar-container">
                 <div class="custom-search-bar">
-                    <input id="searchInput" [(ngModel)]="searchQuery" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQuery)">
+                    <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
+                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
                         <span class="custom-icon">🔍</span>
                     </button>
                 </div>

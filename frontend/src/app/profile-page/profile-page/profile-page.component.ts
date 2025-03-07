@@ -23,7 +23,8 @@ export class ProfilePageComponent implements OnInit {
   currentPage: number = 1;
   my_saved_strategies : StrategyCardListProfileView[] = []
 
-  searchQuery = ""
+  searchQueryStrategy = ""
+  searchQueryGame     = ""
 
   last_games = [
     { date: new Date('2024-03-01'), player: '_Kuhaku_', opponent: 'Player123', result: 'Win', eloChange: +15 },

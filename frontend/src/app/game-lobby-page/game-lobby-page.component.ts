@@ -37,6 +37,7 @@ export class GameLobbyPageComponent implements OnInit
   chessBoard$: Observable<NgxChessBoardComponent> = this.chessBoardSubject.asObservable();
 
   user$ = this.auth.user$;
+  user_id : string | undefined = undefined;
   userProfileData$: Observable<UserProfile> | undefined;
 
   my_saved_strategies : StrategyCardListProfileView[] = []
@@ -97,6 +98,7 @@ export class GameLobbyPageComponent implements OnInit
         {
           this.playerName = user.sub ? md5(user.sub) : 'UNKNOWN_PLAYER';
           console.log(`Player name: ${this.playerName}`);
+          this.user_id = user.sub
           this.initializeLobby();
         }
       });
@@ -161,6 +163,20 @@ export class GameLobbyPageComponent implements OnInit
                   const totalTurns = data.result.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
                   console.log(`Total number of turns: ${totalTurns}`);
                   this.gameFinishedPgn = data.result.game_pgn
+                  
+                  const postData = {
+                    white_strategy_id: whiteStrategyId,
+                    black_strategy_id: blackStrategyId,
+                    game_date        : new Date().toISOString(),
+                    pgn              : this.gameFinishedPgn,
+                    owner            : this.user_id,
+                  };
+                  this.http.post('/api/post_pvp_game', postData)
+                  .subscribe(response => {
+                    console.log("Game successfully recorded:", response);
+                  }, error => {
+                    console.error("Error recording game:", error);
+                  });
               }
           }
       });

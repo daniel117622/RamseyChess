@@ -20,10 +20,9 @@ export class ProfilePageComponent implements OnInit {
   my_saved_strategies : StrategyCardListProfileView[] = []
 
   last_games = [
-    { date: new Date('2024-03-01'), player: 'Daniel', opponent: 'Player123', result: 'Win', eloChange: +15 },
-    { date: new Date('2024-02-27'), player: 'Daniel', opponent: 'ChessMaster99', result: 'Loss', eloChange: -10 },
-    { date: new Date('2024-02-25'), player: 'Daniel', opponent: 'RookWarrior', result: 'Win', eloChange: +20 },
-    { date: new Date('2024-02-22'), player: 'Daniel', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
+    { date: new Date('2024-03-01'), player: '_Kuhaku_', opponent: 'Player123', result: 'Win', eloChange: +15 },
+    { date: new Date('2024-02-27'), player: '_Kuhaku_', opponent: 'ChessMaster99', result: 'Loss', eloChange: -10 },
+    { date: new Date('2024-02-22'), player: '_Kuhaku_', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
   ];
 
   constructor(public auth: AuthService, private http: HttpClient, private router: Router) {}

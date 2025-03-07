@@ -1,4 +1,4 @@
-<div class="container mt-5" style="min-height: 100vh;">
+<div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
     <p>Welcome, {{ (user$ | async)?.name }}</p>
     
     <div *ngIf="userProfileData$ | async as userProfileData">
@@ -126,8 +126,8 @@
                     
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-center gap-2 mt-3">
-                        <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame('')">Review Game</button>
-                        <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame('')">Share Game</button>
+                        <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame('')">Review</button>
+                        <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame('')">Share</button>
                     </div>
                 </div>
             </div>

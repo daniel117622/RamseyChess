@@ -86,20 +86,34 @@
             </div>
         </div>
     </div>
-    <!--MY GAMES SECTION -->
-    <div class="container mt4">
+
+        
+    <!-- MY GAMES SECTION -->
+    <div class="container mt-4">
         <div class="mb-4">
             <h2 class="text-white strategy-repo-title">
-                Game history
+                Game History
             </h2>
         </div>
-        <div *ngFor="let game of last_games" class="strategy-card p-3 text-center">
-            <h5 class="mb-2">{{ game.player }} vs {{ game.opponent }}</h5>
-            <p><strong>Date:</strong> {{ game.date | date:'mediumDate' }}</p>
-            <p><strong>Result:</strong> {{ game.result }}</p>
-            <p><strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}</p>
+
+        <!-- START OF CARDS DISPLAY -->
+        <div class="row">
+            <div *ngFor="let game of last_games" class="col-md-4 col-sm-6 mb-3">
+                <div class="strategy-card p-3 text-center h-100"
+                    [ngClass]="{
+                        'win': game.result === 'Win',
+                        'loss': game.result === 'Loss',
+                        'draw': game.result === 'Draw'
+                    }">
+                    <h5 class="mb-2">{{ game.player }} vs {{ game.opponent }}</h5>
+                    <p><strong>Date:</strong> {{ game.date | date:'mediumDate' }}</p>
+                    <p><strong>Result:</strong> {{ game.result }}</p>
+                    <p><strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}</p>
+                </div>
+            </div>
         </div>
     </div>
+
   
 
 </div>

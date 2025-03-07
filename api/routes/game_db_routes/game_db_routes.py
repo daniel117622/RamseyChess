@@ -14,7 +14,7 @@ game_db_routes = Blueprint('game_db_routes', __name__)
 
 def json_serializer(obj):
     if isinstance(obj, ObjectId):
-        return str(obj)
+        return {"$oid": str(obj)}  # Return the ObjectId as MongoDB format
     raise TypeError("Type not serializable")
 
 

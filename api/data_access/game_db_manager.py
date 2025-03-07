@@ -41,7 +41,7 @@ class ChessGameManager:
     def getCurrent(self):
         return json.loads(dumps(self.current_doc))
     
-    def insertByName(self, chess_game_doc: ChessGameDoc) -> bool:
+    def insertOne(self, chess_game_doc: ChessGameDoc) -> bool:
         chess_game_dict = asdict(chess_game_doc)
         chess_game_dict.pop('_id', None) 
         

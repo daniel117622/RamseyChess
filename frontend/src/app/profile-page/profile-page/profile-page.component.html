@@ -51,15 +51,15 @@
         <!-- Responsive Flexbox Container -->
         <div class="row justify-content-center gap-3">
             <!-- Loop through the strategies -->
-            <div *ngFor="let strategy of my_saved_strategies" class="strategy-card draw col-md-3 col-sm-6 p-3 text-center">
+            <div *ngFor="let strategy of my_saved_strategies" class="strategy-card draw col-md-3 col-sm-6 p-3 text-center d-flex flex-column">
                 <h5 class="mb-2">{{ strategy.name }}</h5>
                 <p>{{ strategy.description }}</p>
                 <!-- Additional details -->
                 <p><strong>Elo:</strong> {{ strategy.elo }}</p>
                 <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
-        
-                <!-- Action Buttons -->
-                <div class="d-flex justify-content-center gap-2 mt-3">
+
+                <!-- Action Buttons (placed at the bottom) -->
+                <div class="d-flex justify-content-center gap-2 mt-auto">
                     <button class="btn btn-outline-primary btn-sm custom-btn" (click)="editStrategy(strategy._id.$oid)">Edit</button>
                     <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="viewDetails(strategy._id.$oid)">View Details</button>
                 </div>

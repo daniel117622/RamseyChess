@@ -23,6 +23,7 @@
     [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
   > 
+  
     <li class="nav-item">
       <a href="/blog" class="nav-link" (click)="closeMenu()">Blog</a>
     </li>
@@ -55,7 +56,7 @@
   </ul>
 
   <!-- Right side: Sign In / Register or Sign Out, shown only on desktop -->
-  <ul class="nav justify-content-end flex-grow-1" style="flex-grow: 0 !important; max-height: 70px !important;">
+  <ul class="nav justify-content-end flex-grow-1 mobile-hide" style="flex-grow: 0 !important; max-height: 70px !important;">
     <li class="nav-item" *ngIf="!(auth.isAuthenticated$ | async)">
       <a [routerLink]="['/sign-in']" class="nav-link" (click)="closeMenu()">Sign In / Register</a>
     </li>

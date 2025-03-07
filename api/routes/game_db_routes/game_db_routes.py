@@ -38,20 +38,29 @@ def get_games_by_id():
 @game_db_routes.route('/get_games_by_owner_paged', methods=['GET'])
 @post_exception_handler
 def get_games_by_owner_paged():
-    data = request.args
+    data    = request.args
     user_id = data.get("sub")
+
     if not user_id:
-        return jsonify({"error": "User ID is required"}), 400
+        raise Exception("User ID is required")
 
     items_per_page = int(data.get("items_per_page", 10))
-    page_number = int(data.get("page_number", 1))
+    page_number    = int(data.get("page_number", 0))  
 
     game_manager = ChessGameManager()
     games        = game_manager.loadByOwner(user_id)
     total_items  = len(games)
-    total_pages  = math.ceil(total_items / items_per_page)
+    
+    if total_items == 0:
+        return jsonify({"error": "No games found for this user"}), 404
 
-    start_idx   = (page_number - 1) * items_per_page
+    total_pages = math.ceil(total_items / items_per_page)
+
+    # Raise an exception if the requested page doesn't exist.
+    if page_number < 0 or page_number >= total_pages:
+        raise Exception("Requested page does not exist")
+
+    start_idx   = page_number * items_per_page
     end_idx     = start_idx + items_per_page
     paged_games = games[start_idx:end_idx]
 
@@ -63,6 +72,7 @@ def get_games_by_owner_paged():
     }
 
     return jsonify(response), 200
+
 
 
 @game_db_routes.route('/get_games_by_owner', methods=['GET'])

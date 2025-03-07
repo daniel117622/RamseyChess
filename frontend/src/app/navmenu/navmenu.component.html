@@ -23,6 +23,9 @@
     [ngClass]="{'d-none': isSmallScreen && !menuOpen, 'd-flex': !isSmallScreen}"
     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
   > 
+    <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
+      <a [routerLink]="['/profile']" class="nav-link" (click)="closeMenu()">{{ userData?.email ?? 'No email' }}</a>
+    </li>
     <li class="nav-item">
       <a href="/blog" class="nav-link" (click)="closeMenu()">Blog</a>
     </li>

@@ -19,7 +19,7 @@
   color: white;
   font-weight: bold;
   padding: 8px 15px;
-  border-radius: 3px;
+  border-radius: 1px;
   transition: background-color 0.3s ease;
   display: block;
 }
@@ -45,7 +45,7 @@
   display: none;
   line-height: 36px;
   margin-right: 20px;
-  border-radius: 3px;
+  border-radius: 1px;
 }
 
 /* Show the toggle button on small screens */

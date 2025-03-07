@@ -1,7 +1,7 @@
 from data_access.connector import db
 from dataclasses import dataclass, asdict
 from bson.objectid import ObjectId
-from typing import Optional
+from typing import Optional, List
 import json
 from bson.json_util import dumps
 
@@ -16,8 +16,8 @@ class ChessGameDoc:
 
 class ChessGameManager:
     def __init__(self) -> None:
-        self.docs = db.get_collection('chess_games')
-        self.current_doc = None
+        self.docs = db.get_collection('played_games')
+        self.current_doc : List[ChessGameDoc] | ChessGameDoc = None
 
     def loadOne(self, name: str, owner: Optional[str] = None):
         filter = {"name": name}
@@ -33,6 +33,10 @@ class ChessGameManager:
         filter = {"_id": ObjectId(game_id)}  
         self.current_doc = self.docs.find_one(filter)
         return self.current_doc
+    
+    def loadByOwner(self, owner: str):
+        filter = {"owner": owner}
+        return list(self.docs.find(filter))
     
     def getCurrent(self):
         return json.loads(dumps(self.current_doc))

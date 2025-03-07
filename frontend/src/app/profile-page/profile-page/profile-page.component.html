@@ -115,7 +115,14 @@
                     <h5 class="mb-2">{{ game.player }} vs {{ game.opponent }}</h5>
                     <p><strong>Date:</strong> {{ game.date | date:'mediumDate' }}</p>
                     <p><strong>Result:</strong> {{ game.result }}</p>
-                    <p><strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}</p>
+                    <!-- Elo Change with ngClass for color change -->
+                    <p [ngClass]="{
+                        'text-success': game.eloChange > 0, 
+                        'text-danger': game.eloChange < 0,
+                        'text-muted': game.eloChange === 0
+                    }">
+                        <strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}
+                    </p>
                     
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-center gap-2 mt-3">

@@ -13,14 +13,14 @@ game_db_routes = Blueprint('game_db_routes', __name__)
 
 @game_db_routes.route('/get_games_by_id', methods=['GET'])
 def get_games_by_id():
-    data    = request.json()
+    data    = request.json
     user_id = data.get("sub")
 
     return jsonify({})
 
 @game_db_routes.route('/get_games_by_id_paged', methods=['GET'])
 def get_games_by_id_paged():
-    data           = request.json()
+    data           = request.json
     user_id        = data.get("sub")
     items_per_page = data.get("items_per_page")
     page_number    = data.get("page_number")
@@ -30,7 +30,7 @@ def get_games_by_id_paged():
 @game_db_routes.route('/post_pvp_game', methods=['POST'])
 @post_exception_handler
 def post_pvp_game():
-    data = request.json()
+    data = request.json
 
     white_strategy_id = data.get("white_strategy_id")
     black_strategy_id = data.get("black_strategy_id")

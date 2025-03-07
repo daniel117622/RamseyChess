@@ -15,6 +15,7 @@ import requests
 
 from routes.public_routes.public_routes import public_routes
 from routes.profile_routes.profile_routes import profile_routes
+from routes.game_db_routes.game_db_routes import game_db_routes
 from routes.socket_routes.socket_routes import socketio_routes , register_socketio_events
 
 from data_access.strategy_cards_manager import AiPremadeManager
@@ -40,6 +41,7 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet', logger
 app.register_blueprint(public_routes)
 app.register_blueprint(profile_routes)
 app.register_blueprint(socketio_routes)
+app.register_blueprint(game_db_routes)
 
 register_socketio_events(socketio)
 

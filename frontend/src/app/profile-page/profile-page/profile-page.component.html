@@ -116,6 +116,12 @@
                     <p><strong>Date:</strong> {{ game.date | date:'mediumDate' }}</p>
                     <p><strong>Result:</strong> {{ game.result }}</p>
                     <p><strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}</p>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review Game</button>
+                        <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game._id.$oid)">Share Game</button>
+                    </div>
                 </div>
             </div>
             <!-- END OF A SINGLE CARD -->
@@ -124,16 +130,23 @@
 
         <!-- START OF PAGINATION SECTION -->
         <div class="pagination-controls d-flex justify-content-center mt-4">
-            <button class="btn btn-primary">
+            <button 
+                class="btn btn-primary" 
+                [disabled]="currentPage === 1" 
+                (click)="goToPage(currentPage - 1)">
                 Previous
             </button>
-            <button class="btn btn-primary">
+            <button 
+                class="btn btn-primary" 
+                [disabled]="currentPage === totalPages" 
+                (click)="goToPage(currentPage + 1)">
                 Next
             </button>
         </div>
         <!-- END OF PAGINATION SECTION -->
     </div>
     <!-- END OF GAMES SECTION -->
+
 
   
 

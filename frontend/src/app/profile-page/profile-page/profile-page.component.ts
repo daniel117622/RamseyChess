@@ -102,4 +102,13 @@ export class ProfilePageComponent implements OnInit {
   {
     return
   }
+
+  reviewGame(strategy_id : string)
+  {
+    return
+  }
+  shareGame(strategy_id : string)
+  {
+    return
+  }
 }

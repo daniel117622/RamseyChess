@@ -46,4 +46,4 @@ class ChessGameManager:
         chess_game_dict.pop('_id', None) 
         
         result = self.docs.insert_one(chess_game_dict)
-        return result.acknowledged
+        return result

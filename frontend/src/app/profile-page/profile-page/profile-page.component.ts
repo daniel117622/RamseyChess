@@ -10,6 +10,23 @@ import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { GameService } from 'src/services/game-service.service';
+
+interface Game {
+  id     : string;
+  owner  : string;
+  players: string[];
+  result : string;
+  date   : string;
+}
+
+interface PaginatedGames {
+  games         : Game[];
+  total_pages   : number;
+  items_per_page: number;
+  current_page  : number;
+}
+
 
 @Component({
   selector: 'app-profile-page',
@@ -23,8 +40,13 @@ export class ProfilePageComponent implements OnInit {
   currentPage: number = 1;
   my_saved_strategies : StrategyCardListProfileView[] = []
 
+  paginatedGames : PaginatedGames | null = null;
+  totalGamePages : number = 0;
+
   searchQueryStrategy = ""
   searchQueryGame     = ""
+
+  currentGamePageNumber : number = 0
 
   last_games = [
     { date: new Date('2024-03-01'), player: '_Kuhaku_', opponent: 'Player123', result: 'Win', eloChange: +15 },
@@ -32,7 +54,7 @@ export class ProfilePageComponent implements OnInit {
     { date: new Date('2024-02-22'), player: '_Kuhaku_', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
   ];
 
-  constructor(public auth: AuthService, private http: HttpClient, private router: Router) {}
+  constructor(public auth: AuthService, private http: HttpClient, private router: Router, private gameService: GameService) {}
 
   ngOnInit(): void
   {
@@ -67,6 +89,8 @@ export class ProfilePageComponent implements OnInit {
       this.totalPages          = response.total_pages;
       this.currentPage         = response.current_page;
     });
+
+    this.fetchGames(3 , this.currentGamePageNumber)
   }
 
 
@@ -122,12 +146,37 @@ export class ProfilePageComponent implements OnInit {
 
   goToGamePage(page: number): void 
   {
-    return 
+      if (page >= 0 && page < this.totalPages) 
+      {
+          this.currentGamePageNumber = page;
+          this.fetchGames(3, page); 
+      }
   }
+  
 
   searchGame(query: string): void
   {
     return
+  }
+
+  fetchGames(itemsPerPage: number, pageNumber: number): void
+  {
+      this.user$.pipe(
+          filter((user): user is User => user != null),
+          switchMap(user => 
+              this.gameService.getGames(user.sub, itemsPerPage, pageNumber)
+          )
+      ).subscribe({
+          next: (data) =>
+          {
+              this.paginatedGames = data;
+              this.totalGamePages = data.total_pages
+          },
+          error: (error) =>
+          {
+              console.error('Error fetching games:', error);
+          },
+      });
   }
 
 }

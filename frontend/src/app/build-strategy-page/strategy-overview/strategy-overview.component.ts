@@ -3,6 +3,9 @@ import { AuthService } from '@auth0/auth0-angular';
 import { StrategyBuildService, BuildableStrategy } from 'src/services/strategy-build.service';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-strategy-overview',
@@ -10,10 +13,12 @@ import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component'
   styleUrls: ['./strategy-overview.component.css']
 })
 export class StrategyOverviewComponent implements OnInit {
-  constructor(private strategyBuildService: StrategyBuildService, private authService : AuthService, public dialog: MatDialog) {}
+  constructor(private strategyBuildService: StrategyBuildService, private authService : AuthService, public dialog: MatDialog, private http : HttpClient) {}
 
   @Input() sub: string | undefined | null = '';
   strategy_card: BuildableStrategy | null = null;
+
+
 
   ngOnInit(): void 
   {
@@ -23,6 +28,8 @@ export class StrategyOverviewComponent implements OnInit {
     {
       this.strategy_card.owner = this.sub;
     }
+
+
   }
   objectEntries(obj: any): { key: string, value: any }[] 
   {

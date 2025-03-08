@@ -95,13 +95,13 @@
                 <button 
                     class="btn btn-primary" 
                     [disabled]="currentPage === 1" 
-                    (click)="goToGamePage(currentPage - 1)">
+                    (click)="goToPage(currentPage - 1)">
                     Previous
                 </button>
                 <button 
                     class="btn btn-primary" 
                     [disabled]="currentPage === totalPages" 
-                    (click)="goToGamePage(currentPage + 1)">
+                    (click)="goToPage(currentPage + 1)">
                     Next
                 </button>
             </div>
@@ -169,12 +169,12 @@
         <div class="pagination-controls d-flex justify-content-center mt-4">
             <button 
                 class="btn btn-primary" 
-                (click)="goToGamePage(currentPage - 1)">
+                (click)="goToGamePage(currentGamePageNumber - 1)">
                 Previous
             </button>
             <button 
                 class="btn btn-primary" 
-                (click)="goToGamePage(currentPage + 1)">
+                (click)="goToGamePage(currentGamePageNumber + 1)">
                 Next
             </button>
         </div>

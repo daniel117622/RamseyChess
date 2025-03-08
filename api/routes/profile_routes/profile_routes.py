@@ -279,7 +279,7 @@ def get_single_strategy_by_id():
     if not ai_manager.current_doc:
         return jsonify({"error": f"Strategy with ID {strat_id} not found"}), 404
 
-    strategy = ai_manager.current_doc
+    strategy = ai_manager.getCurrent()
     strategy_view = []
 
     for single_strategy in strategy["strategy_list"]:
@@ -303,6 +303,7 @@ def get_single_strategy_by_id():
             strategy_view.append(found_strat)
         else:
             logging.warning(f"Strategy with evaluator_id '{evaluator_id}' not found in collection '{collection}'.")
+
 
     strategy["strategy_list"] = strategy_view
 

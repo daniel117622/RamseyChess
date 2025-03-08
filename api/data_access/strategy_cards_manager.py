@@ -45,7 +45,7 @@ class AiPremadeManager():
         self.current_doc = self.docs.find_one(filter)
 
     def getCurrent(self):
-        return json.loads(dumps(self.current_doc))
+        return dumps(self.current_doc)
     
     def getNullOwner(self):
         self.current_docs_collection = list(self.docs.find({"owner": None}))

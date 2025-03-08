@@ -46,69 +46,48 @@
             <hr>
 
             <div class="pieces">
-                <div class="piece">
-                    <strong>White Pieces:</strong>
-                    <table class="table table-bordered" style="background-color: #34495e; color: #bdc3c7;">
-                        <tbody>
-                            <tr>
-                                <td>Bishop:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.bishop }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>King:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.king }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Knight:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.knight }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Pawn:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.pawn }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Queen:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.queen }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Rook:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.rook }}" disabled></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="piece">
-                    <strong>Black Pieces:</strong>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td>Bishop:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.bishop }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>King:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.king }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Knight:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.knight }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Pawn:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.pawn }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Queen:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.queen }}" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>Rook:</td>
-                                <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.rook }}" disabled></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <strong>Pieces:</strong>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Piece</th>
+                            <th>White</th>
+                            <th>Black</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bishop</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.bishop }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.bishop }}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>King</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.king }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.king }}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Knight</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.knight }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.knight }}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Pawn</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.pawn }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.pawn }}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Queen</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.queen }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.queen }}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>Rook</td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.whitePieces.rook }}" disabled></td>
+                            <td><input type="text" class="form-control custom-input" value="{{ strat.blackPieces.rook }}" disabled></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

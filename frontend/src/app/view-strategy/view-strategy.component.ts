@@ -1,12 +1,15 @@
-import { Injectable, OnInit } from '@angular/core';
+
+import { Injectable, OnInit , Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-view-strategy',  
+  templateUrl: './view-strategy.component.html',
+  styleUrls: ['./view-strategy.component.css']  
 })
-export class StrategyService implements OnInit {
+export class ViewStrategyComponent implements OnInit {
   strategy = null;
 
   constructor(private http: HttpClient) { }

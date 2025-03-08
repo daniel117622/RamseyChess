@@ -26,7 +26,7 @@ export class GameDbComponent implements OnInit
   ngOnInit(): void
   {
     // Retrieve the 'game-id' parameter from the route
-    this.gameId = this.route.snapshot.paramMap.get('game-id');
+    this.gameId = this.route.snapshot.paramMap.get('id');
     
 
     if (this.gameId)

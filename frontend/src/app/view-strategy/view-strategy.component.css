@@ -61,7 +61,12 @@ ul li
     border: solid 3px #e19f21;
 }
 
-
+.table th
+{
+    color: #000000;
+    background: #e19f21;
+    border: solid 3px #e19f21;
+}
 
 .table input
 {

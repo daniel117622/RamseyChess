@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 
 export interface Game
 {
-    id     : string;
-    owner  : string;
-    players: string[];
-    result : string;
-    date   : string;
+    id                : { $oid: string }; 
+    game_date         : string;  
+    owner             : string;  
+    pgn               : string;  
+    strategy_id_black : string;  
+    strategy_id_white : string;  
 }
 
 export interface PaginatedGames
@@ -34,4 +35,12 @@ export class GameService
         const url = `${this.baseUrl}?sub=${sub}&items_per_page=${itemsPerPage}&page_number=${pageNumber}`;
         return this.http.get<PaginatedGames>(url);
     }
+
+    getGameById(gameId: string, sub: string | undefined): Observable<Game>
+    {
+        const url = `/api/get_game_by_id?sub=${sub}&game_id=${gameId}`;
+        return this.http.get<Game>(url);
+    }
 }
+
+

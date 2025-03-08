@@ -10,22 +10,7 @@ import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { GameService } from 'src/services/game-service.service';
-
-interface Game {
-  id     : string;
-  owner  : string;
-  players: string[];
-  result : string;
-  date   : string;
-}
-
-interface PaginatedGames {
-  games         : Game[];
-  total_pages   : number;
-  items_per_page: number;
-  current_page  : number;
-}
+import { GameService, PaginatedGames } from 'src/services/game-service.service';
 
 
 @Component({

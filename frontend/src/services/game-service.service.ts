@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface Game
+export interface Game
 {
     id     : string;
     owner  : string;
@@ -11,7 +11,7 @@ interface Game
     date   : string;
 }
 
-interface PaginatedGames
+export interface PaginatedGames
 {
     games         : Game[];
     total_pages   : number;

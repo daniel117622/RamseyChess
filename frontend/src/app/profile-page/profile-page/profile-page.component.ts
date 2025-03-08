@@ -164,4 +164,26 @@ export class ProfilePageComponent implements OnInit {
       });
   }
 
+getGameResult(pgn: string): string
+{
+    const resultMatch = pgn.match(/\[Result "([^"]+)"\]/);
+    if (resultMatch)
+    {
+        const result = resultMatch[1];
+        if (result === "1-0")
+        {
+            return "Win";
+        }
+        else if (result === "0-1")
+        {
+            return "Lose";
+        }
+        else if (result === "1/2-1/2")
+        {
+            return "Draw";
+        }
+    }
+    return "Draw";
+}
+  
 }

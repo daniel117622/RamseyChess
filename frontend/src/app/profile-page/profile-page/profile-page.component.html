@@ -109,78 +109,80 @@
     </div>
 
             
-    <!-- MY GAMES SECTION -->
-    <div class="container mt-4">
-        <div class="mb-4 row strategy-repo-title justify-content-sm-between">
-            <!-- Game History Label -->
-            <div class="col-12 col-sm-auto">
-                <h2 class="text-white">
-                    Game History
-                </h2>
-            </div>
-            <!-- Search Bar -->
-            <div class="col-12 col-sm-auto mt-2 mt-sm-0">
-                <div class="search-bar-container">
-                    <div class="custom-search-bar">
-                        <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
-                        <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
-                            <span class="custom-icon">🔍</span>
-                        </button>
-                    </div>
+<!-- MY GAMES SECTION -->
+<div class="container mt-4">
+    <div class="mb-4 row strategy-repo-title justify-content-sm-between">
+        <!-- Game History Label -->
+        <div class="col-12 col-sm-auto">
+            <h2 class="text-white">
+                Game History
+            </h2>
+        </div>
+        <!-- Search Bar -->
+        <div class="col-12 col-sm-auto mt-2 mt-sm-0">
+            <div class="search-bar-container">
+                <div class="custom-search-bar">
+                    <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
+                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
+                        <span class="custom-icon">🔍</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <!-- END OF SEARCH BAR SECTION -->
-
-        <!-- START OF CARDS DISPLAY -->
-        <div class="row">
-            <!-- START OF A SINGLE CARD -->
-            <div *ngFor="let game of last_games" class="col-lg-4 col-md-6 mb-3">
-                <div class="strategy-card p-3 text-center h-100"
-                    [ngClass]="{
-                        'win': game.result === 'Win',
-                        'loss': game.result === 'Loss',
-                        'draw': game.result === 'Draw'
-                    }">
-                    <h5 class="mb-2">{{ game.player }} vs {{ game.opponent }}</h5>
-                    <p><strong>Date:</strong> {{ game.date | date:'mediumDate' }}</p>
-                    <p><strong>Result:</strong> {{ game.result }}</p>
-                    <!-- Elo Change with ngClass for color change -->
-                    <p [ngClass]="{
-                        'text-success': game.eloChange > 0, 
-                        'text-danger': game.eloChange < 0,
-                        'text-muted': game.eloChange === 0
-                    }">
-                        <strong>Elo Change:</strong> {{ game.eloChange > 0 ? '+' : '' }}{{ game.eloChange }}
-                    </p>
-                    
-                    <!-- Action Buttons -->
-                    <div class="d-flex justify-content-center gap-2 mt-3">
-                        <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame('')">Review</button>
-                        <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame('')">Share</button>
-                    </div>
-                </div>
-            </div>
-            <!-- END OF A SINGLE CARD -->
-        </div>
-        <!-- END OF CARDS DISPLAY -->
-
-        <!-- START OF PAGINATION SECTION -->
-        <div class="pagination-controls d-flex justify-content-center mt-4">
-            <button 
-                class="btn btn-primary" 
-                (click)="goToGamePage(currentGamePageNumber - 1)">
-                Previous
-            </button>
-            <button 
-                class="btn btn-primary" 
-                (click)="goToGamePage(currentGamePageNumber + 1)">
-                Next
-            </button>
-        </div>
-        <!-- END OF PAGINATION SECTION -->
     </div>
-    <!-- END OF GAMES SECTION -->
+    <!-- END OF SEARCH BAR SECTION -->
+
+    <!-- START OF CARDS DISPLAY -->
+    <div class="row">
+        <!-- START OF A SINGLE CARD -->
+        <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
+            <div class="strategy-card p-3 text-center h-100"
+                [ngClass]="{
+                    'win' : getGameResult(game.pgn) === 'Win',
+                    'loss': getGameResult(game.pgn) === 'Loss',
+                    'draw': getGameResult(game.pgn) === 'Draw'
+                }">
+                <!-- Raw Game Data Display -->
+                <h5 class="mb-2">
+                    White Strategy ID: {{ game.strategy_id_white }} vs Black Strategy ID: {{ game.strategy_id_black }}
+                </h5>
+                <p><strong>Game ID:</strong> {{ game.id.$oid }}</p>
+                <p><strong>Game Date:</strong> {{ game.game_date }}</p>
+                <p><strong>PGN:</strong> {{ game.pgn }}</p>
+                <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
+                <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
+                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
+                <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
+                
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game.id.$oid)">Review</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.id.$oid)">Share</button>
+                </div>
+            </div>
+        </div>
+        <!-- END OF A SINGLE CARD -->
+    </div>
+    <!-- END OF CARDS DISPLAY -->
+
+    <!-- START OF PAGINATION SECTION -->
+    <div class="pagination-controls d-flex justify-content-center mt-4">
+        <button 
+            class="btn btn-primary" 
+            [disabled]="currentGamePageNumber === 0" 
+            (click)="goToGamePage(currentGamePageNumber - 1)">
+            Previous
+        </button>
+        <button 
+            class="btn btn-primary" 
+            [disabled]="currentGamePageNumber === totalGamePages - 1" 
+            (click)="goToGamePage(currentGamePageNumber + 1)">
+            Next
+        </button>
+    </div>
+    <!-- END OF PAGINATION SECTION -->
+</div>
+<!-- END OF GAMES SECTION -->
 
 
 

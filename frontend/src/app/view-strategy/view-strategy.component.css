@@ -45,3 +45,20 @@ ul li
 {
     padding: 4px 0;
 }
+
+.table
+{
+    background-color: #2c3e50;
+}
+
+.table td
+{
+    color: #bdc3c7;
+}
+
+.table input:disabled
+{
+    background-color: #34495e;
+    border-color: #a77a01;
+    color: #bdc3c7;
+}

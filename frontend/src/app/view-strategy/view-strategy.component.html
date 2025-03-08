@@ -1,3 +1,43 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
-    <p>Content here</p>
+    <p>Strategy View</p>
+
+    <div *ngIf="strategy">
+        <h2>{{ strategy.name }}</h2>
+        <p><strong>Owner:</strong> {{ strategy.owner }}</p>
+        <p><strong>ELO:</strong> {{ strategy.elo }}</p>
+        <p><strong>Wins:</strong> {{ strategy.wins }}</p>
+        <p><strong>Losses:</strong> {{ strategy.losses }}</p>
+
+        <div *ngFor="let strat of strategy.strategy_list">
+            <h3>{{ strat.name }} ({{ strat.type }})</h3>
+            <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
+
+            <div class="pieces">
+                <div class="piece">
+                    <strong>White Pieces:</strong>
+                    <ul>
+                        <li>Bishop: {{ strat.whitePieces.bishop }}</li>
+                        <li>King: {{ strat.whitePieces.king }}</li>
+                        <li>Knight: {{ strat.whitePieces.knight }}</li>
+                        <li>Pawn: {{ strat.whitePieces.pawn }}</li>
+                        <li>Queen: {{ strat.whitePieces.queen }}</li>
+                        <li>Rook: {{ strat.whitePieces.rook }}</li>
+                    </ul>
+                </div>
+
+                <div class="piece">
+                    <strong>Black Pieces:</strong>
+                    <ul>
+                        <li>Bishop: {{ strat.blackPieces.bishop }}</li>
+                        <li>King: {{ strat.blackPieces.king }}</li>
+                        <li>Knight: {{ strat.blackPieces.knight }}</li>
+                        <li>Pawn: {{ strat.blackPieces.pawn }}</li>
+                        <li>Queen: {{ strat.blackPieces.queen }}</li>
+                        <li>Rook: {{ strat.blackPieces.rook }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

@@ -1,0 +1,47 @@
+.custom-input:focus
+{
+    outline: none;
+    border-color: #a77a01;
+}
+
+.custom-input:hover
+{
+    background-color: #34495e;
+}
+
+.custom-icon-button
+{
+    color: #bdc3c7;
+    background-color: #2c3e50;
+    border-radius: 2px;
+    padding: 8px;
+    border: none;
+}
+
+.custom-icon-button:hover
+{
+    background-color: #a77a01;
+}
+
+.pieces
+{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.piece
+{
+    width: 45%;
+}
+
+ul
+{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul li
+{
+    padding: 4px 0;
+}

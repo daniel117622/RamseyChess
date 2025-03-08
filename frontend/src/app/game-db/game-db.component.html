@@ -1,12 +1,12 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
     <!-- Display loading message while game data is being fetched -->
     <div *ngIf="!game">
-      <p>Loading game details...</p>
+      <p class="loading-message">Loading game details...</p>
     </div>
   
     <!-- Display game details once the data is fetched -->
     <div *ngIf="game">
-      <h2>Game Details</h2>
+      <h2 class="game-title">Game Details</h2>
   
       <!-- Responsive table -->
       <div class="table-responsive">
@@ -14,7 +14,7 @@
           <tbody>
             <tr>
               <th>Game ID</th>
-              <td>{{ game.id.$oid }}</td>
+              <td>{{ game._id.$oid }}</td>
             </tr>
             <tr>
               <th>Game Date</th>
@@ -41,4 +41,3 @@
       </div>
     </div>
 </div>
-  

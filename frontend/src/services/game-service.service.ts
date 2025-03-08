@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface Game
 {
-    id                : { $oid: string }; 
+    _id                : { $oid: string }; 
     game_date         : string;  
     owner             : string;  
     pgn               : string;  

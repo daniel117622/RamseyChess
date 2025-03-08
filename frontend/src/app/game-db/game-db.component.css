@@ -1,0 +1,59 @@
+.loading-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #bdc3c7;
+}
+
+.game-title {
+    font-size: 2rem;
+    color: #ecf0f1;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table {
+    background-color: #34495e;
+    border: 1px solid #2c3e50;
+    width: 100%;
+    margin-bottom: 20px;
+    color: #ecf0f1;
+}
+
+.table th,
+.table td {
+    color: #000;
+    background: #e19f21;
+    border: solid 3px #e19f21;
+}
+
+.table th {
+    font-weight: bold;
+}
+
+.table pre {
+    color: #ecf0f1;
+    background-color: #00366d;
+    padding: 10px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.table-bordered {
+    border-collapse: collapse;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #2c3e50;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #2c3e50;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #34495e;
+}

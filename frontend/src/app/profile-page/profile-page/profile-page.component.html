@@ -146,7 +146,7 @@
                 <h5 class="mb-2">
                     White Strategy ID: {{ game.strategy_id_white }} vs Black Strategy ID: {{ game.strategy_id_black }}
                 </h5>
-                <p><strong>Game ID:</strong> {{ game.id.$oid }}</p>
+                <<p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
                 <p><strong>Game Date:</strong> {{ game.game_date }}</p>
                 <p><strong>PGN:</strong> {{ game.pgn }}</p>
                 <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
@@ -156,8 +156,8 @@
                 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game.id.$oid)">Review</button>
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.id.$oid)">Share</button>
+                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game._id.$oid)">Share</button>
                 </div>
             </div>
         </div>

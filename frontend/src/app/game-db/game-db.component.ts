@@ -28,12 +28,12 @@ export class GameDbComponent implements OnInit
     // Retrieve the 'game-id' parameter from the route
     this.gameId = this.route.snapshot.paramMap.get('game-id');
     
-    // Fetch game details using the user.sub and gameId
+
     if (this.gameId)
     {
       this.auth.user$.pipe(
         filter((user): user is { sub: string } => user != null),  
-        switchMap(user => this.loadGameDetails(this.gameId || '', user.sub))  // Use user.sub to get the game details
+        switchMap(user => this.loadGameDetails(this.gameId || '', user.sub))  
       ).subscribe(
         (data: Game) => 
         {
@@ -52,4 +52,5 @@ export class GameDbComponent implements OnInit
   {
     return this.gameService.getGameById(gameId, sub);
   }
+  
 }

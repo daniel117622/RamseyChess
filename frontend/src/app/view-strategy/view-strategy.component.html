@@ -1,14 +1,19 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
     
-    <button class="btn btn-primary mb-4" routerLink="/profile">
-        Back to Profile
+    <button class="btn btn-primary mb-4" style="border-radius: 1px;" routerLink="/profile">
+        <p>
+            Back to Profile
+        </p>
     </button>
 
     <p>Strategy View</p>
 
     <div *ngIf="strategy">
         <h2>{{ strategy.name }}</h2>
-        
+
+        <!-- Horizontal Rule -->
+        <hr>
+
         <table class="table table-bordered" style="background-color: #34495e; color: #bdc3c7;">
             <tbody>
                 <tr>
@@ -30,10 +35,15 @@
             </tbody>
         </table>
 
+        <!-- Horizontal Rule -->
+        <hr>
 
         <div *ngFor="let strat of strategy.strategy_list">
             <h3>{{ strat.name }} ({{ strat.type }})</h3>
             <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
+
+            <!-- Horizontal Rule -->
+            <hr>
 
             <div class="pieces">
                 <div class="piece">
@@ -70,7 +80,7 @@
 
                 <div class="piece">
                     <strong>Black Pieces:</strong>
-                    <table class="table table-bordered" style="background-color: #34495e; color: #bdc3c7;">
+                    <table class="table table-bordered">
                         <tbody>
                             <tr>
                                 <td>Bishop:</td>

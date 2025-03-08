@@ -56,12 +56,22 @@ ul li
 
 .table td
 {
-    color: #bdc3c7;
+    color: #000000;
 }
 
 .table input:disabled
 {
-    background-color: #34495e;
+    background-color: #4c94dd;
     border-color: #3498db;
     color: #bdc3c7;
+}
+
+.table input
+{
+    border-radius: 1px;
+    color:aliceblue;
+}
+button
+{
+    border-radius: 2px;
 }

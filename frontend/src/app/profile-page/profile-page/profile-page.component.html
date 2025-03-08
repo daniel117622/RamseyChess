@@ -42,16 +42,22 @@
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
         <!-- Section Title with Bar -->
-        <div class="mb-4 d-flex justify-content-between align-items-center strategy-repo-title">
-            <h2 class="text-white ">
-                My Strategy Repository
-            </h2>
-            <div class="search-bar-container">
-                <div class="custom-search-bar">
-                    <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQueryStrategy)">
-                        <span class="custom-icon">🔍</span>
-                    </button>
+        <div class="mb-4 row strategy-repo-title">
+            <!-- Section Title -->
+            <div class="col-12 col-sm-auto">
+                <h2 class="text-white">
+                    My Strategy Repository
+                </h2>
+            </div>
+            <!-- Search Bar -->
+            <div class="col-12 col-sm-auto mt-2 mt-sm-0">
+                <div class="search-bar-container">
+                    <div class="custom-search-bar">
+                        <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="Search" class="custom-input">
+                        <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQueryStrategy)">
+                            <span class="custom-icon">🔍</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,16 +111,22 @@
             
     <!-- MY GAMES SECTION -->
     <div class="container mt-4">
-        <div class="mb-4 d-flex justify-content-between align-items-center strategy-repo-title">
-            <h2 class="text-white ">
-                Game History
-            </h2>
-            <div class="search-bar-container">
-                <div class="custom-search-bar">
-                    <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
-                        <span class="custom-icon">🔍</span>
-                    </button>
+        <div class="mb-4 row strategy-repo-title">
+            <!-- Game History Label -->
+            <div class="col-12 col-sm-auto">
+                <h2 class="text-white">
+                    Game History
+                </h2>
+            </div>
+            <!-- Search Bar -->
+            <div class="col-12 col-sm-auto mt-2 mt-sm-0">
+                <div class="search-bar-container">
+                    <div class="custom-search-bar">
+                        <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
+                        <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
+                            <span class="custom-icon">🔍</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

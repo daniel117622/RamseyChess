@@ -57,21 +57,20 @@ ul li
 .table td
 {
     color: #000000;
+    background: #e19f21;
+    border: solid 3px #e19f21;
 }
 
-.table input:disabled
-{
-    background-color: #4c94dd;
-    border-color: #3498db;
-    color: #bdc3c7;
-}
+
 
 .table input
 {
     border-radius: 1px;
     color:aliceblue;
+    background-color: #00366d;
 }
 button
 {
     border-radius: 2px;
 }
+

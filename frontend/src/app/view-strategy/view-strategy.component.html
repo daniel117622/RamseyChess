@@ -8,10 +8,28 @@
 
     <div *ngIf="strategy">
         <h2>{{ strategy.name }}</h2>
-        <p><strong>Owner:</strong> {{ strategy.owner }}</p>
-        <p><strong>ELO:</strong> {{ strategy.elo }}</p>
-        <p><strong>Wins:</strong> {{ strategy.wins }}</p>
-        <p><strong>Losses:</strong> {{ strategy.losses }}</p>
+        
+        <table class="table table-bordered" style="background-color: #34495e; color: #bdc3c7;">
+            <tbody>
+                <tr>
+                    <td><strong>Owner:</strong></td>
+                    <td>{{ strategy.owner }}</td>
+                </tr>
+                <tr>
+                    <td><strong>ELO:</strong></td>
+                    <td>{{ strategy.elo }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Wins:</strong></td>
+                    <td>{{ strategy.wins }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Losses:</strong></td>
+                    <td>{{ strategy.losses }}</td>
+                </tr>
+            </tbody>
+        </table>
+
 
         <div *ngFor="let strat of strategy.strategy_list">
             <h3>{{ strat.name }} ({{ strat.type }})</h3>

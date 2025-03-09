@@ -132,8 +132,6 @@
     </div>
     <!-- END OF SEARCH BAR SECTION -->
 
-    <!-- START OF CARDS DISPLAY -->
-    <div class="row">
         <!-- START OF A SINGLE CARD -->
         <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
             <div class="strategy-card p-3 text-center h-100"
@@ -144,14 +142,24 @@
                 }">
                 <!-- Raw Game Data Display -->
                 <h5 class="mb-2">
-                    White Strategy ID: {{ game.strategy_id_white }} vs Black Strategy ID: {{ game.strategy_id_black }}
+                    White Strategy ID: {{ game.strategy_id_white }} | Black Strategy ID: {{ game.strategy_id_black }}
                 </h5>
-                <<p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
+                <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
                 <p><strong>Game Date:</strong> {{ game.game_date }}</p>
-                <p><strong>PGN:</strong> {{ game.pgn }}</p>
                 <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
-                <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
-                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
+
+                <!-- Display Strategies in Different Rows -->
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <p><strong>White Strategy:</strong> {{ game.strategy_id_white }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Black Strategy:</strong> {{ game.strategy_id_black }}</p>
+                    </div>
+                </div>
+                
                 <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
                 
                 <!-- Action Buttons -->

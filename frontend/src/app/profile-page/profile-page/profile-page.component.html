@@ -144,10 +144,10 @@
                 }">
                 <!-- Raw Game Data Display -->
                 <h5 class="mb-2">
-                    White Strategy ID: {{ game.strategy_id_white }}
+                    White Strategy ID: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_white }}</span>
                 </h5>
                 <h5 class="mb-2">
-                    Black Strategy ID: {{ game.strategy_id_black }}
+                    Black Strategy ID: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_black }}</span>
                 </h5>
                 <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
                 <p><strong>Game Date:</strong> {{ game.game_date }}</p>

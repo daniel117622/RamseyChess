@@ -132,44 +132,44 @@
     </div>
     <!-- END OF SEARCH BAR SECTION -->
 
-    <!-- START OF A SINGLE CARD -->
-    <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
-        <div class="strategy-card p-3 text-center h-100"
-            [ngClass]="{
-                'win' : getGameResult(game.pgn) === 'Win',
-                'loss': getGameResult(game.pgn) === 'Loss',
-                'draw': getGameResult(game.pgn) === 'Draw'
-            }">
-            <!-- Raw Game Data Display -->
-            <h5 class="mb-2">
-                White Strategy ID: {{ game.strategy_id_white }} | Black Strategy ID: {{ game.strategy_id_black }}
-            </h5>
-            <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
-            <p><strong>Game Date:</strong> {{ game.game_date }}</p>
-            <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
+        <!-- START OF CARDS CONTAINER -->
+        <div class="row d-flex flex-wrap">
+            <div *ngFor="let game of paginatedGames?.games" class="strategy-card p-3 text-center col-lg-3 col-md-6 mb-3 d-flex flex-column"
+                [ngClass]="{
+                    'win' : getGameResult(game.pgn) === 'Win',
+                    'loss': getGameResult(game.pgn) === 'Loss',
+                    'draw': getGameResult(game.pgn) === 'Draw'
+                }"
+                style="border-radius: 3px;">
+                <h5 class="mb-2">
+                    White Strategy ID: {{ game.strategy_id_white }} | Black Strategy ID: {{ game.strategy_id_black }}
+                </h5>
+                <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
+                <p><strong>Game Date:</strong> {{ game.game_date }}</p>
+                <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
 
-            <!-- Display Strategies in Different Rows -->
-            <div class="row mb-2">
-                <div class="col-12">
-                    <p><strong>White Strategy:</strong> {{ game.strategy_id_white }}</p>
+                <!-- Display Strategies in Different Rows -->
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <p><strong>White Strategy:</strong> {{ game.strategy_id_white }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p><strong>Black Strategy:</strong> {{ game.strategy_id_black }}</p>
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Black Strategy:</strong> {{ game.strategy_id_black }}</p>
+                    </div>
                 </div>
-            </div>
-            
-            <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
-            
-            <!-- Action Buttons -->
-            <div class="d-flex justify-content-center gap-2 mt-3">
-                <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
-                <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game._id.$oid)">Share</button>
+
+                <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-center gap-2 mt-auto">
+                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game._id.$oid)">Share</button>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- END OF A SINGLE CARD -->
+        <!-- END OF CARDS CONTAINER -->
     </div>
     <!-- END OF CARDS DISPLAY -->
 

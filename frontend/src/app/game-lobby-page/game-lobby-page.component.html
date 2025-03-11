@@ -4,25 +4,30 @@
 <div *ngIf="!lobbyId" class="mb-3">
   <label for="roomCode" class="form-label">Enter Lobby Code:</label>
   <div class="row" style="max-width: 992px;">
-    <div class="col-12 d-flex align-items-center">
-      <input
-        style="border-radius: 1px;"
-        type="text"
-        id="roomCode"
-        [(ngModel)]="inputLobbyId"
-        placeholder="Enter lobby ID"
-        class="form-control me-2"
-      />
-      <button
-        class="btn btn-primary custom-button px-3 py-2"
-        style="border-radius: 1px;"
-        (click)="handleJoinLobby()"
-      >
-        Join Lobby
-      </button>
+    <div class="col-12 d-lg-flex flex-column flex-lg-row align-items-lg-center">
+      <div class="col">
+        <input
+          style="border-radius: 1px;"
+          type="text"
+          id="roomCode"
+          [(ngModel)]="inputLobbyId"
+          placeholder="Enter lobby ID"
+          class="form-control me-lg-2 mb-2 mb-lg-0"
+        />
+      </div>
+      <div class="col-12 col-lg-auto">
+        <button
+          class="btn btn-primary custom-button px-3 py-2 w-100 w-lg-auto"
+          style="border-radius: 1px;"
+          (click)="handleJoinLobby()"
+        >
+          Join Lobby
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- Button to create a new lobby -->
 <div *ngIf="!lobbyId" class="mb-3">

@@ -4,10 +4,10 @@
 <div *ngIf="!lobbyId" class="mb-3">
   <label for="roomCode" class="form-label">Enter Lobby Code:</label>
   <div class="row" style="max-width: 992px;">
-    <div class="col-12 d-lg-flex flex-column flex-lg-row align-items-lg-center">
+    <div class="col-12 d-lg-flex flex-column flex-lg-row align-items-lg-center mx-lg-4">
       <div class="col-lg-9 col-12">
         <input
-          style="border-radius: 1px;"
+          style="border-radius: 1px; height: 40px;"
           type="text"
           id="roomCode"
           [(ngModel)]="inputLobbyId"
@@ -18,7 +18,7 @@
       <div class="col-lg-3 col-12">
         <button
           class="btn btn-primary custom-button px-3 py-2 w-100"
-          style="border-radius: 1px;"
+          style="border-radius: 1px; height: 40px;"
           (click)="handleJoinLobby()"
         >
           Join Lobby
@@ -27,6 +27,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!-- Button to create a new lobby -->

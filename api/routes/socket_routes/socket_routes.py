@@ -180,7 +180,9 @@ def register_socketio_events(socketio):
                     game_obj.headers["Result"] = "1-0" if winner_color == "white" else "0-1"
                     game_obj.headers["Date"]   = game_date
                     game_obj.headers["Event"]  = "RAMSEYCHESS.NET PVP GAME BETA"
-
+                    game_obj.headers["White"]  = white_strategy
+                    game_obj.headers["Black"]  = black_strategy
+                    game_obj.headers["Site"]   = "HTTPS://RAMSEYCHESS.NET"
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
 
                     # Generate checksum
@@ -242,7 +244,9 @@ def register_socketio_events(socketio):
                     game_obj.headers["Result"] = "1/2-1/2"
                     game_obj.headers["Date"]   = game_date
                     game_obj.headers["Event"]  = "RAMSEYCHESS.NET PVP GAME BETA"
-
+                    game_obj.headers["White"]  = white_strategy
+                    game_obj.headers["Black"]  = black_strategy
+                    game_obj.headers["Site"]   = "HTTPS://RAMSEYCHESS.NET"
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
                     
 

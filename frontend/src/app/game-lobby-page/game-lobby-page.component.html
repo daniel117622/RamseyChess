@@ -100,6 +100,7 @@
     <button
       class="btn btn-primary custom-button px-3 py-2"
       [disabled]="!areBothPlayersReady() || all_buttons_frozen"
+      [ngClass]="{'execute-button-ready': areBothPlayersReady() && !all_buttons_frozen}"
       (click)="startGame()"
     >
       Execute Game

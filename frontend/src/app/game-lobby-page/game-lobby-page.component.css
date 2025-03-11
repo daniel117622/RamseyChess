@@ -140,3 +140,10 @@ h2 {
 {
     color: gray;
 }
+
+.execute-button-ready {
+  background-color: #f6e715;
+  border-color    : #f6e715;
+  color           : black;
+  font-weight     : bold;
+}

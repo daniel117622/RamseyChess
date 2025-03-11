@@ -39,37 +39,40 @@ def get_games_by_id():
 @game_db_routes.route('/get_games_by_owner_paged', methods=['GET'])
 @post_exception_handler
 def get_games_by_owner_paged():
-    data = request.args
-    user_id = data.get("sub")
-
+    user_id = request.args.get("sub")
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400
-
-    items_per_page = int(data.get("items_per_page", 10))
-    page_number = int(data.get("page_number", 0))
-
+    
     ai_manager = AiPremadeManager()
     all_user_strategies = ai_manager.getByOwner(user_id)
 
-    strategy_list = [str(strategy["_id"]) for strategy in all_user_strategies]
-
+    strategy_list = [strategy["_id"]["$oid"] for strategy in all_user_strategies]
+    
+    # Load games based on the strategy list
     game_manager = ChessGameManager()
-    games = game_manager.loadByStrategyList(strategy_list)
+    game_manager.loadByStrategyList(strategy_list)
+    games = game_manager.getCurrent()
 
-    total_items = len(games) if games else 0
-
-    if total_items == 0:
+    if not games:
         return jsonify({"error": "No games found for this user"}), 404
 
+    items_per_page = int(request.args.get("items_per_page", 10))
+    page_number    = int(request.args.get("page_number", 0))
+
+    total_items = len(games)
     total_pages = math.ceil(total_items / items_per_page)
 
+    # Check if requested page exists
     if page_number < 0 or page_number >= total_pages:
         return jsonify({"error": "Requested page does not exist"}), 400
 
-    start_idx   = page_number * items_per_page
-    end_idx     = start_idx + items_per_page
+    start_idx = page_number * items_per_page
+    end_idx   = start_idx + items_per_page
+
+    # Trim the array to match the requested page
     paged_games = games[start_idx:end_idx]
 
+    # Prepare the response data
     response = {
         "total_items": total_items,
         "total_pages": total_pages,

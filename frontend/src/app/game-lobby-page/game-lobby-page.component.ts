@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener , ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router , NavigationEnd} from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { LobbyService } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
@@ -93,6 +93,16 @@ export class GameLobbyPageComponent implements OnInit
   }
   ngOnInit (): void 
   {
+    // An event which resets state properly.
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe((event: NavigationEnd) => 
+    {
+      if (event.url === '/game-lobby') 
+      {
+        this.resetState()
+      }
+    });
 
     this.auth.user$.subscribe(user => 
       {
@@ -231,6 +241,14 @@ export class GameLobbyPageComponent implements OnInit
     console.log('Lobby reset');
   }
 
+  resetState(): void
+  {
+    this.lobbyId = null;
+    this.playersSubject.next([]);
+    this.isPlayerInLobby = false;
+    this.gameFinishedPgn = null;
+    this.has_posted_game = false;
+  }
 
   handleJoinLobby(): void
   {

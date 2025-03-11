@@ -176,7 +176,7 @@ getGameResult(pgn: string): string
         }
         else if (result === "0-1")
         {
-            return "Lose";
+            return "Loss";
         }
         else if (result === "1/2-1/2")
         {

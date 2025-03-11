@@ -43,6 +43,8 @@ export class GameLobbyPageComponent implements OnInit
   my_saved_strategies : StrategyCardListProfileView[] = []
   selected_strategy: StrategyCardListProfileView | null = null;
 
+  has_posted_game = false;
+
   playerReadyState = false;
   bothPlayersReadyState : { name: string, ready: boolean }[] = []
   all_buttons_frozen: boolean = false;
@@ -163,7 +165,7 @@ export class GameLobbyPageComponent implements OnInit
                   const totalTurns = data.result.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
                   console.log(`Total number of turns: ${totalTurns}`);
                   this.gameFinishedPgn = data.result.game_pgn
-                  
+                  if (this.has_posted_game) { console.log("Already recorded the game. "); return; }
                   const postData = {
                     white_strategy_id: whiteStrategyId,
                     black_strategy_id: blackStrategyId,
@@ -174,6 +176,7 @@ export class GameLobbyPageComponent implements OnInit
                   this.http.post('/api/post_pvp_game', postData)
                   .subscribe(response => {
                     console.log("Game successfully recorded:", response);
+                    this.has_posted_game = true;
                   }, error => {
                     console.error("Error recording game:", error);
                   });
@@ -239,6 +242,7 @@ export class GameLobbyPageComponent implements OnInit
     this.playersSubject.next([]);
     this.isPlayerInLobby = false;
     this.gameFinishedPgn = null;
+    this.has_posted_game = false;
     console.log('Lobby reset');
   }
 

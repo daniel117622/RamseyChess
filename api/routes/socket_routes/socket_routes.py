@@ -176,7 +176,11 @@ def register_socketio_events(socketio):
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
+                        
                     game_obj.headers["Result"] = "1-0" if winner_color == "white" else "0-1"
+                    game_obj.headers["Date"]   = game_date
+                    game_obj.headers["Event"]  = "RAMSEYCHESS.NET PVP GAME BETA"
+
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
 
                     # Generate checksum
@@ -232,11 +236,13 @@ def register_socketio_events(socketio):
                     # Generate PGN (Portable Game Notation)
                     game_obj = chess.pgn.Game()
                     
-
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
                     game_obj.headers["Result"] = "1/2-1/2"
+                    game_obj.headers["Date"]   = game_date
+                    game_obj.headers["Event"]  = "RAMSEYCHESS.NET PVP GAME BETA"
+
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
                     
 

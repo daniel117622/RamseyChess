@@ -176,7 +176,7 @@ def register_socketio_events(socketio):
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
-                    game_pgn.headers["Result"] = "1-0" if winner_color == "white" else "0-1"
+                    game_obj.headers["Result"] = "1-0" if winner_color == "white" else "0-1"
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
 
                     # Generate checksum
@@ -236,8 +236,9 @@ def register_socketio_events(socketio):
                     node = game_obj
                     for move in board.move_stack:
                         node = node.add_variation(move)
+                    game_obj.headers["Result"] = "1/2-1/2"
                     game_pgn = game_obj.accept(chess.pgn.StringExporter())
-                    game_pgn.headers["Result"] = "1/2-1/2"
+                    
 
                     # Generate checksum using your checksum function
                     checksum = generate_checksum(winner_strategy_id, loser_strategy_id, game_pgn, game_date, current_fen)

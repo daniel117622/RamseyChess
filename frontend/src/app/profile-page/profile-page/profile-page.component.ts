@@ -205,22 +205,41 @@ timeSinceGame(gameDate: string): string
     const hours          = Math.floor(minutes / 60);
     const days           = Math.floor(hours / 24);
 
+    let timeString = '';
+
     if (days > 0)
     {
-        return `${days} day(s) ago`;
+        timeString += `${days} day(s) `;
+        const remainingHours = hours % 24;
+        if (remainingHours > 0)
+        {
+            timeString += `${remainingHours} hour(s)`;
+        }
     }
     else if (hours > 0)
     {
-        return `${hours} hour(s) ago`;
+        timeString += `${hours} hour(s) `;
+        const remainingMinutes = minutes % 60;
+        if (remainingMinutes > 0)
+        {
+            timeString += `${remainingMinutes} minute(s)`;
+        }
     }
     else if (minutes > 0)
     {
-        return `${minutes} minute(s) ago`;
+        timeString += `${minutes} minute(s) `;
+        const remainingSeconds = seconds % 60;
+        if (remainingSeconds > 0)
+        {
+            timeString += `${remainingSeconds} second(s)`;
+        }
     }
     else
     {
-        return `${seconds} second(s) ago`;
+        timeString += `${seconds} second(s)`;
     }
+
+    return timeString.trim();
 }
 
 

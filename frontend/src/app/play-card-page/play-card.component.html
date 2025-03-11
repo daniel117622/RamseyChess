@@ -4,7 +4,7 @@
     <div class="col-12 col-xxl-6 d-flex justify-content-center">
       <div>
         <p>Card Id : {{ this.cardId }}</p>
-        <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" 
+        <ngx-chess-board #chessBoard (moveChange)="onMoveChange()"  style="border:solid 5px black"
           [size]="boardSize" 
           [darkDisabled]="true" 
           [darkTileColor]="'#779557'"

@@ -95,14 +95,15 @@ export class GameLobbyPageComponent implements OnInit
   {
     // An event which resets state properly.
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe((event: NavigationEnd) => 
-    {
-      if (event.url === '/game-lobby') 
-      {
-        this.resetState()
+    .pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    )
+    .subscribe((event: NavigationEnd) => {
+      if (event.url === '/game-lobby') {
+        this.resetState();
       }
     });
+  
 
     this.auth.user$.subscribe(user => 
       {

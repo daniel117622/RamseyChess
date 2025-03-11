@@ -31,7 +31,6 @@ export class GameService
 
     getGames(sub: string | undefined, itemsPerPage: number, pageNumber: number): Observable<PaginatedGames>
     {
-
         const url = `${this.baseUrl}?sub=${sub}&items_per_page=${itemsPerPage}&page_number=${pageNumber}`;
         return this.http.get<PaginatedGames>(url);
     }

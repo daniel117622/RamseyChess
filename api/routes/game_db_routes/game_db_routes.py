@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from data_access.game_db_manager import ChessGameDoc , ChessGameManager
+from data_access.strategy_cards_manager import AiPremadeManager
 from bson.objectid import ObjectId
 from typing import Any
 
@@ -41,6 +42,7 @@ def get_games_by_owner_paged():
     data    = request.args
     user_id = data.get("sub")
 
+
     if not user_id:
         raise Exception("User ID is required")
 
@@ -79,12 +81,18 @@ def get_games_by_owner_paged():
 @post_exception_handler
 def get_games_by_owner():
     user_id = request.args.get("sub")
-
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400
+    
+    ai_manager = AiPremadeManager()
+    all_user_strategies = ai_manager.getByOwner(user_id)
+
+    strategy_list = [strategy["_id"]["$oid"] for strategy in all_user_strategies]
+    
 
     game_manager = ChessGameManager()
-    games = game_manager.loadByOwner(user_id)
+    game_manager.loadByStrategyList(strategy_list)
+    games = game_manager.getCurrent()
 
     if not games:
         return jsonify({"error": "No games found for this user"}), 404

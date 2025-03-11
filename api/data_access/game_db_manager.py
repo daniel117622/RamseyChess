@@ -47,3 +47,13 @@ class ChessGameManager:
         
         result = self.docs.insert_one(chess_game_dict)
         return result
+
+    def loadByStrategyList(self, strategy_list: List[str]):
+        filter = {
+            "$or": [
+                {"strategy_id_white": {"$in": strategy_list}},
+                {"strategy_id_black": {"$in": strategy_list}}
+            ]
+        }
+        self.current_doc = list(self.docs.find(filter))
+        return self.current_doc

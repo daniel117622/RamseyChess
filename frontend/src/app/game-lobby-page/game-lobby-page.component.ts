@@ -165,21 +165,6 @@ export class GameLobbyPageComponent implements OnInit
                   const totalTurns = data.result.game_pgn.split(/\d+\./).length - 1; // Count turns from PGN
                   console.log(`Total number of turns: ${totalTurns}`);
                   this.gameFinishedPgn = data.result.game_pgn
-                  if (this.has_posted_game) { console.log("Already recorded the game. "); return; }
-                  const postData = {
-                    white_strategy_id: whiteStrategyId,
-                    black_strategy_id: blackStrategyId,
-                    game_date        : new Date().toISOString(),
-                    pgn              : this.gameFinishedPgn,
-                    owner            : this.user_id,
-                  };
-                  this.http.post('/api/post_pvp_game', postData)
-                  .subscribe(response => {
-                    console.log("Game successfully recorded:", response);
-                    this.has_posted_game = true;
-                  }, error => {
-                    console.error("Error recording game:", error);
-                  });
               }
           }
       });

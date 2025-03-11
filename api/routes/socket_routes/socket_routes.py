@@ -14,6 +14,7 @@ from evaluators.material_evaluator import MaterialEvaluator
 from minimax import Minimax
 from utils.socket_exception import exception_handler
 
+
 socketio_routes = Blueprint('socketio_blueprint', __name__)
 
 pvp_lobbies = {}
@@ -205,6 +206,18 @@ def register_socketio_events(socketio):
                     logger.log(f"🏆 Checkmate! Winner Strategy ID: {winner_strategy_id}, Color: {winner_color}, Date: {game_date}")
                     logger.log(f"📜 Game PGN:\n{game_pgn}")
                     logger.log(f"🔐 Checksum: {checksum}")
+                    try:
+                        game_payload = {
+                            "white_strategy_id": white_strategy if winner_color == "white" else black_strategy,
+                            "black_strategy_id": black_strategy if winner_color == "white" else white_strategy,
+                            "game_date"        : game_date,
+                            "pgn"              : game_pgn,
+                            "owner"            : "system"  
+                        }
+                        response = requests.post("http://localhost:5000/post_pvp_game", json=game_payload)
+                    except Exception as e:
+                        logger.log(f"❌ Exception during local request: {e}")
+
                     break  # Exit the game loop
                 elif board.is_stalemate() or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fifty_moves():
                     # Inline draw logic:
@@ -269,6 +282,8 @@ def register_socketio_events(socketio):
                 logger.log(f"❌ Error calling Minimax API: {e}")
                 break
         
+        
+
         # End the game.
         socketio.sleep(0.25)
         disconnect()

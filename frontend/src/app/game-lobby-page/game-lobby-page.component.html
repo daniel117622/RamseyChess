@@ -6,6 +6,7 @@
   <div class="row">
     <div class="col-12 col-lg-6 d-flex align-items-center">
       <input
+        style="border-radius: 1px;"
         type="text"
         id="roomCode"
         [(ngModel)]="inputLobbyId"
@@ -14,6 +15,7 @@
       />
       <button
         class="btn btn-primary custom-button px-3 py-2"
+        style="border-radius: 1px;"
         (click)="handleJoinLobby()"
       >
         Join Lobby
@@ -24,7 +26,7 @@
 
 <!-- Button to create a new lobby -->
 <div *ngIf="!lobbyId" class="mb-3">
-  <button class="btn btn-secondary px-3 py-2" (click)="createLobby()">Create New Lobby</button>
+  <button class="btn btn-secondary px-3 py-2" style="border-radius:1px; font-weight: bold;" (click)="createLobby()">Create New Lobby</button>
 </div>
 
 <div [ngClass]="{'force-hide': !isPlayerInLobby}" class="col-12 col-lg-6 d-flex justify-content-center mb-3">
@@ -120,7 +122,7 @@
           <td>{{ lobby.players.length }} / 2</td>
           <td>{{ lobby.status }}</td>
           <td class="text-center">
-            <button class="btn btn-green btn-sm">Join</button>
+            <button class="btn btn-green btn-sm" style="border-radius: 1px;">Join</button>
           </td>
         </tr>
       </tbody>

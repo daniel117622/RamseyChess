@@ -185,5 +185,43 @@ getGameResult(pgn: string): string
     }
     return "Draw";
 }
-  
+
+timeSinceGame(gameDate: string): string
+{
+    const currentTime = new Date(Date.UTC(
+        new Date().getUTCFullYear(),
+        new Date().getUTCMonth(),
+        new Date().getUTCDate(),
+        new Date().getUTCHours(),
+        new Date().getUTCMinutes(),
+        new Date().getUTCSeconds()
+    )); // Current time in UTC 0
+    
+    const gameTime = new Date(gameDate); // Convert gameDate string to Date object (assumed to be in UTC 0)
+
+    const timeDifference = currentTime.getTime() - gameTime.getTime();  // Difference in milliseconds
+    const seconds        = Math.floor(timeDifference / 1000);
+    const minutes        = Math.floor(seconds / 60);
+    const hours          = Math.floor(minutes / 60);
+    const days           = Math.floor(hours / 24);
+
+    if (days > 0)
+    {
+        return `${days} day(s) ago`;
+    }
+    else if (hours > 0)
+    {
+        return `${hours} hour(s) ago`;
+    }
+    else if (minutes > 0)
+    {
+        return `${minutes} minute(s) ago`;
+    }
+    else
+    {
+        return `${seconds} second(s) ago`;
+    }
+}
+
+
 }

@@ -150,7 +150,8 @@
                     Black Strategy ID: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_black }}</span>
                 </h5>
                 <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
-                <p><strong>Game Date:</strong> {{ game.game_date }}</p>
+                <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
+
                 <!-- Removed PGN line -->
                 <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
                 <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>

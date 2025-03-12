@@ -10,6 +10,8 @@ import logging
 from data_access.connector import db
 from pymongo.errors import PyMongoError
 import math
+from datetime import datetime
+import pytz
 
 profile_routes = Blueprint('profle_routes', __name__)
 
@@ -331,6 +333,25 @@ def delete_private_strategies():
 
     return jsonify({"success": "Deleted strategy"}), 200
      
+@profile_routes.route('/register_login', methods=['POST'])
+def delete_private_strategies():
+    data = request.json
+    oauth_sub     = data.get("sub")
+
+    if not oauth_sub:
+        return jsonify({"error": "User 'sub' not provided"}), 400
+    
+    current_time_utc = datetime.now(pytz.utc)
+
+    user_profile = UserProfileManager()
+    user_profile.load_one_by_sub(oauth_sub)
+    user_profile.update_user_login_time(oauth_sub, current_time_utc)
+
+    result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
+
+    return jsonify(result)
+
+
 
    
 

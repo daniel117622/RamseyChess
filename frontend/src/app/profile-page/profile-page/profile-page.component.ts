@@ -19,6 +19,7 @@ import { GameService, PaginatedGames } from 'src/services/game-service.service';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+  private updateInterval: any;
   user$ = this.auth.user$;
   userProfileData$: Observable<UserProfile> | undefined;
   totalPages : number = 0;
@@ -43,6 +44,7 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit(): void
   {
+
     // Fetch user profile data
     this.userProfileData$ = this.user$.pipe(
       filter((user): user is User => user != null),
@@ -156,6 +158,19 @@ export class ProfilePageComponent implements OnInit {
           {
               this.paginatedGames = data;
               this.totalGamePages = data.total_pages
+              if (this.paginatedGames && Array.isArray(this.paginatedGames.games))
+                {
+                    // Re render every second.
+                    this.updateInterval = setInterval(() => {
+                        if (this.paginatedGames) {
+                            this.paginatedGames = {
+                                ...this.paginatedGames,  
+                                games: [...this.paginatedGames.games] 
+                            };
+                        }
+                    }, 1000);
+                }
+
           },
           error: (error) =>
           {
@@ -186,60 +201,63 @@ getGameResult(pgn: string): string
     return "Draw";
 }
 
-timeSinceGame(gameDate: string): string
-{
-    const currentTime = new Date(Date.UTC(
-        new Date().getUTCFullYear(),
-        new Date().getUTCMonth(),
-        new Date().getUTCDate(),
-        new Date().getUTCHours(),
-        new Date().getUTCMinutes(),
-        new Date().getUTCSeconds()
-    )); // Current time in UTC 0
-    
-    const gameTime = new Date(gameDate); // Convert gameDate string to Date object (assumed to be in UTC 0)
+timeSinceGame(gameDate: string): string {
+  // If the input doesn't already have the "T" delimiter, assume it's in the format "YYYY-MM-DD HH:mm:ss"
+  let isoString = gameDate;
+  if (!gameDate.includes('T')) {
+      isoString = gameDate.replace(' ', 'T');
+  }
+  
+  // Append 'Z' if it's not already present to indicate UTC time
+  if (!isoString.endsWith('Z')) {
+      isoString += 'Z';
+  }
 
-    const timeDifference = currentTime.getTime() - gameTime.getTime();  // Difference in milliseconds
-    const seconds        = Math.floor(timeDifference / 1000);
-    const minutes        = Math.floor(seconds / 60);
-    const hours          = Math.floor(minutes / 60);
-    const days           = Math.floor(hours / 24);
+  // Parse the game date as UTC
+  const gameTime = new Date(isoString);
+  if (isNaN(gameTime.getTime())) {
+      console.error('Invalid gameDate:', gameDate);
+      return 'Invalid date';
+  }
+  
+  const currentTime = new Date();
+  const timeDifference = currentTime.getTime() - gameTime.getTime();  // Difference in milliseconds
 
-    let timeString = '';
+  // If timeDifference is negative, the game date is in the future.
+  if (timeDifference < 0) {
+      console.error('The game date is in the future:', gameDate);
+      return 'Invalid date (future time)';
+  }
 
-    if (days > 0)
-    {
-        timeString += `${days} day(s) `;
-        const remainingHours = hours % 24;
-        if (remainingHours > 0)
-        {
-            timeString += `${remainingHours} hour(s)`;
-        }
-    }
-    else if (hours > 0)
-    {
-        timeString += `${hours} hour(s) `;
-        const remainingMinutes = minutes % 60;
-        if (remainingMinutes > 0)
-        {
-            timeString += `${remainingMinutes} minute(s)`;
-        }
-    }
-    else if (minutes > 0)
-    {
-        timeString += `${minutes} minute(s) `;
-        const remainingSeconds = seconds % 60;
-        if (remainingSeconds > 0)
-        {
-            timeString += `${remainingSeconds} second(s)`;
-        }
-    }
-    else
-    {
-        timeString += `${seconds} second(s)`;
-    }
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
 
-    return timeString.trim();
+  let timeString = '';
+  if (days > 0) {
+      timeString += `${days} day(s) `;
+      const remainingHours = hours % 24;
+      if (remainingHours > 0) {
+          timeString += `${remainingHours} hour(s)`;
+      }
+  } else if (hours > 0) {
+      timeString += `${hours} hour(s) `;
+      const remainingMinutes = minutes % 60;
+      if (remainingMinutes > 0) {
+          timeString += `${remainingMinutes} minute(s)`;
+      }
+  } else if (minutes > 0) {
+      timeString += `${minutes} minute(s) `;
+      const remainingSeconds = seconds % 60;
+      if (remainingSeconds > 0) {
+          timeString += `${remainingSeconds} second(s)`;
+      }
+  } else {
+      timeString += `${seconds} second(s)`;
+  }
+
+  return timeString.trim();
 }
 
 

@@ -53,9 +53,8 @@ export class ProfilePageComponent implements OnInit {
             sub: user.sub, 
           }
         )
-        
       )
-    );
+    ).subscribe();  // Ensure to subscribe to the observable here.
     // Fetch user profile data
     this.userProfileData$ = this.user$.pipe(
       filter((user): user is User => user != null),

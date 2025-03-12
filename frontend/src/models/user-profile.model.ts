@@ -2,7 +2,7 @@ export interface UserProfile
 {
     _id: {$oid: string;};
     elo       : number;
-    last_login: string | null;
+    last_login: { $date: string }; 
     nickname  : string | null;
     strategies: string[];
     sub       : string;

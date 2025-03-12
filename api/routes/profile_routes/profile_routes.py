@@ -26,6 +26,7 @@ def get_player_data() -> Any:
     nickname  = data.get("nickname", None)
     username  = data.get("username", None)
 
+
   manager   = UserProfileManager()
 
   if manager.load_one_by_sub(oauth_sub):
@@ -40,7 +41,7 @@ def get_player_data() -> Any:
         username=username,
         elo=1000,
         strategies=[],
-        last_login=None
+        last_login=str(datetime.now())
     )
 
   if manager.add_user(new_user):

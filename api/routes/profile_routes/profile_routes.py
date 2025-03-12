@@ -333,7 +333,7 @@ def delete_private_strategies():
     return jsonify({"success": "Deleted strategy"}), 200
      
 @profile_routes.route('/register_login', methods=['POST'])
-def delete_private_strategies():
+def register_login():
     data = request.json
     oauth_sub     = data.get("sub")
 

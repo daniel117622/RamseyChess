@@ -179,81 +179,102 @@ export class ProfilePageComponent implements OnInit {
       });
   }
 
-  timeSinceGame(gameDate: string): string
-  {
-      // If the input doesn't already have the "T" delimiter, assume it's in the format "YYYY-MM-DD HH:mm:ss"
-      let isoString = gameDate;
-      if (!gameDate.includes('T'))
-      {
-          isoString = gameDate.replace(' ', 'T');
-      }
-  
-      // Append 'Z' if it's not already present to indicate UTC time
-      if (!isoString.endsWith('Z'))
-      {
-          isoString += 'Z';
-      }
-  
-      // Parse the game date as UTC
-      const gameTime = new Date(isoString);
-      if (isNaN(gameTime.getTime()))
-      {
-          console.error('Invalid gameDate:', gameDate);
-          return 'Invalid date';
-      }
-  
-      const currentTime = new Date();
-      const timeDifference = currentTime.getTime() - gameTime.getTime();  // Difference in milliseconds
-  
-      // If timeDifference is negative, the game date is in the future.
-      if (timeDifference < 0)
-      {
-          console.error('The game date is in the future:', gameDate);
-          return 'Invalid date (future time)';
-      }
-  
-      const seconds = Math.floor(timeDifference / 1000);
-      const minutes = Math.floor(seconds / 60);
-      const hours   = Math.floor(minutes / 60);
-      const days    = Math.floor(hours / 24);
-  
-      let timeString = '';
-  
-      if (days > 0)
-      {
-          timeString += `${days} day${days === 1 ? '' : 's'} `;
-          const remainingHours = hours % 24;
-          if (remainingHours > 0)
-          {
-              timeString += `${remainingHours} hour${remainingHours === 1 ? '' : 's'}`;
-          }
-      }
-      else if (hours > 0)
-      {
-          timeString += `${hours} hour${hours === 1 ? '' : 's'} `;
-          const remainingMinutes = minutes % 60;
-          if (remainingMinutes > 0)
-          {
-              timeString += `${remainingMinutes} minute${remainingMinutes === 1 ? '' : 's'}`;
-          }
-      }
-      else if (minutes > 0)
-      {
-          timeString += `${minutes} minute${minutes === 1 ? '' : 's'} `;
-          const remainingSeconds = seconds % 60;
-          if (remainingSeconds > 0)
-          {
-              timeString += `${remainingSeconds} second${remainingSeconds === 1 ? '' : 's'}`;
-          }
-      }
-      else
-      {
-          timeString += `${seconds} second${seconds === 1 ? '' : 's'}`;
-      }
-  
-      return timeString.trim();
-  }
-  
+getGameResult(pgn: string): string
+{
+    const resultMatch = pgn.match(/\[Result "([^"]+)"\]/);
+    if (resultMatch)
+    {
+        const result = resultMatch[1];
+        if (result === "1-0")
+        {
+            return "Win";
+        }
+        else if (result === "0-1")
+        {
+            return "Loss";
+        }
+        else if (result === "1/2-1/2")
+        {
+            return "Draw";
+        }
+    }
+    return "Draw";
+}
+
+timeSinceGame(gameDate: string): string
+{
+    // If the input doesn't already have the "T" delimiter, assume it's in the format "YYYY-MM-DD HH:mm:ss"
+    let isoString = gameDate;
+    if (!gameDate.includes('T'))
+    {
+        isoString = gameDate.replace(' ', 'T');
+    }
+
+    // Append 'Z' if it's not already present to indicate UTC time
+    if (!isoString.endsWith('Z'))
+    {
+        isoString += 'Z';
+    }
+
+    // Parse the game date as UTC
+    const gameTime = new Date(isoString);
+    if (isNaN(gameTime.getTime()))
+    {
+        console.error('Invalid gameDate:', gameDate);
+        return 'Invalid date';
+    }
+
+    const currentTime = new Date();
+    const timeDifference = currentTime.getTime() - gameTime.getTime();  // Difference in milliseconds
+
+    // If timeDifference is negative, the game date is in the future.
+    if (timeDifference < 0)
+    {
+        console.error('The game date is in the future:', gameDate);
+        return 'Invalid date (future time)';
+    }
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours   = Math.floor(minutes / 60);
+    const days    = Math.floor(hours / 24);
+
+    let timeString = '';
+
+    if (days > 0)
+    {
+        timeString += `${days} day${days === 1 ? '' : 's'} `;
+        const remainingHours = hours % 24;
+        if (remainingHours > 0)
+        {
+            timeString += `${remainingHours} hour${remainingHours === 1 ? '' : 's'}`;
+        }
+    }
+    else if (hours > 0)
+    {
+        timeString += `${hours} hour${hours === 1 ? '' : 's'} `;
+        const remainingMinutes = minutes % 60;
+        if (remainingMinutes > 0)
+        {
+            timeString += `${remainingMinutes} minute${remainingMinutes === 1 ? '' : 's'}`;
+        }
+    }
+    else if (minutes > 0)
+    {
+        timeString += `${minutes} minute${minutes === 1 ? '' : 's'} `;
+        const remainingSeconds = seconds % 60;
+        if (remainingSeconds > 0)
+        {
+            timeString += `${remainingSeconds} second${remainingSeconds === 1 ? '' : 's'}`;
+        }
+    }
+    else
+    {
+        timeString += `${seconds} second${seconds === 1 ? '' : 's'}`;
+    }
+
+    return timeString.trim();
+}
 
 
 }

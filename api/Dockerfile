@@ -17,7 +17,8 @@ RUN apt-get update && \
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir requests flask_socketio && \
     pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -e .
+    pip install --no-cache-dir -e . \
+    pip install --no-cache-dir pytz
 # Install your project as a package using setup.py
 RUN pip install -e .
 

@@ -11,7 +11,6 @@ from data_access.connector import db
 from pymongo.errors import PyMongoError
 import math
 from datetime import datetime
-import pytz
 
 profile_routes = Blueprint('profle_routes', __name__)
 
@@ -341,7 +340,7 @@ def delete_private_strategies():
     if not oauth_sub:
         return jsonify({"error": "User 'sub' not provided"}), 400
     
-    current_time_utc = datetime.now(pytz.utc)
+    current_time_utc = datetime.utcnow()
 
     user_profile = UserProfileManager()
     user_profile.load_one_by_sub(oauth_sub)

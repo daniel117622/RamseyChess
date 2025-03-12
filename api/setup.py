@@ -14,8 +14,7 @@ setup(
         'flask-cors',
         "chess",
         "flasgger",
-        "eventlet",
-        "pytz"
+        "eventlet"
     ],
     python_requires='>=3.6',
 )

@@ -61,9 +61,8 @@ class UserProfileManager:
 
     def update_user_login_time(self, sub: str, time: str):
         """Update the Last Login time."""
-        self.users.update_one({"sub": sub}, {"$set": {"last_login": time}})
-        if self.current_user and self.current_user.sub == sub:
-            self.current_user.last_login = time
+        return self.users.update_one({"sub": sub}, {"$set": {"last_login": time}})
+
 
     def delete_user(self, sub: str):
         """Delete a user profile by the unique Auth0 sub identifier."""

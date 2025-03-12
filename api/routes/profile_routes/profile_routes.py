@@ -347,8 +347,12 @@ def register_login():
     user_profile.update_user_login_time(oauth_sub, current_time_utc)
 
     result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
-
-    return jsonify(result)
+    result_dict = {
+        "acknowledged"  : result.acknowledged,
+        "matched_count" : result.matched_count,
+        "modified_count": result.modified_count
+    }
+    return jsonify(result_dict)
 
 
 

@@ -46,11 +46,16 @@ export class ProfilePageComponent implements OnInit {
   {
     // Register the user last activity.
     this.user$.pipe(
-      filter((user): user is User => user != null && user.sub != null),
+      filter((user): user is User => user != null),
       switchMap(user => 
-        this.http.post('/api/register_login', { sub: user.sub })
+        this.http.post<any>('/api/register_login', 
+          { 
+            sub: user.sub, 
+          }
+        )
+        
       )
-    )
+    );
     // Fetch user profile data
     this.userProfileData$ = this.user$.pipe(
       filter((user): user is User => user != null),

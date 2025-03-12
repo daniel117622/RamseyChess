@@ -44,7 +44,13 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit(): void
   {
-
+    // Register the user last activity.
+    this.user$.pipe(
+      filter((user): user is User => user != null && user.sub != null),
+      switchMap(user => 
+        this.http.post('/api/register_login', { sub: user.sub })
+      )
+    )
     // Fetch user profile data
     this.userProfileData$ = this.user$.pipe(
       filter((user): user is User => user != null),
@@ -56,9 +62,10 @@ export class ProfilePageComponent implements OnInit {
             username: user.name 
           }
         )
+        
       )
     );
-  
+    
     // Fetch the first page of private strategies
     this.user$.pipe(
       filter((user): user is User => user != null),

@@ -55,5 +55,5 @@ class ChessGameManager:
                 {"strategy_id_black": {"$in": strategy_list}}
             ]
         }
-        self.current_doc = list(self.docs.find(filter))
+        self.current_doc = list(self.docs.find(filter).sort("game_date", -1))
         return self.current_doc

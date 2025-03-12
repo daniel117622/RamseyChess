@@ -233,6 +233,7 @@ export class GameLobbyPageComponent implements OnInit
 
   resetLobby (): void 
   {
+    if (this.all_buttons_frozen) { return }
     this.lobbyId = null;
     this.router.navigate(['/game-lobby']);
     this.playersSubject.next([]);
@@ -275,6 +276,7 @@ export class GameLobbyPageComponent implements OnInit
 
   toggleReadyState() : void
   {
+    if (this.all_buttons_frozen) { return }
     this.playerReadyState = !this.playerReadyState;
     if (this.lobbyId && this.playerName)
     {
@@ -303,6 +305,7 @@ export class GameLobbyPageComponent implements OnInit
     
     startGame(): void 
     {
+      if (this.all_buttons_frozen) { return }
       console.log('Game started!');
       this.all_buttons_frozen = true;
       if (this.playerName && this.lobbyId)

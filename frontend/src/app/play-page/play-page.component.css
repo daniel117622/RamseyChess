@@ -4,26 +4,37 @@
 }
 .main-container
 {
-    height: auto;
+    height    : auto;
     min-height: 100vh;
 }
 .full-card {
-    cursor: pointer;
-    transition: transform 0.2s;
+    cursor       : pointer;
+    transition   : transform 0.2s;
     border-radius: 1px;
   }
 
 .strategy-detail {
-    background-color: #E8D3A0; 
-    padding: 10px;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    border: solid black;
+    background-color: #87ff8a;
+    padding         : 10px;
+    border-radius   : 1px;
+    margin-bottom   : 10px;
+    border          : solid black;
 }
 
 .table-cell-ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
+    overflow     : hidden;
+    white-space  : nowrap;
     text-overflow: ellipsis;
-    max-width: 190px;
+    max-width    : 190px;
   }
+
+
+table {
+    border-collapse: collapse;
+    border         : none;
+}
+
+td, th {
+    background-color: #bca8cb;
+    border          : none;
+}

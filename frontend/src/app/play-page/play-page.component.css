@@ -21,20 +21,22 @@
     border          : solid black;
 }
 
-.table-cell-ellipsis {
+.table-cell-ellipsis 
+{
     overflow     : hidden;
     white-space  : nowrap;
     text-overflow: ellipsis;
     max-width    : 190px;
-  }
+}
 
 
-table {
+table 
+{
     border-collapse: collapse;
     border         : none;
 }
 
 td, th {
-    background-color: #bca8cb;
+    background-color: #ffffff;
     border          : none;
 }

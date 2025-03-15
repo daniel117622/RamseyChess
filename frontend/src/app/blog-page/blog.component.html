@@ -9,22 +9,25 @@
     <div class="col-md-12 mt-5">
       <div class="nav-panel">
         <ul class="nav nav-pills d-flex justify-content-start nav-panel" style="font-family: Arial, sans-serif; list-style: none; padding: 0; margin: 0;">
-          <li class="nav-item" *ngFor="let section of sections; let i = index" 
-              [ngClass]="{'selected': currentIndex === i}" 
-              style="display: flex; align-items: center; padding: 0 10px; position: relative; border-radius: 1px;">
-            
-            <a class="nav-link rounded-0"
-               (click)="navigateToSection(i)"
-               href="javascript:void(0);"
-               style="text-decoration: none; color: inherit; padding: 5px 0;">
-              {{ getSectionTitle(section) }}
-            </a>
-            
-            <!-- "/" separator always appears, outside of nav-item, and unchanged -->
+          <ng-container *ngFor="let section of sections; let i = index">
+            <li class="nav-item" [ngClass]="{'selected': currentIndex === i}" 
+                style="display: flex; align-items: center; padding: 0 10px; position: relative; border-radius: 1px;">
+              
+              <a class="nav-link rounded-0"
+                 (click)="navigateToSection(i)"
+                 href="javascript:void(0);"
+                 style="text-decoration: none; color: inherit; padding: 5px 0;">
+                {{ getSectionTitle(section) }}
+              </a>
+            </li>
+        
+            <!-- Separator ("/") outside the nav-item, will be added between items, except for the last one -->
             <span *ngIf="i !== sections.length - 1" 
                   style="padding-left: 10px; color: #666;">/</span>
-          </li>
+          </ng-container>
         </ul>
+        
+        
         
       </div>
       <hr style="width: 100%; border-top: 1px solid #ccc;">

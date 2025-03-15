@@ -28,33 +28,33 @@ export class StrategyBuildService {
 
   material_eval : MatevalModel = {
     collection : "evaluate_material",
-    name : "insert name",
+    name : "STARTER STRATEGY",
     owner: null,
     blackPieces : {
       "pawn"  : -1,
-      "knight": -3,
-      "bishop": -3,
-      "rook"  : -5,
-      "queen" : -9,
-      "king"  : -20
+      "knight": -1,
+      "bishop": -1,
+      "rook"  : -1,
+      "queen" : -1,
+      "king"  : -1
     },
     whitePieces: {
       "pawn"  : 1,
-      "knight": 3,
-      "bishop": 3,
-      "rook"  : 5,
-      "queen" : 9,
-      "king"  : 20
+      "knight": 1,
+      "bishop": 1,
+      "rook"  : 1,
+      "queen" : 1,
+      "king"  : 1
     }
   }
 
   buildable_strategy: BuildableStrategy = {
-    name: "default strategy",
-    wins: 0,
+    name  : "default strategy",
+    wins  : 0,
     losses: 0,
-    elo: 1000,
-    owner: "",
-    description: "This is a default strategy description.",
+    elo   : 1000,
+    owner : "",
+    description: "Initial strategy given on account creation",
     strategy_list: [this.material_eval]
   };
 
@@ -73,6 +73,11 @@ export class StrategyBuildService {
   getFullStrategy() : BuildableStrategy
   {
     return this.buildable_strategy
+  }
+
+  setOwner(owner_sub : string) : void
+  {
+    this.buildable_strategy.owner = owner_sub
   }
 
   saveStrategy()

@@ -8,9 +8,14 @@
   <div class="blog-text" style="min-width:240px">
     <div class="col-md-12 mt-5">
       <div class="nav-panel">
-        <ul>
-          <li *ngFor="let section of sections; let i = index" [ngClass]="{'selected': currentIndex === i}">
-            <a href="javascript:void(0);" (click)="navigateToSection(i)">
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item" *ngFor="let section of sections; let i = index">
+            <a
+              class="nav-link rounded-0"
+              [ngClass]="{'active': currentIndex === i}"
+              (click)="navigateToSection(i)"
+              href="javascript:void(0);"
+            >
               {{ getSectionTitle(section) }}
             </a>
           </li>

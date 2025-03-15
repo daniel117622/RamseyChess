@@ -18,8 +18,8 @@
     <!-- Render cards if available -->
     <div class="row justify-content-around justify-content-xxl-between">
       <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card"  [routerLink]="['/cards', card._id.$oid]">
-        <div class="card h-100" style="border-radius: 1px;border-color: #482626 !important; color: white">
-          <div class="card-body" style="border-radius: 1px;">
+        <div class="card h-100" style="border-radius: 1px;border-color: #482626;color: white;background-color: #482626;">
+          <div class="card-body" style="border-radius: 1px;background: #482626;border: #482626;">
             <!-- First row: Name and Elo -->
             <div class="mb-3">
               <div class="table-responsive">

@@ -224,7 +224,7 @@ button:disabled
 /* Add a "/" separator between list items except for the last one */
 .nav-panel li:not(:last-child)::after 
 {
-  content: '/';
+  content: '';
   padding-left: 10px;
   color: #666;
 }

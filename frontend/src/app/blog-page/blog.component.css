@@ -58,7 +58,7 @@
   background-color: #ffeb3b;
   padding         : 10px;
   font-weight     : bold;
-  border-radius   : 5px;
+  border-radius   : 2px;
 }
 
 p {
@@ -94,7 +94,7 @@ p {
   color          : white;
   font-weight    : bold;
   padding        : 10px 20px;
-  border-radius  : 5px;
+  border-radius  : 2px;
   transition     : background-color 0.3s ease;
 }
 
@@ -233,7 +233,7 @@ button:disabled
 .nav-panel li.selected 
 {
   background-color: #a77a01;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .nav-panel a 

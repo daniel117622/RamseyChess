@@ -121,12 +121,13 @@
                   <td>{{ strategy.name }}</td>
                   <td>{{ strategy.elo }}</td>
                   <td>
-                    <span class="wins" [ngClass]="{'positive': strategy.wins >= 0, 'negative': strategy.wins < 0}">
-                      Wins: {{ strategy.wins }}
+                    W : 
+                    <span class="wins" class="positive">
+                      {{ strategy.wins }}
                     </span>
-                    /
-                    <span class="losses" [ngClass]="{'positive': strategy.losses >= 0, 'negative': strategy.losses < 0}">
-                      Losses: {{ strategy.losses }}
+                    / B : 
+                    <span class="losses" class="negative">
+                       {{ strategy.losses }}
                     </span>
                   </td>
                 </tr>

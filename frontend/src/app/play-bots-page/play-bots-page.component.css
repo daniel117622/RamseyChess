@@ -137,3 +137,18 @@ tr {
   width     : 100%;
   text-align: center;
 }
+
+.negative
+{
+  color: rgb(253, 63, 0)
+}
+.positive
+{
+  color: lime
+}
+
+li
+{
+  margin: -5px 0px; 
+  list-style: square; 
+}

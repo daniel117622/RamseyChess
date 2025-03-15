@@ -1,6 +1,9 @@
 .strategy-detail {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
-}
+    background-color: #b1b1b1;
+    padding: 10px;
+    border-radius: 1px;
+    margin-bottom: 10px;
+    border: solid #c9a218;}
 
 .strategy-detail p {
     margin: 0 0 10px;
@@ -42,7 +45,7 @@
   
   /* Additional styling to ensure dialog is centered and responsive */
   .mat-dialog-container {
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     max-width: 95%; /* Ensures the dialog remains responsive on small screens */

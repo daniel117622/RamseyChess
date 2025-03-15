@@ -29,7 +29,6 @@ export class StrategyOverviewComponent implements OnInit {
       this.strategy_card.owner = this.sub;
     }
 
-
   }
   objectEntries(obj: any): { key: string, value: any }[] 
   {

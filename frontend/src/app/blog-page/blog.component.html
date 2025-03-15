@@ -19,10 +19,11 @@
                style="text-decoration: none; color: inherit; padding: 5px 0;">
               {{ getSectionTitle(section) }}
             </a>
-    
-            <!-- "/" separator for all but the last item -->
-            <span *ngIf="i !== sections.length - 1" style="padding-left: 10px; color: #666;">/</span>
           </li>
+        
+          <!-- "/" separator always appears, outside of nav-item, and unchanged -->
+          <span *ngIf="i !== sections.length - 1" 
+                style="padding-left: 10px; color: #666;">/</span>
         </ul>
       </div>
       <hr style="width: 100%; border-top: 1px solid #ccc;">

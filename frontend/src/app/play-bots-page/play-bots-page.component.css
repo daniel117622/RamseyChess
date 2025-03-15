@@ -140,11 +140,13 @@ tr {
 
 .negative
 {
-  color: rgb(253, 63, 0)
+  color: rgb(253, 63, 0);
+  font-weight: bold;
 }
 .positive
 {
-  color: lime
+  color: lime;
+  font-weight: bold;
 }
 
 li

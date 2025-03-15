@@ -122,11 +122,11 @@
                   <td>{{ strategy.elo }}</td>
                   <td>
                     W : 
-                    <span class="wins" class="positive">
+                    <span class="wins" [ngClass]="{ 'positive': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                       {{ strategy.wins }}
                     </span>
                     / B : 
-                    <span class="losses" class="negative">
+                    <span class="losses" [ngClass]="{ 'negative': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                        {{ strategy.losses }}
                     </span>
                   </td>

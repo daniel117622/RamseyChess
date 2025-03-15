@@ -107,7 +107,7 @@
               <tr>
                 <th style="width: 48%;">Strategy Name</th>
                 <th style="width: 26%;">Elo</th>
-                <th style="width: 26%;">Details</th>
+                <th style="width: 26%;">Wins / Losses</th>
               </tr>
             </thead>
             <tbody>
@@ -121,12 +121,11 @@
                   <td>{{ strategy.name }}</td>
                   <td>{{ strategy.elo }}</td>
                   <td>
-                    W : 
                     <span [ngClass]="{ 'positive': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                       {{ strategy.wins }}
                     </span>
-                    / B : 
-                    <span class="losses" [ngClass]="{ 'negative': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
+                    /
+                    <span  [ngClass]="{ 'negative': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                        {{ strategy.losses }}
                     </span>
                   </td>

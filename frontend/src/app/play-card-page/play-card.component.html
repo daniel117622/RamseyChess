@@ -1,11 +1,12 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
-    <div class="row">
-      <!-- Chessboard Column -->
-      <div class="col-12 col-xxl-6 d-flex justify-content-center">
-        <div>
-          <p>Card Id : {{ this.cardId }}</p>
-          <div style="border: solid 3px black">
-            <ngx-chess-board #chessBoard (moveChange)="onMoveChange()"  style="border:solid 5px black"
+  <h2 class="text-center mt-3">Card Id: {{ this.cardId }}</h2>
+  
+  <div class="row">
+    <!-- Chessboard Column -->
+    <div class="col-12 col-xxl-6 d-flex justify-content-center">
+      <div>
+        <div style="border: solid 3px black">
+          <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" style="border:solid 5px black"
             [size]="boardSize" 
             [darkDisabled]="true" 
             [darkTileColor]="'#779557'"
@@ -24,39 +25,39 @@
               whiteQueenUrl: 'assets/pieces/wq.svg',
               whiteRookUrl: 'assets/pieces/wr.svg'
             }">
-            </ngx-chess-board>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Tables Column -->
-      <div class="col-12 col-xxl-6 d-flex flex-column justify-content-around">
-        <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mb-3">
-          <p>Strategy name: {{ strat.name }}</p>
-          <p>Strategy type: {{ strat.type }}</p>
-          <ng-container *ngIf="strat.type === 'evaluate_material'">
-            <div class="table-responsive">
-              <table class="table table-bordered w-100">
-                <thead>
-                  <tr>
-                    <th>PieceType</th>
-                    <th>White</th>
-                    <th>Black</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                    <tr>
-                      <td style="text-transform: capitalize;">{{ piece.key }}</td>
-                      <td>{{ piece.value }}</td>
-                      <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-          </ng-container>
+          </ngx-chess-board>
         </div>
       </div>
     </div>
-  
+
+    <!-- Tables Column -->
+    <div class="col-12 col-xxl-6 d-flex flex-column justify-content-around">
+      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mb-3">
+        <p>Strategy name: {{ strat.name }}</p>
+        <p>Strategy type: {{ strat.type }}</p>
+        <ng-container *ngIf="strat.type === 'evaluate_material'">
+          <div class="table-responsive">
+            <table class="table table-bordered w-100">
+              <thead>
+                <tr>
+                  <th>PieceType</th>
+                  <th>White</th>
+                  <th>Black</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
+                  <tr>
+                    <td style="text-transform: capitalize;">{{ piece.key }}</td>
+                    <td>{{ piece.value }}</td>
+                    <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

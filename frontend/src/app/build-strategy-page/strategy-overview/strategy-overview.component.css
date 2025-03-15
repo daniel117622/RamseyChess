@@ -3,7 +3,9 @@
     padding: 10px;
     border-radius: 1px;
     margin-bottom: 10px;
-    border: solid #c9a218;}
+    border: solid 3px;
+    background-color: #d2ab1d;
+}
 
 .strategy-detail p {
     margin: 0 0 10px;
@@ -25,7 +27,7 @@
 }
 
 .strategy-table th {
-    background-color: #e8d3a0; /* Slightly darker carton color for the header */
+    background-color: #E8D3A0; /* Slightly darker carton color for the header */
     color: #5c4a33; /* Darker header text */
     font-weight: bold;
     border-bottom: 2px dashed #8b7e66; /* Dashed header row border */

@@ -8,16 +8,20 @@
   <div class="blog-text" style="min-width:240px">
     <div class="col-md-12 mt-5">
       <div class="nav-panel">
-        <ul class="nav nav-pills flex-column">
-          <li class="nav-item" *ngFor="let section of sections; let i = index">
-            <a
-              class="nav-link rounded-0"
-              [ngClass]="{'active': currentIndex === i}"
-              (click)="navigateToSection(i)"
-              href="javascript:void(0);"
-            >
+        <ul class="nav nav-pills d-flex justify-content-start nav-panel" style="font-family: Arial, sans-serif; list-style: none; padding: 0; margin: 0;">
+          <li class="nav-item" *ngFor="let section of sections; let i = index" 
+              [ngClass]="{'selected': currentIndex === i}" 
+              style="display: flex; align-items: center; padding: 0 10px; position: relative; border-radius: 1px;">
+            
+            <a class="nav-link rounded-0"
+               (click)="navigateToSection(i)"
+               href="javascript:void(0);"
+               style="text-decoration: none; color: inherit; padding: 5px 0;">
               {{ getSectionTitle(section) }}
             </a>
+    
+            <!-- "/" separator for all but the last item -->
+            <span *ngIf="i !== sections.length - 1" style="padding-left: 10px; color: #666;">/</span>
           </li>
         </ul>
       </div>

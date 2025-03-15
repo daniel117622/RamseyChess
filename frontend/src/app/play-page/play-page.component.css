@@ -14,7 +14,7 @@
   }
 
 .strategy-detail {
-    background-color: #87ff8a;
+    background-color: #412d11;
     padding         : 10px;
     border-radius   : 1px;
     margin-bottom   : 10px;
@@ -30,6 +30,7 @@
 }
 
 
+
 table 
 {
     border-collapse: collapse;
@@ -37,6 +38,7 @@ table
 }
 
 td, th {
-    background-color: #ffffff;
+    background-color: #412d11;
     border          : none;
+    color: white;
 }

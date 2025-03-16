@@ -20,16 +20,11 @@
                         <td>{{ userProfileData.username || 'N/A' }}</td>
                     </tr>
                     <tr>
-                        <td>ELO Score</td>
-                        <td class="elo-score" style="width: 100%;">
-                            <span class="elo-text">{{ userProfileData.elo }}</span>
-                            <div class="elo-tooltip">
-                                <p>Elo score of the player is the sum of the player bot scores. Get rid 
-                                    of the bad bots if you care about this number.
-                                </p>
-                            </div>
+                        <td><b>&Sigma; ELO</b></td>
+                        <td class="elo-score" style="width: 100%; white-space: nowrap;">
+                          <span class="elo-text">{{ userProfileData.elo }}</span>
                         </td>
-                    </tr>
+                      </tr>
                     <tr>
                         <td>Last Login</td>
                         <td>{{ userProfileData.last_login.$date }}</td>

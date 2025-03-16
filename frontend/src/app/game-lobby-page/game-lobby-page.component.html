@@ -35,32 +35,35 @@
   <button class="btn btn-secondary px-3 py-2" style="border-radius:1px; font-weight: bold;" (click)="createLobby()">Create New Lobby</button>
 </div>
 
-<div [ngClass]="{'force-hide': !isPlayerInLobby}" class="col-12 col-lg-6 d-flex justify-content-center mb-3">
-  <ngx-chess-board style="border:solid 5px black"  style="border:solid 5px black"  
-    #chessBoard 
-    [ngClass]="{'force-hide': !isPlayerInLobby}"
-    [size]           = "boardSize"
-    [darkTileColor]  = "'#779557'"
-    [dragDisabled]   = "true"
-    [drawDisabled]   = "true"
-    [lightTileColor] = "'#ECECD0'"
-    [lightDisabled]  = "true"
-    [darkDisabled]   = "true"
-    [pieceIcons]="{
-      blackBishopUrl: 'assets/pieces/bb.svg',
-      blackKingUrl: 'assets/pieces/bk.svg',
-      blackKnightUrl: 'assets/pieces/bn.svg',
-      blackPawnUrl: 'assets/pieces/bp.svg',
-      blackQueenUrl: 'assets/pieces/bq.svg',
-      blackRookUrl: 'assets/pieces/br.svg',
-      whiteBishopUrl: 'assets/pieces/wb.svg',
-      whiteKingUrl: 'assets/pieces/wk.svg',
-      whiteKnightUrl: 'assets/pieces/wn.svg',
-      whitePawnUrl: 'assets/pieces/wp.svg',
-      whiteQueenUrl: 'assets/pieces/wq.svg',
-      whiteRookUrl: 'assets/pieces/wr.svg'
-    }"
-  ></ngx-chess-board>
+<div class="d-flex justify-content-center mb-3">
+  <div [ngClass]="{'force-hide': !isPlayerInLobby}" class="col-12 col-lg-6 d-flex justify-content-center">
+    <ngx-chess-board
+      #chessBoard
+      class="border border-5 border-dark"
+      [ngClass]="{'force-hide': !isPlayerInLobby}"
+      [size]           = "boardSize"
+      [darkTileColor]  = "'#779557'"
+      [dragDisabled]   = "true"
+      [drawDisabled]   = "true"
+      [lightTileColor] = "'#ECECD0'"
+      [lightDisabled]  = "true"
+      [darkDisabled]   = "true"
+      [pieceIcons]="{
+        blackBishopUrl: 'assets/pieces/bb.svg',
+        blackKingUrl  : 'assets/pieces/bk.svg',
+        blackKnightUrl: 'assets/pieces/bn.svg',
+        blackPawnUrl  : 'assets/pieces/bp.svg',
+        blackQueenUrl : 'assets/pieces/bq.svg',
+        blackRookUrl  : 'assets/pieces/br.svg',
+        whiteBishopUrl: 'assets/pieces/wb.svg',
+        whiteKingUrl  : 'assets/pieces/wk.svg',
+        whiteKnightUrl: 'assets/pieces/wn.svg',
+        whitePawnUrl  : 'assets/pieces/wp.svg',
+        whiteQueenUrl : 'assets/pieces/wq.svg',
+        whiteRookUrl  : 'assets/pieces/wr.svg'
+      }"
+    ></ngx-chess-board>
+  </div>
 </div>
 
 <!-- Display the list of players in the lobby -->
@@ -106,10 +109,13 @@
       Execute Game
     </button>
   </div>
-  <p class="text-center mt-3" style="color:white">
+  <p class="text-center mt-3 text-white">
    Wait for the "Execute Game" button to turn yellow. That means the game can be started by any player.
   </p>
 </div>
+
+
+
 <!-- Table displaying available lobbies -->
 <div *ngIf="!lobbyId" class="mb-5">
   <h2 class="text-center mb-4">Available Lobbies</h2>

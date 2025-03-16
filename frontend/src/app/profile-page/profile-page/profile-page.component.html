@@ -13,24 +13,30 @@
                 <tbody>
                     <tr>
                         <td>Nickname</td>
-                        <td>{{ userProfileData.nickname || 'N/A' }}</td>
+                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ userProfileData.nickname || 'N/A' }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Username</td>
-                        <td>{{ userProfileData.username || 'N/A' }}</td>
+                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ userProfileData.username || 'N/A' }}
+                        </td>
                     </tr>
                     <tr>
                         <td><b>&Sigma; </b>ELO</td>
-                        <td class="elo-score" style="width: 100%; white-space: nowrap;">
+                        <td class="elo-score" style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                           <span class="elo-text">{{ userProfileData.elo }}</span>
                         </td>
-                      </tr>
+                    </tr>
                     <tr>
                         <td>Last Login</td>
-                        <td>{{ userProfileData.last_login.$date }}</td>
+                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ userProfileData.last_login.$date }}
+                        </td>
                     </tr>
                 </tbody>
-            </table>
+            </table>            
         </div>
         <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">Create your first strategy</button>
     </div>

@@ -53,7 +53,7 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
     private createCard(color: string, name: string): HTMLDivElement
     {
         let card: HTMLDivElement = document.createElement("div");
-        card.classList.add("custom-card", color);
+        card.classList.add("custom-card", color, "w-100", "p-2");
         card.innerText = name;
         card.draggable = true;
 

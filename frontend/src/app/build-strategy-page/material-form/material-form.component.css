@@ -13,32 +13,31 @@
 
 .custom-card
 {
-    width: 75%;
-    height: 60px;
-    border-radius: 0px;
-    display: flex;
-    align-items: center;
+    width          : 75%;
+    height         : 60px;
+    border-radius  : 0px;
+    display        : flex;
+    align-items    : center;
     justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: grab;
-    user-select: none;
-    margin: 5px 0;
-    transition: transform 0.2s ease-in-out;
-    padding: 12.5px 10px;
+    font-size      : 20px;
+    font-weight    : bold;
+    cursor         : grab;
+    user-select    : none;
+    margin         : 5px 0;
+    transition     : transform 0.2s ease-in-out;
+    padding        : 12.5px 10px;
 }
 
 .black
 {
-    background-color: #333333;
-    color: #A77A01;
+    background-color: #333333 !important;
+    color           : #A77A01 !important;
 }
 
 .white
 {
-    background-color: #A77A01;
-    color: #333333;
-    border-radius: 0px;
+    background-color: #A77A01 !important; 
+    color           : #333333 !important;
 }
 
 .vertical-bar

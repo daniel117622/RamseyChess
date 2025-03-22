@@ -56,7 +56,16 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
         card.classList.add("custom-card", color, "w-100", "p-2");
         card.innerText = name;
         card.draggable = true;
-
+        if (color === "black") 
+        {
+          card.style.backgroundColor = "#333333";
+          card.style.color           = "#A77A01";
+        } 
+        else if (color === "white") 
+        {
+            card.style.backgroundColor = "#A77A01";
+            card.style.color           = "#333333";
+        }
         // Drag events
         card.addEventListener("dragstart", (e: DragEvent) =>
         {

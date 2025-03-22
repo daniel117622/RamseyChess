@@ -20,9 +20,7 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
     constructor(
         private strategy_builder: StrategyBuildService,
         private elRef: ElementRef
-    ) 
-    {
-    }
+    ) {}
 
     ngOnInit(): void
     {
@@ -31,12 +29,10 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
 
     ngAfterViewInit(): void
     {
-        // Cast nativeElement to HTMLElement for proper typing.
         const nativeElement = this.elRef.nativeElement as HTMLElement;
         this.pickSound = nativeElement.querySelector("#pickSound");
         this.dropSound = nativeElement.querySelector("#dropSound");
 
-        // Query elements without using generic type arguments
         const canvasElements = nativeElement.querySelectorAll(".canvas");
         canvasElements.forEach((canvas: Element) =>
         {
@@ -57,7 +53,7 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
     private createCard(color: string, name: string): HTMLDivElement
     {
         let card: HTMLDivElement = document.createElement("div");
-        card.classList.add("card", color);
+        card.classList.add("custom-card", color);
         card.innerText = name;
         card.draggable = true;
 
@@ -80,7 +76,8 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
 
     private setupCanvas(canvas: HTMLElement): void
     {
-       const color: string = canvas.dataset['color'] ?? "";
+        // Access dataset property with bracket notation.
+        const color: string = canvas.dataset['color'] ?? "";
 
         // Create and append cards
         this.pieceNames.forEach((name: string) =>
@@ -109,21 +106,20 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
         });
     }
 
-    // Helper to find where to insert
     private getDragAfterElement(container: HTMLElement, y: number): HTMLElement | null
     {
         const draggableElements: HTMLElement[] = Array.from(
-            container.querySelectorAll(".card:not(.dragging)")
+            container.querySelectorAll(".custom-card:not(.dragging)")
         ) as HTMLElement[];
-    
+
         interface Accumulator
         {
             offset: number;
             element: HTMLElement | null;
         }
-    
+
         const initial: Accumulator = { offset: Number.NEGATIVE_INFINITY, element: null };
-    
+
         const result = draggableElements.reduce(
             (closest: Accumulator, child: HTMLElement): Accumulator =>
             {
@@ -140,8 +136,7 @@ export class MaterialFormComponent implements OnInit, AfterViewInit
             },
             initial
         );
-    
+
         return result.element;
     }
-    
 }

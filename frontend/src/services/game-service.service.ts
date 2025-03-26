@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 
 export interface Game
 {
-    _id                : { $oid: string }; 
-    game_date         : string;  
-    owner             : string;  
-    pgn               : string;  
-    strategy_id_black : string;  
-    strategy_id_white : string;  
+    _id                 : { $oid: string };
+    game_date           : string;
+    owner               : string;
+    pgn                 : string;
+    strategy_id_black   : string;
+    strategy_id_white   : string;
+    strategy_white_owner: string;
+    strategy_black_owner: string;
 }
 
 export interface PaginatedGames

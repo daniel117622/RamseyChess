@@ -145,18 +145,18 @@
                 }">
                 <!-- Raw Game Data Display -->
                 <h5 class="mb-2">
-                    White Strategy ID: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_white }}</span>
+                    White player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_white }}</span>
                 </h5>
                 <h5 class="mb-2">
-                    Black Strategy ID: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_black }}</span>
+                    Black player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ game.strategy_id_black }}</span>
                 </h5>
                 <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
                 <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
 
                 <!-- Removed PGN line -->
                 <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
-                <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
-                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
+                <p><strong>Strategy ID for White:</strong> {{ game.strategy_white_owner }}</p>
+                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_black_owner }}</p>
                 <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
                 
                 <!-- Action Buttons -->

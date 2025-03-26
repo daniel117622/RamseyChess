@@ -50,8 +50,9 @@ def get_games_by_owner_paged():
     
     # Load games based on the strategy list
     game_manager = ChessGameManager()
-    game_manager.loadByStrategyList(strategy_list)
+    game_manager.loadByStrategyListWithNames(strategy_list)
     games = game_manager.getCurrent()
+        
 
     if not games:
         return jsonify({"error": "No games found for this user"}), 404

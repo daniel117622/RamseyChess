@@ -57,3 +57,85 @@ class ChessGameManager:
         }
         self.current_doc = list(self.docs.find(filter).sort("game_date", -1))
         return self.current_doc
+    
+    def loadByStrategyListWithNames(self, strategy_list: List[str]):
+        pipeline = [
+            {
+                "$match": {
+                    "$or": [
+                        {"strategy_id_white": {"$in": strategy_list}},
+                        {"strategy_id_black": {"$in": strategy_list}}
+                    ]
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "ai_premade_strats",
+                    "let": {"white_id": {"$toObjectId": "$strategy_id_white"}},
+                    "pipeline": [
+                        {"$match": {"$expr": {"$eq": ["$_id", "$$white_id"]}}},
+                        {"$project": {"_id": 0, "owner": 1}}
+                    ],
+                    "as": "strategy_white_data"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "ai_premade_strats",
+                    "let": {"black_id": {"$toObjectId": "$strategy_id_black"}},
+                    "pipeline": [
+                        {"$match": {"$expr": {"$eq": ["$_id", "$$black_id"]}}},
+                        {"$project": {"_id": 0, "owner": 1}}
+                    ],
+                    "as": "strategy_black_data"
+                }
+            },
+            {
+                "$set": {
+                    "strategy_white_owner": {
+                        "$arrayElemAt": ["$strategy_white_data.owner", 0]
+                    },
+                    "strategy_black_owner": {
+                        "$arrayElemAt": ["$strategy_black_data.owner", 0]
+                    }
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "user_profiles",
+                    "localField": "strategy_white_owner",
+                    "foreignField": "sub",
+                    "as": "white_user"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "user_profiles",
+                    "localField": "strategy_black_owner",
+                    "foreignField": "sub",
+                    "as": "black_user"
+                }
+            },
+            {
+                "$set": {
+                    "strategy_white_owner": {
+                        "$arrayElemAt": ["$white_user.nickname", 0]
+                    },
+                    "strategy_black_owner": {
+                        "$arrayElemAt": ["$black_user.nickname", 0]
+                    }
+                }
+            },
+            {
+                "$unset": [
+                    "strategy_white_data",
+                    "strategy_black_data",
+                    "white_user",
+                    "black_user"
+                ]
+            },
+            {"$sort": {"game_date": -1}}  # Sort by latest games
+        ]
+
+        self.current_doc = list(self.docs.aggregate(pipeline))
+        return self.current_doc

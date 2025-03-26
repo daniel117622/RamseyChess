@@ -139,9 +139,9 @@
         <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
             <div class="strategy-card p-3 text-center h-100"
                 [ngClass]="{
-                    'win' : getGameResult(game.pgn) === 'Win',
-                    'loss': getGameResult(game.pgn) === 'Loss',
-                    'draw': getGameResult(game.pgn) === 'Draw'
+                    'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Win',
+                    'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Loss',
+                    'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Draw'
                 }">
                 <!-- Raw Game Data Display -->
                 <h5 class="mb-2">
@@ -154,10 +154,9 @@
                 <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
 
                 <!-- Removed PGN line -->
-                <p><strong>Result:</strong> {{ getGameResult(game.pgn) }}</p>
+                <p><strong>Result:</strong> {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) }}</p>
                 <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
                 <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
-                <p><strong>Elo Change:</strong> 0</p> <!-- Adjust this with actual Elo change logic -->
                 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-center gap-2 mt-3">

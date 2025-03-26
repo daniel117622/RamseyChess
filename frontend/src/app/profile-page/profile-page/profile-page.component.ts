@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { switchMap, filter } from 'rxjs/operators';
+import { switchMap, filter, tap } from 'rxjs/operators';
 import { UserProfile } from 'src/models/user-profile.model';
 import { StrategyCardListProfileView, PaginatedStrategyResponse } from 'src/models/start-card.model';
 import { Router } from '@angular/router';
@@ -25,6 +25,7 @@ export class ProfilePageComponent implements OnInit {
   totalPages : number = 0;
   currentPage: number = 1;
   my_saved_strategies : StrategyCardListProfileView[] = []
+  current_nickname : string | null = ""
 
   paginatedGames : PaginatedGames | null = null;
   totalGamePages : number = 0;
@@ -66,10 +67,12 @@ export class ProfilePageComponent implements OnInit {
             username: user.name 
           }
         )
-        
-      )
+      ),
+      tap(userProfile => {
+        this.current_nickname = userProfile.nickname;
+      })
     );
-    
+      
     // Fetch the first page of private strategies
     this.user$.pipe(
       filter((user): user is User => user != null),
@@ -190,27 +193,29 @@ export class ProfilePageComponent implements OnInit {
       });
   }
 
-getGameResult(pgn: string): string
-{
-    const resultMatch = pgn.match(/\[Result "([^"]+)"\]/);
-    if (resultMatch)
-    {
-        const result = resultMatch[1];
-        if (result === "1-0")
-        {
-            return "Win";
-        }
-        else if (result === "0-1")
-        {
-            return "Loss";
-        }
-        else if (result === "1/2-1/2")
-        {
-            return "Draw";
-        }
-    }
-    return "Draw";
-}
+  getGameResult(whiteOwner: string, blackOwner: string, currentNickname: string | null, game_pgn: string): string
+  {
+      const resultMatch = game_pgn.match(/\[Result "([^"]+)"\]/);
+      if (resultMatch)
+      {
+          const result = resultMatch[1];
+          if (result === "1/2-1/2")
+          {
+              return "Draw";
+          }
+      }
+  
+      if (currentNickname === whiteOwner)
+      {
+          return "Win";
+      }
+      else if (currentNickname === blackOwner)
+      {
+          return "Loss";
+      }
+      return "Draw";
+  }
+  
 
 timeSinceGame(gameDate: string): string
 {

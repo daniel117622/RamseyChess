@@ -60,13 +60,13 @@ def get_games_by_owner_paged():
             "wins"       : 0,
             "losses"     : 0,
             "elo"        : 1000,
-            "owner"      : oauth_sub,
+            "owner"      : user_id,
             "description": "Initial strategy given on account creation. All pieces have the same value",
             "strategy_list": [
                 {
                     "collection": "evaluate_material",
                     "name": "COMMUNIST",
-                    "owner": oauth_sub,
+                    "owner": user_id,
                     "blackPieces": {
                         "pawn"  : -1,
                         "knight": -1,

@@ -36,10 +36,12 @@ def get_games_by_id():
     return jsonify(game_manager.getCurrent()), 200
 
 
-@game_db_routes.route('/get_games_by_owner_paged', methods=['GET'])
+@game_db_routes.route('/get_games_by_owner_paged', methods=['POST'])
 @post_exception_handler
 def get_games_by_owner_paged():
-    user_id = request.args.get("sub")
+    data = request.json  
+
+    user_id = data.get("sub")  
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400
     
@@ -48,7 +50,6 @@ def get_games_by_owner_paged():
 
     strategy_list = [strategy["_id"]["$oid"] for strategy in all_user_strategies]
     
-    # Load games based on the strategy list
     game_manager = ChessGameManager()
     game_manager.loadByStrategyListWithNames(strategy_list)
     games = game_manager.getCurrent()
@@ -118,10 +119,11 @@ def get_games_by_owner_paged():
 
 
 
-@game_db_routes.route('/get_games_by_owner', methods=['GET'])
+@game_db_routes.route('/get_games_by_owner', methods=['POST'])
 @post_exception_handler
 def get_games_by_owner():
-    user_id = request.args.get("sub")
+    data = request.json
+    user_id = data.get("sub")
     if not user_id:
         return jsonify({"error": "User ID is required"}), 400
     

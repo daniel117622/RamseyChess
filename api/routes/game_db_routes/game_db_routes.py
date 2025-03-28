@@ -58,8 +58,8 @@ def get_games_by_owner_paged():
     if not games:
         return jsonify({"error": "No games found for this user. New strategy created"}), 404
 
-    items_per_page = int(request.args.get("items_per_page", 10))
-    page_number    = int(request.args.get("page_number", 0))
+    items_per_page = int(data.get("items_per_page", 10))
+    page_number    = int(data.get("page_number", 0))
 
     total_items = len(games)
     total_pages = math.ceil(total_items / items_per_page)

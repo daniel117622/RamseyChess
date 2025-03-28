@@ -354,8 +354,8 @@ def register_login():
 
     result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
 
-    #New user
-    if result.matched_count == 0:
+    #This indicates a new strategy was created
+    if result.modified_count == 1:
         default_strategy = {
             "name"       : "STARTER STRATEGY",
             "wins"       : 0,

@@ -3,7 +3,7 @@ from data_access.game_db_manager import ChessGameDoc , ChessGameManager
 from data_access.strategy_cards_manager import AiPremadeManager
 from bson.objectid import ObjectId
 from typing import Any
-
+import requests
 # For transactions
 from data_access.connector import db
 from pymongo.errors import PyMongoError
@@ -55,7 +55,40 @@ def get_games_by_owner_paged():
         
 
     if not games:
-        return jsonify({"error": "No games found for this user"}), 404
+        default_strategy = {
+            "name"       : "STARTER STRATEGY",
+            "wins"       : 0,
+            "losses"     : 0,
+            "elo"        : 1000,
+            "owner"      : oauth_sub,
+            "description": "Initial strategy given on account creation. All pieces have the same value",
+            "strategy_list": [
+                {
+                    "collection": "evaluate_material",
+                    "name": "COMMUNIST",
+                    "owner": oauth_sub,
+                    "blackPieces": {
+                        "pawn"  : -1,
+                        "knight": -1,
+                        "bishop": -1,
+                        "rook"  : -1,
+                        "queen" : -1,
+                        "king"  : -1
+                    },
+                    "whitePieces": {
+                        "pawn"  : 1,
+                        "knight": 1,
+                        "bishop": 1,
+                        "rook"  : 1,
+                        "queen" : 1,
+                        "king"  : 1
+                    }
+                }
+            ]
+        }
+
+        requests.post('http://localhost:5000/register_strategy', json=default_strategy)
+        return jsonify({"error": "No games found for this user. New strategy created"}), 404
 
     items_per_page = int(request.args.get("items_per_page", 10))
     page_number    = int(request.args.get("page_number", 0))

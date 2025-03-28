@@ -121,7 +121,7 @@ export class GameLobbyPageComponent implements OnInit
       {
         if (user) 
         {
-          this.playerName = user.sub ? md5(user.sub) : 'UNKNOWN_PLAYER';
+          this.playerName = (user.nickname || 'UNKNOWN_PLAYER').toUpperCase();
           console.log(`Player name: ${this.playerName}`);
           this.user_id = user.sub
           this.initializeLobby();

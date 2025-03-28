@@ -355,7 +355,7 @@ def register_login():
     result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
 
     #This indicates a new strategy was created
-    if result.modified_count == 1:
+    if result.modified_count == 0 and result.matched_count == 0:
         default_strategy = {
             "name"       : "STARTER STRATEGY",
             "wins"       : 0,
@@ -388,7 +388,8 @@ def register_login():
             ]
         }
 
-        r = requests.post('http://localhost:5000/register_strategy', json=default_strategy)
+        requests.post('http://localhost:5000/register_strategy', json=default_strategy)
+        
 
 
     result_dict = {

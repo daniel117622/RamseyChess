@@ -171,7 +171,41 @@ def get_private_strategies():
     manager = UserProfileManager()
     user_data = manager.load_one_by_sub(oauth_sub)
     if not user_data:
+        default_strategy = {
+            "name"       : "STARTER STRATEGY",
+            "wins"       : 0,
+            "losses"     : 0,
+            "elo"        : 1000,
+            "owner"      : oauth_sub,
+            "description": "Initial strategy given on account creation. All pieces have the same value",
+            "strategy_list": [
+                {
+                    "collection": "evaluate_material",
+                    "name": "COMMUNIST",
+                    "owner": oauth_sub,
+                    "blackPieces": {
+                        "pawn"  : -1,
+                        "knight": -1,
+                        "bishop": -1,
+                        "rook"  : -1,
+                        "queen" : -1,
+                        "king"  : -1
+                    },
+                    "whitePieces": {
+                        "pawn"  : 1,
+                        "knight": 1,
+                        "bishop": 1,
+                        "rook"  : 1,
+                        "queen" : 1,
+                        "king"  : 1
+                    }
+                }
+            ]
+        }
+
+        requests.post('http://localhost:5000/register_strategy', json=default_strategy)
         return jsonify({"error": "User does not exists"}), 400
+
 
     ai_manager = AiPremadeManager()
     my_strategies = ai_manager.getByOwner(oauth_sub)
@@ -352,44 +386,7 @@ def register_login():
     
     user_profile.update_user_login_time(oauth_sub, current_time_utc)
 
-    result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
-
-    #This indicates a new strategy was created
-    if result.modified_count == 0 and result.matched_count == 0:
-        default_strategy = {
-            "name"       : "STARTER STRATEGY",
-            "wins"       : 0,
-            "losses"     : 0,
-            "elo"        : 1000,
-            "owner"      : oauth_sub,
-            "description": "Initial strategy given on account creation. All pieces have the same value",
-            "strategy_list": [
-                {
-                    "collection": "evaluate_material",
-                    "name": "COMMUNIST",
-                    "owner": oauth_sub,
-                    "blackPieces": {
-                        "pawn"  : -1,
-                        "knight": -1,
-                        "bishop": -1,
-                        "rook"  : -1,
-                        "queen" : -1,
-                        "king"  : -1
-                    },
-                    "whitePieces": {
-                        "pawn"  : 1,
-                        "knight": 1,
-                        "bishop": 1,
-                        "rook"  : 1,
-                        "queen" : 1,
-                        "king"  : 1
-                    }
-                }
-            ]
-        }
-
-        requests.post('http://localhost:5000/register_strategy', json=default_strategy)
-        
+    result = user_profile.update_user_login_time(oauth_sub, current_time_utc)      
 
 
     result_dict = {

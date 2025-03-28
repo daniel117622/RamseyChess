@@ -56,39 +56,6 @@ def get_games_by_owner_paged():
         
 
     if not games:
-        default_strategy = {
-            "name"       : "STARTER STRATEGY",
-            "wins"       : 0,
-            "losses"     : 0,
-            "elo"        : 1000,
-            "owner"      : user_id,
-            "description": "Initial strategy given on account creation. All pieces have the same value",
-            "strategy_list": [
-                {
-                    "collection": "evaluate_material",
-                    "name": "COMMUNIST",
-                    "owner": user_id,
-                    "blackPieces": {
-                        "pawn"  : -1,
-                        "knight": -1,
-                        "bishop": -1,
-                        "rook"  : -1,
-                        "queen" : -1,
-                        "king"  : -1
-                    },
-                    "whitePieces": {
-                        "pawn"  : 1,
-                        "knight": 1,
-                        "bishop": 1,
-                        "rook"  : 1,
-                        "queen" : 1,
-                        "king"  : 1
-                    }
-                }
-            ]
-        }
-
-        requests.post('http://localhost:5000/register_strategy', json=default_strategy)
         return jsonify({"error": "No games found for this user. New strategy created"}), 404
 
     items_per_page = int(request.args.get("items_per_page", 10))

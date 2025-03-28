@@ -28,6 +28,8 @@ export class GameLobbyPageComponent implements OnInit
   isRoomFull: boolean = false;
   boardSize = 600
   isPlayerInLobby : boolean = false;
+  players: { name: string; color: string }[] = [];
+
 
   gameFinishedPgn : string | null = null;
 
@@ -196,27 +198,17 @@ export class GameLobbyPageComponent implements OnInit
   }
 
 
-  joinLobby(lobbyId: string, playerName: string): void 
+  joinLobby(lobbyId: string, playerName: string): void
   {
       this.isPlayerInLobby = true;
       this.lobby.emitJoinLobby(lobbyId, playerName);
-  
+
       this.lobby.onPlayerJoined().subscribe((data: { players: { name: string; color: string }[] }) =>
       {
-          const playerList = document.getElementById('playerList');
-          playerList!.innerHTML = '';
-  
-          const playerNames = data.players.map(player => player.name);
-  
-          playerNames.forEach((playerName: string) =>
-          {
-              const listItem = document.createElement('li');
-              listItem.textContent = playerName;
-              listItem.classList.add('player-entry');  // Add the player-entry class
-              playerList!.appendChild(listItem);
-          });
-  
-          const currentPlayer = data.players.find(player => player.name === playerName);
+          // Update the players array with the new lobby data
+          this.players = data.players;
+
+          const currentPlayer = data.players.find((player) => player.name === playerName);
           if (currentPlayer && currentPlayer.color === 'black')
           {
               this.chessBoard.reverse();

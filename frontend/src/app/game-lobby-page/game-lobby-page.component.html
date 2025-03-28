@@ -69,50 +69,47 @@
 <!-- Display the list of players in the lobby -->
 <div *ngIf="lobbyId">
   <h2>Players in Lobby:</h2>
-  <ul id="playerList">
-    <!-- Player list dynamically updated -->
-    <li *ngFor="let player of bothPlayersReadyState" [ngClass]="{
-        'ready-state': player.ready,
-        'not-ready-state': !player.ready
-    }">
-      {{ player.name }} - {{ player.ready ? 'Ready' : 'Not Ready' }}
-    </li>
+  <ul>
+      <li *ngFor="let player of players" class="player-entry">
+          {{ player.name }}
+      </li>
   </ul>
 
   <div class="d-flex align-items-center gap-3">
-    <!-- Leave Lobby Button -->
-    <button
-      class="btn btn-danger custom-button px-3 py-2"
-      [disabled]="all_buttons_frozen"
-      (click)="resetLobby()"
-    >
-      Leave Lobby
-    </button>
+      <!-- Leave Lobby Button -->
+      <button
+          class="btn btn-danger custom-button px-3 py-2"
+          [disabled]="all_buttons_frozen"
+          (click)="resetLobby()"
+      >
+          Leave Lobby
+      </button>
 
-    <!-- I am ready Button -->
-    <button
-        class="btn btn-success custom-button px-3 py-2"
-        [class.ready]="playerReadyState"
-        [disabled]="!selected_strategy || all_buttons_frozen"
-        (click)="toggleReadyState()"
-    >
-      I am ready
-    </button>
+      <!-- I am ready Button -->
+      <button
+          class="btn btn-success custom-button px-3 py-2"
+          [class.ready]="playerReadyState"
+          [disabled]="!selected_strategy || all_buttons_frozen"
+          (click)="toggleReadyState()"
+      >
+          I am ready
+      </button>
 
-    <!-- Execute Game Button -->
-    <button
-      class="btn btn-primary custom-button px-3 py-2"
-      [disabled]="!areBothPlayersReady() || all_buttons_frozen"
-      [ngClass]="{'execute-button-ready': areBothPlayersReady() || all_buttons_frozen}"
-      (click)="startGame()"
-    >
-      Execute Game
-    </button>
+      <!-- Execute Game Button -->
+      <button
+          class="btn btn-primary custom-button px-3 py-2"
+          [disabled]="!areBothPlayersReady() || all_buttons_frozen"
+          [ngClass]="{'execute-button-ready': areBothPlayersReady() || all_buttons_frozen}"
+          (click)="startGame()"
+      >
+          Execute Game
+      </button>
   </div>
   <p class="text-center mt-3 text-white">
-   Wait for the "Execute Game" button to turn yellow. That means the game can be started by any player.
+      Wait for the "Execute Game" button to turn yellow. That means the game can be started by any player.
   </p>
 </div>
+
 
 
 

@@ -6,6 +6,8 @@ from bson.objectid import ObjectId
 from typing import Any
 import copy
 import logging
+import requests
+
 # For transactions
 from data_access.connector import db
 from pymongo.errors import PyMongoError
@@ -333,6 +335,8 @@ def delete_private_strategies():
 
     return jsonify({"success": "Deleted strategy"}), 200
      
+     
+
 @profile_routes.route('/register_login', methods=['POST'])
 def register_login():
     data = request.json
@@ -345,16 +349,54 @@ def register_login():
 
     user_profile = UserProfileManager()
     user_profile.load_one_by_sub(oauth_sub)
+    
     user_profile.update_user_login_time(oauth_sub, current_time_utc)
 
     result = user_profile.update_user_login_time(oauth_sub, current_time_utc)
+
+    #New user
+    if result.matched_count == 0:
+        default_strategy = {
+            "name"       : "STARTER STRATEGY",
+            "wins"       : 0,
+            "losses"     : 0,
+            "elo"        : 1000,
+            "owner"      : oauth_sub,
+            "description": "Initial strategy given on account creation. All pieces have the same value",
+            "strategy_list": [
+                {
+                    "collection": "evaluate_material",
+                    "name": "COMMUNIST",
+                    "owner": oauth_sub,
+                    "blackPieces": {
+                        "pawn"  : -1,
+                        "knight": -1,
+                        "bishop": -1,
+                        "rook"  : -1,
+                        "queen" : -1,
+                        "king"  : -1
+                    },
+                    "whitePieces": {
+                        "pawn"  : 1,
+                        "knight": 1,
+                        "bishop": 1,
+                        "rook"  : 1,
+                        "queen" : 1,
+                        "king"  : 1
+                    }
+                }
+            ]
+        }
+
+        r = requests.post('http://localhost:5000/register_strategy', json=default_strategy)
+
+
     result_dict = {
         "acknowledged"  : result.acknowledged,
         "matched_count" : result.matched_count,
         "modified_count": result.modified_count
     }
     return jsonify(result_dict)
-
 
 
    

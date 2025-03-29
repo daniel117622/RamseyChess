@@ -70,15 +70,23 @@
 <div *ngIf="lobbyId">
   <h2>Players in Lobby:</h2>
   <div class="container-fluid">
-    <div class="row">
-        <div *ngFor="let player of players"
-             class="col-auto player-entry"
-             [ngClass]="{ 'ready-state': areBothPlayersReady(), 'not-ready-state': !areBothPlayersReady() }"
-        >
-            {{ player.name }}
+    <div class="row fw-bold mb-1">
+        <div class="col player-header text-center">Player 1</div>
+        <div class="col player-header text-center">Player 2</div>
+    </div>
+    <div class="row g-1">
+        <div class="col player-entry text-center"
+            [ngClass]="{ 'ready-state': players[0] && areBothPlayersReady(), 'not-ready-state': !players[0] || !areBothPlayersReady() }">
+            {{ players[0] ? players[0].name : '' }}
         </div>
-      </div>
+        <div class="col player-entry text-center"
+            [ngClass]="{ 'ready-state': players[1] && areBothPlayersReady(), 'not-ready-state': !players[1] || !areBothPlayersReady() }">
+            {{ players[1] ? players[1].name : '' }}
+        </div>
+    </div>
   </div>
+
+
 
   <div class="d-flex align-items-center gap-3">
       <!-- Leave Lobby Button -->

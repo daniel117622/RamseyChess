@@ -2,6 +2,19 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
+interface Player {
+  name              : string;
+  ready             : boolean;
+  color            ?: string;
+  selected_strategy?: string;
+}
+
+export interface Lobby {
+  id     : string;
+  players: Player[];
+  status : string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -110,7 +123,7 @@ export class LobbyService
           };
       });
   }
-  
+
   onPlayerReadyUpdate(): Observable<{ players: { name: string, ready: boolean }[] }> 
   {
     if (!this.socket) 
@@ -256,6 +269,62 @@ export class LobbyService
         this.socket?.off(`lobbyDetails:${lobbyId}`);
       };
     });
+  }
+
+onLobbyStateUpdate(): Observable<Lobby[]>
+{
+      if (!this.socket)
+      {
+          throw new Error('Socket.IO connection is not initialized.');
+      }
+
+      return new Observable((observer) =>
+      {
+          this.socket?.on('lobby_state', (data: any) =>
+          {
+              console.log('Received lobby_state event:', data);
+
+              const availableLobbies: Lobby[] = [];
+
+              // Process the data to extract lobbies
+              Object.keys(data).forEach(lobbyId =>
+              {
+                  const players: Player[] = [];
+                  let allPlayersReady = true;
+
+                  // Loop through each player in the lobby
+                  Object.keys(data[lobbyId]).forEach(playerId =>
+                  {
+                      const player = data[lobbyId][playerId];
+                      players.push({ name: playerId, ready: player.ready, color: player.color, selected_strategy: player.selected_strategy });
+
+                      if (!player.ready)
+                      {
+                          allPlayersReady = false;  // If any player is not ready, the game is not ready to start
+                      }
+                  });
+
+                  const status = players.length === 2
+                      ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
+                      : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
+
+                  availableLobbies.push(
+                      {
+                          id: lobbyId,
+                          players: players,
+                          status: status,
+                      }
+                  );
+              });
+
+              observer.next(availableLobbies);
+          });
+
+          return () =>
+          {
+              this.socket?.off('lobby_state');
+          };
+      });
   }
 
 

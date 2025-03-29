@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener , ViewChild } from '@angular/core';
 import { ActivatedRoute, Router , NavigationEnd} from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
-import { LobbyService } from 'src/services/lobby-service.service';
+import { LobbyService , Lobby } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
 import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
 import { NgZone } from '@angular/core';
@@ -51,28 +51,7 @@ export class GameLobbyPageComponent implements OnInit
   bothPlayersReadyState : { name: string, ready: boolean }[] = []
   all_buttons_frozen: boolean = false;
 
-  availableLobbies = [
-    { id: 'r1a2b3', players: [{ name: 'Alice' }], status: 'Waiting for Player' },
-    { id: 'r4c5d6', players: [{ name: 'Bob' }, { name: 'Eve' }], status: 'In Progress' },
-    { id: 'r7f8g9', players: [], status: 'Open' },
-    { id: 'r0h1i2', players: [{ name: 'Charlie' }], status: 'Waiting for Player' },
-    { id: 'r3j4k5', players: [{ name: 'David' }, { name: 'Faythe' }], status: 'In Progress' },
-    { id: 'r6l7m8', players: [{ name: 'Grace' }], status: 'Waiting for Player' },
-    { id: 'r9n0o1', players: [{ name: 'Heidi' }], status: 'Waiting for Player' },
-    { id: 'r2p3q4', players: [{ name: 'Ivan' }, { name: 'Judy' }], status: 'In Progress' },
-    { id: 'r5s6t7', players: [], status: 'Open' },
-    { id: 'r8u9v0', players: [{ name: 'Mallory' }], status: 'Waiting for Player' },
-    { id: 'r1w2x3', players: [{ name: 'Jack' }], status: 'Waiting for Player' },
-    { id: 'r4y5z6', players: [{ name: 'Lily' }, { name: 'Mike' }], status: 'In Progress' },
-    { id: 'r7a8b9', players: [], status: 'Open' },
-    { id: 'r0c1d2', players: [{ name: 'Nina' }], status: 'Waiting for Player' },
-    { id: 'r3e4f5', players: [{ name: 'Oscar' }, { name: 'Paul' }], status: 'In Progress' },
-    { id: 'r6g7h8', players: [{ name: 'Quincy' }], status: 'Waiting for Player' },
-    { id: 'r9i0j1', players: [{ name: 'Rachel' }], status: 'Waiting for Player' },
-    { id: 'r2k3l4', players: [{ name: 'Sam' }, { name: 'Tina' }], status: 'In Progress' },
-    { id: 'r5m6n7', players: [], status: 'Open' },
-    { id: 'r8o9p0', players: [{ name: 'Ursula' }, { name: 'Victor' }], status: 'In Progress' }
-  ];
+  availableLobbies : Lobby[] = [];
   
   constructor (
     private route : ActivatedRoute,
@@ -192,7 +171,15 @@ export class GameLobbyPageComponent implements OnInit
               }
           }
       });
+
     })
+
+    this.lobby.onLobbyStateUpdate().subscribe((availableLobbies) => 
+      {
+        console.log('Updated lobby state:', availableLobbies);
+        this.availableLobbies = availableLobbies;  
+        this.cdr.detectChanges();  
+      });
     this.updateBoardSize();
     
   }

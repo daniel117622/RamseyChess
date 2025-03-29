@@ -228,6 +228,7 @@ export class GameLobbyPageComponent implements OnInit
     this.has_posted_game = false;
     this.players = []
     console.log('Lobby reset');
+    this.availableLobbies$ = this.lobby.requestLobbies()
   }
 
   resetState(): void
@@ -238,6 +239,7 @@ export class GameLobbyPageComponent implements OnInit
     this.gameFinishedPgn = null;
     this.has_posted_game = false;
     this.players = []
+    this.availableLobbies$ = this.lobby.requestLobbies()
   }
 
   handleJoinLobby(): void

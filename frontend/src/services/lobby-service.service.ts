@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 interface Player {
   name              : string;
@@ -20,8 +20,10 @@ export interface Lobby {
 })
 export class LobbyService 
 {
-  private socket: Socket | null = null;
-  public isGameInitiator = false;
+  private socket: Socket | null                = null;
+  public  isGameInitiator                      = false;
+  private lobbyState$: BehaviorSubject<Lobby[]> = new BehaviorSubject<Lobby[]>([]);
+  
   initializeSocket (): void 
   {
     if (this.socket) {
@@ -327,5 +329,13 @@ onLobbyStateUpdate(): Observable<Lobby[]>
       });
   }
 
+  requestLobbies(): Observable<Lobby[]>
+  {
+    // Emit 'request_lobbies' to request lobbies from the server
+    this.socket?.emit('request_lobbies');
+  
+    // Return the observable of the lobby state
+    return this.lobbyState$;
+  }
 
 }

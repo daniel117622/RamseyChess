@@ -41,6 +41,10 @@ def register_socketio_events(socketio):
     def test_disconnect():
         print('Client disconnected')
 
+    @socketio.on('request_lobbies')
+    def send_lobbies():
+        emit('lobby_state', pvp_lobbies)
+
     @socketio.on('execute_game')
     @exception_handler()
     def execute_game(data):

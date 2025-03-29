@@ -228,7 +228,7 @@ export class GameLobbyPageComponent implements OnInit
     this.has_posted_game = false;
     this.players = []
     console.log('Lobby reset');
-    this.availableLobbies$ = this.lobby.requestLobbies()
+    this.availableLobbies$! = this.lobby.requestLobbies()
   }
 
   resetState(): void

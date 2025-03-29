@@ -35,7 +35,7 @@ def register_socketio_events(socketio):
     @socketio.on('connect')
     def test_connect():
         print('Client connected')
-        emit('lobby_state', json.dumps(pvp_lobbies))
+        emit('lobby_state', pvp_lobbies)
 
     @socketio.on('disconnect')
     def test_disconnect():

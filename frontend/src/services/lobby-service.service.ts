@@ -24,24 +24,43 @@ export class LobbyService
   public  isGameInitiator                      = false;
   private lobbyState$: BehaviorSubject<Lobby[]> = new BehaviorSubject<Lobby[]>([]);
   
-  initializeSocket (): void 
+  initializeSocket(): Promise<void> 
   {
-    if (this.socket) {
-      console.warn('Socket.IO connection is already initialized.');
-      return;
-    }
-
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    const host = window.location.host;
-    const socketUrl = `${protocol}//${host}`;
-
-    this.socket = io(socketUrl, 
+    return new Promise<void>((resolve, reject) => 
     {
-      path: '/socket.io',
-      transports: ['websocket']
+      if (this.socket) 
+      {
+        console.warn('Socket.IO connection is already initialized.');
+        resolve();  // Resolve immediately if already initialized
+        return;
+      }
+  
+      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+      const host = window.location.host;
+      const socketUrl = `${protocol}//${host}`;
+  
+      this.socket = io(socketUrl, 
+      {
+        path: '/socket.io',
+        transports: ['websocket']
+      });
+  
+      // Listen for 'connect' event to ensure the socket is connected
+      this.socket.on('connect', () => 
+      {
+        console.log('Socket.IO connection established');
+        resolve();  // Resolve the promise when connected
+      });
+  
+      // Listen for connection error and reject if any issues occur
+      this.socket.on('connect_error', (error) => 
+      {
+        console.error('Socket.IO connection error:', error);
+        reject(new Error('Socket.IO connection failed'));
+      });
     });
   }
-
+  
   emitJoinLobby(lobbyId: string, playerName: string): void 
   {
     if (!this.socket) 

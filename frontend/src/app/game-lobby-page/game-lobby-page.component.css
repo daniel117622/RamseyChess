@@ -141,7 +141,18 @@ h2 {
     color: gray;
 }
 
-.execute-button-ready {
+
+.player-entry
+{
+    font-family     : 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size       : 1.2rem;
+    padding         : 8px 12px;
+    margin          : 4px;
+    text-align      : center;
+}
+
+.execute-button-ready 
+{
   background-color: #f6e715;
   border-color    : #f6e715;
   color           : black;

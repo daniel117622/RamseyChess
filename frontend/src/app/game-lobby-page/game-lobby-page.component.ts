@@ -244,6 +244,7 @@ export class GameLobbyPageComponent implements OnInit
     this.isPlayerInLobby = false;
     this.gameFinishedPgn = null;
     this.has_posted_game = false;
+    this.players = []
     console.log('Lobby reset');
   }
 
@@ -254,6 +255,7 @@ export class GameLobbyPageComponent implements OnInit
     this.isPlayerInLobby = false;
     this.gameFinishedPgn = null;
     this.has_posted_game = false;
+    this.players = []
   }
 
   handleJoinLobby(): void

@@ -107,7 +107,7 @@ export class GameLobbyPageComponent implements OnInit
 
     this.lobby.initializeSocket()
       .then(() => {
-        this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
+        this.availableLobbies$ = this.lobby.requestLobbies()
       })
       .catch(error => {
         console.error('Socket initialization failed:', error);

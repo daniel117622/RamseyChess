@@ -51,7 +51,7 @@ export class GameLobbyPageComponent implements OnInit
   bothPlayersReadyState : { name: string, ready: boolean }[] = []
   all_buttons_frozen: boolean = false;
 
-  availableLobbies$ : Observable<Lobby[]> = this.lobby.onLobbyStateUpdate();
+  availableLobbies$!: Observable<Lobby[]>;
   
   constructor (
     private route : ActivatedRoute,
@@ -95,20 +95,21 @@ export class GameLobbyPageComponent implements OnInit
         this.resetState();
       }
     });
-  
 
-    this.auth.user$.subscribe(user => 
-      {
-        if (user) 
-        {
-          this.playerName = (user.nickname || 'UNKNOWN_PLAYER').toUpperCase();
-          console.log(`Player name: ${this.playerName}`);
-          this.user_id = user.sub
-          this.initializeLobby();
-        }
-      });
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.playerName = (user.nickname || 'UNKNOWN_PLAYER').toUpperCase();
+        console.log(`Player name: ${this.playerName}`);
+        this.user_id = user.sub;
+        this.initializeLobby();
+      }
+    });
 
-      this.lobby.initializeSocket();
+    // Initialize socket first to ensure connection is established before using it
+    this.lobby.initializeSocket();
+
+    // Subscribe to lobby updates after socket is initialized
+    this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
 
       // Wait for the socket to connect before proceeding
       this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
@@ -254,6 +255,17 @@ export class GameLobbyPageComponent implements OnInit
           this.isPlayerInLobby = true;
           this.joinLobby(this.inputLobbyId, this.playerName);
       }
+  }
+
+  handleJoinLobbyFromButton(lobby_id : string) : void
+  {
+    window.location.href = `/game-lobby/${lobby_id}`;
+    
+    if (this.playerName)
+    {
+        this.isPlayerInLobby = true;
+        this.joinLobby(this.inputLobbyId, this.playerName);
+    }
   }
 
   selectStrategy(strategy: StrategyCardListProfileView): void 

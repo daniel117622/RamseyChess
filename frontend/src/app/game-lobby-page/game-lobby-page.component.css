@@ -132,23 +132,24 @@ h2 {
 
 .ready-state
 {
-    color: lime;
-    font-weight: bold;
+    color: rgb(127, 255, 127);
+
 }
 
 .not-ready-state
 {
-    color: gray;
+    color: rgb(208, 208, 208);
 }
 
 
 .player-entry
 {
-    font-family     : 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size       : 1.2rem;
-    padding         : 8px 12px;
-    margin          : 4px;
-    text-align      : center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size  : 1.2rem;
+    padding    : 8px 12px;
+    margin     : 4px;
+    text-align : center;
+    width      : 150px;
 }
 
 .execute-button-ready 

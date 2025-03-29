@@ -1,32 +1,66 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+interface Player {
+  name              : string;
+  ready             : boolean;
+  color            ?: string;
+  selected_strategy?: string;
+}
+
+export interface Lobby {
+  id     : string;
+  players: Player[];
+  status : string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class LobbyService 
 {
-  private socket: Socket | null = null;
-  public isGameInitiator = false;
-  initializeSocket (): void 
+  private socket: Socket | null                = null;
+  public  isGameInitiator                      = false;
+  private lobbyState$: BehaviorSubject<Lobby[]> = new BehaviorSubject<Lobby[]>([]);
+  
+  initializeSocket(): Promise<void> 
   {
-    if (this.socket) {
-      console.warn('Socket.IO connection is already initialized.');
-      return;
-    }
-
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    const host = window.location.host;
-    const socketUrl = `${protocol}//${host}`;
-
-    this.socket = io(socketUrl, 
+    return new Promise<void>((resolve, reject) => 
     {
-      path: '/socket.io',
-      transports: ['websocket']
+      if (this.socket) 
+      {
+        console.warn('Socket.IO connection is already initialized.');
+        resolve();  // Resolve immediately if already initialized
+        return;
+      }
+  
+      const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+      const host = window.location.host;
+      const socketUrl = `${protocol}//${host}`;
+  
+      this.socket = io(socketUrl, 
+      {
+        path: '/socket.io',
+        transports: ['websocket']
+      });
+  
+      // Listen for 'connect' event to ensure the socket is connected
+      this.socket.on('connect', () => 
+      {
+        console.log('Socket.IO connection established');
+        resolve();  // Resolve the promise when connected
+      });
+  
+      // Listen for connection error and reject if any issues occur
+      this.socket.on('connect_error', (error) => 
+      {
+        console.error('Socket.IO connection error:', error);
+        reject(new Error('Socket.IO connection failed'));
+      });
     });
   }
-
+  
   emitJoinLobby(lobbyId: string, playerName: string): void 
   {
     if (!this.socket) 
@@ -36,6 +70,7 @@ export class LobbyService
     }
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
+
 
   emitReadySignal (readyState: boolean, lobbyId: string, playerName: string, strategy_id : string): void 
   {
@@ -86,6 +121,28 @@ export class LobbyService
         this.socket?.off('playerJoined');
       };
     });
+  }
+
+  onPlayerLeft(): Observable<{ players: { name: string; color: string }[] }> 
+  {
+      if (!this.socket) 
+      {
+          throw new Error('Socket.IO connection is not initialized.');
+      }
+  
+      return new Observable((observer) => 
+      {
+          this.socket?.on('playerLeft', (data: { players: { name: string; color: string }[] }) => 
+          {
+              console.log('Received playerLeft event:', data);
+              observer.next(data);
+          });
+  
+          return () => 
+          {
+              this.socket?.off('playerLeft');
+          };
+      });
   }
 
   onPlayerReadyUpdate(): Observable<{ players: { name: string, ready: boolean }[] }> 
@@ -234,5 +291,125 @@ export class LobbyService
       };
     });
   }
+
+onLobbyStateUpdate(): Observable<Lobby[]>
+{
+      if (!this.socket)
+      {
+          throw new Error('Socket.IO connection is not initialized.');
+      }
+
+      return new Observable((observer) =>
+      {
+          this.socket?.on('lobby_state', (data: any) =>
+          {
+              console.log('Received lobby_state event:', data);
+
+              const availableLobbies: Lobby[] = [];
+
+              // Process the data to extract lobbies
+              Object.keys(data).forEach(lobbyId =>
+              {
+                  const players: Player[] = [];
+                  let allPlayersReady = true;
+
+                  // Loop through each player in the lobby
+                  Object.keys(data[lobbyId]).forEach(playerId =>
+                  {
+                      const player = data[lobbyId][playerId];
+                      players.push({ name: playerId, ready: player.ready, color: player.color, selected_strategy: player.selected_strategy });
+
+                      if (!player.ready)
+                      {
+                          allPlayersReady = false;  // If any player is not ready, the game is not ready to start
+                      }
+                  });
+
+                  const status = players.length === 2
+                      ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
+                      : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
+
+                  availableLobbies.push(
+                      {
+                          id: lobbyId,
+                          players: players,
+                          status: status,
+                      }
+                  );
+              });
+
+              observer.next(availableLobbies);
+          });
+
+          return () =>
+          {
+              this.socket?.off('lobby_state');
+          };
+      });
+  }
+
+  requestLobbies(): Observable<Lobby[]>
+  {
+      // Emit 'request_lobbies' to request lobbies from the server
+      this.socket?.emit('request_lobbies');
+  
+      // Return an observable that listens for the 'lobby_state' event and emits the data
+      return new Observable<Lobby[]>((observer) => 
+      {
+          // Listen for 'lobby_state' and emit the received lobbies
+          this.socket?.on('lobby_state', (data: any) => 
+          {
+              console.log('Received lobby_state event:', data);
+  
+              const availableLobbies: Lobby[] = [];
+  
+              // Process the data to extract lobbies
+              Object.keys(data).forEach(lobbyId =>
+              {
+                  const players: Player[] = [];
+                  let allPlayersReady = true;
+  
+                  // Loop through each player in the lobby
+                  Object.keys(data[lobbyId]).forEach(playerId =>
+                  {
+                      const player = data[lobbyId][playerId];
+                      players.push({ 
+                          name: playerId, 
+                          ready: player.ready, 
+                          color: player.color, 
+                          selected_strategy: player.selected_strategy 
+                      });
+  
+                      if (!player.ready)
+                      {
+                          allPlayersReady = false;  // If any player is not ready, the game is not ready to start
+                      }
+                  });
+  
+                  const status = players.length === 2
+                      ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
+                      : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
+  
+                  availableLobbies.push(
+                      {
+                          id: lobbyId,
+                          players: players,
+                          status: status,
+                      }
+                  );
+              });
+  
+              // Emit the processed available lobbies
+              observer.next(availableLobbies);
+          });
+  
+          // Cleanup: Remove the listener when the observable is unsubscribed
+          return () =>
+          {
+              this.socket?.off('lobby_state');
+          };
+      });
+  }
+  
 
 }

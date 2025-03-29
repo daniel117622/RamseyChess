@@ -51,7 +51,7 @@ export class GameLobbyPageComponent implements OnInit
   bothPlayersReadyState : { name: string, ready: boolean }[] = []
   all_buttons_frozen: boolean = false;
 
-  availableLobbies : Lobby[] = [];
+  availableLobbies$ : Observable<Lobby[]> = this.lobby.onLobbyStateUpdate();
   
   constructor (
     private route : ActivatedRoute,
@@ -174,12 +174,6 @@ export class GameLobbyPageComponent implements OnInit
 
     })
 
-    this.lobby.onLobbyStateUpdate().subscribe((availableLobbies) => 
-      {
-        console.log('Updated lobby state:', availableLobbies);
-        this.availableLobbies = availableLobbies;  
-        this.cdr.detectChanges();  
-      });
     this.updateBoardSize();
     
   }

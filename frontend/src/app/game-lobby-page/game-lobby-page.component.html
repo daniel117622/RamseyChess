@@ -141,7 +141,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let lobby of availableLobbies; let i = index" class="custom-row">
+        <tr *ngFor="let lobby of availableLobbies$ | async; let i = index" class="custom-row">
           <td class="text-center">{{ i + 1 }}</td>
           <td>{{ lobby.id }}</td>
           <td>{{ lobby.players.length }} / 2</td>

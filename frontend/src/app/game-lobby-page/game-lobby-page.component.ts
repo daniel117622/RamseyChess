@@ -80,7 +80,6 @@ export class GameLobbyPageComponent implements OnInit
     private lobby : LobbyService,
     private auth  : AuthService,
     private cdr   : ChangeDetectorRef,
-    private zone  : NgZone,
     private http  : HttpClient
   ) {}
 
@@ -195,6 +194,7 @@ export class GameLobbyPageComponent implements OnInit
       });
     })
     this.updateBoardSize();
+    
   }
 
 

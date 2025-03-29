@@ -37,6 +37,7 @@ export class LobbyService
     this.socket.emit('playerjoin', { lobbyId, name: playerName });
   }
 
+
   emitReadySignal (readyState: boolean, lobbyId: string, playerName: string, strategy_id : string): void 
   {
     if (!this.socket) 
@@ -88,6 +89,28 @@ export class LobbyService
     });
   }
 
+  onPlayerLeft(): Observable<{ players: { name: string; color: string }[] }> 
+  {
+      if (!this.socket) 
+      {
+          throw new Error('Socket.IO connection is not initialized.');
+      }
+  
+      return new Observable((observer) => 
+      {
+          this.socket?.on('playerLeft', (data: { players: { name: string; color: string }[] }) => 
+          {
+              console.log('Received playerLeft event:', data);
+              observer.next(data);
+          });
+  
+          return () => 
+          {
+              this.socket?.off('playerLeft');
+          };
+      });
+  }
+  
   onPlayerReadyUpdate(): Observable<{ players: { name: string, ready: boolean }[] }> 
   {
     if (!this.socket) 
@@ -234,5 +257,6 @@ export class LobbyService
       };
     });
   }
+
 
 }

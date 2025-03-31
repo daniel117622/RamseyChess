@@ -6,16 +6,17 @@
 
 .custom-input:hover
 {
-    background-color: #34495e;
+    background-color: #2c3e50;
 }
 
 .custom-icon-button
 {
     color: #bdc3c7;
     background-color: #2c3e50;
-    border-radius: 1px;
+    border-radius: 4px;
     padding: 8px;
     border: none;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .custom-icon-button:hover
@@ -23,59 +24,49 @@
     background-color: #3498db;
 }
 
-.pieces
-{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.piece
-{
-    width: 45%;
-}
-
-ul
-{
-    list-style-type: none;
-    padding-left: 0;
-}
-
-ul li
-{
-    padding: 4px 0;
-}
-
+/* Table Styling */
 .table
 {
-    background-color: #34495e;
-    border: 1px solid #2c3e50;
+    background-color: #2c3e50;
+    border: 2px solid #1a252f;
     width: 100%;
     margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
+.table th,
 .table td
 {
-    color: #000000;
-    background: #e19f21;
-    border: solid 3px #e19f21;
+    color: #ffffff;
+    background: #34495e;
+    border: solid 2px #1a252f;
+    padding: 12px;
+    text-align: left;
 }
 
 .table th
 {
-    color: #000000;
-    background: #e19f21;
-    border: solid 3px #e19f21;
+    background: #2980b9;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.table tbody tr:nth-child(odd)
+{
+    background-color: #3b5268;
 }
 
 .table input
 {
-    border-radius: 1px;
-    color:aliceblue;
+    border-radius: 2px;
+    color: aliceblue;
     background-color: #00366d;
+    padding: 6px;
+    border: none;
 }
+
 button
 {
     border-radius: 2px;
 }
-

@@ -42,7 +42,7 @@
         <div *ngFor="let strat of strategy.strategy_list">
             <div class="container-fluid">
                 <div class="strategy-header d-flex align-items-center justify-content-between flex-wrap mb-2">
-                  <h3>{{ strat.name }} ({{ strat.type }})</h3>
+                  <h3> {{getEvaluatorName(strat.type)}} : {{ strat.name }}</h3>
                   <div class="d-flex gap-3 flex-wrap">
                     <!-- Horizontal layout: visible on sm and up -->
                     <div class="d-none d-sm-flex gap-3">

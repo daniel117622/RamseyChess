@@ -84,4 +84,11 @@ export class ViewStrategyComponent implements OnInit {
       }
     );
   }
+  getEvaluatorName(strat_type : string) : string
+  {
+    const evaluatorNaming: { [key: string]: string } = {
+      'evaluate_material': 'Piece Scorer',
+    };
+    return evaluatorNaming[strat_type] || 'Unknown Evaluator';
+  }
 }

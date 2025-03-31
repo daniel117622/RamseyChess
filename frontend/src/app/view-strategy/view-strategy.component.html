@@ -37,7 +37,21 @@
         <hr>
 
         <div *ngFor="let strat of strategy.strategy_list">
-            <h3>{{ strat.name }} ({{ strat.type }})</h3>
+            <div class="strategy-header">
+                <h3>{{ strat.name }} ({{ strat.type }})</h3>
+                <div class="strategy-actions">
+                    <button class="custom-button" (click)="editStrategy(strat)">
+                        <p>Edit Strategy</p>
+                    </button>
+                    <button class="custom-button" (click)="deleteStrategy(strat)">
+                        <p>Delete Strategy</p>
+                    </button>
+                    <button class="custom-button" (click)="shareStrategy(strat)">
+                        <p>Share Strategy</p>
+                    </button>
+                </div>
+            </div>
+
             <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
 
             <!-- Horizontal Rule -->

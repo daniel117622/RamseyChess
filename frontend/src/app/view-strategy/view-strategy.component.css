@@ -31,7 +31,7 @@
     border: 2px solid #1a252f;
     width: 100%;
     margin-bottom: 20px;
-    border-radius: 8px;
+    border-radius: 2px;
     overflow: hidden;
 }
 
@@ -73,16 +73,10 @@
     color: #ffffff;
     border: 2px solid #1a252f;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 2px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-.custom-button:hover
-{
-    background-color: #2980b9;
-    transform: scale(1.05);
 }
 
 .custom-button p

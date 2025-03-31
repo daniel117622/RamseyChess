@@ -78,6 +78,27 @@
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
+.button-section
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.custom-button
+{
+    background-color: $dark-blue;
+    color: #ffffff;
+    border: 2px solid $very-dark-blue;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    width: 100%;
+}
+
 .custom-button:hover
 {
     background-color: $lighter-blue;

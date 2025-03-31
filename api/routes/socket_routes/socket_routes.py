@@ -35,10 +35,15 @@ def register_socketio_events(socketio):
     @socketio.on('connect')
     def test_connect():
         print('Client connected')
+        emit('lobby_state', pvp_lobbies)
 
     @socketio.on('disconnect')
     def test_disconnect():
         print('Client disconnected')
+
+    @socketio.on('request_lobbies')
+    def send_lobbies():
+        emit('lobby_state', pvp_lobbies)
 
     @socketio.on('execute_game')
     @exception_handler()
@@ -337,6 +342,28 @@ def register_socketio_events(socketio):
         ]
 
         emit('playerJoined', {'players': player_data}, to=lobby_id)
+
+    @socketio.on('playerleft')
+    def handle_player_left(data):
+        lobby_id = data.get('lobbyId')
+        name = data.get('name')
+
+        if not lobby_id or not name:
+            return
+
+        if lobby_id in pvp_lobbies and name in pvp_lobbies[lobby_id]:
+            del pvp_lobbies[lobby_id][name]
+
+            if len(pvp_lobbies[lobby_id]) == 0:
+                del pvp_lobbies[lobby_id]
+
+        player_data = [
+            {"name": player_name, "color": info["color"]}
+            for player_name, info in pvp_lobbies.get(lobby_id, {}).items()
+        ]
+
+        emit('playerLeft', {'players': player_data}, to=lobby_id)
+
 
     @socketio.on('playerReady')
     def handle_player_ready(data):

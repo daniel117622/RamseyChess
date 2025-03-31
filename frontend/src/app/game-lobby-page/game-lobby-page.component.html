@@ -1,4 +1,4 @@
-<h1>Lobby ID: <span class="lobby-id">{{ lobbyId }}</span></h1>
+<h1 style="text-align: center;">Lobby ID: <span class="lobby-id">{{ lobbyId }}</span></h1>
 
 <!-- Form to join a lobby -->
 <div *ngIf="!lobbyId" class="mb-3">
@@ -35,7 +35,7 @@
   <button class="btn btn-secondary px-3 py-2" style="border-radius:1px; font-weight: bold;" (click)="createLobby()">Create New Lobby</button>
 </div>
 
-<div class="d-flex justify-content-center mb-3" style="max-width: 1080px;">
+<div class="d-flex justify-content-center mb-3 container-fluid" style="max-width: 1080px;">
   <div [ngClass]="{'force-hide': !isPlayerInLobby}" class="col-12 d-flex justify-content-center">
     <ngx-chess-board
       #chessBoard
@@ -68,51 +68,60 @@
 
 <!-- Display the list of players in the lobby -->
 <div *ngIf="lobbyId">
-  <h2>Players in Lobby:</h2>
-  <ul id="playerList">
-    <!-- Player list dynamically updated -->
-    <li *ngFor="let player of bothPlayersReadyState" [ngClass]="{
-        'ready-state': player.ready,
-        'not-ready-state': !player.ready
-    }">
-      {{ player.name }} - {{ player.ready ? 'Ready' : 'Not Ready' }}
-    </li>
-  </ul>
+  <div class="container-fluid" style="max-width: 500px;">
+    <div class="row fw-bold mb-1">
+        <div class="col player-header text-center player-entry">Player 1</div>
+        <div class="col player-header text-center player-entry">Player 2</div>
+    </div>
+    <div class="row g-1">
+        <div class="col player-entry text-center"
+            [ngClass]="{ 'ready-state': players[0] && areBothPlayersReady(), 'not-ready-state': !players[0] || !areBothPlayersReady() }">
+            {{ players[0] ? players[0].name : '' }}
+        </div>
+        <div class="col player-entry text-center"
+            [ngClass]="{ 'ready-state': players[1] && areBothPlayersReady(), 'not-ready-state': !players[1] || !areBothPlayersReady() }">
+            {{ players[1] ? players[1].name : '' }}
+        </div>
+    </div>
+  </div>
 
-  <div class="d-flex align-items-center gap-3">
-    <!-- Leave Lobby Button -->
-    <button
-      class="btn btn-danger custom-button px-3 py-2"
-      [disabled]="all_buttons_frozen"
-      (click)="resetLobby()"
-    >
-      Leave Lobby
-    </button>
 
-    <!-- I am ready Button -->
-    <button
-        class="btn btn-success custom-button px-3 py-2"
-        [class.ready]="playerReadyState"
-        [disabled]="!selected_strategy || all_buttons_frozen"
-        (click)="toggleReadyState()"
-    >
-      I am ready
-    </button>
 
-    <!-- Execute Game Button -->
-    <button
-      class="btn btn-primary custom-button px-3 py-2"
-      [disabled]="!areBothPlayersReady() || all_buttons_frozen"
-      [ngClass]="{'execute-button-ready': areBothPlayersReady() || all_buttons_frozen}"
-      (click)="startGame()"
-    >
-      Execute Game
-    </button>
+  <div class="d-flex justify-content-center gap-3">
+      <!-- Leave Lobby Button -->
+      <button
+          class="btn btn-danger custom-button px-3 py-2"
+          [disabled]="all_buttons_frozen"
+          (click)="resetLobby()"
+      >
+          Leave Lobby
+      </button>
+
+      <!-- I am ready Button -->
+      <button
+          class="btn btn-success custom-button px-3 py-2"
+          [class.ready]="playerReadyState"
+          [disabled]="!selected_strategy || all_buttons_frozen"
+          (click)="toggleReadyState()"
+      >
+          I am ready
+      </button>
+
+      <!-- Execute Game Button -->
+      <button
+          class="btn btn-primary custom-button px-3 py-2"
+          [disabled]="!areBothPlayersReady() || all_buttons_frozen"
+          [ngClass]="{'execute-button-ready': areBothPlayersReady() || all_buttons_frozen}"
+          (click)="startGame()"
+      >
+          Execute Game
+      </button>
   </div>
   <p class="text-center mt-3 text-white">
-   Wait for the "Execute Game" button to turn yellow. That means the game can be started by any player.
+      Wait for the "Execute Game" button to turn yellow. That means the game can be started by any player.
   </p>
 </div>
+
 
 
 
@@ -132,7 +141,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let lobby of availableLobbies; let i = index" class="custom-row">
+        <tr *ngFor="let lobby of availableLobbies$ | async; let i = index" class="custom-row">
           <td class="text-center">{{ i + 1 }}</td>
           <td>{{ lobby.id }}</td>
           <td>{{ lobby.players.length }} / 2</td>

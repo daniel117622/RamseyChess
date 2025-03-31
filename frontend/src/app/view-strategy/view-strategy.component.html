@@ -43,18 +43,18 @@
                 <div class="strategy-header d-flex align-items-center justify-content-between flex-wrap">
                     <h3>{{ strat.name }} ({{ strat.type }})</h3>
                     <div class="d-flex gap-3 flex-wrap">
-                        <button class="custom-button w-100 w-md-auto">
+                        <button class="custom-button w-100" style="min-width: 200px;">
                             <p>Edit Strategy</p>
                         </button>
-                        <button class="custom-button w-100 w-md-auto">
+                        <button class="custom-button w-100" style="min-width: 200px;">
                             <p>Delete Strategy</p>
                         </button>
-                        <button class="custom-button w-100 w-md-auto">
+                        <button class="custom-button w-100" style="min-width: 200px;">
                             <p>Share Strategy</p>
                         </button>
                     </div>
                 </div>
-
+        
                 <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
             </div>
 
@@ -63,7 +63,7 @@
 
 
             <div class="pieces">
-                <strong>Pieces:</strong>
+                <strong class="mb-2">Pieces:</strong>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

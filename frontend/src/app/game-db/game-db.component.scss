@@ -1,14 +1,18 @@
+// src/assets/styles/main.scss
+
+@import 'assets/styles/variables';  // Import the color variables
+
 .loading-message
 {
     text-align: center;
     font-size: 1.5rem;
-    color: #bdc3c7;
+    color: $light-gray;
 }
 
 .game-title
 {
     font-size: 2rem;
-    color: #ecf0f1;
+    color: $off-white;
     margin-bottom: 20px;
 }
 
@@ -21,8 +25,8 @@
 
 .card
 {
-    background-color: #2c3e50;
-    border: 2px solid #1a252f;
+    background-color: $dark-blue;
+    border: 2px solid $very-dark-blue;
     border-radius: 2px;
     display: flex;
     flex-direction: column;
@@ -37,24 +41,24 @@
 
 .card-header
 {
-    background-color: #2980b9;
-    color: #ecf0f1;
+    background-color: $bright-blue;
+    color: $off-white;
     font-weight: bold;
     padding: 12px;
-    border-bottom: 2px solid #1a252f;
+    border-bottom: 2px solid $very-dark-blue;
 }
 
 .card-body
 {
-    background-color: #34495e;
-    color: #ecf0f1;
+    background-color: $dark-grayish-blue;
+    color: $off-white;
     padding: 12px;
     flex: 1;
 }
 
 .card-body pre
 {
-    background-color: #00366d;
+    background-color: $very-dark-blue-2;
     padding: 10px;
     border-radius: 2px;
     white-space: pre-wrap;
@@ -64,9 +68,9 @@
 
 .custom-button
 {
-    background-color: #2c3e50;
+    background-color: $dark-blue;
     color: #ffffff;
-    border: 2px solid #1a252f;
+    border: 2px solid $very-dark-blue;
     padding: 10px 20px;
     border-radius: 2px;
     font-size: 16px;
@@ -76,7 +80,7 @@
 
 .custom-button:hover
 {
-    background-color: #3498db;
+    background-color: $lighter-blue;
 }
 
 .custom-button p
@@ -87,8 +91,8 @@
 
 .custom-icon-button
 {
-    color: #bdc3c7;
-    background-color: #2c3e50;
+    color: $light-gray;
+    background-color: $dark-blue;
     border-radius: 1px;
     padding: 8px;
     border: none;

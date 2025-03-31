@@ -5,6 +5,17 @@
   <div *ngIf="game">
     <h2 class="game-title">Game Details</h2>
     <div class="card-grid">
+      <!-- Cards for Strategy ID (Black) and Strategy ID (White) moved to the top -->
+      <div class="card">
+        <div class="card-header">Strategy ID (Black)</div>
+        <div class="card-body">{{ game.strategy_id_black }}</div>
+      </div>
+      <div class="card">
+        <div class="card-header">Strategy ID (White)</div>
+        <div class="card-body">{{ game.strategy_id_white }}</div>
+      </div>
+
+      <!-- Other cards remain in their original positions -->
       <div class="card">
         <div class="card-header">Game ID</div>
         <div class="card-body">{{ game._id.$oid }}</div>
@@ -22,14 +33,6 @@
         <div class="card-body">
           <pre>{{ game.pgn }}</pre>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Strategy ID (Black)</div>
-        <div class="card-body">{{ game.strategy_id_black }}</div>
-      </div>
-      <div class="card">
-        <div class="card-header">Strategy ID (White)</div>
-        <div class="card-body">{{ game.strategy_id_white }}</div>
       </div>
     </div>
   </div>

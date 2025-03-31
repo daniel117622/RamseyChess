@@ -52,7 +52,10 @@
             </div>
             <!-- Search Bar -->
             <div class="col-12 col-sm-auto mt-2 mt-sm-0">
-                <div class="search-bar-container mb-2">
+                <div class="search-bar-container mb-2"style="
+                width: 500px;
+                max-width: 80vw;
+            ">
                     <div class="custom-search-bar">
                         <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="Search" class="custom-input">
                         <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQueryStrategy)">
@@ -121,7 +124,10 @@
         </div>
         <!-- Search Bar -->
         <div class="col-12 col-sm-auto mt-2 mt-sm-0">
-            <div class="search-bar-container mb-2">
+            <div class="search-bar-container mb-2" style="
+                width: 500px;
+                max-width: 80vw;
+            ">
                 <div class="custom-search-bar">
                     <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
                     <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">

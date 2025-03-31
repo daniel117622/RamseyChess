@@ -292,67 +292,67 @@ export class LobbyService
     });
   }
 
-onLobbyStateUpdate(): Observable<Lobby[]>
-{
-      if (!this.socket)
-      {
-          throw new Error('Socket.IO connection is not initialized.');
-      }
+  onLobbyStateUpdate(): Observable<Lobby[]>
+  {
+        if (!this.socket)
+        {
+            throw new Error('Socket.IO connection is not initialized.');
+        }
 
-      return new Observable((observer) =>
-      {
-          this.socket?.on('lobby_state', (data: any) =>
-          {
-              console.log('Received lobby_state event:', data);
+        return new Observable((observer) =>
+        {
+            this.socket?.on('lobby_state', (data: any) =>
+            {
+                console.log('Received lobby_state event:', data);
 
-              const availableLobbies: Lobby[] = [];
+                const availableLobbies: Lobby[] = [];
 
-              // Process the data to extract lobbies
-              Object.keys(data).forEach(lobbyId =>
-              {
-                  const players: Player[] = [];
-                  let allPlayersReady = true;
+                // Process the data to extract lobbies
+                Object.keys(data).forEach(lobbyId =>
+                {
+                    const players: Player[] = [];
+                    let allPlayersReady = true;
 
-                  // Loop through each player in the lobby
-                  Object.keys(data[lobbyId]).forEach(playerId =>
-                  {
-                      const player = data[lobbyId][playerId];
-                      players.push({ name: playerId, ready: player.ready, color: player.color, selected_strategy: player.selected_strategy });
+                    // Loop through each player in the lobby
+                    Object.keys(data[lobbyId]).forEach(playerId =>
+                    {
+                        const player = data[lobbyId][playerId];
+                        players.push({ name: playerId, ready: player.ready, color: player.color, selected_strategy: player.selected_strategy });
 
-                      if (!player.ready)
-                      {
-                          allPlayersReady = false;  // If any player is not ready, the game is not ready to start
-                      }
-                  });
+                        if (!player.ready)
+                        {
+                            allPlayersReady = false;  // If any player is not ready, the game is not ready to start
+                        }
+                    });
 
-                  const status = players.length === 2
-                      ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
-                      : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
+                    const status = players.length === 2
+                        ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
+                        : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
 
-                  availableLobbies.push(
-                      {
-                          id: lobbyId,
-                          players: players,
-                          status: status,
-                      }
-                  );
-              });
+                    availableLobbies.push(
+                        {
+                            id: lobbyId,
+                            players: players,
+                            status: status,
+                        }
+                    );
+                });
 
-              observer.next(availableLobbies);
-          });
+                observer.next(availableLobbies);
+            });
 
-          return () =>
-          {
-              this.socket?.off('lobby_state');
-          };
-      });
+            return () =>
+            {
+                this.socket?.off('lobby_state');
+            };
+        });
   }
 
   requestLobbies(): Observable<Lobby[]>
   {
       // Emit 'request_lobbies' to request lobbies from the server
       this.socket?.emit('request_lobbies');
-  
+
       // Return an observable that listens for the 'lobby_state' event and emits the data
       return new Observable<Lobby[]>((observer) => 
       {
@@ -360,15 +360,15 @@ onLobbyStateUpdate(): Observable<Lobby[]>
           this.socket?.on('lobby_state', (data: any) => 
           {
               console.log('Received lobby_state event:', data);
-  
+
               const availableLobbies: Lobby[] = [];
-  
+
               // Process the data to extract lobbies
               Object.keys(data).forEach(lobbyId =>
               {
                   const players: Player[] = [];
                   let allPlayersReady = true;
-  
+
                   // Loop through each player in the lobby
                   Object.keys(data[lobbyId]).forEach(playerId =>
                   {
@@ -379,17 +379,17 @@ onLobbyStateUpdate(): Observable<Lobby[]>
                           color: player.color, 
                           selected_strategy: player.selected_strategy 
                       });
-  
+
                       if (!player.ready)
                       {
                           allPlayersReady = false;  // If any player is not ready, the game is not ready to start
                       }
                   });
-  
+
                   const status = players.length === 2
                       ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
                       : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
-  
+
                   availableLobbies.push(
                       {
                           id: lobbyId,
@@ -398,11 +398,11 @@ onLobbyStateUpdate(): Observable<Lobby[]>
                       }
                   );
               });
-  
+
               // Emit the processed available lobbies
               observer.next(availableLobbies);
           });
-  
+
           // Cleanup: Remove the listener when the observable is unsubscribed
           return () =>
           {

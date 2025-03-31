@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 {
   selector: 'app-game-db',
   templateUrl: './game-db.component.html',
-  styleUrls: ['./game-db.component.css']
+  styleUrls: ['./game-db.component.scss']
 })
 export class GameDbComponent implements OnInit
 {

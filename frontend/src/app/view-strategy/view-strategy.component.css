@@ -47,13 +47,14 @@
     background-color: #3b5268;
 }
 
-.table input
+.table input 
 {
-    border-radius: 2px;
-    color: aliceblue;
+    border-radius   : 2px;
+    color           : aliceblue;
     background-color: #00366d;
-    padding: 6px;
-    border: none;
+    padding         : 6px;
+    border          : none;
+    text-align      : center;     
 }
 
 /* Button Styling */

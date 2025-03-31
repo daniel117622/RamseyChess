@@ -37,9 +37,9 @@
         <hr>
 
         <div *ngFor="let strat of strategy.strategy_list">
-            <div class="strategy-header">
+            <div class="strategy-header d-flex align-items-center justify-content-between">
                 <h3>{{ strat.name }} ({{ strat.type }})</h3>
-                <div class="strategy-actions">
+                <div class="d-flex gap-3">
                     <button class="custom-button">
                         <p>Edit Strategy</p>
                     </button>

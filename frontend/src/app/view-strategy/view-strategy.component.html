@@ -2,10 +2,11 @@
     
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
         <p class="mb-0">Strategy View</p>
-        <button class="custom-button w-100 w-md-auto" routerLink="/profile">
+        <button class="custom-button ms-3" routerLink="/profile">
             <p>Back to Profile</p>
         </button>
     </div>
+    
 
     <div *ngIf="strategy">
         <h2>{{ strategy.name }}</h2>

@@ -37,25 +37,28 @@
         <hr>
 
         <div *ngFor="let strat of strategy.strategy_list">
-            <div class="strategy-header d-flex align-items-center justify-content-between">
-                <h3>{{ strat.name }} ({{ strat.type }})</h3>
-                <div class="d-flex gap-3">
-                    <button class="custom-button">
-                        <p>Edit Strategy</p>
-                    </button>
-                    <button class="custom-button">
-                        <p>Delete Strategy</p>
-                    </button>
-                    <button class="custom-button">
-                        <p>Share Strategy</p>
-                    </button>
+            <div class="container-fluid">
+                <div class="strategy-header d-flex align-items-center justify-content-between flex-wrap">
+                    <h3>{{ strat.name }} ({{ strat.type }})</h3>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button class="custom-button">
+                            <p>Edit Strategy</p>
+                        </button>
+                        <button class="custom-button">
+                            <p>Delete Strategy</p>
+                        </button>
+                        <button class="custom-button">
+                            <p>Share Strategy</p>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
+                <p><strong>Owner:</strong> {{ strat.owner || 'N/A' }}</p>
+            </div>
 
             <!-- Horizontal Rule -->
             <hr>
+
 
             <div class="pieces">
                 <strong>Pieces:</strong>

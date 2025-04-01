@@ -173,10 +173,11 @@
     
       <tbody>
         <tr
-          *ngFor="let strategy of my_saved_strategies; let i = index"
+          *ngFor="let strategy of my_saved_strategies$ | async; let i = index"
           [class.selected]="strategy === selected_strategy"
           (click)="selectStrategy(strategy)"
         >
+      
           <td style="max-width: 35px; text-align: center;">{{ i + 1 }}</td>
           <td style="max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ strategy.name }}</td>
           <td style="max-width: 35px; text-align: center;">{{ strategy.elo }}</td>

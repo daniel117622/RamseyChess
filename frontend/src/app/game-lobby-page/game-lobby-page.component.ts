@@ -3,7 +3,7 @@ import { ActivatedRoute, Router , NavigationEnd} from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { LobbyService , Lobby } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
-import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, of, switchMap } from 'rxjs';
 import { NgZone } from '@angular/core';
 import { NgxChessBoardComponent } from 'ngx-chess-board';
 import * as md5 from 'md5';
@@ -42,7 +42,7 @@ export class GameLobbyPageComponent implements OnInit
   user_id : string | undefined = undefined;
   userProfileData$: Observable<UserProfile> | undefined;
 
-  my_saved_strategies : StrategyCardListProfileView[] = []
+  my_saved_strategies$: Observable<StrategyCardListProfileView[]> = of([]);
   selected_strategy: StrategyCardListProfileView | null = null;
 
   has_posted_game = false;
@@ -118,17 +118,14 @@ export class GameLobbyPageComponent implements OnInit
         this.joinLobby(this.lobbyId, this.playerName);
       }
 
-      this.user$.pipe(
+      this.my_saved_strategies$ = this.user$.pipe(
         filter((user): user is User => user != null),
         switchMap(user => 
           this.http.post<StrategyCardListProfileView[]>('/api/get_private_strategies_all', { 
             sub: user.sub
           })
         )
-      ).subscribe(strategies => {
-        this.my_saved_strategies = strategies;
-        console.log("Retrieved user strategies: " + this.my_saved_strategies)
-      });
+      );
 
 
       // Initialize a listener for readyness of players 

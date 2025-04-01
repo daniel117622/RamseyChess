@@ -18,7 +18,7 @@ enum Color
 @Component({
   selector: 'app-play-card',
   templateUrl: './play-card.component.html',
-  styleUrls: ['./play-card.component.css'],
+  styleUrls: ['./play-card.component.scss'],
 })
 
 export class PlayAiCardComponent implements OnInit {

@@ -5,11 +5,12 @@
     <div *ngIf="game">
         <!-- Game Title & Go Back button -->
         <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
-            <h2 class="mb-0">Game Details</h2>
-            <button class="custom-button ms-3 go-back-button" (click)="goBack()">
-                <p>Go Back</p>
+            <h1 class="mb-0">Game review</h1>
+            <button class="custom-button ms-3" routerLink="/profile">
+                <p>Back to Profile</p>
             </button>
         </div>
+    
   
         <div class="card-grid">
             <!-- Strategy ID Cards -->

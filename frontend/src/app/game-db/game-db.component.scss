@@ -119,3 +119,14 @@
     border: none;
     transition: background-color 0.3s ease;
 }
+
+.copied-message
+{
+    background-color: $dark-blue;
+    color: $off-white;
+    padding: 10px 15px;
+    border-radius: 2px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid $very-dark-blue;
+}

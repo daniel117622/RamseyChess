@@ -3,8 +3,11 @@
     <!-- Left side: Chessboard, takes the entire left side without a container -->
     <div class="col-12 col-lg-6 order-1 order-lg-1 d-flex flex-column align-items-center">
       <!-- Chessboard -->
-      <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" [size]="boardSize" [darkTileColor]="'#779557'" style="border:solid 5px black"
-        [lightTileColor]="'#ECECD0'" [pieceIcons]="{
+      <ngx-chess-board #chessBoard (moveChange)="onMoveChange()" [size]="boardSize" 
+        [darkTileColor]="'#34495e'"
+        style="border:solid 5px black"
+        [lightTileColor]="'#ecf0f1'" 
+        [pieceIcons]="{
           blackBishopUrl: 'assets/pieces/bb.svg',
           blackKingUrl: 'assets/pieces/bk.svg',
           blackKnightUrl: 'assets/pieces/bn.svg',

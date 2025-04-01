@@ -1,20 +1,20 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
   <div class="container-fluid d-flex align-items-center justify-content-between flex mb-2">
-    <h1 class="mb-0">Card ID : {{this.cardId}}</h1>
+    <h1 class="mb-0">Card ID : {{ this.cardId }}</h1>
     <button class="custom-button ms-3" routerLink="/profile">
         <p>Back to Profile</p>
     </button>
-</div>
+  </div>
+
   <div class="row">
     <!-- Chessboard Column -->
     <div class="col-12 col-xxl-6 d-flex justify-content-center">
-      <div>
-        <div style="border: solid 3px black">
-          <ngx-chess-board
+      <div class="chessboard-container">
+        <ngx-chess-board
           #chessBoard
           class="border border-5 border-dark"
-          [size]           = "boardSize"
-          [darkTileColor]="'#1a252f'"  
+          [size]="boardSize"
+          [darkTileColor]="'#1a252f'"
           [lightTileColor]="'#ecf0f1'"
           [pieceIcons]="{
             blackBishopUrl: 'assets/pieces/bb.svg',
@@ -31,8 +31,6 @@
             whiteRookUrl  : 'assets/pieces/wr.svg'
           }"
         ></ngx-chess-board>
-
-        </div>
       </div>
     </div>
 
@@ -43,7 +41,7 @@
         <p>Strategy type: {{ strat.type }}</p>
         <ng-container *ngIf="strat.type === 'evaluate_material'">
           <div class="table-responsive">
-            <table class="table table-bordered w-100">
+            <table class="table table-bordered table-striped w-100">
               <thead>
                 <tr>
                   <th>PieceType</th>
@@ -54,7 +52,7 @@
               <tbody>
                 <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
                   <tr>
-                    <td style="text-transform: capitalize;">{{ piece.key }}</td>
+                    <td>{{ piece.key }}</td>
                     <td>{{ piece.value }}</td>
                     <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
                   </tr>

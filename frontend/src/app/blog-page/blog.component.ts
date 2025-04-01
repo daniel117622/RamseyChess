@@ -9,9 +9,9 @@ import { filter } from 'rxjs/operators';
 })
 export class BlogComponent implements OnInit {
   activeSection: string = 'section1';
-  eq1 : string = '\\[ F_1 = \\sum_{i=1}^{t} \\text{Piece Count}_i \\times \\text{Piece Value}_i \\]';
-  eq2: string = '\\[ F_2 = \\sum_{j=1}^{h} \\text{Hanging Piece Value}_j + \\sum_{k=1}^{u} \\text{Underprotected Piece Value}_k \\]';
-  eq3: string = '\\[ \\text{Evaluation} = c_1 \\cdot F_1 + c_2 \\cdot F_2 \\]';
+  eq1 = `\\[ F_1 = \\sum_{i=1}^{t} \\text{Piece Count}_i \\times \\text{Piece Value}_i \\]`;
+  eq2 = `\\[ F_2 = \\sum_{j=1}^{h} \\text{Hanging Piece Value}_j + \\sum_{k=1}^{u} \\text{Underprotected Piece Value}_k \\]`;
+  eq3 = `\\[ \\text{Evaluation} = c_1 \\cdot F_1 + c_2 \\cdot F_2 \\]`;
 
   sections = ['section1', 'section2', 'section3', 'section4', 'section5'];
   currentIndex = 0;

@@ -73,39 +73,43 @@
       <p>A predefined strategy is essentially a collection of values assigned to chess parameters like piece values, influencing the bot's decision-making. The Elo ratings for these bots were constructed by having them play around 3,000 games in a round-robin format. This process helped determine their strength and set realistic expectations for players facing these quirky bots. For now, it’s all fun and games. As the platform evolves, stronger and more strategic bots will be introduced. Personally, as a player, I enjoy creating pressure without trading pieces, and I plan to introduce bots that thrive in closed positions and restrict your movement. Stay tuned for these challenging opponents in future updates!</p>
     </section>
     
-      <section id="section4" *ngIf="currentIndex === 3">
-        <script type="text/javascript" async
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script> 
-        <h2>Technicals: Just for nerds</h2>
-        <p>
-            I've talked about how the default AI strategies behave. Well, for the time being, these strategies are retrieved from a database where I have two tables. The first table stores piece valuation functions, which are key-value pairs mapping each piece to its perceived value. The second table is called a danger function, which measures how many pieces are hanging for each player and identifies underprotected pieces in cases where multiple pieces target a key square.
-        </p>
-        <p>
-            Let’s call this new object created from combining strategies the <i>StrategyCard</i>. When you decide to play against one <i>StrategyCard</i>, you are sent to a lobby, and your opponent is the AI holding that card. Well, that AI is just the minimax algorithm—think of it as a machine that examines all possible moves up to a certain depth and picks the best one. How does it pick the best one? For each move in the tree, it evaluates a polynomial generated from the <i>StrategyCard</i>.
-        </p>
-        
-        <p>Let:</p>
-        <p>Sum the piece value: <i>n</i> is the number of different piece types.</p>
-        <p [innerHTML]="eq1"></p>
-        
-        <p>Danger function: Takes into account underdefended pieces.</p>
-        <p [innerHTML]="eq2"></p>
-        
-        <p>The <strong>Evaluation Polynomial</strong> is then:</p>
-        <p [innerHTML]="eq3"></p>
-        
-        <p>
-            The constants <code>c1</code> and <code>c2</code> are very important, as they signify how much weight each <i>StrategyCard</i> places on its individual strategies.
-        </p>
-        
-        <h2>A table of future plans.</h2>
-        <div style="text-align: center;">
-            <div style="max-width: 100%; overflow: hidden;">
-                <img src="/assets/plans.png" alt="Future plans" style="width: 100%; height: auto; border: 2px solid #000;">
-            </div>
-        </div>
-      </section>
+    <section id="section4" *ngIf="currentIndex === 3">
+      <h2>Technicals: Just for nerds</h2>
+      <p>
+          I've talked about how the default AI strategies behave. Well, for the time being, these strategies are retrieved from a database where I have two tables. The first table stores piece valuation functions, which are key-value pairs mapping each piece to its perceived value. The second table is called a danger function, which measures how many pieces are hanging for each player and identifies underprotected pieces in cases where multiple pieces target a key square.
+      </p>
+      <p>
+          Let’s call this new object created from combining strategies the <i>StrategyCard</i>. When you decide to play against one <i>StrategyCard</i>, you are sent to a lobby, and your opponent is the AI holding that card. Well, that AI is just the minimax algorithm—think of it as a machine that examines all possible moves up to a certain depth and picks the best one. How does it pick the best one? For each move in the tree, it evaluates a polynomial generated from the <i>StrategyCard</i>.
+      </p>
+      
+      <p>Let:</p>
+      <p>Sum the piece value: <i>n</i> is the number of different piece types.</p>
+      <p>
+          F₁ = ∑<sub>i=1</sub><sup>t</sup> (Piece Count<sub>i</sub> × Piece Value<sub>i</sub>)
+      </p>
+      
+      <p>Danger function: Takes into account underdefended pieces.</p>
+      <p>
+          F₂ = ∑<sub>j=1</sub><sup>h</sup> Hanging Piece Value<sub>j</sub> + ∑<sub>k=1</sub><sup>u</sup> Underprotected Piece Value<sub>k</sub>
+      </p>
+      
+      <p>The <strong>Evaluation Polynomial</strong> is then:</p>
+      <p>
+          Evaluation = c₁ × F₁ + c₂ × F₂
+      </p>
+      
+      <p>
+          The constants <code>c₁</code> and <code>c₂</code> are very important, as they signify how much weight each <i>StrategyCard</i> places on its individual strategies.
+      </p>
+      
+      <h2>A table of future plans.</h2>
+      <div style="text-align: center;">
+          <div style="max-width: 100%; overflow: hidden;">
+              <img src="/assets/plans.png" alt="Future plans" style="width: 100%; height: auto; border: 2px solid #000;">
+          </div>
+      </div>
+  </section>
+  
 
       <!-- New Contact Section -->
       <section id="section5" *ngIf="currentIndex === 4">

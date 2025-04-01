@@ -12,7 +12,7 @@
 {
     background-color: $dark-grayish-blue;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 1px;
     color: $off-white;
     border: 2px solid $light-gray;
 }
@@ -27,8 +27,8 @@
 
 .table th 
 {
-    background-color: $lighter-blue;
-    color: $very-dark-blue;
+    background-color: #2c3e50;
+    color: $off-white;
     font-weight: bold;
 }
 

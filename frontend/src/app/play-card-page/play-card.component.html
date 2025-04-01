@@ -13,8 +13,9 @@
         <ngx-chess-board
           #chessBoard
           class="border border-5 border-dark"
+          (moveChange)="this.onMoveChange()"
           [size]="boardSize"
-          [darkTileColor]="'#1a252f'"
+          [darkTileColor]="'#3498db'"
           [lightTileColor]="'#ecf0f1'"
           [pieceIcons]="{
             blackBishopUrl: 'assets/pieces/bb.svg',

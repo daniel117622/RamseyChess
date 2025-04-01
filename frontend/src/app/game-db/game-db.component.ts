@@ -72,7 +72,7 @@ export class GameDbComponent implements OnInit
 
     goBack(): void
     {
-        this.router.navigate(['../'], { relativeTo: this.router.routerState.root });
+        this.router.navigate(['/profile'], { relativeTo: this.router.routerState.root });
     }
 
     private showCopiedMessage(): void

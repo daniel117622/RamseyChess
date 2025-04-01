@@ -6,7 +6,7 @@ import { PlayPageComponent } from './play-page/play-page.component';
 import { PlayAiCardComponent } from './play-card-page/play-card.component';
 import { PlayBotsPageComponent } from './play-bots-page/play-bots-page.component';
 import { SignInPageComponent } from './sign-in-page/sign-in-page.component';
-import { ProfilePageComponent } from './profile-page/profile-page/profile-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { BuildStrategyPageComponent } from './build-strategy-page/build-strategy-page/build-strategy-page.component';
 import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.component';

@@ -4,6 +4,9 @@ import { AuthService } from '@auth0/auth0-angular';
 import { GameService , Game } from 'src/services/game-service.service';
 import { switchMap, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { Router } from '@angular/router';
+
 
 @Component(
 {
@@ -19,7 +22,9 @@ export class GameDbComponent implements OnInit
   constructor(
     private route      : ActivatedRoute,
     private gameService: GameService,
-    public  auth       : AuthService
+    public  auth       : AuthService,
+    private clipboard  : Clipboard,
+    private router     : Router
   )
   {}
 
@@ -53,4 +58,14 @@ export class GameDbComponent implements OnInit
     return this.gameService.getGameById(gameId, sub);
   }
   
+  shareGame(pgn : string): void 
+  {
+    this.clipboard.copy(pgn);
+    console.log('Game URL copied to clipboard:', pgn);
+  }
+
+  goBack(): void 
+  {
+    this.router.navigate(['../'], { relativeTo: this.router.routerState.root });
+  }
 }

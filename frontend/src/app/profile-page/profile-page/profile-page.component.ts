@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,16 +7,16 @@ import { UserProfile } from 'src/models/user-profile.model';
 import { StrategyCardListProfileView, PaginatedStrategyResponse } from 'src/models/start-card.model';
 import { Router } from '@angular/router';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { GameService, PaginatedGames } from 'src/services/game-service.service';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.css']
+  styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit {
   private updateInterval: any;
@@ -35,13 +35,17 @@ export class ProfilePageComponent implements OnInit {
 
   currentGamePageNumber : number = 0
 
+  private overlayRef: OverlayRef | null = null;
+
+  @ViewChild('copiedMessage') copiedMessage!: TemplateRef<any>;
+
   last_games = [
     { date: new Date('2024-03-01'), player: '_Kuhaku_', opponent: 'Player123', result: 'Win', eloChange: +15 },
     { date: new Date('2024-02-27'), player: '_Kuhaku_', opponent: 'ChessMaster99', result: 'Loss', eloChange: -10 },
     { date: new Date('2024-02-22'), player: '_Kuhaku_', opponent: 'PawnStorm', result: 'Draw', eloChange: 0 }
   ];
 
-  constructor(public auth: AuthService, private http: HttpClient, private router: Router, private gameService: GameService) {}
+  constructor(public auth: AuthService, private http: HttpClient, private router: Router, private gameService: GameService, private clipboard : Clipboard, private overlay : Overlay, private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit(): void
   {
@@ -140,9 +144,11 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigate(['/game-db', game_id]);
   }
 
-  shareGame(game_id: string): void 
+  shareGame(pgn: string): void
   {
-    return 
+      this.clipboard.copy(pgn);
+      console.log('Game PGN copied to clipboard:', pgn);
+      this.showCopiedMessage();
   }
 
   goToGamePage(page: number): void 
@@ -292,5 +298,33 @@ timeSinceGame(gameDate: string): string
     return timeString.trim();
 }
 
+  private showCopiedMessage(): void
+  {
+      if (this.overlayRef)
+      {
+          this.overlayRef.dispose();
+      }
+
+      this.overlayRef = this.overlay.create(
+      {
+          positionStrategy: this.overlay.position()
+              .global()
+              .bottom('20px')
+              .right('20px'),
+          hasBackdrop: false
+      });
+
+      const messagePortal = new TemplatePortal(this.copiedMessage, this.viewContainerRef);
+      this.overlayRef.attach(messagePortal);
+
+      setTimeout(() =>
+      {
+          if (this.overlayRef)
+          {
+              this.overlayRef.dispose();
+              this.overlayRef = null;
+          }
+      }, 3000);
+  }
 
 }

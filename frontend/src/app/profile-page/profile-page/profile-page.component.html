@@ -79,8 +79,7 @@
 
                 <!-- Action Buttons (placed at the bottom) -->
                 <div class="d-flex justify-content-center gap-2 mt-auto">
-                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="editStrategy(strategy._id.$oid)">Edit</button>
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="viewDetails(strategy._id.$oid)">View Details</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="viewDetails(strategy._id.$oid)">View Details / Edit strategy</button>
                 </div>
             </div>
         </div>
@@ -167,7 +166,7 @@
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-center gap-2 mt-3">
                     <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game._id.$oid)">Share</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.pgn)">Share PGN</button>
                 </div>
             </div>
         </div>
@@ -199,7 +198,11 @@
     <!-- END OF PAGINATION SECTION -->
 </div>
 <!-- END OF GAMES SECTION -->
-
+<ng-template #copiedMessage>
+    <div class="copied-message">
+        Game PGN copied to clipboard!
+    </div>
+  </ng-template>
 
 
 </div>

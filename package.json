@@ -2,5 +2,8 @@
   "dependencies": {
     "@angular/cli": "^14.0.6",
     "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "sass": "^1.86.0"
   }
 }

@@ -13,13 +13,14 @@ export class BlogComponent implements OnInit {
   eq2: string = '\\[ F_2 = \\sum_{j=1}^{h} \\text{Hanging Piece Value}_j + \\sum_{k=1}^{u} \\text{Underprotected Piece Value}_k \\]';
   eq3: string = '\\[ \\text{Evaluation} = c_1 \\cdot F_1 + c_2 \\cdot F_2 \\]';
 
-  sections = ['section1', 'section2', 'section3', 'section4'];
+  sections = ['section1', 'section2', 'section3', 'section4', 'section5'];
   currentIndex = 0;
   sectionsMap = {
     section1: 'About',
     section2: 'How It Works',
     section3: 'Play against AI',
-    section4: 'Tech'
+    section4: 'Tech',
+    section5: 'Contact'
   };
 
 

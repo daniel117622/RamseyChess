@@ -1,6 +1,10 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
-  <h2 class="text-center mt-3">Card Id: {{ this.cardId }}</h2>
-  
+  <div class="container-fluid d-flex align-items-center justify-content-between flex mb-2">
+    <h1 class="mb-0">Card ID : {{this.cardId}}</h1>
+    <button class="custom-button ms-3" routerLink="/profile">
+        <p>Back to Profile</p>
+    </button>
+</div>
   <div class="row">
     <!-- Chessboard Column -->
     <div class="col-12 col-xxl-6 d-flex justify-content-center">

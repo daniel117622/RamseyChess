@@ -25,6 +25,7 @@ export class PlayAiCardComponent implements OnInit {
   @ViewChild('chessBoard') chessBoard!: NgxChessBoardComponent;
   strategy_card : StrategyDetailResponse | null = null;
   cardId: string | null = null;
+  card_name : string = '';
   boardSize: number = 600;
   gameFinished = false;
   currentFen : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -44,6 +45,7 @@ export class PlayAiCardComponent implements OnInit {
       this.play_ai.fetchStrategyCardDetailsById(this.cardId).subscribe((response : StrategyDetailResponse) => {
         console.log("RESPONSE: " + response);
         this.strategy_card = response;
+        this.card_name = response[0].name
       })
     }
   }

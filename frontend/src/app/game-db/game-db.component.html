@@ -1,52 +1,55 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding: 0 15px;">
-  <div *ngIf="!game">
-      <p class="loading-message">Loading game details...</p>
+    <div *ngIf="!game">
+        <p class="loading-message">Loading game details...</p>
+    </div>
+    <div *ngIf="game">
+        <!-- Game Title & Go Back button -->
+        <div class="game-header">
+            <h2 class="game-title">Game Details</h2>
+            <button class="custom-button go-back-button" (click)="goBack()">Go Back</button>
+        </div>
+  
+        <div class="card-grid">
+            <!-- Strategy ID Cards -->
+            <div class="card">
+                <div class="card-header">Strategy ID (Black)</div>
+                <div class="card-body">{{ game.strategy_id_black }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header">Strategy ID (White)</div>
+                <div class="card-body">{{ game.strategy_id_white }}</div>
+            </div>
+  
+            <!-- Other Game Detail Cards -->
+            <div class="card">
+                <div class="card-header">Game ID</div>
+                <div class="card-body">{{ game._id.$oid }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header">Game Date</div>
+                <div class="card-body">{{ game.game_date }}</div>
+            </div>
+            <div class="card">
+                <div class="card-header">Owner</div>
+                <div class="card-body">{{ game.owner }}</div>
+            </div>
+  
+            <!-- PGN Card (Includes Share Game Button) -->
+            <div class="card full-width">
+                <div class="card-header">PGN</div>
+                <div class="card-body">
+                    <pre>{{ game.pgn }}</pre>
+                    <button class="custom-button share-button" (click)="shareGame(game.pgn)">Share Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
-  <div *ngIf="game">
-      <h2 class="game-title">Game Details</h2>
-      <div class="card-grid">
-          <!-- Cards for Strategy ID (Black) and Strategy ID (White) moved to the top -->
-          <div class="card">
-              <div class="card-header">Strategy ID (Black)</div>
-              <div class="card-body">{{ game.strategy_id_black }}</div>
-          </div>
-          <div class="card">
-              <div class="card-header">Strategy ID (White)</div>
-              <div class="card-body">{{ game.strategy_id_white }}</div>
-          </div>
-
-          <!-- Other cards remain in their original positions -->
-          <div class="card">
-              <div class="card-header">Game ID</div>
-              <div class="card-body">{{ game._id.$oid }}</div>
-          </div>
-          <div class="card">
-              <div class="card-header">Game Date</div>
-              <div class="card-body">{{ game.game_date }}</div>
-          </div>
-          <div class="card">
-              <div class="card-header">Owner</div>
-              <div class="card-body">{{ game.owner }}</div>
-          </div>
-          <div class="card full-width">
-              <div class="card-header">PGN</div>
-              <div class="card-body">
-                  <pre>{{ game.pgn }}</pre>
-              </div>
-          </div>
-      </div>
-
-      <!-- Buttons section -->
-      <div class="button-section">
-          <button class="custom-button" (click)="shareGame(game.pgn)">Share Game</button>
-          <button class="custom-button" (click)="goBack()">Go Back</button>
-      </div>
-  </div>
-</div>
-
-<!-- Copied message template -->
-<ng-template #copiedMessage>
-  <div class="copied-message">
-      Game PGN copied to clipboard!
-  </div>
-</ng-template>
+  
+  <!-- Copied message template -->
+  <ng-template #copiedMessage>
+    <div class="copied-message">
+        Game PGN copied to clipboard!
+    </div>
+  </ng-template>
+  

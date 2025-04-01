@@ -58,22 +58,21 @@
         </p>
     </section>
     
-      <section id="section3" *ngIf="currentIndex === 2">
-        <h2>Section: Play against AI</h2>
-        <p>To get a grasp on how to build strategies, you can play against predefined strategies. In this first stage of the project, most will be fun, quirky bots designed to test different gameplay approaches:</p>
-        <ul>
-            <li><strong>DEFAULT</strong> (Elo: 1174): The baseline strategy, following standard chess piece values, perfect for general practice.</li>
-            <li><strong>0 VALUE PAWNS</strong> (Elo: 1026): This bot ignores pawns entirely, treating them as disposable. Can you exploit this weakness?</li>
-            <li><strong>I WANT TO LOSE</strong> (Elo: 838): A hilarious bot with inverted piece values, it seems to enjoy self-sabotage. Win with ease or be surprised!</li>
-            <li><strong>ALEXANDRA BOTEZ GAMBIT</strong> (Elo: 973): Inspired by Alexandra Botez Gambit sacrifices, this bot undervalues the queen and often sacrifices it for dynamic play.</li>
-            <li><strong>KNIGHT ENJOYER</strong> (Elo: 985): Prioritizes knights with increased value, making tricky maneuvers and fork attacks its specialty.</li>
-            <li><strong>BISHOP LOVER</strong> (Elo: 1033): A bot that treasures its bishops, utilizing long diagonals to control the board.</li>
-            <li><strong>MONKEY SEES PAWN. MONKEY EATS PAWN</strong> (Elo: 990): Obsessed with capturing pawns, this bot can create openings but may overextend itself.</li>
-        </ul>
-        <p> 
-          For now, it’s all fun and games. As the platform evolves, stronger and more strategic bots will be introduced. Personally, as a player, I enjoy creating pressure without trading pieces, and I plan to introduce bots that thrive in closed positions and restrict your movement. Stay tuned for these challenging opponents in future updates!
-        </p>
-      </section>
+    <section id="section3" *ngIf="currentIndex === 2">
+      <h2>Section: Play against AI</h2>
+      <p>To get a grasp on how to build strategies, you can play against predefined strategies. In this first stage of the project, most will be fun, quirky bots designed to test different gameplay approaches:</p>
+      
+      <p><strong>Default</strong> (Elo: <code>1122</code>): The baseline strategy, following standard chess piece values, perfect for general practice.</p>
+      <p><strong>0 Value Pawns</strong> (Elo: <code>932</code>): This bot ignores pawns entirely, treating them as disposable. Can you exploit this weakness?</p>
+      <p><strong>I Want to Lose</strong> (Elo: <code>320</code>): A hilarious bot with inverted piece values, it seems to enjoy self-sabotage. Win with ease or be surprised!</p>
+      <p><strong>Alexandra Botez Gambit</strong> (Elo: <code>910</code>): Inspired by Alexandra Botez Gambit sacrifices, this bot undervalues the queen and often sacrifices it for dynamic play.</p>
+      <p><strong>Knight Enjoyer</strong> (Elo: <code>1334</code>): Prioritizes knights with increased value, making tricky maneuvers and fork attacks its specialty.</p>
+      <p><strong>Bishop Lover</strong> (Elo: <code>1255</code>): A bot that treasures its bishops, utilizing long diagonals to control the board.</p>
+      <p><strong>Monkey Sees Pawn. Monkey Eats Pawn</strong> (Elo: <code>1127</code>): Obsessed with capturing pawns, this bot can create openings but may overextend itself.</p>
+      
+      <p>A predefined strategy is essentially a collection of values assigned to chess parameters like piece values, influencing the bot's decision-making. The Elo ratings for these bots were constructed by having them play around 3,000 games in a round-robin format. This process helped determine their strength and set realistic expectations for players facing these quirky bots. For now, it’s all fun and games. As the platform evolves, stronger and more strategic bots will be introduced. Personally, as a player, I enjoy creating pressure without trading pieces, and I plan to introduce bots that thrive in closed positions and restrict your movement. Stay tuned for these challenging opponents in future updates!</p>
+    </section>
+    
       <section id="section4" *ngIf="currentIndex === 3">
         <script type="text/javascript" async
           src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">

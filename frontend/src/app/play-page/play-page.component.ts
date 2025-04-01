@@ -35,7 +35,8 @@ export class PlayPageComponent implements OnInit {
   objectEntries(obj: any): { key: string, value: any }[] {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
   }
-  getPieceValue(pieces: any, key: string): number | undefined {
-    return (pieces as Record<string, number>)[key];
+  getPieceValue(pieces: any, key: string): number 
+  {
+    return (pieces as Record<string, number>)[key] ?? 0;
   }
 }

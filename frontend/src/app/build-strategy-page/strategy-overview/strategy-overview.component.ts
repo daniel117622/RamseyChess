@@ -34,9 +34,9 @@ export class StrategyOverviewComponent implements OnInit {
   {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
   }
-  getPieceValue(pieces: any, key: string): number | undefined 
+  getPieceValue(pieces: any, key: string): number 
   {
-    return (pieces as Record<string, number>)[key];
+    return (pieces as Record<string, number>)[key] ?? 0;
   }
 
 

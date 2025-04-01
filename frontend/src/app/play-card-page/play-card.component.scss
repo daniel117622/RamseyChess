@@ -1,0 +1,55 @@
+@import '../../assets/styles/main';
+
+.chessboard-container 
+{
+    background-color: $very-dark-blue;
+    padding: 20px;
+    border-radius: 1px;
+    color: $off-white;
+}
+
+.strategy-detail 
+{
+    background-color: $dark-grayish-blue;
+    padding: 15px;
+    border-radius: 5px;
+    color: $off-white;
+    border: 2px solid $light-gray;
+}
+
+.table 
+{
+    background-color: $dark-grayish-blue;
+    color: $off-white;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table th 
+{
+    background-color: $lighter-blue;
+    color: $very-dark-blue;
+    font-weight: bold;
+}
+
+.table td 
+{
+    border-color: $light-gray;
+    padding: 8px;
+}
+
+.table-striped tbody tr:nth-child(even) 
+{
+    background-color: $dark-blue;
+}
+
+.table tbody tr:hover 
+{
+    background-color: $bright-blue;
+}
+
+.highlight 
+{
+    background-color: $bright-blue;
+    border-radius: 1px;
+}

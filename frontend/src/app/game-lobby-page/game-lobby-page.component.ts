@@ -298,8 +298,9 @@ export class GameLobbyPageComponent implements OnInit
 
   selectStrategy(strategy: StrategyCardListProfileView): void 
   {
-    this.selected_strategy = strategy;
+    this.selected_strategy = (this.selected_strategy === strategy) ? null : strategy;
   }
+  
 
   toggleReadyState() : void
   {

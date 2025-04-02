@@ -268,7 +268,7 @@ export class GameLobbyPageComponent implements OnInit
 
   handleJoinLobbyById(lobby_id : string): void
   {
-      if (!this.inputLobbyId.trim())
+      if (!lobby_id)
       {
           console.error('Lobby ID cannot be empty');
           return;

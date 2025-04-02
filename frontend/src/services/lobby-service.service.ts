@@ -123,26 +123,13 @@ export class LobbyService
     });
   }
 
-  onPlayerLeft(): Observable<{ players: { name: string; color: string }[] }> 
+  emitPlayerLeave(lobbyId: string, playerName: string): void 
   {
-      if (!this.socket) 
-      {
-          throw new Error('Socket.IO connection is not initialized.');
-      }
+    if (!this.socket) {
+      throw new Error('Socket.IO connection is not initialized.');
+    }
   
-      return new Observable((observer) => 
-      {
-          this.socket?.on('playerLeft', (data: { players: { name: string; color: string }[] }) => 
-          {
-              console.log('Received playerLeft event:', data);
-              observer.next(data);
-          });
-  
-          return () => 
-          {
-              this.socket?.off('playerLeft');
-          };
-      });
+    this.socket.emit('playerleft', { lobbyId, name: playerName });
   }
 
   onPlayerReadyUpdate(): Observable<{ players: { name: string, ready: boolean }[] }> 

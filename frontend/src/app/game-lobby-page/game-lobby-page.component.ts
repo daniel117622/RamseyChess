@@ -217,6 +217,11 @@ export class GameLobbyPageComponent implements OnInit
   resetLobby (): void 
   {
     if (this.all_buttons_frozen) { return }
+    if (this.lobbyId)
+    {
+      this.lobby.emitPlayerLeave(this.lobbyId , this.playerName || '')
+    }
+
     this.lobbyId = null;
     this.router.navigate(['/game-lobby']);
     this.playersSubject.next([]);
@@ -230,6 +235,11 @@ export class GameLobbyPageComponent implements OnInit
 
   resetState(): void
   {
+    if (this.lobbyId)
+    {
+      this.lobby.emitPlayerLeave(this.lobbyId , this.playerName || '')
+    }  
+
     this.lobbyId = null;
     this.playersSubject.next([]);
     this.isPlayerInLobby = false;

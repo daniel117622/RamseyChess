@@ -5,7 +5,7 @@ import { PlayAiService } from '../../services/play-ai.service';
 @Component({
   selector: 'app-play-page',
   templateUrl: './play-page.component.html',
-  styleUrls: ['./play-page.component.css'],
+  styleUrls: ['./play-page.component.scss'],
 })
 export class PlayPageComponent implements OnInit {
   cards: StrategyCardData[] = [];

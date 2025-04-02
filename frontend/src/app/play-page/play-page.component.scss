@@ -1,0 +1,74 @@
+@import '../../assets/styles/main.scss';
+
+.card 
+{
+    background-color: #482626;
+    border-radius: 1px;
+    color: white;
+    border: 1px solid #482626;
+}
+
+.card-body 
+{
+    background-color: #482626;
+    border: #482626;
+    border-radius: 1px;
+}
+
+.table 
+{
+    background-color: $dark-grayish-blue;
+    color: $off-white;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table th 
+{
+    background-color: #2c3e50;
+    color: $off-white;
+    font-weight: bold;
+}
+
+.table td 
+{
+    border-color: transparent;
+    padding: 8px;
+}
+
+.table-striped tbody tr:nth-child(even) 
+{
+    background-color: $dark-blue;
+}
+
+.table tbody tr:hover 
+{
+    background-color: $bright-blue;
+}
+
+.strategy-detail 
+{
+    background-color: $dark-grayish-blue;
+    padding: 15px;
+    border-radius: 1px;
+    color: $off-white;
+    border: 2px solid $light-gray;
+}
+
+.main-container .container h4 
+{
+    margin-bottom: 10px;
+}
+
+.main-container .container .short-desc 
+{
+    margin-bottom: 20px;
+}
+
+.main-container .row .full-card 
+{
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 1px;
+    background-color: $dark-grayish-blue;
+}

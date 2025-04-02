@@ -153,7 +153,7 @@ export class ProfilePageComponent implements OnInit {
 
   goToGamePage(page: number): void 
   {
-      if (page >= 0 && page < this.totalPages) 
+      if (page >= 0 && page < this.totalGamePages) 
       {
           this.currentGamePageNumber = page;
           this.fetchGames(3, page); 

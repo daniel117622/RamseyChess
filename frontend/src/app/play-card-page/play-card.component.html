@@ -42,24 +42,18 @@
         <p>Strategy type: {{ strat.type }}</p>
         <ng-container *ngIf="strat.type === 'evaluate_material'">
           <div class="table-responsive">
-            <table class="table table-bordered table-striped w-100">
-              <thead>
-                <tr>
-                  <th>PieceType</th>
-                  <th>White</th>
-                  <th>Black</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                  <tr>
-                    <td>{{ piece.key }}</td>
-                    <td>{{ piece.value }}</td>
-                    <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
+            <div class="w-100 border border-0 bg-success bg-opacity-10">
+              <div class="row bg-light">
+                <div class="col-4 text-center">PieceType</div>
+                <div class="col-4 text-center">White</div>
+                <div class="col-4 text-center">Black</div>
+              </div>
+              <div class="row" *ngFor="let piece of objectEntries(strat.whitePieces)">
+                <div class="col-4 text-center capitalize">{{ piece.key }}</div>
+                <div class="col-4 text-center">{{ piece.value }}</div>
+                <div class="col-4 text-center">{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</div>
+              </div>
+            </div>
           </div>
         </ng-container>
       </div>

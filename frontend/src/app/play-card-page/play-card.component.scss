@@ -15,35 +15,53 @@
     border: 2px solid $light-gray;
 }
 
-.table 
+/* Updated table styles for divs */
+.table-responsive
+{
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.table-wrappers
 {
     background-color: $dark-grayish-blue;
     color: $off-white;
-    border-collapse: separate;
-    border-spacing: 0;
 }
 
-.table th 
+.table-header,
+.table-row
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.table-header
 {
     background-color: #2c3e50;
-    color: $off-white;
     font-weight: bold;
+    color: $off-white;
 }
 
-.table td 
+.table-row
 {
-    border-color: transparent;
     padding: 8px;
 }
 
-.table-striped tbody tr:nth-child(even) 
+.table-row:nth-child(even)
 {
     background-color: $dark-blue;
 }
 
-.table tbody tr:hover 
+.table-row:hover
 {
     background-color: $bright-blue;
+}
+
+.table-column
+{
+    flex: 1;
+    text-align: center;
 }
 
 .highlight 

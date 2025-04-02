@@ -335,67 +335,9 @@ onLobbyStateUpdate(): Observable<Lobby[]>
       });
   }
 
-  requestLobbies(): Observable<Lobby[]>
+  requestLobbies(): void 
   {
-      // Emit 'request_lobbies' to request lobbies from the server
-      this.socket?.emit('request_lobbies');
-  
-      // Return an observable that listens for the 'lobby_state' event and emits the data
-      return new Observable<Lobby[]>((observer) => 
-      {
-          // Listen for 'lobby_state' and emit the received lobbies
-          this.socket?.on('lobby_state', (data: any) => 
-          {
-              console.log('Received lobby_state event:', data);
-  
-              const availableLobbies: Lobby[] = [];
-  
-              // Process the data to extract lobbies
-              Object.keys(data).forEach(lobbyId =>
-              {
-                  const players: Player[] = [];
-                  let allPlayersReady = true;
-  
-                  // Loop through each player in the lobby
-                  Object.keys(data[lobbyId]).forEach(playerId =>
-                  {
-                      const player = data[lobbyId][playerId];
-                      players.push({ 
-                          name: playerId, 
-                          ready: player.ready, 
-                          color: player.color, 
-                          selected_strategy: player.selected_strategy 
-                      });
-  
-                      if (!player.ready)
-                      {
-                          allPlayersReady = false;  // If any player is not ready, the game is not ready to start
-                      }
-                  });
-  
-                  const status = players.length === 2
-                      ? (allPlayersReady ? 'In Progress' : 'Waiting for Player')
-                      : 'Open'; // If there are no players or just 1 player, the lobby is 'Open'
-  
-                  availableLobbies.push(
-                      {
-                          id: lobbyId,
-                          players: players,
-                          status: status,
-                      }
-                  );
-              });
-  
-              // Emit the processed available lobbies
-              observer.next(availableLobbies);
-          });
-  
-          // Cleanup: Remove the listener when the observable is unsubscribed
-          return () =>
-          {
-              this.socket?.off('lobby_state');
-          };
-      });
+    this.socket?.emit('request_lobbies');
   }
   
 

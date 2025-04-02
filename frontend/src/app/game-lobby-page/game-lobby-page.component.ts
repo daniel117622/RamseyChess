@@ -113,7 +113,7 @@ export class GameLobbyPageComponent implements OnInit
     this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
     // Subscribe to lobby updates after socket is initialized
     this.lobbyUpdateIntervalId = setInterval(() => {
-      this.availableLobbies$ = this.lobby.requestLobbies();
+      this.lobby.requestLobbies();
     }, 1000);
 
       // Wait for the socket to connect before proceeding
@@ -234,7 +234,6 @@ export class GameLobbyPageComponent implements OnInit
     this.has_posted_game = false;
     this.players = []
     console.log('Lobby reset');
-    this.availableLobbies$! = this.lobby.requestLobbies()
   }
 
   resetState(): void
@@ -250,7 +249,6 @@ export class GameLobbyPageComponent implements OnInit
     this.gameFinishedPgn = null;
     this.has_posted_game = false;
     this.players = []
-    this.availableLobbies$ = this.lobby.requestLobbies()
   }
 
   handleJoinLobby(): void

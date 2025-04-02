@@ -6,7 +6,7 @@
     </p>
 
     <!-- Bottom bar for separation -->
-    <div class="bottom-bar"></div>
+    <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
   </div>
 
   <div class="container mt-4">
@@ -17,9 +17,9 @@
 
     <!-- Render cards if available -->
     <div class="row justify-content-around justify-content-xxl-between">
-      <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" [routerLink]="['/cards', card._id.$oid]">
-        <div class="card h-100">
-          <div class="card-body">
+      <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card"  [routerLink]="['/cards', card._id.$oid]">
+        <div class="card h-100" style="border-radius: 1px;border-color: #482626;color: white;background-color: #482626;">
+          <div class="card-body" style="border-radius: 1px;background: #482626;border: #482626;">
             <!-- First row: Name and Elo -->
             <div class="mb-3">
               <div class="table-responsive">
@@ -54,7 +54,7 @@
                   <ng-container *ngIf="strat.type === 'evaluate_material'">
                     <div class="table-responsive">
                       <table class="table table-bordered w-100">
-                        <thead class="border-bottom">
+                        <thead style="border-bottom: solid 1px;">
                           <tr>
                             <th>PieceType</th>
                             <th>White</th>
@@ -63,8 +63,8 @@
                         </thead>
                         <tbody>
                           <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                            <tr class="border-none">
-                              <td class="capitalize">{{ piece.key }}</td>
+                            <tr style="border-style: none;">
+                              <td style="text-transform: capitalize;">{{ piece.key }}</td>
                               <td>{{ piece.value }}</td>
                               <td>{{ getPieceValue(strat.blackPieces, piece.key) || 'N/A' }}</td>
                             </tr>

@@ -17,7 +17,7 @@
 
     <!-- Render cards if available -->
     <div class="row justify-content-around justify-content-xxl-between g-3">
-      <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" style="min-width: 400px;" [routerLink]="['/cards', card._id.$oid]">
+      <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" style="min-width: 400px; margin: 0 15px;" [routerLink]="['/cards', card._id.$oid]">
         <div class="card h-100" style="border-radius: 1px;border-color: #34495E;color: white;background-color: #34495E;">
           <div class="card-body" style="border-radius: 1px;background: #34495E;border: #34495E;">
             <!-- First row: Name and Elo -->

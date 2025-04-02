@@ -129,9 +129,9 @@
 <!-- Table displaying available lobbies -->
 <div *ngIf="!lobbyId" class="mb-5">
   <h2 class="text-center mb-4">Available Lobbies</h2>
-  <div class="table-responsive custom-table-wrapper">
-    <table class="table table-hover table-borderless">
-      <thead class="table-light">
+  <div class="table-responsive lobby-table-wrapper">
+    <table class="table lobby-table table-hover table-borderless">
+      <thead>
         <tr>
           <th class="text-center">#</th>
           <th>Lobby ID</th>
@@ -143,11 +143,11 @@
       <tbody>
         <tr *ngFor="let lobby of availableLobbies$ | async; let i = index" class="custom-row">
           <td class="text-center">{{ i + 1 }}</td>
-          <td>{{ lobby.id }}</td>
+          <td class="lobby-id">{{ lobby.id }}</td>
           <td>{{ lobby.players.length }} / 2</td>
           <td>{{ lobby.status }}</td>
           <td class="text-center">
-            <button class="btn btn-green btn-sm" style="border-radius: 1px;">Join</button>
+            <button class="btn-join btn-sm" (click)="handleJoinLobbyById(lobby.id)">Join</button>
           </td>
         </tr>
       </tbody>

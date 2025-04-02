@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-game-lobby-page',
   templateUrl: './game-lobby-page.component.html',
-  styleUrls: ['./game-lobby-page.component.css']
+  styleUrls: ['./game-lobby-page.component.scss']
 })
 export class GameLobbyPageComponent implements OnInit 
 {
@@ -263,6 +263,23 @@ export class GameLobbyPageComponent implements OnInit
       {
           this.isPlayerInLobby = true;
           this.joinLobby(this.inputLobbyId, this.playerName);
+      }
+  }
+
+  handleJoinLobbyById(lobby_id : string): void
+  {
+      if (!this.inputLobbyId.trim())
+      {
+          console.error('Lobby ID cannot be empty');
+          return;
+      }
+  
+      window.location.href = `/game-lobby/${lobby_id}`;
+      
+      if (this.playerName)
+      {
+          this.isPlayerInLobby = true;
+          this.joinLobby(lobby_id, this.playerName);
       }
   }
 

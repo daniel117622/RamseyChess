@@ -37,7 +37,7 @@
                 <tr *ngFor="let piece of objectEntries(strategy['whitePieces'])">
                   <td class="capitalize">{{ piece.key }}</td>
                   <td>{{ piece.value }}</td>
-                  <td>{{ getPieceValue(strategy['blackPieces'], piece.key) || 'N/A' }}</td>
+                  <td>{{ getPieceValue(strategy['blackPieces'], piece.key) }}</td>
                 </tr>
               </tbody>
             </table>

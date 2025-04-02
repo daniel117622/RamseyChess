@@ -3,7 +3,7 @@ import { ActivatedRoute, Router , NavigationEnd} from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { LobbyService , Lobby } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
-import { BehaviorSubject, filter, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, of, Subscription, switchMap } from 'rxjs';
 import { NgZone } from '@angular/core';
 import { NgxChessBoardComponent } from 'ngx-chess-board';
 import * as md5 from 'md5';
@@ -23,6 +23,9 @@ export class GameLobbyPageComponent implements OnInit
   inputLobbyId: string = ''; 
   public playersSubject = new BehaviorSubject<string[]>([]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
+
+  private lobbyUpdateSubscription: Subscription | null = null;
+  private lobbyUpdateIntervalId: ReturnType<typeof setInterval> | undefined;
 
   readyStates: { [player: string]: boolean } = {};
   isRoomFull: boolean = false;
@@ -109,7 +112,9 @@ export class GameLobbyPageComponent implements OnInit
     this.lobby.initializeSocket();
 
     // Subscribe to lobby updates after socket is initialized
-    this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
+    this.lobbyUpdateIntervalId = setInterval(() => {
+      this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
+    }, 1000); // 1000ms = 1 second
 
       // Wait for the socket to connect before proceeding
       this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
@@ -173,7 +178,6 @@ export class GameLobbyPageComponent implements OnInit
     })
 
     this.updateBoardSize();
-    
   }
 
 
@@ -342,5 +346,13 @@ export class GameLobbyPageComponent implements OnInit
     joinExistingLobby(lobby_id : any) : void
     {
       return
+    }
+
+    ngOnDestroy(): void 
+    {
+      if (this.lobbyUpdateIntervalId !== undefined) 
+      {
+        clearInterval(this.lobbyUpdateIntervalId); 
+      }
     }
 }

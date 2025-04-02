@@ -28,7 +28,7 @@ export class StrategyBuildService {
 
   material_eval : MatevalModel = {
     collection : "evaluate_material",
-    name : "STARTER STRATEGY",
+    name : "",
     owner: null,
     blackPieces : {
       "pawn"  : -1,

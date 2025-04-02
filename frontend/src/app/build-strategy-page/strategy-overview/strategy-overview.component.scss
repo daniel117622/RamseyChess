@@ -1,0 +1,63 @@
+@import '../../../assets/styles/main';
+
+.strategy-detail
+{
+  background-color: $dark-blue;
+  padding: 10px;
+  border-radius: 1px !important;
+  margin-bottom: 10px;
+  border: solid 3px $very-dark-blue;
+}
+
+.strategy-detail p
+{
+  margin: 0 0 10px;
+  font-weight: bold;
+  color: $off-white;
+}
+
+.strategy-table
+{
+  width: 100%;
+  background-color: $dark-grayish-blue;
+  color: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strategy-table th, .strategy-table td
+{
+  padding: 12px;
+  text-align: center;
+}
+
+.strategy-table th
+{
+  background-color: $very-dark-blue;
+  color: $off-white;
+  font-weight: bold;
+  border-bottom: 2px dashed $very-dark-blue-2;
+}
+
+.strategy-table tbody tr
+{
+  border-bottom: 2px dashed $very-dark-blue-2;
+}
+
+.strategy-table tbody tr:nth-child(even)
+{
+  background-color: $light-gray;
+}
+
+.custom-backdrop
+{
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.mat-dialog-container
+{
+  border-radius: 2px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-width: 95%;
+}

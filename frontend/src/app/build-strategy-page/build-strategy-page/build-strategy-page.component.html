@@ -1,6 +1,6 @@
 <div class="container mt-5" style="min-height: 100vh;">
   <div class="carousel-container">
-    <div class="carousel-card" [ngClass]="fadeClass" style="min-height: 500px;">
+    <div class="carousel-card container-fluid" [ngClass]="fadeClass" style="min-height: 500px;">
       <h3 style="margin-bottom: 15px;">{{ steps[currentStep].title }}</h3>
       <ng-container [ngSwitch]="steps[currentStep].component">
         <app-introduction *ngSwitchCase="'app-introduction'"></app-introduction>

@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-strategy-overview',
   templateUrl: './strategy-overview.component.html',
-  styleUrls: ['./strategy-overview.component.css']
+  styleUrls: ['./strategy-overview.component.scss']
 })
 export class StrategyOverviewComponent implements OnInit {
   constructor(private strategyBuildService: StrategyBuildService, private authService : AuthService, public dialog: MatDialog, private http : HttpClient) {}

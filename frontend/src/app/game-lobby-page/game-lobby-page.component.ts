@@ -108,13 +108,12 @@ export class GameLobbyPageComponent implements OnInit
       }
     });
 
-    // Initialize socket first to ensure connection is established before using it
     this.lobby.initializeSocket();
-
+    
     // Subscribe to lobby updates after socket is initialized
     this.lobbyUpdateIntervalId = setInterval(() => {
       this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
-    }, 1000); // 1000ms = 1 second
+    }, 1000);
 
       // Wait for the socket to connect before proceeding
       this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');

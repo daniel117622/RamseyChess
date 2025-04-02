@@ -10,11 +10,26 @@ import * as md5 from 'md5';
 import { StrategyCardListProfileView } from 'src/models/start-card.model';
 import { UserProfile } from 'src/models/user-profile.model';
 import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-game-lobby-page',
   templateUrl: './game-lobby-page.component.html',
-  styleUrls: ['./game-lobby-page.component.scss']
+  styleUrls: ['./game-lobby-page.component.scss'],
+  animations: [
+    trigger('expandCollapse', [
+      state('void', style({ height: '0', opacity: 0, overflow: 'hidden' })),
+      state('*', style({ height: '*', opacity: 1, overflow: 'hidden' })),
+      transition('void <=> *', animate('250ms ease-in-out')),
+    ])
+  ]
 })
 export class GameLobbyPageComponent implements OnInit 
 {

@@ -139,32 +139,24 @@
       border          : 2px solid #545b62;
   }
 
-  .custom-btn 
+  .custom-button
   {
-      border-radius   : 1px;
-      padding        : 5px 12px;
-      font-size      : 14px;
-      transition     : all 0.3s ease;
       background-color: #2c3e50;
-      color          : white;
-      border         : none;
+      color: #ffffff;
+      border: 2px solid #1a252f;
+      padding: 10px 20px;
+      border-radius: 2px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
   }
   
-  .custom-btn:hover:not(:disabled) 
+  .custom-button p
   {
-      background-color: #a77a01;
+      margin: 0;
+      font-weight: bold;
   }
   
-  .custom-btn:disabled 
-  {
-      background-color: #bdc3c7;
-      cursor          : not-allowed;
-  }
-  
-  .custom-btn:focus 
-  {
-      outline: none;
-  }
   
   /* Starting SEARCHBAR styling */
 

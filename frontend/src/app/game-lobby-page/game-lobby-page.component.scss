@@ -7,13 +7,6 @@
   font-family: monospace;
 }
   
-.custom-button 
-{
-  background-color: #C2FE72;
-  border-radius   : 1px;
-  border          : none;
-  color           : black;
-}
 
 .selected {
   background-color: rgb(128, 221, 85) !important;
@@ -218,4 +211,22 @@ h2 {
 .lobby-table .btn-join:hover
 {
   background-color: $lighter-blue;
+}
+
+.custom-button
+{
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: 2px solid #1a252f;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.custom-button p
+{
+    margin: 0;
+    font-weight: bold;
 }

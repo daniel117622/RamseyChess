@@ -25,9 +25,14 @@ import {
   styleUrls: ['./game-lobby-page.component.scss'],
   animations: [
     trigger('expandCollapse', [
-      state('void', style({ height: '0', opacity: 0, overflow: 'hidden' })),
-      state('*', style({ height: '*', opacity: 1, overflow: 'hidden' })),
-      transition('void <=> *', animate('250ms ease-in-out')),
+      transition(':enter', [
+        style({ height: '0', opacity: 0, overflow: 'hidden' }),
+        animate('250ms ease-out', style({ height: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1, overflow: 'hidden' }),
+        animate('250ms ease-in', style({ height: '0', opacity: 0 }))
+      ])
     ])
   ]
 })

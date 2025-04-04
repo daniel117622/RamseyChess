@@ -17,3 +17,11 @@ html, body,
 {
   font-family: 'Courier New', Courier, monospace;
 }
+
+@use '@angular/material' as mat;
+$open-sans-typography: mat.define-typography-config($font-family: '"Courier New", Courier, monospace');
+@include mat.typography-hierarchy($open-sans-typography);
+$app-theme: mat.define-light-theme((
+  typography: $open-sans-typography
+));
+@include mat.all-component-themes($app-theme);

@@ -34,8 +34,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { provideMaterialDesignConfigurations } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -81,7 +80,8 @@ import { provideMaterialDesignConfigurations } from '@angular/material/core';
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent],

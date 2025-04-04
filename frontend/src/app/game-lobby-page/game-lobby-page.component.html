@@ -183,8 +183,12 @@
   <h2 class="text-center">My Saved Strategies</h2>
   <div class="table-responsive">
 
-    <mat-accordion multi>
-      <mat-expansion-panel *ngFor="let strategy of my_saved_strategies$ | async; let i = index">
+    <mat-accordion>
+      <mat-expansion-panel 
+        *ngFor="let strategy of my_saved_strategies$ | async; let i = index"
+        (opened)="selectStrategy(strategy)"
+        [expanded]="strategy === selected_strategy"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title class="w-100 d-flex justify-content-between">
             <span style="width: 30px; text-align: center;">{{ i + 1 }}</span>

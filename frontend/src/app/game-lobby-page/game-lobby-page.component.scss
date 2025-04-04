@@ -234,3 +234,25 @@ h2 {
     margin: 0;
     font-weight: bold;
 }
+
+::ng-deep mat-expansion-panel
+{
+  margin: 0 !important;
+  border-radius: 1px !important;
+  border: 1px solid #ddd;
+}
+
+::ng-deep mat-expansion-panel.mat-expanded
+{
+  margin: 0 !important;
+}
+
+::ng-deep mat-expansion-panel.mat-expansion-panel-spacing
+{
+  margin: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-header
+{
+  padding: 0.5rem 1rem;
+}

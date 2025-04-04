@@ -33,6 +33,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

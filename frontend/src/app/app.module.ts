@@ -32,6 +32,7 @@ import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent],

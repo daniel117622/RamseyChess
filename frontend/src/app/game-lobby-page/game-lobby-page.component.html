@@ -145,14 +145,15 @@
           <th class="text-center">Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngIf="(availableLobbies$ | async)?.length === 0">
+    
+      <tbody *ngIf="availableLobbies$ | async as lobbies; else loading">
+        <tr *ngIf="lobbies.length === 0">
           <td colspan="5" class="text-center text-muted py-4">
             No lobbies available.
           </td>
         </tr>
-      
-        <tr *ngFor="let lobby of availableLobbies$ | async; let i = index" class="custom-row">
+    
+        <tr *ngFor="let lobby of lobbies; let i = index" class="custom-row">
           <td class="text-center">{{ i + 1 }}</td>
           <td class="lobby-id">{{ lobby.id }}</td>
           <td>{{ lobby.players.length }} / 2</td>
@@ -162,8 +163,18 @@
           </td>
         </tr>
       </tbody>
-      
+    
+      <ng-template #loading>
+        <tbody>
+          <tr>
+            <td colspan="5" class="text-center text-muted py-4">
+              Loading lobbies...
+            </td>
+          </tr>
+        </tbody>
+      </ng-template>
     </table>
+    
   </div>
 </div>
 

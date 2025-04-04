@@ -123,18 +123,20 @@
   
   .win 
   {
-    color           : #1e7e34;
-    border          : 2px solid #1e7e34;
+    color           : #56db75;
+    font-weight: bold;
   }
 
   .loss 
   {
       color           : #a71d2a;
+      font-weight: bold;
   }
 
   .draw 
   {
-      color           : #545b62;
+      color           : #5391cf;
+      font-weight: bold;
   }
 
   .custom-btn 

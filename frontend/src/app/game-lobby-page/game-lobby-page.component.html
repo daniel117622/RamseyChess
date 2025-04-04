@@ -189,7 +189,9 @@
         (opened)="selectStrategy(strategy)"
         [expanded]="strategy === selected_strategy"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          [ngClass]="{ 'selected-header': strategy === selected_strategy }"
+        >
           <mat-panel-title class="w-100 d-flex justify-content-between">
             <span style="width: 30px; text-align: center;">{{ i + 1 }}</span>
             <span style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ strategy.name }}</span>

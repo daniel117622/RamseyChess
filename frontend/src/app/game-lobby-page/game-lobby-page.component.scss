@@ -264,3 +264,9 @@ h2 {
 {
   font-family: 'Courier New', Courier, monospace;
 }
+
+::ng-deep .selected-header
+{
+  background-color: #6083a6 !important;
+  color: white;
+}

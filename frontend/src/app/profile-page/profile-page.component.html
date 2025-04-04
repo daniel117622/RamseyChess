@@ -144,12 +144,7 @@
     <div class="row">
         <!-- START OF A SINGLE CARD -->
         <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
-            <div class="strategy-card p-3 text-center h-100"
-                [ngClass]="{
-                    'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Win',
-                    'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Loss',
-                    'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Draw'
-                }">
+            <div class="strategy-card p-3 text-center h-100" style="color:white; border: solid 2px #545b62;">
                 <!-- Raw Game Data Display -->
                 <h5 class="mb-2">
                     White player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">{{ game.strategy_white_owner }}</span>
@@ -161,7 +156,11 @@
                 <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
 
                 <!-- Removed PGN line -->
-                <p><strong>Result:</strong> {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) }}</p>
+                <p><strong>Result:</strong> <span                [ngClass]="{
+                    'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Win',
+                    'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Loss',
+                    'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Draw'
+                }"> {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) }} </span></p>
                 <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
                 <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
                 

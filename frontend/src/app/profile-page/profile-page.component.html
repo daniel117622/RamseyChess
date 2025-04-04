@@ -140,40 +140,69 @@
     </div>
     <!-- END OF SEARCH BAR SECTION -->
 
-    <!-- START OF CARDS DISPLAY -->
-    <div class="row">
+<!-- START OF CARDS DISPLAY -->
+<div class="row">
+  
+    <!-- LOADING PLACEHOLDER -->
+    <ng-container *ngIf="paginatedGames === null; else gamesBlock">
+      <div class="col-12 text-center text-muted py-4">
+        Loading games...
+      </div>
+    </ng-container>
+  
+    <!-- MAIN GAME BLOCK -->
+    <ng-template #gamesBlock>
+        <ng-container *ngIf="paginatedGames && paginatedGames.games && paginatedGames.games.length > 0; else noGames">
         <!-- START OF A SINGLE CARD -->
-        <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
-            <div class="strategy-card p-3 text-center h-100" style="color:white; border: solid 2px #545b62;">
-                <!-- Raw Game Data Display -->
-                <h5 class="mb-2">
-                    White player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">{{ game.strategy_white_owner }}</span>
-                </h5>
-                <h5 class="mb-2">
-                    Black player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">{{ game.strategy_black_owner }}</span>
-                </h5>
-                <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
-                <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
-
-                <!-- Removed PGN line -->
-                <p><strong>Result:</strong> <span                [ngClass]="{
-                    'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Win',
-                    'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Loss',
-                    'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Draw'
-                }"> {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) }} </span></p>
-                <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
-                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.pgn)">Share PGN</button>
-                </div>
+        <div *ngFor="let game of paginatedGames.games" class="col-lg-4 col-md-6 mb-3">
+          <div class="strategy-card p-3 text-center h-100" style="color:white; border: solid 2px #545b62;">
+            <h5 class="mb-2">
+              White player:
+              <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">
+                {{ game.strategy_white_owner }}
+              </span>
+            </h5>
+            <h5 class="mb-2">
+              Black player:
+              <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">
+                {{ game.strategy_black_owner }}
+              </span>
+            </h5>
+            <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
+            <p><strong>Time since game:</strong> {{ timeSinceGame(game.game_date) }}</p>
+            <p><strong>Result:</strong>
+              <span
+                [ngClass]="{
+                  'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Win',
+                  'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Loss',
+                  'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Draw'
+                }">
+                {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) }}
+              </span>
+            </p>
+            <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
+            <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
+  
+            <div class="d-flex justify-content-center gap-2 mt-3">
+              <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
+              <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.pgn)">Share PGN</button>
             </div>
+          </div>
         </div>
         <!-- END OF A SINGLE CARD -->
-    </div>
-    <!-- END OF CARDS DISPLAY -->
+      </ng-container>
+  
+      <!-- NO GAMES PLACEHOLDER -->
+      <ng-template #noGames>
+        <div class="col-12 text-center text-muted py-4">
+          No games to display.
+        </div>
+      </ng-template>
+    </ng-template>
+  
+  </div>
+  <!-- END OF CARDS DISPLAY -->
+  
 
 
     <!-- START OF PAGINATION SECTION -->

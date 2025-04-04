@@ -32,7 +32,7 @@
                     <tr>
                         <td>Last Login</td>
                         <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ userProfileData.last_login.$date }}
+                            {{ this.convertUTCToLocal( userProfileData.last_login.$date ) }}
                         </td>
                     </tr>
                 </tbody>

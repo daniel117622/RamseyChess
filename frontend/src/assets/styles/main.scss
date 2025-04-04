@@ -7,12 +7,13 @@ $dark-grayish-blue: #34495e;
 $very-dark-blue-2 : #00366d;
 $lighter-blue     : #3498db;
 
-// Extracted from navmenu. Cleanup is pending
-$legacy_primary-bg-color     : #4a6b37;
-$legacy_hover-bg-color       : #7bd75e;
-$legacy_text-color-white     : white;
-$legacy_text-color-black     : black;
-$legacy_navbar-toggle-bg     : #7bd75e;
-$legacy_navbar-toggle-text   : black;
-$legacy_logout-icon-color    : #6c757d;
-$legacy_logout-icon-hover    : #f44336;
+
+html, body,
+.mat-typography,
+.mat-expansion-panel,
+.mat-expansion-panel-header,
+.mat-panel-title,
+.mat-panel-description
+{
+  font-family: 'Courier New', Courier, monospace;
+}

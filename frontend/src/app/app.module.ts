@@ -35,6 +35,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideMaterialDesignConfigurations } from '@angular/material/core';
+
+
 @NgModule({
   declarations: [
     AppComponent,

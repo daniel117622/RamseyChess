@@ -316,9 +316,9 @@ export class GameLobbyPageComponent implements OnInit
     }
   }
 
-  selectStrategy(strategy: StrategyCardListProfileView): void 
+  selectStrategy (strategy: StrategyCardListProfileView | null): void
   {
-    this.selected_strategy = (this.selected_strategy === strategy) ? null : strategy;
+    this.selected_strategy = strategy;
   }
   
 

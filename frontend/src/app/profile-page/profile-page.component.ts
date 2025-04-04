@@ -153,7 +153,7 @@ export class ProfilePageComponent implements OnInit {
 
   goToGamePage(page: number): void 
   {
-      if (page >= 0 && page < this.totalPages) 
+      if (page >= 0 && page < this.totalGamePages) 
       {
           this.currentGamePageNumber = page;
           this.fetchGames(3, page); 
@@ -164,6 +164,27 @@ export class ProfilePageComponent implements OnInit {
   searchGame(query: string): void
   {
     return
+  }
+
+  convertUTCToLocal (utcDate: string): string 
+  {
+    const date = new Date(utcDate);
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+    const month = monthNames[date.getMonth()];
+    const day   = String(date.getDate()).padStart(2, '0');
+  
+    let hours = date.getHours();
+    const mins  = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+  
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours; 
+    const formattedHours = String(hours).padStart(2, '0');
+  
+    return `${month} ${day} ${formattedHours}:${mins} ${ampm}`;
   }
 
   fetchGames(itemsPerPage: number, pageNumber: number): void

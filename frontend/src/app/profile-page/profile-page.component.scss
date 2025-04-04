@@ -56,7 +56,7 @@
 
 .pagination-controls button:disabled 
 {
-  background-color: #bdc3c7;
+  background-color: #2f383f;
   cursor          : not-allowed;
 }
 
@@ -123,20 +123,20 @@
   
   .win 
   {
-    color           : white;
-    border          : 2px solid #1e7e34;
+    color           : #56db75;
+    font-weight: bold;
   }
 
   .loss 
   {
-      color           : white;
-      border          : 2px solid #a71d2a;
+      color           : #a71d2a;
+      font-weight: bold;
   }
 
   .draw 
   {
-      color           : white;
-      border          : 2px solid #545b62;
+      color           : #5391cf;
+      font-weight: bold;
   }
 
   .custom-btn 
@@ -157,7 +157,7 @@
   
   .custom-btn:disabled 
   {
-      background-color: #bdc3c7;
+      background-color: #2f383f;
       cursor          : not-allowed;
   }
   

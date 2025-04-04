@@ -32,13 +32,15 @@
                     <tr>
                         <td>Last Login</td>
                         <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ userProfileData.last_login.$date }}
+                            {{ this.convertUTCToLocal( userProfileData.last_login.$date ) }}
                         </td>
                     </tr>
                 </tbody>
             </table>            
         </div>
-        <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">Create your first strategy</button>
+        <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">
+            <p style="margin: 0.5rem">Build a strategy</p>
+        </button>
     </div>
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
@@ -57,8 +59,8 @@
                 max-width: 80vw;
             ">
                     <div class="custom-search-bar">
-                        <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="Search" class="custom-input">
-                        <button class="custom-icon-button" aria-label="Search my strategies" (click)="searchGame(this.searchQueryStrategy)">
+                        <input id="searchInput" [(ngModel)]="searchQueryStrategy" placeholder="IN DEVELOPMENT" class="custom-input" disabled>
+                        <button class="custom-icon-button" aria-label="IN DEVELOPMENT" (click)="searchGame(this.searchQueryStrategy)">
                             <span class="custom-icon">🔍</span>
                         </button>
                     </div>
@@ -67,22 +69,48 @@
         </div>
         <!-- END OF SEARCH BAR SECTION -->
 
-        <!-- Responsive Flexbox Container -->
+        <!-- START OF STRATEGY CARDS DISPLAY -->
         <div class="row justify-content-center gap-3">
-            <!-- Loop through the strategies -->
-            <div *ngFor="let strategy of my_saved_strategies" class="strategy-card draw col-lg-3 col-md-6 mb-3 p-3 text-center d-flex flex-column" style="border-radius: 3px;">
+
+            <!-- LOADING PLACEHOLDER -->
+            <ng-container *ngIf="my_saved_strategies === null; else strategyBlock">
+            <div class="col-12 text-center text-white py-4 mt-5">
+                <div class="spinner-border text-light" role="status"></div>
+                <p>Loading strategies...</p>
+            </div>
+            </ng-container>
+        
+            <!-- STRATEGY CARDS BLOCK -->
+            <ng-template #strategyBlock>
+            <ng-container *ngIf="my_saved_strategies.length > 0; else noStrategies">
+                <div *ngFor="let strategy of my_saved_strategies"
+                    class="strategy-card draw col-lg-3 col-md-6 mb-3 p-3 text-center d-flex flex-column"
+                    style="border-radius: 2px; color: white">
                 <h5 class="mb-2">{{ strategy.name }}</h5>
                 <p>{{ strategy.description }}</p>
-                <!-- Additional details -->
                 <p><strong>Elo:</strong> {{ strategy.elo }}</p>
                 <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
-
-                <!-- Action Buttons (placed at the bottom) -->
+        
                 <div class="d-flex justify-content-center gap-2 mt-auto">
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="viewDetails(strategy._id.$oid)">View Details / Edit strategy</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn"
+                            (click)="viewDetails(strategy._id.$oid)">
+                    View Details / Edit strategy
+                    </button>
                 </div>
-            </div>
+                </div>
+            </ng-container>
+        
+            <!-- NO STRATEGIES PLACEHOLDER -->
+            <ng-template #noStrategies>
+                <div class="col-12 text-center text-white py-4 mt-5">
+                No strategies saved.
+                </div>
+            </ng-template>
+            </ng-template>
+        
         </div>
+        <!-- END OF STRATEGY CARDS DISPLAY -->
+  
 
         <!-- Pagination Section -->
         <div class="d-flex justify-content-center mt-4">
@@ -128,8 +156,8 @@
                 max-width: 80vw;
             ">
                 <div class="custom-search-bar">
-                    <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="Search" class="custom-input">
-                    <button class="custom-icon-button" aria-label="Search games" (click)="searchGame(this.searchQueryGame)">
+                    <input id="searchInput" [(ngModel)]="searchQueryGame" placeholder="IN DEVELOPMENT" class="custom-input" disabled>
+                    <button class="custom-icon-button" aria-label="IN DEVELOPMENT" (click)="searchGame(this.searchQueryGame)">
                         <span class="custom-icon">🔍</span>
                     </button>
                 </div>
@@ -138,41 +166,69 @@
     </div>
     <!-- END OF SEARCH BAR SECTION -->
 
-    <!-- START OF CARDS DISPLAY -->
-    <div class="row">
+<!-- START OF CARDS DISPLAY -->
+<div class="row">
+  
+    <!-- LOADING PLACEHOLDER -->
+    <ng-container *ngIf="paginatedGames === null; else gamesBlock">
+      <div class="col-12 text-center text-white py-4 mt-5">
+        Loading games...
+      </div>
+    </ng-container>
+  
+    <!-- MAIN GAME BLOCK -->
+    <ng-template #gamesBlock>
+        <ng-container *ngIf="paginatedGames && paginatedGames.games && paginatedGames.games.length > 0; else noGames">
         <!-- START OF A SINGLE CARD -->
-        <div *ngFor="let game of paginatedGames?.games" class="col-lg-4 col-md-6 mb-3">
-            <div class="strategy-card p-3 text-center h-100"
+        <div *ngFor="let game of paginatedGames.games" class="col-lg-4 col-md-6 mb-3">
+          <div class="strategy-card p-3 text-center h-100" style="color:white; border: solid 2px #545b62;">
+            <h5 class="mb-2">
+              White player:
+              <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">
+                {{ game.strategy_white_owner }}
+              </span>
+            </h5>
+            <h5 class="mb-2">
+              Black player:
+              <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">
+                {{ game.strategy_black_owner }}
+              </span>
+            </h5>
+            <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
+            <p><strong>Time since game:</strong> {{ timeSinceGame(game.game_date) }}</p>
+            <p><strong>Result:</strong>
+              <span
                 [ngClass]="{
-                    'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Win',
-                    'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Loss',
-                    'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) === 'Draw'
+                  'win' : getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Win',
+                  'loss': getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Loss',
+                  'draw': getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) === 'Draw'
                 }">
-                <!-- Raw Game Data Display -->
-                <h5 class="mb-2">
-                    White player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">{{ game.strategy_white_owner }}</span>
-                </h5>
-                <h5 class="mb-2">
-                    Black player: <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase;">{{ game.strategy_black_owner }}</span>
-                </h5>
-                <p><strong>Game ID:</strong> {{ game._id.$oid }}</p>
-                <p><strong>Time since game: </strong> {{ timeSinceGame(game.game_date) }}</p>
-
-                <!-- Removed PGN line -->
-                <p><strong>Result:</strong> {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, this.current_nickname, game.pgn) }}</p>
-                <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
-                <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.pgn)">Share PGN</button>
-                </div>
+                {{ getGameResult(game.strategy_white_owner, game.strategy_black_owner, current_nickname, game.pgn) }}
+              </span>
+            </p>
+            <p><strong>Strategy ID for White:</strong> {{ game.strategy_id_white }}</p>
+            <p><strong>Strategy ID for Black:</strong> {{ game.strategy_id_black }}</p>
+  
+            <div class="d-flex justify-content-center gap-2 mt-3">
+              <button class="btn btn-outline-primary btn-sm custom-btn" (click)="reviewGame(game._id.$oid)">Review</button>
+              <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="shareGame(game.pgn)">Share PGN</button>
             </div>
+          </div>
         </div>
         <!-- END OF A SINGLE CARD -->
-    </div>
-    <!-- END OF CARDS DISPLAY -->
+      </ng-container>
+  
+      <!-- NO GAMES PLACEHOLDER -->
+      <ng-template #noGames>
+        <div class="col-12 text-center text-white py-4 mt-5">
+          No games to display.
+        </div>
+      </ng-template>
+    </ng-template>
+  
+  </div>
+  <!-- END OF CARDS DISPLAY -->
+  
 
 
     <!-- START OF PAGINATION SECTION -->

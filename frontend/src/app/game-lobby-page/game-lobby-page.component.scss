@@ -1,0 +1,236 @@
+@import '../../assets/styles/main';
+
+.lobby-id 
+{
+  color      : #007bff;
+  font-weight: bold;
+  font-family: monospace;
+}
+  
+
+.selected 
+{
+  background-color: #6083a6!important;
+  border-color    : #6083a6 !important;
+  border          : 2px solid transparent;
+  color: white;
+}
+.selected td + td 
+{
+  border-left     : none !important;
+  background-color: #6083a6 !important;
+}
+.selected td 
+{
+  border-left     : 3px solid #6083a6 !important;
+  border-right    : 3px solid #6083a6 !important;
+  background-color: #6083a6 !important;
+}
+
+
+
+tr
+{
+  cursor: pointer;
+}
+
+
+button.ready {
+  background-color: #28a745;
+  border-color    : #218838;
+  color           : #ffffff;
+  font-weight     : bold;
+}
+
+.force-hide {
+  display: none !important;
+}
+.custom-table-wrapper {
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  font-size: 0.85rem; /* Slightly smaller font size for a compact look */
+}
+
+.custom-row {
+  transition: background-color 0.3s ease;
+}
+
+.custom-row:hover {
+  background-color: #e8f5e9;
+}
+
+.table td,
+.table th {
+  padding: 0.3rem 0.5rem; /* Minimized padding to reduce row height */
+}
+
+.btn-green {
+  background-color: #38b000;
+  border-color: #38b000;
+  color: #ffffff;
+  padding: 0.04rem 0.3rem; /* Reduced padding for smaller button */
+  font-size: 0.75rem; /* Smaller text for the button */
+  transition: background-color 0.3s ease;
+}
+.btn-green:hover {
+  background-color: #2a8500;
+  border-color: #2a8500;
+}
+
+.table thead {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover td {
+  background-color: #e8f5e9 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.pgn-display {
+  font-family: monospace;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+  max-height: 300px;
+  color: black;
+}
+
+
+#playerList
+{
+    list-style-type: none;
+    padding        : 0;
+    margin         : 0;
+    width          : 100%;
+}
+
+#playerList li
+{
+    display              : grid;
+    grid-template-columns: 1fr 1fr;         
+    padding              : 8px;
+    border-bottom        : 1px solid #ccc;
+    font-family          : Arial, sans-serif;
+    font-size            : 16px;
+}
+
+.ready-state
+{
+    color: rgb(127, 255, 127);
+
+}
+
+.not-ready-state
+{
+    color: rgb(208, 208, 208);
+}
+
+
+.player-entry
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size  : 1.2rem;
+    padding    : 8px 12px;
+    margin     : 4px;
+    text-align : center;
+    width      : 150px;
+}
+
+.execute-button-ready 
+{
+  background-color: #f6e715;
+  border-color    : #f6e715;
+  color           : black;
+  font-weight     : bold;
+}
+
+.lobby-table-wrapper
+{
+  border-radius: 2px;
+  background-color: $off-white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lobby-table
+{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lobby-table th, .lobby-table td
+{
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.lobby-table th
+{
+  background-color: $light-gray;
+  color: $dark-blue;
+  font-weight: bold;
+}
+
+.lobby-table td
+{
+  color: $dark-grayish-blue;
+}
+
+.lobby-table .text-center
+{
+  text-align: center;
+}
+
+.lobby-table .custom-row:hover
+{
+  background-color: $off-white;
+  cursor: pointer;
+}
+
+.lobby-table .btn-join
+{
+  background-color: $bright-blue;
+  color: white;
+  border-radius: 2px;
+  padding: 6px 12px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.lobby-table .btn-join:hover
+{
+  background-color: $lighter-blue;
+}
+
+.custom-button
+{
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: 2px solid #1a252f;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.custom-button p
+{
+    margin: 0;
+    font-weight: bold;
+}

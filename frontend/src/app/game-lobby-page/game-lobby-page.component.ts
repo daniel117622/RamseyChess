@@ -3,18 +3,38 @@ import { ActivatedRoute, Router , NavigationEnd} from '@angular/router';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { LobbyService , Lobby } from 'src/services/lobby-service.service';
 import { nanoid } from 'nanoid';
-import { BehaviorSubject, filter, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, of, Subscription, switchMap } from 'rxjs';
 import { NgZone } from '@angular/core';
 import { NgxChessBoardComponent } from 'ngx-chess-board';
 import * as md5 from 'md5';
 import { StrategyCardListProfileView } from 'src/models/start-card.model';
 import { UserProfile } from 'src/models/user-profile.model';
 import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-game-lobby-page',
   templateUrl: './game-lobby-page.component.html',
-  styleUrls: ['./game-lobby-page.component.css']
+  styleUrls: ['./game-lobby-page.component.scss'],
+  animations: [
+    trigger('expandCollapse', [
+      transition(':enter', [
+        style({ height: '0', opacity: 0, overflow: 'hidden' }),
+        animate('250ms ease-out', style({ height: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1, overflow: 'hidden' }),
+        animate('250ms ease-in', style({ height: '0', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class GameLobbyPageComponent implements OnInit 
 {
@@ -23,6 +43,9 @@ export class GameLobbyPageComponent implements OnInit
   inputLobbyId: string = ''; 
   public playersSubject = new BehaviorSubject<string[]>([]);
   players$: Observable<string[]> = this.playersSubject.asObservable();
+
+  private lobbyUpdateSubscription: Subscription | null = null;
+  private lobbyUpdateIntervalId: ReturnType<typeof setInterval> | undefined;
 
   readyStates: { [player: string]: boolean } = {};
   isRoomFull: boolean = false;
@@ -107,9 +130,11 @@ export class GameLobbyPageComponent implements OnInit
 
     // Initialize socket first to ensure connection is established before using it
     this.lobby.initializeSocket();
-
-    // Subscribe to lobby updates after socket is initialized
     this.availableLobbies$ = this.lobby.onLobbyStateUpdate();
+    // Subscribe to lobby updates after socket is initialized
+    this.lobbyUpdateIntervalId = setInterval(() => {
+      this.lobby.requestLobbies();
+    }, 1000);
 
       // Wait for the socket to connect before proceeding
       this.lobbyId = this.route.snapshot.paramMap.get('lobby-id');
@@ -173,7 +198,6 @@ export class GameLobbyPageComponent implements OnInit
     })
 
     this.updateBoardSize();
-    
   }
 
 
@@ -217,6 +241,11 @@ export class GameLobbyPageComponent implements OnInit
   resetLobby (): void 
   {
     if (this.all_buttons_frozen) { return }
+    if (this.lobbyId)
+    {
+      this.lobby.emitPlayerLeave(this.lobbyId , this.playerName || '')
+    }
+
     this.lobbyId = null;
     this.router.navigate(['/game-lobby']);
     this.playersSubject.next([]);
@@ -225,18 +254,21 @@ export class GameLobbyPageComponent implements OnInit
     this.has_posted_game = false;
     this.players = []
     console.log('Lobby reset');
-    this.availableLobbies$! = this.lobby.requestLobbies()
   }
 
   resetState(): void
   {
+    if (this.lobbyId)
+    {
+      this.lobby.emitPlayerLeave(this.lobbyId , this.playerName || '')
+    }  
+
     this.lobbyId = null;
     this.playersSubject.next([]);
     this.isPlayerInLobby = false;
     this.gameFinishedPgn = null;
     this.has_posted_game = false;
     this.players = []
-    this.availableLobbies$ = this.lobby.requestLobbies()
   }
 
   handleJoinLobby(): void
@@ -256,6 +288,23 @@ export class GameLobbyPageComponent implements OnInit
       }
   }
 
+  handleJoinLobbyById(lobby_id : string): void
+  {
+      if (!lobby_id)
+      {
+          console.error('Lobby ID cannot be empty');
+          return;
+      }
+  
+      window.location.href = `/game-lobby/${lobby_id}`;
+      
+      if (this.playerName)
+      {
+          this.isPlayerInLobby = true;
+          this.joinLobby(lobby_id, this.playerName);
+      }
+  }
+
   handleJoinLobbyFromButton(lobby_id : string) : void
   {
     window.location.href = `/game-lobby/${lobby_id}`;
@@ -269,8 +318,9 @@ export class GameLobbyPageComponent implements OnInit
 
   selectStrategy(strategy: StrategyCardListProfileView): void 
   {
-    this.selected_strategy = strategy;
+    this.selected_strategy = (this.selected_strategy === strategy) ? null : strategy;
   }
+  
 
   toggleReadyState() : void
   {
@@ -315,5 +365,13 @@ export class GameLobbyPageComponent implements OnInit
     joinExistingLobby(lobby_id : any) : void
     {
       return
+    }
+
+    ngOnDestroy(): void 
+    {
+      if (this.lobbyUpdateIntervalId !== undefined) 
+      {
+        clearInterval(this.lobbyUpdateIntervalId); 
+      }
     }
 }

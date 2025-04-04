@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
-import { MatevalModel } from 'src/models/mate-eval.model';
+import { MatevalModel, ChessPieces } from 'src/models/mate-eval.model';
 import { StrategyBuildService } from 'src/services/strategy-build.service';
 
 @Component({
@@ -8,16 +7,15 @@ import { StrategyBuildService } from 'src/services/strategy-build.service';
   templateUrl: './material-form.component.html',
   styleUrls: ['./material-form.component.css']
 })
-export class MaterialFormComponent implements OnInit{
+export class MaterialFormComponent implements OnInit {
   @Input() sub: string | undefined | null = '';
-  materialEval = this.strategy_builder.material_eval;
+  materialEval: MatevalModel = this.strategy_builder.material_eval;
 
+  readonly pieceKeys: (keyof ChessPieces)[] = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king'];
 
-  constructor(private strategy_builder : StrategyBuildService) {}
-  ngOnInit() : void 
-  {
+  constructor(private strategy_builder: StrategyBuildService) {}
+
+  ngOnInit(): void {
     this.materialEval.owner = this.sub ?? '';
   }
-  
-
 }

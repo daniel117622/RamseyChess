@@ -35,7 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
-
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -81,7 +81,8 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatExpansionModule,
     BrowserAnimationsModule,
-    MatListModule
+    MatListModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent],

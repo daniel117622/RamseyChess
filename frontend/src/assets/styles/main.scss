@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 $light-gray       : #bdc3c7;
 $off-white        : #ecf0f1;
 $dark-blue        : #2c3e50;
@@ -7,21 +9,21 @@ $dark-grayish-blue: #34495e;
 $very-dark-blue-2 : #00366d;
 $lighter-blue     : #3498db;
 
+$open-sans-typography: mat.define-typography-config($font-family: '"Courier New", Courier, monospace');
 
 html, body,
 .mat-typography,
 .mat-expansion-panel,
 .mat-expansion-panel-header,
 .mat-panel-title,
-.mat-panel-description
-{
+.mat-panel-description {
   font-family: 'Courier New', Courier, monospace;
 }
 
-@use '@angular/material' as mat;
-$open-sans-typography: mat.define-typography-config($font-family: '"Courier New", Courier, monospace');
 @include mat.typography-hierarchy($open-sans-typography);
+
 $app-theme: mat.define-light-theme((
   typography: $open-sans-typography
 ));
+
 @include mat.all-component-themes($app-theme);

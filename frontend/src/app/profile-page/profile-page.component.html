@@ -69,22 +69,48 @@
         </div>
         <!-- END OF SEARCH BAR SECTION -->
 
-        <!-- Responsive Flexbox Container -->
+        <!-- START OF STRATEGY CARDS DISPLAY -->
         <div class="row justify-content-center gap-3">
-            <!-- Loop through the strategies -->
-            <div *ngFor="let strategy of my_saved_strategies" class="strategy-card draw col-lg-3 col-md-6 mb-3 p-3 text-center d-flex flex-column" style="border-radius: 2px; color: white">
+
+            <!-- LOADING PLACEHOLDER -->
+            <ng-container *ngIf="my_saved_strategies === null; else strategyBlock">
+            <div class="col-12 text-center text-white py-4 mt-5">
+                <div class="spinner-border text-light" role="status"></div>
+                <p>Loading strategies...</p>
+            </div>
+            </ng-container>
+        
+            <!-- STRATEGY CARDS BLOCK -->
+            <ng-template #strategyBlock>
+            <ng-container *ngIf="my_saved_strategies.length > 0; else noStrategies">
+                <div *ngFor="let strategy of my_saved_strategies"
+                    class="strategy-card draw col-lg-3 col-md-6 mb-3 p-3 text-center d-flex flex-column"
+                    style="border-radius: 2px; color: white">
                 <h5 class="mb-2">{{ strategy.name }}</h5>
                 <p>{{ strategy.description }}</p>
-                <!-- Additional details -->
                 <p><strong>Elo:</strong> {{ strategy.elo }}</p>
                 <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
-
-                <!-- Action Buttons (placed at the bottom) -->
+        
                 <div class="d-flex justify-content-center gap-2 mt-auto">
-                    <button class="btn btn-outline-secondary btn-sm custom-btn" (click)="viewDetails(strategy._id.$oid)">View Details / Edit strategy</button>
+                    <button class="btn btn-outline-secondary btn-sm custom-btn"
+                            (click)="viewDetails(strategy._id.$oid)">
+                    View Details / Edit strategy
+                    </button>
                 </div>
-            </div>
+                </div>
+            </ng-container>
+        
+            <!-- NO STRATEGIES PLACEHOLDER -->
+            <ng-template #noStrategies>
+                <div class="col-12 text-center text-white py-4 mt-5">
+                No strategies saved.
+                </div>
+            </ng-template>
+            </ng-template>
+        
         </div>
+        <!-- END OF STRATEGY CARDS DISPLAY -->
+  
 
         <!-- Pagination Section -->
         <div class="d-flex justify-content-center mt-4">
@@ -145,7 +171,7 @@
   
     <!-- LOADING PLACEHOLDER -->
     <ng-container *ngIf="paginatedGames === null; else gamesBlock">
-      <div class="col-12 text-center text-muted py-4">
+      <div class="col-12 text-center text-white py-4 mt-5">
         Loading games...
       </div>
     </ng-container>
@@ -194,7 +220,7 @@
   
       <!-- NO GAMES PLACEHOLDER -->
       <ng-template #noGames>
-        <div class="col-12 text-center text-muted py-4">
+        <div class="col-12 text-center text-white py-4 mt-5">
           No games to display.
         </div>
       </ng-template>

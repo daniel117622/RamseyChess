@@ -54,14 +54,15 @@
         <!-- Name input field -->
         <div class="d-flex justify-content-center mt-4">
           <div class="col-12">
-            <div class="form-group">
+            <div class="form-group d-flex flex-column align-items-center">
               <label for="materialName" class="mb-2">Name of your material set</label>
               <input
-                type="text"
-                id="materialName"
-                class="form-control"
-                [(ngModel)]="materialEval.name"
-                placeholder="Optional name"
+                  style="border-radius: 0px; max-width: 450px;"
+                  type="text"
+                  id="materialName"
+                  class="form-control"
+                  [(ngModel)]="materialEval.name"
+                  placeholder="Optional name"
               />
             </div>
           </div>

@@ -57,19 +57,26 @@
         <div class="d-flex justify-content-center mt-4">
           <div class="col-12">
             <div class="form-group d-flex flex-column align-items-center">
+              <!-- Label centered above -->
               <label for="materialName" class="mb-2">Name of your material set</label>
-              <input
-                  style="border-radius: 0px; max-width: 450px;"
+          
+              <!-- Input and Button side by side -->
+              <div class="d-flex align-items-stretch" style="max-width: 450px; width: 100%;">
+                <input
                   type="text"
                   id="materialName"
                   class="form-control"
                   [(ngModel)]="materialEval.name"
                   placeholder="Optional name"
-              />
-              <button class="btn btn-outline-warning ms-2"
-              style="border-radius: 0px; aspect-ratio: 1; height: 100%; display: flex; align-items: center; justify-content: center;">
-                ⭐AI⭐
-              </button>
+                  style="border-radius: 0px; flex: 1;"
+                />
+          
+                <button
+                  class="btn btn-outline-warning ms-2"
+                  style="border-radius: 0px; aspect-ratio: 1; height: 100%; display: flex; align-items: center; justify-content: center;">
+                  ⭐AI⭐
+                </button>
+              </div>
             </div>
           </div>
         </div>

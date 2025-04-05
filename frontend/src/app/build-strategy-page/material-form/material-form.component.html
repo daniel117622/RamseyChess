@@ -1,4 +1,4 @@
-<div class="container text-center" style="text-align: center; width: 100%;" >
+<div class="container text-center" style="text-align: center; width: 100%;">
   <div class="mat-elevation-z2 p-3">
     <p class="disclaimer-box text-center">
       ⚠️ <strong>Disclaimer:</strong> Black pieces value refers to the opponent pieces during matches. <br /><br />
@@ -7,9 +7,11 @@
 
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-100" style="max-width: 900px;">
-
+        <div class="text-white small mt-2">
+          Slide left for lower values and right for higher values.
+        </div>
         <!-- Header row -->
-        <div class="row bg-secondary text-light">
+        <div class="row bg-secondary text-light mb-2">
           <div class="col-6 text-center">White Pieces</div>
           <div class="col-6 text-center">Black Pieces</div>
         </div>
@@ -18,10 +20,10 @@
         <div class="row align-items-center" *ngFor="let piece of pieceKeys">
           <!-- White piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'" 
-                 [alt]="'White ' + piece" 
+            <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'"
+                 [alt]="'White ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex align-items-center mt-1">
+            <div class="d-flex flex-column align-items-center mt-1 w-100">
               <input
                 type="range"
                 class="w-100 white"
@@ -30,16 +32,16 @@
                 [step]="0.1"
                 [(ngModel)]="materialEval.whitePieces[piece]"
               />
-              <span class="ml-2">{{ materialEval.whitePieces[piece] }}</span>
+              <span class="mt-1">{{ materialEval.whitePieces[piece] }}</span>
             </div>
           </div>
 
           <!-- Black piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'" 
-                 [alt]="'Black ' + piece" 
+            <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'"
+                 [alt]="'Black ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex align-items-center mt-1">
+            <div class="d-flex flex-column align-items-center mt-1 w-100">
               <input
                 type="range"
                 class="w-100 black"
@@ -48,7 +50,7 @@
                 [step]="0.1"
                 [(ngModel)]="materialEval.blackPieces[piece]"
               />
-              <span class="ml-2">{{ materialEval.blackPieces[piece] }}</span>
+              <span class="mt-1">{{ materialEval.blackPieces[piece] }}</span>
             </div>
           </div>
         </div>
@@ -57,18 +59,14 @@
         <div class="d-flex justify-content-center mt-4">
           <div class="col-12">
             <div class="form-group">
-              <label for="materialName">Label</label>
+              <label for="materialName" class="mb-2">Name of your material set</label>
               <input
                 type="text"
                 id="materialName"
                 class="form-control"
                 [(ngModel)]="materialEval.name"
-                placeholder="Default"
+                placeholder="Optional name"
               />
-            </div>
-            <!-- New div to describe high/low directions -->
-            <div class="text-white small mt-2">
-              Slide left for lower values and right for higher values.
             </div>
           </div>
         </div>

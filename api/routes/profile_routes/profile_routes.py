@@ -175,7 +175,7 @@ def get_private_strategies():
 
 
     ai_manager = AiPremadeManager()
-    my_strategies = ai_manager.getByOwner(oauth_sub)
+    my_strategies = ai_manager.getByOwner(oauth_sub).reverse()
     strategy_view = []
 
     for single_strategy in my_strategies:

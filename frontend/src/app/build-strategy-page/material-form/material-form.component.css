@@ -108,7 +108,7 @@ input[type="range"] {
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    border-radius: 50%;
+    border-radius: 0%;
     background: #000;
     border: 2px solid #000;
     margin-top: -5px; /* Adjust based on new track height */
@@ -129,7 +129,7 @@ input[type="range"] {
   input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    border-radius: 50%;
+    border-radius: 0%;
     background: #000;
     border: 2px solid #000;
   }
@@ -151,7 +151,7 @@ input[type="range"] {
   input[type="range"]::-ms-thumb {
     width: 20px;
     height: 20px;
-    border-radius: 50%;
+    border-radius: 0%;
     background: #000;
     border: 2px solid #000;
     margin-top: 0px;

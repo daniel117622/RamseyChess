@@ -16,7 +16,7 @@
         <div class="row align-items-center" *ngFor="let piece of pieceKeys">
           <!-- White piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'"
+            <img [src]="'/assets/pieces/w' + pieceMap[piece] + '.svg'" 
                  [alt]="'White ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
             <div class="d-flex flex-column align-items-center mt-1 w-100 mb-2">
@@ -35,7 +35,7 @@
 
           <!-- Black piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'"
+            <img [src]="'/assets/pieces/b' + pieceMap[piece] + '.svg'"
                  [alt]="'Black ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
             <div class="d-flex flex-column align-items-center mt-1 w-100 mb-2">

@@ -12,7 +12,14 @@ export class MaterialFormComponent implements OnInit {
   materialEval: MatevalModel;
 
   readonly pieceKeys: (keyof ChessPieces)[] = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king'];
-
+  readonly pieceMap: Record<string, string> = {
+    pawn  : 'p',
+    knight: 'n',
+    bishop: 'b',
+    rook  : 'r',
+    queen : 'q',
+    king  : 'k'
+  };
 
   constructor(private strategy_builder: StrategyBuildService) {
     this.materialEval = this.strategy_builder.material_eval

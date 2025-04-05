@@ -14,12 +14,12 @@
 
 .wizard-intro strong 
 {
-    color: #b6ff63; /* Bright green for emphasis */
+    color: #2980b9;
 }
 
 .wizard-intro em 
 {
-    color: #f8d210; /* Soft yellow for a different emphasis */
+    color:#004fb7; /* Soft yellow for a different emphasis */
     font-style: italic;
 }
 

@@ -2,7 +2,15 @@
     <div *ngIf="user$ | async as user; else loadingUser">
         <div *ngIf="userProfileData$ | async as userProfileData" class="container mt-4">
           <div class="strategy-card p-3 mb-3">
-            <h2 class="text-white mb-2">Player Profile</h2>
+      
+            <!-- FLEX ROW FOR TITLE + BUTTON -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h2 class="text-white mb-0">Player Profile</h2>
+              <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">
+                <p style="margin: 0.5rem">Build a strategy</p>
+              </button>
+            </div>
+      
             <p class="text-white mb-4">Welcome, {{ user.name }}</p>
       
             <div class="row text-white gy-3">
@@ -23,7 +31,7 @@
               <div class="col-12 col-md-6">
                 <strong>&Sigma; ELO:</strong>
                 <div class="elo-score">
-                  <span class="elo-text">{{ userProfileData.elo }}</span>
+                  <span class="text-white">{{ userProfileData.elo }}</span>
                 </div>
               </div>
       
@@ -35,11 +43,6 @@
               </div>
             </div>
       
-            <div class="mt-4">
-              <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">
-                <p style="margin: 0.5rem">Build a strategy</p>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -47,6 +50,7 @@
       <ng-template #loadingUser>
         <div class="text-white text-center mt-5">Loading user info...</div>
       </ng-template>
+      
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
         <!-- Section Title with Bar -->

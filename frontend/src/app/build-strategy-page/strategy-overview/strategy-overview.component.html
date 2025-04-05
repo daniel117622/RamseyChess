@@ -3,12 +3,37 @@
       
       <!-- Editable Fields Group -->
       <div class="editable-fields mb-4">
+        <!-- Strategy Name -->
         <p><strong>Strategy Name:</strong></p>
-        <input type="text" style="border-radius: 0px;" class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.name" placeholder="Enter strategy name" />
-  
+        <div class="d-flex align-items-stretch justify-content-center mb-3" style="max-width: 600px; margin: 0 auto;">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="strategy_card.name"
+            placeholder="Enter strategy name"
+            style="border-radius: 0px; flex: 1;"
+          />
+          <button class="custom-btn ms-2">
+            ⭐AI⭐
+          </button>
+        </div>
+      
+        <!-- Description -->
         <p><strong>Description:</strong></p>
-        <textarea style="border-radius: 0px;" class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.description" rows="3" placeholder="Enter strategy description"></textarea>
+        <div class="d-flex align-items-stretch justify-content-center mb-3" style="max-width: 600px; margin: 0 auto;">
+          <textarea
+            class="form-control"
+            [(ngModel)]="strategy_card.description"
+            rows="3"
+            placeholder="Enter strategy description"
+            style="border-radius: 0px; flex: 1;"
+          ></textarea>
+          <button class="custom-btn ms-2">
+            ⭐AI⭐
+          </button>
+        </div>
       </div>
+      
   
       <!-- Information Display Group -->
       <div 

@@ -101,9 +101,11 @@ input[type="range"] {
   }
   
   input[type="range"].black::-webkit-slider-runnable-track {
-    background: #FF6700;
+    background: #2C3E50;
   }
-  
+  input[type="range"].white::-webkit-slider-runnable-track {
+    background: #4f6e8d;
+  }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 20px;

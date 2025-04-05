@@ -1,23 +1,17 @@
 <div class="container text-center" style="text-align: center; width: 100%;">
-  <p class="disclaimer-box">
-    ⚠️ <strong>Disclaimer:</strong> Black pieces value refers to the opponent pieces during matches. <br /><br />
-    You should place negative values on the enemy pieces so your bot tries to capture them.
-  </p>
+  <div class="mat-elevation-z2 p-3">
+    <p class="disclaimer-box text-center">
+      ⚠️ <strong>Disclaimer:</strong> Black pieces value refers to the opponent pieces during matches. <br /><br />
+      You should place negative values on the enemy pieces so your bot tries to capture them.
+    </p>
 
-  <div class="table-responsive">
-    <table class="table material-table">
-      <thead>
-        <tr>
-          <th>Your Pieces</th>
-          <th>Enemy Pieces</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let piece of pieceKeys">
-          <tr>
+    <div class="d-flex flex-column align-items-center w-100">
+      <div class="w-100" style="max-width: 900px;">
+        <mat-grid-list cols="2" gutterSize="24px" rowHeight="fit">
+          <ng-container *ngFor="let piece of pieceKeys">
             <!-- White Piece -->
-            <td class="asset-placeholder">
-              <div class="piece-container d-flex flex-column align-items-center">
+            <mat-grid-tile>
+              <div class="d-flex flex-column align-items-center">
                 <img
                   [src]="'/assets/pieces/w' + piece[0] + '.svg'"
                   [alt]="'White ' + piece"
@@ -26,19 +20,19 @@
                   height="75"
                 />
                 <mat-slider
-                  class="w-75"
+                  class="w-100"
                   thumbLabel
                   [min]="0"
                   [max]="20"
                   [step]="1"
-                  [(ngModel)]="materialEval.whitePieces[piece]"
-                ></mat-slider>
+                  [(ngModel)]="materialEval.whitePieces[piece]">
+                </mat-slider>
               </div>
-            </td>
+            </mat-grid-tile>
 
             <!-- Black Piece -->
-            <td class="asset-placeholder">
-              <div class="piece-container d-flex flex-column align-items-center">
+            <mat-grid-tile>
+              <div class="d-flex flex-column align-items-center">
                 <img
                   [src]="'/assets/pieces/b' + piece[0] + '.svg'"
                   [alt]="'Black ' + piece"
@@ -47,34 +41,30 @@
                   height="75"
                 />
                 <mat-slider
-                  class="w-75"
+                  class="w-100"
                   thumbLabel
                   [min]="-20"
                   [max]="0"
                   [step]="1"
-                  [(ngModel)]="materialEval.blackPieces[piece]"
-                ></mat-slider>
+                  [(ngModel)]="materialEval.blackPieces[piece]">
+                </mat-slider>
               </div>
-            </td>
-          </tr>
-        </ng-container>
+            </mat-grid-tile>
+          </ng-container>
+        </mat-grid-list>
 
-        <!-- Name Field -->
-        <tr>
-          <td colspan="2" class="asset-placeholder">
-            <div class="piece-container d-flex flex-column align-items-center">
-              <input
-                type="text"
-                class="form-control w-75"
-                [(ngModel)]="materialEval.name"
-                placeholder="Name your MaterialBlock"
-                aria-label="Material Name"
-                style="border-radius: 1px; border: solid 1px;"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <!-- Name input field -->
+        <div class="d-flex justify-content-center mt-4">
+          <mat-form-field appearance="fill" class="w-75">
+            <mat-label>Material Block Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="materialEval.name"
+              placeholder="Name your MaterialBlock"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -13,6 +13,7 @@ export class MaterialFormComponent implements OnInit {
 
   readonly pieceKeys: (keyof ChessPieces)[] = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king'];
 
+
   constructor(private strategy_builder: StrategyBuildService) {}
 
   ngOnInit(): void {

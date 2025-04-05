@@ -212,7 +212,6 @@ def get_private_strategies():
     total_pages = math.ceil(total_items / items_per_page)
     start_index = (page - 1) * items_per_page
     end_index = start_index + items_per_page
-    my_strategies = my_strategies.reverse()
     paginated_strategies = my_strategies[start_index:end_index]
 
     if len(my_strategies) == 0:

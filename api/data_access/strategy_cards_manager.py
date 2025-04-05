@@ -113,7 +113,7 @@ class AiPremadeManager():
         return str(new_doc._id) if result.acknowledged else None
     
     def getByOwner(self, owner):
-        self.current_docs_collection = list(self.docs.find({"owner":owner}))
+        self.current_docs_collection = list(self.docs.find({"owner": owner}))[::-1]
         return json.loads(dumps(self.current_docs_collection))
     
     def deleteStrategy(self, strategy_id: str):

@@ -4,6 +4,7 @@ import { StrategyBuildService, BuildableStrategy } from 'src/services/strategy-b
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
 import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 
@@ -13,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./strategy-overview.component.scss']
 })
 export class StrategyOverviewComponent implements OnInit {
-  constructor(private strategyBuildService: StrategyBuildService, private authService : AuthService, public dialog: MatDialog, private http : HttpClient) {}
+  constructor(private router : Router ,private strategyBuildService: StrategyBuildService, private authService : AuthService, public dialog: MatDialog, private http : HttpClient) {}
 
   @Input() sub: string | undefined | null = '';
   strategy_card: BuildableStrategy | null = null;
@@ -57,12 +58,11 @@ export class StrategyOverviewComponent implements OnInit {
       if (result) 
       {
         console.log("User confirmed.");
-        // Handle confirmation action
+        this.router.navigate(['/profile'])
       } 
       else 
       {
         console.log("User canceled.");
-        // Handle cancellation action
       }
     });
   }

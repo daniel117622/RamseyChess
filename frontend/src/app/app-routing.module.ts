@@ -42,6 +42,7 @@ const routes: Routes = [
   {
     path: 'build-strategy',
     component: BuildStrategyPageComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'introduction', pathMatch: 'full' },
       { path: 'introduction', component: IntroductionComponent },

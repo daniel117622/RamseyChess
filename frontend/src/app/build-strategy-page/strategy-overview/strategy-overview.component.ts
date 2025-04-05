@@ -24,6 +24,14 @@ export class StrategyOverviewComponent implements OnInit {
   ngOnInit(): void 
   {
     this.strategy_card = this.strategyBuildService.getFullStrategy();
+    this.authService.user$.subscribe(user => {
+      if (user?.sub && this.strategy_card) 
+      {
+        this.sub = user.sub;
+        this.strategy_card.owner = user.sub;
+        console.log("OWNER: " + user.sub);
+      }
+    });
     console.log("OWNER: " + this.sub)
     if (this.sub && this.strategy_card) 
     {

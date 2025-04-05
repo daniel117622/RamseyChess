@@ -102,6 +102,7 @@ input[type="range"] {
   
   input[type="range"].black::-webkit-slider-runnable-track {
     background: #2C3E50;
+    direction: rtl;
   }
   input[type="range"].white::-webkit-slider-runnable-track {
     background: #4f6e8d;

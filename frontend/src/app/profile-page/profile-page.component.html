@@ -78,47 +78,50 @@
         </div>
         <!-- END OF SEARCH BAR SECTION -->
 
-        <!-- START OF STRATEGY CARDS DISPLAY -->
-        <div class="row justify-content-center gap-3">
+<!-- START OF STRATEGY CARDS DISPLAY -->
+<div class="row justify-content-center gap-3">
 
-            <!-- LOADING PLACEHOLDER -->
-            <ng-container *ngIf="my_saved_strategies === null; else strategyBlock">
-            <div class="col-12 text-center text-white py-4 mt-5">
-                <div class="spinner-border text-light" role="status"></div>
-                <p>Loading strategies...</p>
+    <!-- LOADING PLACEHOLDER -->
+    <ng-container *ngIf="my_saved_strategies === null; else strategyBlock">
+      <div class="col-12 text-center text-white py-4 mt-5">
+        <div class="spinner-border text-light" role="status"></div>
+        <p>Loading strategies...</p>
+      </div>
+    </ng-container>
+  
+    <!-- STRATEGY CARDS BLOCK -->
+    <ng-template #strategyBlock>
+      <ng-container *ngIf="my_saved_strategies.length > 0; else noStrategies">
+        
+        <div *ngFor="let strategy of my_saved_strategies" class="col-lg-4 col-md-6 mb-3">
+          <div class="strategy-card draw p-3 text-center d-flex flex-column h-100" style="border-radius: 2px; color: white;">
+            <h5 class="mb-2">{{ strategy.name }}</h5>
+            <p>{{ strategy.description }}</p>
+            <p><strong>Elo:</strong> {{ strategy.elo }}</p>
+            <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
+  
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+              <button class="btn btn-outline-secondary btn-sm custom-btn"
+                      (click)="viewDetails(strategy._id.$oid)">
+                View Details / Edit strategy
+              </button>
             </div>
-            </ng-container>
-        
-            <!-- STRATEGY CARDS BLOCK -->
-            <ng-template #strategyBlock>
-            <ng-container *ngIf="my_saved_strategies.length > 0; else noStrategies">
-                <div *ngFor="let strategy of my_saved_strategies"
-                    class="strategy-card draw col-lg-4 col-md-6 mb-3 p-3 text-center d-flex flex-column"
-                    style="border-radius: 2px; color: white">
-                <h5 class="mb-2">{{ strategy.name }}</h5>
-                <p>{{ strategy.description }}</p>
-                <p><strong>Elo:</strong> {{ strategy.elo }}</p>
-                <p><strong>Wins:</strong> {{ strategy.wins }} | <strong>Losses:</strong> {{ strategy.losses }}</p>
-        
-                <div class="d-flex justify-content-center gap-2 mt-auto">
-                    <button class="btn btn-outline-secondary btn-sm custom-btn"
-                            (click)="viewDetails(strategy._id.$oid)">
-                    View Details / Edit strategy
-                    </button>
-                </div>
-                </div>
-            </ng-container>
-        
-            <!-- NO STRATEGIES PLACEHOLDER -->
-            <ng-template #noStrategies>
-                <div class="col-12 text-center text-white py-4 mt-5">
-                No strategies saved.
-                </div>
-            </ng-template>
-            </ng-template>
-        
+          </div>
         </div>
-        <!-- END OF STRATEGY CARDS DISPLAY -->
+  
+      </ng-container>
+  
+      <!-- NO STRATEGIES PLACEHOLDER -->
+      <ng-template #noStrategies>
+        <div class="col-12 text-center text-white py-4 mt-5">
+          No strategies saved.
+        </div>
+      </ng-template>
+    </ng-template>
+  
+  </div>
+  <!-- END OF STRATEGY CARDS DISPLAY -->
+  
   
 
         <!-- Pagination Section -->

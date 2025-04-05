@@ -22,9 +22,5 @@ export class MaterialFormComponent implements OnInit {
   {
     this.materialEval.owner = this.sub ?? '';
   }
-  onInput(event: Event): void 
-  {
-    const input = event.target as HTMLInputElement;
-    this.materialEval.whitePieces.pawn = input.valueAsNumber || 0;
-  }
+
 }

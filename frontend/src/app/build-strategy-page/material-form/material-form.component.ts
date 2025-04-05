@@ -9,14 +9,17 @@ import { StrategyBuildService } from 'src/services/strategy-build.service';
 })
 export class MaterialFormComponent implements OnInit {
   @Input() sub: string | undefined | null = '';
-  materialEval: MatevalModel = this.strategy_builder.material_eval;
+  materialEval: MatevalModel;
 
   readonly pieceKeys: (keyof ChessPieces)[] = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king'];
 
 
-  constructor(private strategy_builder: StrategyBuildService) {}
+  constructor(private strategy_builder: StrategyBuildService) {
+    this.materialEval = this.strategy_builder.material_eval
+  }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
     this.materialEval.owner = this.sub ?? '';
   }
   onInput(event: Event): void 

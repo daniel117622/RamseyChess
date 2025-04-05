@@ -1,47 +1,47 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
     <p>Welcome, {{ (user$ | async)?.name }}</p>
     
-    <div *ngIf="userProfileData$ | async as userProfileData">
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Nickname</td>
-                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ userProfileData.nickname || 'N/A' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Username</td>
-                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ userProfileData.username || 'N/A' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>&Sigma; </b>ELO</td>
-                        <td class="elo-score" style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                          <span class="elo-text">{{ userProfileData.elo }}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Last Login</td>
-                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            {{ this.convertUTCToLocal( userProfileData.last_login.$date ) }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>            
+    <div *ngIf="userProfileData$ | async as userProfileData" class="container mt-4">
+        <div class="strategy-card p-3 mb-3">
+          <h2 class="text-white mb-3">Player Profile</h2>
+      
+          <div class="row text-white gy-3">
+            <div class="col-12 col-md-6">
+              <strong>Nickname:</strong>
+              <div class="text-muted text-uppercase" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{ userProfileData.nickname || 'N/A' }}
+              </div>
+            </div>
+      
+            <div class="col-12 col-md-6">
+              <strong>Username:</strong>
+              <div class="text-muted" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{ userProfileData.username || 'N/A' }}
+              </div>
+            </div>
+      
+            <div class="col-12 col-md-6">
+              <strong>&Sigma; ELO:</strong>
+              <div class="elo-score">
+                <span class="elo-text">{{ userProfileData.elo }}</span>
+              </div>
+            </div>
+      
+            <div class="col-12 col-md-6">
+              <strong>Last Login:</strong>
+              <div class="text-muted" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                {{ convertUTCToLocal(userProfileData.last_login.$date) }}
+              </div>
+            </div>
+          </div>
+      
+          <div class="mt-4">
+            <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">
+              <p style="margin: 0.5rem">Build a strategy</p>
+            </button>
+          </div>
         </div>
-        <button class="btn btn-outline-primary btn-sm custom-btn" [routerLink]="['/build-strategy']">
-            <p style="margin: 0.5rem">Build a strategy</p>
-        </button>
-    </div>
+      </div>
     <!-- Strategy Cards Section -->
     <div class="container mt-4">
         <!-- Section Title with Bar -->

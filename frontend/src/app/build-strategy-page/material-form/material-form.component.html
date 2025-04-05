@@ -14,159 +14,42 @@
           <div class="col-6 text-center">Black Pieces</div>
         </div>
 
-        <!-- Pawn -->
-        <div class="row align-items-center">
+        <!-- Generate each piece input using *ngFor -->
+        <div class="row align-items-center" *ngFor="let piece of pieceKeys">
+          <!-- White piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wp.svg" alt="White Pawn" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.pawn"
-            />
+            <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'" 
+                 [alt]="'White ' + piece" 
+                 class="img-fluid mb-2" width="75" height="75" />
+            <div class="d-flex align-items-center">
+              <input
+                type="range"
+                class="w-100"
+                [min]="0"
+                [max]="20"
+                [step]="1"
+                [(ngModel)]="materialEval.whitePieces[piece]"
+              />
+              <span class="ml-2">{{ materialEval.whitePieces[piece] }}</span>
+            </div>
           </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/bp.svg" alt="Black Pawn" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.pawn"
-            />
-          </div>
-        </div>
 
-        <!-- Knight -->
-        <div class="row align-items-center">
+          <!-- Black piece -->
           <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wn.svg" alt="White Knight" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.knight"
-            />
-          </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/bn.svg" alt="Black Knight" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.knight"
-            />
-          </div>
-        </div>
-
-        <!-- Bishop -->
-        <div class="row align-items-center">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wb.svg" alt="White Bishop" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.bishop"
-            />
-          </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/bb.svg" alt="Black Bishop" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.bishop"
-            />
-          </div>
-        </div>
-
-        <!-- Rook -->
-        <div class="row align-items-center">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wr.svg" alt="White Rook" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.rook"
-            />
-          </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/br.svg" alt="Black Rook" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.rook"
-            />
-          </div>
-        </div>
-
-        <!-- Queen -->
-        <div class="row align-items-center">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wq.svg" alt="White Queen" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.queen"
-            />
-          </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/bq.svg" alt="Black Queen" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.queen"
-            />
-          </div>
-        </div>
-
-        <!-- King -->
-        <div class="row align-items-center">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/wk.svg" alt="White King" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="0"
-              [max]="20"
-              [step]="1"
-              [(ngModel)]="materialEval.whitePieces.king"
-            />
-          </div>
-          <div class="col-6 d-flex flex-column align-items-center">
-            <img src="/assets/pieces/bk.svg" alt="Black King" class="img-fluid mb-2" width="75" height="75" />
-            <input
-              type="range"
-              class="w-100"
-              [min]="-20"
-              [max]="0"
-              [step]="1"
-              [(ngModel)]="materialEval.blackPieces.king"
-            />
+            <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'" 
+                 [alt]="'Black ' + piece" 
+                 class="img-fluid mb-2" width="75" height="75" />
+            <div class="d-flex align-items-center">
+              <input
+                type="range"
+                class="w-100"
+                [min]="-20"
+                [max]="0"
+                [step]="1"
+                [(ngModel)]="materialEval.blackPieces[piece]"
+              />
+              <span class="ml-2">{{ materialEval.blackPieces[piece] }}</span>
+            </div>
           </div>
         </div>
 
@@ -174,13 +57,13 @@
         <div class="d-flex justify-content-center mt-4">
           <div class="col-12">
             <div class="form-group">
-              <label for="materialName">Material Block Name</label>
+              <label for="materialName">Label</label>
               <input
                 type="text"
                 id="materialName"
                 class="form-control"
                 [(ngModel)]="materialEval.name"
-                placeholder="Name your MaterialBlock"
+                placeholder="Default"
               />
             </div>
           </div>

@@ -108,23 +108,6 @@ button.create-strategy-btn:hover
 {
   background-color: #a5e658; /* Slightly darker green on hover */
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
 
 /* Classes to trigger animations */
 .fade-in {

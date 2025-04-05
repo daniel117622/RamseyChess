@@ -19,8 +19,9 @@
             <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'"
                  [alt]="'White ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex flex-column align-items-center mt-1 w-100">
+            <div class="d-flex flex-column align-items-center mt-1 w-100 mb-2">
               <input
+                style="max-width: 300px;"
                 type="range"
                 class="w-100 white"
                 [min]="0"
@@ -37,8 +38,9 @@
             <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'"
                  [alt]="'Black ' + piece"
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex flex-column align-items-center mt-1 w-100">
+            <div class="d-flex flex-column align-items-center mt-1 w-100 mb-2">
               <input
+                style="max-width: 300px;"
                 type="range"
                 class="w-100 black"
                 [min]="-20"

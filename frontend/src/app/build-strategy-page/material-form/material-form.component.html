@@ -21,13 +21,13 @@
             <img [src]="'/assets/pieces/w' + piece.charAt(0) + '.svg'" 
                  [alt]="'White ' + piece" 
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center mt-1">
               <input
                 type="range"
                 class="w-100"
                 [min]="0"
                 [max]="20"
-                [step]="1"
+                [step]="0.1"
                 [(ngModel)]="materialEval.whitePieces[piece]"
               />
               <span class="ml-2">{{ materialEval.whitePieces[piece] }}</span>
@@ -39,13 +39,13 @@
             <img [src]="'/assets/pieces/b' + piece.charAt(0) + '.svg'" 
                  [alt]="'Black ' + piece" 
                  class="img-fluid mb-2" width="75" height="75" />
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center mt-1">
               <input
                 type="range"
                 class="w-100"
                 [min]="-20"
                 [max]="0"
-                [step]="1"
+                [step]="0.1"
                 [(ngModel)]="materialEval.blackPieces[piece]"
               />
               <span class="ml-2">{{ materialEval.blackPieces[piece] }}</span>
@@ -65,6 +65,10 @@
                 [(ngModel)]="materialEval.name"
                 placeholder="Default"
               />
+            </div>
+            <!-- New div to describe high/low directions -->
+            <div class="text-white small mt-2">
+              Slide left for lower values and right for higher values.
             </div>
           </div>
         </div>

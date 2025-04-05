@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 export class BuildStrategyPageComponent
 {
   user$ = this.auth.user$;
-  fade_animation_time: number = 400;
-  fadeClass: string = 'fade-in';
   sub: string = 'default_user';
 
   constructor (
@@ -34,16 +32,6 @@ export class BuildStrategyPageComponent
 
   navigateTo (route: 'introduction' | 'material' | 'overview'): void
   {
-    this.triggerFadeOut(() =>
-    {
-      this.router.navigate(['build-strategy', route]);
-      this.fadeClass = 'fade-in';
-    });
-  }
-
-  private triggerFadeOut (callback: () => void): void
-  {
-    this.fadeClass = 'fade-out';
-    setTimeout(callback, this.fade_animation_time);
+    this.router.navigate(['build-strategy', route]);
   }
 }

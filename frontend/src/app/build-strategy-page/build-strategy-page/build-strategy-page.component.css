@@ -54,15 +54,6 @@
   margin-bottom: 10px;
 }
 
-/* Navigation Controls */
-.carousel-controls 
-{
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-}
-
-
 
 /* Responsive Table Styling */
 table 

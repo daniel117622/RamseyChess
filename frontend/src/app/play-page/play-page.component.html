@@ -73,9 +73,9 @@
                         <!-- Data rows -->
                         <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
                           <div class="row px-2" style="background-color: #34495E !important;">
-                            <div class="col-4 text-truncate text-capitalize">{{ piece.key }}</div>
-                            <div class="col-4 text-truncate">{{ piece.value }}</div>
-                            <div class="col-4 text-truncate">{{ getPieceValue(strat.blackPieces, piece.key) }}</div>
+                            <div class="col-4 text-truncate text-capitalize text-center">{{ piece.key }}</div>
+                            <div class="col-4 text-truncate text-center">{{ piece.value }}</div>
+                            <div class="col-4 text-truncate text-center">{{ getPieceValue(strat.blackPieces, piece.key) }}</div>
                           </div>
                         </ng-container>
                       </div>

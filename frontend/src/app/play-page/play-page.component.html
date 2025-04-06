@@ -16,14 +16,14 @@
     </div>
 
 <!-- Render cards if available -->
-<div class="row g-3 justify-content-center">
+<div class="row g-3 justify-content-between">
 
     <div
       *ngFor="let card of cards"
       class        = "col-12 col-sm-6 col-md-4 col-lg-4 full-card"
       [routerLink] = "['/cards', card._id.$oid]"
     >
-    <div class="card h-100 p-3" style="border-radius: 1px; border-color: #34495E; color: white; background-color: #34495E;">
+    <div class="card h-100 p-3" style="border-radius: 1px; border-color: #34495E; color: white;">
       <div class="card-body p-3" style="border-radius: 1px; background: #34495E; border: #34495E;">
         
         <!-- First row: Name and Elo -->

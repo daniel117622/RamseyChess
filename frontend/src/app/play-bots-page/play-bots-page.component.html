@@ -113,14 +113,16 @@
               }"
             >
               <mat-expansion-panel-header>
-                <mat-panel-title class="w-100 d-flex justify-content-between">
+                <mat-panel-title class="w-100 d-flex justify-content-between align-items-center">
                   <span style="width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                     {{ strategy.name }}
                   </span>
+                
                   <span style="width: 26%; text-align: center;">
                     {{ strategy.elo }}
                   </span>
-                  <span style="width: 26%; text-align: center;">
+                
+                  <span style="width: 26%; text-align: center;" class="d-flex align-items-center justify-content-center gap-2">
                     <span [ngClass]="{ 'positive': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                       {{ strategy.wins }}
                     </span>
@@ -128,6 +130,11 @@
                     <span [ngClass]="{ 'negative': i !== selectedWhiteRowIndex && i !== selectedBlackRowIndex }">
                       {{ strategy.losses }}
                     </span>
+                
+                    <!-- Add selection button -->
+                    <button mat-icon-button color="primary" (click)="onRowClick(strategy, i); $event.stopPropagation()" matTooltip="Select strategy">
+                      <mat-icon>check_circle</mat-icon>
+                    </button>
                   </span>
                 </mat-panel-title>
               </mat-expansion-panel-header>

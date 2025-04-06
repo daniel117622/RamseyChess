@@ -102,7 +102,7 @@
 
         <!-- Strategy Details Table -->
         <div class="table-responsive mt-4">
-          <mat-accordion>
+          <mat-accordion [multi]="true">
             <mat-expansion-panel
               *ngFor="let strategy of publicStrategies; let i = index"
               (click)="onRowClick(strategy, i)"

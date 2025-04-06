@@ -37,7 +37,7 @@
 
     <!-- Tables Column -->
     <div class="col-12 col-xxl-6 flex-column justify-content-around">
-      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mt-xl-0 mb-3">
+      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mt-xxl-0 mb-3">
         <p>Strategy name: {{ strat.name }}</p>
         <p>Strategy type: {{ strat.type }}</p>
         <ng-container *ngIf="strat.type === 'evaluate_material'">

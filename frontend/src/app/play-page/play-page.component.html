@@ -34,13 +34,13 @@
               <!-- First row: Name and Elo -->
               <div class="mb-3">
                 <div class="table-responsive">
-                  <table class="table uniform-table border-0 bg-success bg-opacity-10">
+                  <table class="table uniform-table border-0 bg-success bg-opacity-10 w-100">
                     <thead class="table-light border-0">
                       <tr class="border-0">
-                        <th class="border-0" style="width: 38%;">Name</th>
-                        <th class="border-0">Elo</th>
-                        <th class="border-0">Wins</th>
-                        <th class="border-0">Losses</th>
+                        <th class="border-0" style="width: 40%;">Name</th>
+                        <th class="border-0" style="width: 20%;">Elo</th>
+                        <th class="border-0" style="width: 20%;">Wins</th>
+                        <th class="border-0" style="width: 20%;">Losses</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -70,12 +70,12 @@
   
                     <ng-container *ngIf="strat.type === 'evaluate_material'">
                       <div class="table-responsive">
-                        <table class="table table-bordered uniform-table">
+                        <table class="table table-bordered uniform-table w-100">
                           <thead style="border-bottom: solid 1px;">
                             <tr>
-                              <th>PieceType</th>
-                              <th>White</th>
-                              <th>Black</th>
+                              <th style="width: 40%;">PieceType</th>
+                              <th style="width: 30%;">White</th>
+                              <th style="width: 30%;">Black</th>
                             </tr>
                           </thead>
                           <tbody>

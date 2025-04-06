@@ -62,27 +62,25 @@
                     </p>
   
                     <ng-container *ngIf="strat.type === 'evaluate_material'">
-                      <div class="table-responsive">
-                        <table class="table table-bordered uniform-table w-100">
-                          <thead style="border-bottom: solid 1px;">
-                            <tr>
-                              <th style="width: 40%; border: none;">PieceType</th>
-                              <th style="width: 30%; border: none;">White</th>
-                              <th style="width: 30%; border: none;">Black</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                              <tr style="border-style: none;">
-                                <td style="text-transform: capitalize;">{{ piece.key }}</td>
-                                <td>{{ piece.value }}</td>
-                                <td>{{ getPieceValue(strat.blackPieces, piece.key) }}</td>
-                              </tr>
-                            </ng-container>
-                          </tbody>
-                        </table>
+                      <div class="table-responsive py-1" style="overflow-x: hidden; background-color: #34495E !important;">
+                        <!-- Header row -->
+                        <div class="row bg-opacity-10 text-white px-2 py-2 mb-2" style="font-weight: 600; background-color: #2C3E50 !important;">
+                          <div class="col-4 text-truncate">PieceType</div>
+                          <div class="col-4 text-truncate">White</div>
+                          <div class="col-4 text-truncate">Black</div>
+                        </div>
+                      
+                        <!-- Data rows -->
+                        <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
+                          <div class="row px-2" style="background-color: #34495E !important;">
+                            <div class="col-4 text-truncate text-capitalize">{{ piece.key }}</div>
+                            <div class="col-4 text-truncate">{{ piece.value }}</div>
+                            <div class="col-4 text-truncate">{{ getPieceValue(strat.blackPieces, piece.key) }}</div>
+                          </div>
+                        </ng-container>
                       </div>
                     </ng-container>
+                    
                   </div>
                 </div>
               </div> <!-- Closing strategy details -->

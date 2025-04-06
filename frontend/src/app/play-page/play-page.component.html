@@ -15,13 +15,13 @@
       <p>No strategies available</p>
     </div>
 
-    <!-- Render cards if available -->
 <!-- Render cards if available -->
-<div class="row justify-content-around justify-content-xxl-between g-3">
+<div class="row g-3 justify-content-center">
 
-  <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" style="margin: 0 15px; max-width: 525px;" [routerLink]="['/cards', card._id.$oid]">
-    <div class="card h-100" style="border-radius: 1px;border-color: #34495E;color: white;background-color: #34495E;">
-      <div class="card-body" style="border-radius: 1px;background: #34495E;border: #34495E;">
+  <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" [routerLink]="['/cards', card._id.$oid]">
+    <div class="card h-100" style="border-radius: 1px; border-color: #34495E; color: white; background-color: #34495E;">
+      <div class="card-body" style="border-radius: 1px; background: #34495E; border: #34495E;">
+        
         <!-- First row: Name and Elo -->
         <div class="mb-3">
           <div class="table-responsive">
@@ -36,7 +36,9 @@
               </thead>
               <tbody>
                 <tr class="border-0">
-                  <td class="table-cell-ellipsis border-0" style="width: 38%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ card.name }}</td>
+                  <td class="table-cell-ellipsis border-0" style="width: 38%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                    {{ card.name }}
+                  </td>
                   <td class="border-0">{{ card.elo }}</td>
                   <td class="border-0">{{ card.wins }}</td>
                   <td class="border-0">{{ card.losses }}</td>
@@ -68,18 +70,23 @@
                         <tr style="border-style: none;">
                           <td style="text-transform: capitalize;">{{ piece.key }}</td>
                           <td>{{ piece.value }}</td>
-                          <td>{{ getPieceValue(strat.blackPieces, piece.key)}}</td>
+                          <td>{{ getPieceValue(strat.blackPieces, piece.key) }}</td>
                         </tr>
                       </ng-container>
                     </tbody>
                   </table>
                 </div>
-              </ng-container> <!-- Properly closed ng-container -->
+              </ng-container>
             </div>
           </div>
         </div> <!-- Closing strategy details -->
       </div>
     </div>
   </div>
-  <!-- End of card -->
+
+</div>
+
+
+
+
 </div>

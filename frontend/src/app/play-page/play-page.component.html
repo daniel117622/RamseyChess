@@ -61,8 +61,12 @@
               <div *ngIf="card?.strategy_details">
                 <div class="row">
                   <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
-                    <p>Strategy name: {{ strat.name }}</p>
-                    <p>Strategy type: {{ strat.type }}</p>
+                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      Strategy name: {{ strat.name }}
+                    </p>
+                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      Strategy type: {{ strat.type }}
+                    </p>
   
                     <ng-container *ngIf="strat.type === 'evaluate_material'">
                       <div class="table-responsive">

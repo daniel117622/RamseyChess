@@ -34,26 +34,19 @@
               <!-- First row: Name and Elo -->
               <div class="mb-3">
                 <div class="table-responsive">
-                  <table class="table uniform-table border-0 bg-success bg-opacity-10 w-100" style="table-layout: fixed;">
-                    <thead class="table-light border-0">
-                      <tr class="border-0">
-                        <th class="border-0" style="width: 40%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Name</th>
-                        <th class="border-0" style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Elo</th>
-                        <th class="border-0" style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Wins</th>
-                        <th class="border-0" style="width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Losses</th>                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="border-0">
-                        <td class="table-cell-ellipsis border-0" style="width: 38%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                          {{ card.name }}
-                        </td>
-                        <td class="border-0">{{ card.elo }}</td>
-                        <td class="border-0">{{ card.wins }}</td>
-                        <td class="border-0">{{ card.losses }}</td>
-                      </tr>
-                    </tbody> 
-                  </table>                             
+                  <div class="row bg-success bg-opacity-10 text-dark px-2 py-1 mb-2" style="font-weight: 600;">
+                    <div class="col-5 text-truncate">Name</div>
+                    <div class="col-2 text-truncate">Elo</div>
+                    <div class="col-2 text-truncate">Wins</div>
+                    <div class="col-3 text-truncate">Losses</div>
+                  </div>
+                  
+                  <div class="row px-2">
+                    <div class="col-5 text-truncate">{{ card.name }}</div>
+                    <div class="col-2 text-truncate">{{ card.elo }}</div>
+                    <div class="col-2 text-truncate">{{ card.wins }}</div>
+                    <div class="col-3 text-truncate">{{ card.losses }}</div>
+                  </div>                          
                 </div>
               </div>
   

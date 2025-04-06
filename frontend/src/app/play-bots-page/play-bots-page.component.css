@@ -138,15 +138,16 @@ tr {
   text-align: center;
 }
 
-.negative
+::ng-deep .mat-expansion-panel-header .positive 
 {
-  color: rgb(253, 63, 0);
-  font-weight: bolder;
+  color: #197f19 !important;
+  font-weight: bolder !important;
 }
-.positive
+
+::ng-deep .mat-expansion-panel-header .negative 
 {
-  color: #197f19;
-  font-weight: bolder;
+  color: rgb(253, 63, 0) !important;
+  font-weight: bolder !important;
 }
 
 li
@@ -183,3 +184,21 @@ expansion-panel
   background-color: #6083a6 !important;
   color: white;
 } 
+
+::ng-deep mat-expansion-panel.white-selected 
+{
+  background-color: rgb(128, 221, 85) !important;
+  border-color: rgb(128, 221, 85) !important;
+}
+
+::ng-deep mat-expansion-panel.black-selected
+{
+  background-color: rgb(218, 78, 78) !important;
+  border-color: rgb(218, 78, 78) !important;
+}
+
+::ng-deep mat-expansion-panel.white-selected,
+::ng-deep mat-expansion-panel.black-selected 
+{
+  border: 2px solid transparent; 
+}

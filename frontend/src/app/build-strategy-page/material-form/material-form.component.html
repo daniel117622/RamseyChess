@@ -61,28 +61,38 @@
               <label for="materialName" class="mb-2">Name of your material set</label>
           
               <!-- Input and Button side by side -->
-              <div class="d-flex align-items-stretch" style="max-width: 550px; width: 100%;">
-                <input
-                  type="text"
-                  id="materialName"
-                  class="form-control"
-                  [(ngModel)]="materialEval.name"
-                  placeholder="Optional name"
-                  style="border-radius: 0px; flex: 1;"
-                />
+              <div class="container" style="max-width: 550px; width: 100%;">
+                <!-- Input on its own row -->
+                <div class="mb-2">
+                  <input
+                    type="text"
+                    id="materialName"
+                    class="form-control"
+                    [(ngModel)]="materialEval.name"
+                    placeholder="Optional name"
+                    style="border-radius: 0px;"
+                  />
+                </div>
               
-                <button 
-                  class="custom-btn ms-2"
-                  (click)="requestName()">
-                  ⭐AI⭐
-                </button>
-              
-                <button 
-                  class="custom-btn ms-2"
-                  (click)="requestWeights()">
-                  🧠Suggest Weights
-                </button>
+                <!-- Buttons in a responsive row -->
+                <div class="row g-2">
+                  <div class="col-12 col-md-6">
+                    <button 
+                      class="custom-btn w-100"
+                      (click)="requestName()">
+                      ⭐AI⭐
+                    </button>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <button 
+                      class="custom-btn w-100"
+                      (click)="requestWeights()">
+                      🧠Suggest Weights
+                    </button>
+                  </div>
+                </div>
               </div>
+              
               
             </div>
           </div>

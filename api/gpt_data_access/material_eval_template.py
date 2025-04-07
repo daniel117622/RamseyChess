@@ -48,7 +48,8 @@ class MatEvalTemplate():
             Pieces to include: "pawn", "knight", "bishop", "rook", "queen", "king".
 
             If no difference between white and black is mentioned, use the same values for both.
-            Only include the fields `whitePieces` and `blackPieces`, nothing else.
+            Only include the fields `whitePieces` and `blackPieces`, nothing else. The king value by default is 20 unless
+            told otherwise by the user.
 
             Description:
             \"\"\"

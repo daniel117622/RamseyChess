@@ -3,7 +3,7 @@ import requests
 
 class ChatGPTConnector:
     API_URL = "https://api.openai.com/v1/chat/completions"
-    MODEL = "gpt-4"
+    MODEL = "gpt-3.5-turbo"
 
     def __init__(self):
         api_key = os.getenv('GPT_API_KEY')

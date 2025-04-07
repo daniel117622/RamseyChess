@@ -115,7 +115,7 @@ tr {
 
 .navigation-button:disabled
 {
-  background-color: #bdc3c7;
+  background-color: #6e5d5d;
   cursor          : not-allowed;
 }
 

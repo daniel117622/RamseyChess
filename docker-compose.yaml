@@ -38,6 +38,7 @@ services:
       - FLASK_RUN_HOST=0.0.0.0
       - PYTHONPATH=/app
       - MONGO_URI=${MONGO_URI}  # Reference MONGO_URI from environment variable
+      - GPT_API_KEY=${GPT_API_KEY}
     networks:
       - mynetwork
 

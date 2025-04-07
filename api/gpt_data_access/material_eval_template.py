@@ -50,14 +50,17 @@ class MatEvalTemplate():
             Pieces to include: "pawn", "knight", "bishop", "rook", "queen", "king".
 
             If no difference between white and black is mentioned, use the same values for both.
-            Only include the fields `whitePieces` and `blackPieces`, nothing else. The king value by default is 20 unless
-            told otherwise by the user.
+            Values can be decimal (e.g. 3.25) to represent subtle differences.
+
+            Only include the fields `whitePieces` and `blackPieces`, nothing else.
+            The king value by default is 20 unless told otherwise by the user.
 
             Description:
             \"\"\"
             {user_text}
             \"\"\"
-            """.strip()
+        """.strip()
+
 
         raw_response = self.connector.send_query(prompt)
 

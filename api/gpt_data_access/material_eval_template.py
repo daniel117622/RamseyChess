@@ -19,14 +19,20 @@ class MatEvalTemplate():
             "black_pieces" : mateval_snippet.blackPieces
         }
         prompt = f"""
-            A chess player assigned the following values to his pieces. For example,
-            if they chose 1 for pawns, 3 for knights and bishops, and 5 for rooks,
-            you could return a text like "Standard Valuation". For example, if they
-            choose the same value for all pieces, return something short like
-            "All pieces equal".
+        A chess player assigned custom values to each piece. The standard valuation is:
+        - Pawn: 1
+        - Knight: 3
+        - Bishop: 3
+        - Rook: 5
+        - Queen: 9
+        - King: 20
 
-            Here is the valuation:
-            {json.dumps(payload, indent=2)}
+        If the player follows the standard, return something like "Standard Valuation".
+        If all values are the same, respond with something short like "All pieces equal".
+        Otherwise, clearly describe how the values deviate from the standard.
+
+        Here is the valuation:
+        {json.dumps(payload, indent=2)}
         """.strip()
 
         return self.connector.send_query(prompt)

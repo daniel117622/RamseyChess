@@ -5,9 +5,9 @@ import json
 connector = ChatGPTConnector()
 
 class PartialEvaluateMaterialDoc:
-    def __init__(self, white, black):
-        self.whitePieces = white
-        self.blackPieces = black
+    def __init__(self, whitePieces, blackPieces):
+        self.whitePieces = whitePieces
+        self.blackPieces = blackPieces
 
 class MatEvalTemplate():
     def __init__(self, connector : ChatGPTConnector = connector):

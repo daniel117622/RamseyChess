@@ -33,6 +33,8 @@ class MatEvalTemplate():
         If all values are the same, respond with something short like "All pieces equal".
         Otherwise, clearly describe how the values deviate from the standard.
 
+        Keep the response concise — around 5 to 6 words maximum.
+
         Here is the valuation:
         {json.dumps(payload, indent=2)}
         """.strip()
@@ -74,6 +76,8 @@ class MatEvalTemplate():
                 if isinstance(white, dict) and isinstance(black, dict) \
                         and required_keys.issubset(white.keys()) \
                         and required_keys.issubset(black.keys()):
+                    
+                    black = {piece: -abs(float(value)) for piece, value in black.items()}
                     return PartialEvaluateMaterialDoc(whitePieces=white, blackPieces=black)
 
         except Exception:

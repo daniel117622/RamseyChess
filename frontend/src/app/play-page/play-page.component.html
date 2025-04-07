@@ -1,85 +1,95 @@
 <div class="main-container mt-5">
-  <div class="container">
-    <h4>AI Premade Opponents</h4>
-    <p class="short-desc">
-      Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.
-    </p>
-
-    <!-- Bottom bar for separation -->
-    <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
+  <div class="container px-0">
+    <div class="mx-0 mx-xl-5">
+      <h4>AI Premade Opponents</h4>
+      <p class="short-desc">
+        Select one of the available AI-controlled opponents to test your strategy. Each opponent is designed with different playstyles, allowing you to challenge your skills and refine your tactics against various levels of difficulty. Once selected, you can engage in a match and evaluate how well your strategy performs against these premade AI bots.
+      </p>
+      <div style="border-bottom: 2px solid #000; margin-top: 20px;"></div>
+    </div>
   </div>
 
-  <div class="container mt-4">
+
+  <div class="container mt-4 px-0">
     <!-- Check if cards array is empty -->
     <div *ngIf="cards.length === 0" class="text-center">
       <p>No strategies available</p>
     </div>
-
-    <!-- Render cards if available -->
-<!-- Render cards if available -->
-<div class="row justify-content-around justify-content-xxl-between g-3">
-
-  <div *ngFor="let card of cards" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 full-card" style="margin: 0 15px; max-width: 525px;" [routerLink]="['/cards', card._id.$oid]">
-    <div class="card h-100" style="border-radius: 1px;border-color: #34495E;color: white;background-color: #34495E;">
-      <div class="card-body" style="border-radius: 1px;background: #34495E;border: #34495E;">
-        <!-- First row: Name and Elo -->
-        <div class="mb-3">
-          <div class="table-responsive">
-            <table class="table w-100 border-0 bg-success bg-opacity-10" style="table-layout: fixed;">
-              <thead class="table-light border-0">
-                <tr class="border-0">
-                  <th class="border-0" style="width: 38%;">Name</th>
-                  <th class="border-0">Elo</th>
-                  <th class="border-0">Wins</th>
-                  <th class="border-0">Losses</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-0">
-                  <td class="table-cell-ellipsis border-0" style="width: 38%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ card.name }}</td>
-                  <td class="border-0">{{ card.elo }}</td>
-                  <td class="border-0">{{ card.wins }}</td>
-                  <td class="border-0">{{ card.losses }}</td>
-                </tr>
-              </tbody>
-            </table>                              
-          </div>
-        </div>
-
-        <!-- Strategy details -->
-        <div *ngIf="card?.strategy_details">
-          <div class="row">
-            <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
-              <p>Strategy name: {{ strat.name }}</p>
-              <p>Strategy type: {{ strat.type }}</p>
-
-              <ng-container *ngIf="strat.type === 'evaluate_material'">
-                <div class="table-responsive">
-                  <table class="table table-bordered w-100">
-                    <thead style="border-bottom: solid 1px;">
-                      <tr>
-                        <th>PieceType</th>
-                        <th>White</th>
-                        <th>Black</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                        <tr style="border-style: none;">
-                          <td style="text-transform: capitalize;">{{ piece.key }}</td>
-                          <td>{{ piece.value }}</td>
-                          <td>{{ getPieceValue(strat.blackPieces, piece.key)}}</td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
+  
+    <!-- Wrapped in a responsive margin container -->
+    <div class="mx-0 mx-xl-5">
+      <div class="row g-3 justify-content-between">
+  
+        <div
+          *ngFor="let card of cards"
+          class="col-12 col-lg-6 col-xl-4 full-card"
+          [routerLink]="['/cards', card._id.$oid]"
+        >
+          <div
+            class="card h-100 p-3"
+            style="border-radius: 1px; border-color: #414141; background-color: #414141; color: white;"
+          >
+            <div class="card-body p-3" style="border-radius: 1px; background: #414141; border: #414141;">
+  
+              <!-- First row: Name and Elo -->
+              <div class="mb-3">
+                <div class="table-responsive" style="overflow-x: hidden; background-color:#34495E !important; margin: 0 -10px; border: solid 2px white">
+                  <div class="row bg-opacity-10 text-white px-2 py-2 mb-2" style="font-weight: 600; background-color: #2C3E50 !important;">
+                    <div class="col-5 text-truncate">Name</div>
+                    <div class="col-2 text-truncate">Elo</div>
+                    <div class="col-2 text-truncate">Wins</div>
+                    <div class="col-3 text-truncate">Losses</div>
+                  </div>
+                  
+                  <div class="row px-2 pb-1" style="background-color: #34495E !important;">
+                    <div class="col-5 text-truncate">{{ card.name }}</div>
+                    <div class="col-2 text-truncate">{{ card.elo }}</div>
+                    <div class="col-2 text-truncate">{{ card.wins }}</div>
+                    <div class="col-3 text-truncate">{{ card.losses }}</div>
+                  </div>                          
                 </div>
-              </ng-container> <!-- Properly closed ng-container -->
+              </div>
+  
+              <!-- Strategy details -->
+              <div *ngIf="card?.strategy_details">
+                <div class="row">
+                  <div *ngFor="let strat of card.strategy_details" class="col-12 strategy-detail">
+                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      Strategy name: {{ strat.name }}
+                    </p>
+                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      Strategy type: {{ strat.type }}
+                    </p>
+  
+                    <ng-container *ngIf="strat.type === 'evaluate_material'">
+                      <div class="table-responsive py-1" style="overflow-x: hidden; background-color: #34495E !important;">
+                        <!-- Header row -->
+                        <div class="row bg-opacity-10 text-white px-2 py-2 mb-2" style="font-weight: 600; background-color: #2C3E50 !important;">
+                          <div class="col-4 text-truncate">PieceType</div>
+                          <div class="col-4 text-truncate">White</div>
+                          <div class="col-4 text-truncate">Black</div>
+                        </div>
+                      
+                        <!-- Data rows -->
+                        <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
+                          <div class="row px-2" style="background-color: #34495E !important;">
+                            <div class="col-4 text-truncate text-capitalize text-center">{{ piece.key }}</div>
+                            <div class="col-4 text-truncate text-center">{{ piece.value }}</div>
+                            <div class="col-4 text-truncate text-center">{{ getPieceValue(strat.blackPieces, piece.key) }}</div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                    
+                  </div>
+                </div>
+              </div> <!-- Closing strategy details -->
+  
             </div>
           </div>
-        </div> <!-- Closing strategy details -->
+        </div>
+  
       </div>
     </div>
   </div>
-  <!-- End of card -->
-</div>
+</div> <!-- .container-fluid mt-4 px-0 -->

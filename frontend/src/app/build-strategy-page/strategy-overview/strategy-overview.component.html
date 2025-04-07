@@ -3,20 +3,60 @@
       
       <!-- Editable Fields Group -->
       <div class="editable-fields mb-4">
+        <!-- Strategy Name -->
         <p><strong>Strategy Name:</strong></p>
-        <input type="text" class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.name" placeholder="Enter strategy name" />
-  
+        <div class="d-flex align-items-stretch justify-content-center mb-3" style="max-width: 600px; margin: 0 auto;">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="strategy_card.name"
+            placeholder="Enter strategy name"
+            style="border-radius: 0px; flex: 1;"
+          />
+          <button class="custom-btn ms-2">
+            ⭐AI⭐
+          </button>
+        </div>
+      
+        <!-- Description -->
         <p><strong>Description:</strong></p>
-        <textarea class="form-control w-75 mx-auto mb-3" [(ngModel)]="strategy_card.description" rows="3" placeholder="Enter strategy description"></textarea>
+        <div class="d-flex align-items-stretch justify-content-center mb-3" style="max-width: 600px; margin: 0 auto;">
+          <textarea
+            class="form-control"
+            [(ngModel)]="strategy_card.description"
+            rows="3"
+            placeholder="Enter strategy description"
+            style="border-radius: 0px; flex: 1;"
+          ></textarea>
+          <button class="custom-btn ms-2">
+            ⭐AI⭐
+          </button>
+        </div>
       </div>
+      
   
       <!-- Information Display Group -->
-      <div class="info-display mb-4">
-        <p><strong>Wins:</strong> {{ strategy_card.wins }}</p>
-        <p><strong>Losses:</strong> {{ strategy_card.losses }}</p>
-        <p><strong>ELO:</strong> {{ strategy_card.elo }}</p>
-        <p><strong>Owner:</strong> {{ strategy_card.owner }}</p>
+      <div 
+      class="info-display row justify-content-center mb-4 text-white" 
+      style="margin: 0 auto; max-width: 400px;">
+      
+        <div class="col-6 text-center">
+          <p><strong>Wins:</strong> {{ strategy_card.wins }}</p>
+        </div>
+        
+        <div class="col-6 text-center">
+          <p><strong>Losses:</strong> {{ strategy_card.losses }}</p>
+        </div>
+        
+        <div class="col-6 text-center">
+          <p><strong>ELO:</strong> {{ strategy_card.elo }}</p>
+        </div>
+        
+        <div class="col-6 text-center">
+          <p style="overflow-wrap: anywhere;"><strong>Owner:</strong> {{ strategy_card.owner }}</p>
+        </div>
       </div>
+      
       
       <!-- Strategy List Group -->
       <div *ngFor="let strategy of strategy_card.strategy_list" class="strategy-list mb-4">
@@ -25,7 +65,7 @@
   
           <!-- White and Black Pieces Table -->
           <div class="table-responsive">
-            <table class="table table-bordered w-100 strategy-table">
+            <table class="table table-bordered w-75 mx-auto strategy-table">
               <thead>
                 <tr>
                   <th>Piece Type</th>

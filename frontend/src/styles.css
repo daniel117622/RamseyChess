@@ -2,3 +2,13 @@
 html {
     scroll-behavior: smooth;
   }
+
+html, body,
+.mat-typography,
+.mat-expansion-panel,
+.mat-expansion-panel-header,
+.mat-panel-title,
+.mat-panel-description
+{
+  font-family: 'Courier New', Courier, monospace;
+}

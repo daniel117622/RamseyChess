@@ -1,4 +1,4 @@
-interface ChessPieces {
+export interface ChessPieces {
     pawn  : number;
     knight: number;
     bishop: number;

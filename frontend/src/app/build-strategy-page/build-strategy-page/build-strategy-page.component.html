@@ -1,24 +1,30 @@
 <div class="container mt-5" style="min-height: 100vh;">
   <div class="carousel-container">
-    <div class="carousel-card container-fluid w-100" [ngClass]="fadeClass" style="min-height: 500px;">
-      <h3 style="margin-bottom: 15px;">{{ steps[currentStep].title }}</h3>
-      <ng-container [ngSwitch]="steps[currentStep].component">
-        <app-introduction *ngSwitchCase="'app-introduction'"></app-introduction>
-        <app-material-form *ngSwitchCase="'app-material-form'" [sub]="this.sub" ></app-material-form>        
-        <!-- Pass sub to app-strategy-overview -->
-        <app-strategy-overview 
-          *ngSwitchCase="'app-strategy-overview'"
-          [sub]="this.sub">
-        </app-strategy-overview>
-        
-      </ng-container>
-
-      <div style="display: flex; justify-content: center; width: 100%;">
-        <div class="carousel-controls mt-4" style="width: 80%; display: flex; justify-content: space-between;">
-          <button (click)="previousStep()" [disabled]="currentStep === 0" class="arrow-btn">&larr;</button>
-          <button (click)="nextStep()" [disabled]="currentStep === steps.length - 1" class="arrow-btn">&rarr;</button>
-        </div>                
+    <div class="carousel-card container-fluid w-100 d-flex flex-column" style="min-height: 500px;">
+      <div class="flex-grow-1">
+        <router-outlet></router-outlet>
       </div>
+
+      <div class="mt-auto d-flex justify-content-center w-100">
+        <div class="row carousel-controls mt-4 w-100" style="max-width: 900px;">
+          <div class="col-12 col-md-4 mb-2">
+            <button (click)="navigateTo('introduction')" class="custom-btn w-100">
+              &larr; Introduction
+            </button>
+          </div>
+          <div class="col-12 col-md-4 mb-2">
+            <button (click)="navigateTo('material')" class="custom-btn w-100">
+              Material Form
+            </button>
+          </div>
+          <div class="col-12 col-md-4 mb-2">
+            <button (click)="navigateTo('overview')" class="custom-btn w-100">
+              Strategy Overview &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

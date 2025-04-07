@@ -1,10 +1,15 @@
 <div class="container-fluid mt-5" style="min-height: 100vh; max-width: 1440px; margin: 0 auto; padding-left: 15px; padding-right: 15px;">
-  <div class="container-fluid d-flex align-items-center justify-content-between flex mb-4">
-    <h1 class="mb-0">Card ID : {{ this.card_name }}</h1>
-    <button class="custom-button ms-3" routerLink="/play-ai">
-        <p>Back to card play</p>
-    </button>
+  
+  <div class="row mb-4">
+    <div class="col-12 d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-end">
+      <p class="h1 h3 mb-2 mb-lg-0">Card ID : {{ this.card_name }}</p>
+      <button class="custom-button" routerLink="/play-ai">
+        <p class="mb-0">Back to card play</p>
+      </button>
+    </div>
   </div>
+  
+  
 
   <div class="row">
     <!-- Chessboard Column -->
@@ -36,30 +41,29 @@
     </div>
 
     <!-- Tables Column -->
-    <div class="col-12 col-xxl-6 d-flex flex-column justify-content-around">
-      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mb-3">
+    <div class="col-12 col-xxl-6 flex-column justify-content-around">
+      <div *ngFor="let strat of this.strategy_card" class="col-12 strategy-detail mt-3 mt-xxl-0 mb-3">
         <p>Strategy name: {{ strat.name }}</p>
         <p>Strategy type: {{ strat.type }}</p>
         <ng-container *ngIf="strat.type === 'evaluate_material'">
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped w-100">
-              <thead>
-                <tr>
-                  <th>PieceType</th>
-                  <th>White</th>
-                  <th>Black</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
-                  <tr>
-                    <td>{{ piece.key }}</td>
-                    <td>{{ piece.value }}</td>
-                    <td>{{ getPieceValue(strat.blackPieces, piece.key) }}</td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
+          <div class="table-responsive py-1" style="overflow-x: hidden; background-color: #34495E !important;">
+        
+            <!-- Header row -->
+            <div class="row text-white px-2 py-2 mb-2 text-center fw-bold" style="background-color: #2C3E50;">
+              <div class="col-4 text-truncate">PieceType</div>
+              <div class="col-4 text-truncate">White</div>
+              <div class="col-4 text-truncate">Black</div>
+            </div>
+        
+            <!-- Data rows -->
+            <ng-container *ngFor="let piece of objectEntries(strat.whitePieces)">
+              <div class="row px-2 py-1 text-center" style="background-color: #34495E;">
+                <div class="col-4 text-truncate text-capitalize">{{ piece.key }}</div>
+                <div class="col-4 text-truncate">{{ piece.value }}</div>
+                <div class="col-4 text-truncate">{{ getPieceValue(strat.blackPieces, piece.key) }}</div>
+              </div>
+            </ng-container>
+        
           </div>
         </ng-container>
       </div>

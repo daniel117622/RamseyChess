@@ -2,16 +2,12 @@
 
 .card 
 {
-    background-color: #482626;
     border-radius: 1px;
     color: white;
-    border: 1px solid #482626;
 }
 
 .card-body 
 {
-    background-color: #482626;
-    border: #482626;
     border-radius: 1px;
 }
 
@@ -30,22 +26,19 @@
     font-weight: bold;
 }
 
-.table td 
-{
+.div-table .row > div {
     border-color: transparent;
     padding: 8px;
-}
-
-.table-striped tbody tr:nth-child(even) 
-{
-    background-color: $dark-blue;
-}
-
-.table tbody tr:hover 
-{
-    background-color: $bright-blue;
-}
-
+  }
+  
+  .div-table .row:nth-child(even) {
+    background-color: $dark-blue; 
+  }
+  
+  /* Changes the background on hover */
+  .div-table .row:hover {
+    background-color: $bright-blue; 
+  }
 .strategy-detail 
 {
     background-color: $dark-grayish-blue;
@@ -70,5 +63,13 @@
     margin-bottom: 20px;
     padding: 15px;
     border-radius: 1px;
-    background-color: $dark-grayish-blue;
+    background-color: #424242;
+}
+
+.uniform-table th,
+.uniform-table td 
+{
+  width         : auto;
+  text-align    : center;
+  vertical-align: middle;
 }

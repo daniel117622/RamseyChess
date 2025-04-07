@@ -13,6 +13,9 @@ import { GameLobbyPageComponent } from './game-lobby-page/game-lobby-page.compon
 import { ViewStrategyComponent } from './view-strategy/view-strategy.component';
 import { EditStrategyComponent } from './edit-strategy/edit-strategy.component';
 import { GameDbComponent } from './game-db/game-db.component';
+import { IntroductionComponent } from './build-strategy-page/introduction/introduction.component';
+import { MaterialFormComponent } from './build-strategy-page/material-form/material-form.component';
+import { StrategyOverviewComponent } from './build-strategy-page/strategy-overview/strategy-overview.component';
 
 
 
@@ -35,7 +38,18 @@ const routes: Routes = [
   { path: 'game-lobby/:lobby-id', component: GameLobbyPageComponent, canActivate: [AuthGuard] }, 
   { path: 'game-db/:id', component: GameDbComponent, canActivate: [AuthGuard] }, 
   { path: 'edit-strategy/:id', component: EditStrategyComponent, canActivate: [AuthGuard] },
-  { path: 'view-strategy/:id', component: ViewStrategyComponent, canActivate: [AuthGuard]}
+  { path: 'view-strategy/:id', component: ViewStrategyComponent, canActivate: [AuthGuard]},
+  {
+    path: 'build-strategy',
+    component: BuildStrategyPageComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'introduction', pathMatch: 'full' },
+      { path: 'introduction', component: IntroductionComponent },
+      { path: 'material', component: MaterialFormComponent },
+      { path: 'overview', component: StrategyOverviewComponent }
+    ]
+  }
 ];
 
 @NgModule({

@@ -24,6 +24,7 @@ from data_access.material_manager import EvaluateMaterialManager
 
 from evaluators.material_evaluator import MaterialEvaluator
 
+from gpt_data_access.material_eval_template import MatEvalTemplate , PartialEvaluateMaterialDoc
 
 import json
 from bson.json_util import dumps , loads
@@ -44,6 +45,23 @@ app.register_blueprint(socketio_routes)
 app.register_blueprint(game_db_routes)
 
 register_socketio_events(socketio)
+
+@app.route('/gpt/request_name', methods=['POST'])
+def gpt_request_name():
+    req = request.get_json()
+    doc = req["doc"]
+
+    user_input = PartialEvaluateMaterialDoc(
+        whitePieces=doc["whitePieces"],
+        blackPieces=doc["blackPieces"]
+    )
+
+    query_sender = MatEvalTemplate()
+    text_response = query_sender.request_name(user_input)
+
+    return jsonify({"name": text_response})
+    
+
 
 @app.route('/submit_exec', methods=['POST'])
 def submit_exec():

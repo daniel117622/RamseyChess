@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatevalModel, ChessPieces } from 'src/models/mate-eval.model';
 import { StrategyBuildService } from 'src/services/strategy-build.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-material-form',
@@ -21,7 +22,7 @@ export class MaterialFormComponent implements OnInit {
     king  : 'k'
   };
 
-  constructor(private strategy_builder: StrategyBuildService) {
+  constructor(private strategy_builder: StrategyBuildService, private http: HttpClient) {
     this.materialEval = this.strategy_builder.material_eval
   }
 
@@ -29,5 +30,29 @@ export class MaterialFormComponent implements OnInit {
   {
     this.materialEval.owner = this.sub ?? '';
   }
+  
+  requestName (): void
+  {
+    const payload = {
+      doc: {
+        whitePieces: this.materialEval.whitePieces,
+        blackPieces: this.materialEval.blackPieces
+      }
+    };
+
+    this.http.post<{ text: string }>('/gpt/request_name', payload).subscribe(
+    {
+      next: (res) =>
+      {
+        this.materialEval.name = res.text;
+      },
+      error: (err) =>
+      {
+        console.error('GPT naming failed:', err);
+      }
+    });
+  }
+
+
 
 }

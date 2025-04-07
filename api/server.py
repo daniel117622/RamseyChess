@@ -59,8 +59,23 @@ def gpt_request_name():
     query_sender = MatEvalTemplate()
     text_response = query_sender.request_name(user_input)
 
-    return jsonify({"name": text_response})
+    return jsonify({"text": text_response})
     
+@app.route('/gpt/request_weights', methods=['POST'])
+def gpt_request_weights():
+    req = request.get_json()
+    user_text = req["text"]
+
+    query_sender = MatEvalTemplate()
+    weights = query_sender.request_valuation(user_text)
+
+    if weights is None:
+        return jsonify({"error": "Invalid GPT response"}), 400
+
+    return jsonify({
+        "whitePieces": weights.whitePieces,
+        "blackPieces": weights.blackPieces
+    })
 
 
 @app.route('/submit_exec', methods=['POST'])

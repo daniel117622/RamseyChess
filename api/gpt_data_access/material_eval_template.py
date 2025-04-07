@@ -1,6 +1,8 @@
 from gpt_data_access.connector import ChatGPTConnector
 from data_access.material_manager import EvaluateMaterialDoc
 import json
+from typing import Union
+
 
 connector = ChatGPTConnector()
 
@@ -37,5 +39,43 @@ class MatEvalTemplate():
 
         return self.connector.send_query(prompt)
     
-    def request_valuation(self, user_text) -> str:
-        pass
+    def request_valuation(self, user_text: str) -> str:
+        prompt = f"""
+            You are given a short natural language description of a chess player's piece valuation.
+            Based on the description, return a JSON object with two fields: `whitePieces` and `blackPieces`.
+            Each field should be a dictionary mapping piece names to numeric values.
+
+            Pieces to include: "pawn", "knight", "bishop", "rook", "queen", "king".
+
+            If no difference between white and black is mentioned, use the same values for both.
+            Only include the fields `whitePieces` and `blackPieces`, nothing else.
+
+            Description:
+            \"\"\"
+            {user_text}
+            \"\"\"
+            """.strip()
+
+        raw_response = self.connector.send_query(prompt)
+
+        try:
+            parsed = json.loads(raw_response)
+
+            if not isinstance(parsed, dict):
+                return None
+
+            if "whitePieces" in parsed and "blackPieces" in parsed:
+                white = parsed["whitePieces"]
+                black = parsed["blackPieces"]
+
+                # basic validation
+                required_keys = {"pawn", "knight", "bishop", "rook", "queen", "king"}
+                if isinstance(white, dict) and isinstance(black, dict) \
+                        and required_keys.issubset(white.keys()) \
+                        and required_keys.issubset(black.keys()):
+                    return PartialEvaluateMaterialDoc(whitePieces=white, blackPieces=black)
+
+        except Exception:
+            pass
+
+        return None

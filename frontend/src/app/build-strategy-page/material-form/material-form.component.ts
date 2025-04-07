@@ -40,7 +40,7 @@ export class MaterialFormComponent implements OnInit {
       }
     };
 
-    this.http.post<{ text: string }>('/gpt/request_name', payload).subscribe(
+    this.http.post<{ text: string }>('/api/gpt/request_name', payload).subscribe(
     {
       next: (res) =>
       {
@@ -53,6 +53,25 @@ export class MaterialFormComponent implements OnInit {
     });
   }
 
-
+  // Calls the endpoint to set this.materialEval.whitePieces and this.materialEval.blackPieces
+  requestWeights (): void
+  {
+    const payload = {
+      text: this.materialEval.name
+    };
+  
+    this.http.post<{ whitePieces: any, blackPieces: any }>('/api/gpt/request_weights', payload).subscribe(
+    {
+      next: (res) =>
+      {
+        this.materialEval.whitePieces = res.whitePieces;
+        this.materialEval.blackPieces = res.blackPieces;
+      },
+      error: (err) =>
+      {
+        console.error('GPT weight generation failed:', err);
+      }
+    });
+  }
 
 }

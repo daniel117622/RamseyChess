@@ -1,3 +1,5 @@
+[STOPPED] : This project is archived as I will be moving forward with other projects that are business oriented. If all goes well and I get my financial situation fixed I will continue with this project.
+I really need someone good in UX/UI for this to work
 
 # RamseyChess
 
